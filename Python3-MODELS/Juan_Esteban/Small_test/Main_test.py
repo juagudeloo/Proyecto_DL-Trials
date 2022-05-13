@@ -16,7 +16,7 @@ import testing_functions as test
 
 #################################################################### MAIN FUNCTION ####################################################################
 def main():
-  path = 'MURAM_data/' #Juan Esteban path
+  path = '~/PRINCIPAL/Proyecto_DL/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/MURAM_data/' #Juan Esteban path
   self_ptm = path
   self_filename = '154000'
   self_nx = 480
