@@ -25,7 +25,7 @@ def test_dense_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         print('*TEST*')
         metrics = models[i].evaluate(TE_D, TE_L)
         var_metrics = np.append(var_metrics, metrics[1])
-        print("%s: %2.f%%" % (models[i].metrics_names[1], metrics[i][1]*100))
+        print("%s: %2.f%%" % (models[i].metrics_names[1], metrics[1]*100))
         print("--- %s seconds ---" % (time.time() - start_time))
         print('\n')
     print('\n DENSE NEURAL TYPES DONE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n')
