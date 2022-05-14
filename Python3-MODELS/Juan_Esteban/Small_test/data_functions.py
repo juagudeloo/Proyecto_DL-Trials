@@ -312,7 +312,7 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
         ax3.legend()
         fig3.savefig(error_fig_name)
     else:
-        fig1, ax1 = plt.subplots(2, row_len, figsize = (40,10))
+        fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
         for i in range(row_len):
             diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
             ax1[0,i].hist(x=diff, bins = 'auto',
