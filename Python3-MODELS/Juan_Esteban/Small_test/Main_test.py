@@ -16,7 +16,7 @@ import testing_functions as test
 
 #################################################################### MAIN FUNCTION ####################################################################
 def main():
-  path = '~/PRINCIPAL/Proyecto_DL/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/MURAM_data/' #Juan Esteban path
+  path = '/mnt/scratch/juagudeloo/Total_MURAM_data/' #Juan Esteban path
   self_ptm = path
   self_filename = '154000'
   self_nx = 480
@@ -152,9 +152,7 @@ def main():
                 f'CNN 4 - batch size = {batch_sizes[1]}',
                 f'CNN 4 - batch size= {batch_sizes[2]}',
                 f'CNN 4 - batch size = {batch_sizes[3]}',
-                f'CNN 4 - batch size = {batch_sizes[4]}',
-                f'CNN 4 - batch size = {batch_sizes[5]}',
-                f'CNN 4 - batch size = {batch_sizes[6]}']}
+                f'CNN 4 - batch size = {batch_sizes[4]}']}
                            
   dist_name = {names[0]: "nn_dense_models_dist.png",
           names[1]: "nn_conv_models_dist.png",
