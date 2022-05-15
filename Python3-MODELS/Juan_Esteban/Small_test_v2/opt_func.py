@@ -69,20 +69,14 @@ def main():
             tf.keras.optimizers.RMSprop(learning_rate=lr),
             tf.keras.optimizers.Adam(learning_rate=lr),
             tf.keras.optimizers.Adadelta(learning_rate=lr),
-            tf.keras.optimizers.Adagrad(learning_rate=lr),
-            tf.keras.optimizers.Adamax(learning_rate=lr),
-            tf.keras.optimizers.Nadam(learning_rate=lr),
-            tf.keras.optimizers.Ftrl(learning_rate=lr)]
+            tf.keras.optimizers.Adagrad(learning_rate=lr)]
 
     #PLOT INFORMATION
     titles = ['SGD',
                   'RMSprop',
                   'Adam',
                   'Adadelta',
-                  'Adagrad',
-                  'Adamax',
-                  'Nadam',
-                  'Ftrl']
+                  'Adagrad']
                             
     dist_name = "optimizing_dist.png"
     error_fig_name = "optimizing_error.png"
