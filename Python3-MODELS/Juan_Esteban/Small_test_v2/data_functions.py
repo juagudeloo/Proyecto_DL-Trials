@@ -287,9 +287,9 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
             ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
             ax1[1,i].set_title(titles[i])
 
-        x = np.arange(1, len(history[0].history['loss'][:]))+1
+        x = np.arange(1, 8)+1
         for i in range(row_len):
-            y = history[i].history['loss'][:]
+            y = history[i].history['mean_squared_error'][1:10]
             print(np.size(y))
             print(np.size(x))
             ax1[2,i].scatter(x, y)

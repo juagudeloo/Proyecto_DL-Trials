@@ -31,9 +31,6 @@ def test_dense_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         history.append(models[i].fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)) #I think becasuse of the size of the batch     
 
         start_time = time.time()
-        #FITTING
-        models[i].fit(TR_D, TR_L, epochs=1, batch_size=TR_BATCH_SIZE, verbose=1) #I think becasuse of the size of the batch     
-                                                                            # it is charging 28800 number of data per epoch.
         #TESTING
         print('*TEST*')
         metrics = models[i].evaluate(TE_D, TE_L)
@@ -57,9 +54,6 @@ def test_conv_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         history.append(models[i].fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)) #I think becasuse of the size of the batch     
 
         start_time = time.time()
-        #FITTING
-        models[i].fit(TR_D, TR_L, epochs=1, batch_size=TR_BATCH_SIZE, verbose=1) #I think becasuse of the size of the batch     
-                                                                            # it is charging 28800 number of data per epoch.
         #TESTING
         print('*TEST*')
         metrics = models[i].evaluate(TE_D, TE_L)
@@ -142,11 +136,9 @@ def test_opt_func(opt_func, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
 
     for i in range(N_models):
         models[i].compile(loss='mean_squared_error', optimizer = opt_func[i], metrics = [tf.keras.metrics.MeanSquaredError()])
+        history.append(models[i].fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)) #I think becasuse of the size of the batch     
 
         start_time = time.time()
-        #FITTING
-        models[i].fit(TR_D, TR_L, epochs=10, batch_size=TR_BATCH_SIZE, verbose=1) #I think becasuse of the size of the batch     
-                                                                            # it is charging 28800 number of data per epoch.
         #TESTING
         print('*TEST*')
         metrics = models[i].evaluate(TE_D, TE_L)
@@ -173,9 +165,7 @@ def test_loss_func(loss_func, loss_func_metrics, IN_LS, TR_D, TR_L, TR_BATCH_SIZ
         history.append(models[i].fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)) #I think becasuse of the size of the batch     
 
         start_time = time.time()
-        #FITTING
-        models[i].fit(TR_D, TR_L, epochs=10, batch_size=TR_BATCH_SIZE, verbose=1) #I think becasuse of the size of the batch     
-                                                                        # it is charging 28800 number of data per epoch.
+        
         #TESTING
         print('*TEST*')
         metrics = models[i].evaluate(TE_D, TE_L)
