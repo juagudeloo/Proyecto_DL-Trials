@@ -229,3 +229,4 @@ def test_batch_size(batch_sizes, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, T
         print('\n')
                                                           # it is charging 28800 number of data per epoch.
     print('\n BATCH SIZE VARIATION DONE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n')
+    return models, var_metrics, history
