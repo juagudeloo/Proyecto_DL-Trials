@@ -271,7 +271,7 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
     dist_fig_name: Distribution plot file name
     error_fig_name: Error relation file name
     """
-    
+    path = "Images/"
     print("*plotting...*")
     diff = 0
     row_len = len(intensity_out)
@@ -296,7 +296,7 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
             ax1[2,i].set_ylabel('mean_squared_error')
             ax1[2,i].set_xlabel('epoch')
             ax1[2,i].set_ylim(0,0.3)
-        fig1.savefig(dist_fig_name)
+        fig1.savefig(path+dist_fig_name)
         print("*figure saved*")
 
         #Error distribution
@@ -311,7 +311,7 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
         ax3.plot(x, np.log10(var_values), label = 'learning_rate')
         ax3.plot(x, np.log10(var_metrics), label = 'test metric')
         ax3.legend()
-        fig3.savefig(error_fig_name)
+        fig3.savefig(path+error_fig_name)
     else:
         fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
         for i in range(row_len):
@@ -333,7 +333,7 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
             ax1[2,i].set_ylabel('mean_squared_error')
             ax1[2,i].set_xlabel('epoch')
             ax1[2,i].set_ylim(0,0.3)
-        fig1.savefig(dist_fig_name)
+        fig1.savefig(path+dist_fig_name)
         print("*figure saved*")
 
         #Error distribution
@@ -347,4 +347,4 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
         ax3.plot(x, np.log10(final_error), label ='final_training_error')
         ax3.plot(x, np.log10(var_metrics), label = 'test metric')
         ax3.legend()
-        fig3.savefig(error_fig_name)
+        fig3.savefig(path+error_fig_name)
