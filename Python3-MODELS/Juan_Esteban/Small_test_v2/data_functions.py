@@ -256,7 +256,7 @@ def data_classif(data, labels, TR_NX, TR_NZ, TE_NX, TE_NZ, PR_NX, PR_NZ, print_s
     return tr_data, tr_labels, te_data, te_labels, pr_data, pr_labels
 
 #AFTER-TRAINING FUNCTIONS
-def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, error_fig_name, var_values=0, plot_var_values=True):
+def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, error_fig_name, var_values=0, plot_var_values=True, loss_metric = 'mean_squared_error'):
     """
     ----------------------------------------------------------------------------
     Distribution and error relation plots
@@ -289,11 +289,11 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
 
         x = np.arange(1, 8)+1
         for i in range(row_len):
-            y = history[i].history['mean_squared_error'][1:10]
+            y = history[i].history[loss_metric][1:10]
             print(np.size(y))
             print(np.size(x))
             ax1[2,i].scatter(x, y)
-            ax1[2,i].set_ylabel('mean_squared_error')
+            ax1[2,i].set_ylabel(loss_metric)
             ax1[2,i].set_xlabel('epoch')
             ax1[2,i].set_ylim(0,0.3)
         fig1.savefig(path+dist_fig_name)
@@ -302,8 +302,8 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
         #Error distribution
         final_error = np.zeros(row_len)
         for i in range(row_len):
-            y = history[i].history['mean_squared_error']
-            final_error[i] = history[i].history['mean_squared_error'][len(y) - 1]
+            y = history[i].history[loss_metric]
+            final_error[i] = history[i].history[loss_metric][len(y) - 1]
         x = np.arange(0,row_len)
         fig3, ax3 = plt.subplots(figsize = (5,5))
 
@@ -326,11 +326,11 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
 
         x = np.arange(1, 8)+1
         for i in range(row_len):
-            y = history[i].history['mean_squared_error'][1:10]
+            y = history[i].history[loss_metric][1:10]
             print(np.size(y))
             print(np.size(x))
             ax1[2,i].scatter(x, y)
-            ax1[2,i].set_ylabel('mean_squared_error')
+            ax1[2,i].set_ylabel(loss_metric)
             ax1[2,i].set_xlabel('epoch')
             ax1[2,i].set_ylim(0,0.3)
         fig1.savefig(path+dist_fig_name)
@@ -339,8 +339,8 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
         #Error distribution
         final_error = np.zeros(row_len)
         for i in range(row_len):
-            y = history[i].history['mean_squared_error']
-            final_error[i] = history[i].history['mean_squared_error'][len(y) - 1]
+            y = history[i].history[loss_metric]
+            final_error[i] = history[i].history[loss_metric][len(y) - 1]
         x = np.arange(0,row_len)
         fig3, ax3 = plt.subplots(figsize = (5,5))
 
