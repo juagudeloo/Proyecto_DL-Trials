@@ -68,15 +68,13 @@ def main():
     opt_func = [tf.keras.optimizers.SGD(learning_rate=lr),
             tf.keras.optimizers.RMSprop(learning_rate=lr),
             tf.keras.optimizers.Adam(learning_rate=lr),
-            tf.keras.optimizers.Adadelta(learning_rate=lr),
-            tf.keras.optimizers.Adagrad(learning_rate=lr)]
+            tf.keras.optimizers.Adadelta(learning_rate=lr)]
 
     #PLOT INFORMATION
     titles = ['SGD',
                   'RMSprop',
                   'Adam',
-                  'Adadelta',
-                  'Adagrad']
+                  'Adadelta']
                             
     dist_name = "optimizing_dist_1.png"
     error_fig_name = "optimizing_error_1.png"

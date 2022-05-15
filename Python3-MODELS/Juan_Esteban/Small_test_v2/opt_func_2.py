@@ -65,14 +65,16 @@ def main():
     #TESTING LIST VALUES
     #optimizing functions
     lr = 0.001
-    opt_func = [tf.keras.optimizers.Adamax(learning_rate=lr),
+    opt_func = [tf.keras.optimizers.Adagrad(learning_rate=lr),
+            tf.keras.optimizers.Adamax(learning_rate=lr),
             tf.keras.optimizers.Nadam(learning_rate=lr),
             tf.keras.optimizers.Ftrl(learning_rate=lr)]
 
     #PLOT INFORMATION
     titles = ['Adamax',
                   'Nadam',
-                  'Ftrl']
+                  'Ftrl',
+                  'Adagrad']
                             
     dist_name = "optimizing_dist_2.png"
     error_fig_name = "optimizing_error_2.png"
