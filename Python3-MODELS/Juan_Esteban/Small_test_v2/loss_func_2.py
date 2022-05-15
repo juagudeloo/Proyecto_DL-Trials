@@ -93,7 +93,7 @@ def main():
     var_values = range(len(models))
     data_f.plot_dist(intensity_pred, history, metrics,
                         titles, PR_L, dist_name, 
-                        error_fig_name, var_values, plot_var_values, loss_metric = 'loss')
+                        error_fig_name, var_values, plot_var_values, 'loss')
 
 
 
