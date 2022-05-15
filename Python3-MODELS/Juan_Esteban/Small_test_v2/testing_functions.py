@@ -3,6 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+#PREDICTING FUNCTION
+def predict_intensity(models, PR_D:float, pr_BATCH_SIZE:float, pr_div_nx:float, pr_div_nz:float):
+  print("*predicting intensity...*")
+  row_len = len(models)
+  intensity_out = []
+  for i in range(len(models)):
+    intensity_out.append(models[i].predict(PR_D, batch_size=pr_BATCH_SIZE, verbose=1))
+    intensity_out[i] = intensity_out[i].reshape(pr_div_nx, pr_div_nz)
+    print(np.shape(intensity_out[i]))
+
+  print("*intensity_done*\n")
+  return intensity_out
+
 #NN MODEL TESTING
 def test_dense_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
     models = []

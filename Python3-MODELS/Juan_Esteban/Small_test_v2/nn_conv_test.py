@@ -75,7 +75,7 @@ def main():
 
     models, metrics, history = test.test_conv_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
 
-    intensity_pred = data_f.predict_intensity(models, PR_D, pr_BATCH_SIZE, pr_div_nx, pr_div_nz)
+    intensity_pred = test.predict_intensity(models, PR_D, pr_BATCH_SIZE, pr_div_nx, pr_div_nz)
     var_values = range(len(models))
     data_f.plot_dist(intensity_pred, history, metrics,
                         titles, PR_L, dist_name, 

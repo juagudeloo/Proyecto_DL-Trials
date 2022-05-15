@@ -1,3 +1,4 @@
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -195,7 +196,7 @@ def main():
       var_values = batch_sizes
       models[model_type], metrics[model_type], history[model_type] = test.test_lr(batch_sizes, IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
 
-    intensity_pred[model_type] = data_f.predict_intensity(models[model_type], PR_D, pr_BATCH_SIZE, pr_div_nx, pr_div_nz)
+    intensity_pred[model_type] = test.predict_intensity(models[model_type], PR_D, pr_BATCH_SIZE, pr_div_nx, pr_div_nz)
     
     data_f.plot_dist(intensity_pred[model_type], history[model_type], metrics[model_type],
                       titles[model_type], PR_L, dist_name[model_type], 
