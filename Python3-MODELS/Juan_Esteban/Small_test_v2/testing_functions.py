@@ -161,7 +161,7 @@ def test_loss_func(loss_func, loss_func_metrics, IN_LS, TR_D, TR_L, TR_BATCH_SIZ
         models.append(model_conv_layers(IN_LS, n_layers = 4))
 
     for i in range(N_models):
-        models[i].compile(loss= loss_func[i], optimizer = opt_func[2], metrics = [loss_func_metrics[i]])
+        models[i].compile(loss= loss_func[i], optimizer = opt_func, metrics = [loss_func_metrics[i]])
         history.append(models[i].fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)) #I think becasuse of the size of the batch     
 
         start_time = time.time()
