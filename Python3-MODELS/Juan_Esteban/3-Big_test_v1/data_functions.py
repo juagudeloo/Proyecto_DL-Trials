@@ -109,7 +109,16 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
         self_mvyy[i]=self_mvyy[i]/self_mrho[i]
-        if all(mvyy != np.inf for mvyy in self_mvyy):
+        check_div0 = [mvyy == np.inf for mvyy in self_mvyy]
+        print(check_div0)
+        if any(check_div0):
+            self_mrho.pop(i)
+            self_iout.pop(i)
+            self_mrho.pop(i)
+            self_mtpr.pop(i)
+            self_mbyy.pop(i)
+            self_mvyy.pop(i)
+        else:
             self_mvyy[i] = scaling(self_mvyy[i]) #scaling
             self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
             #         self.mvzz=(self.mvzz/self.mrho)*-6e10
@@ -118,13 +127,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             self_mbyy[i] = scaling(self_mbyy[i])
             self_mbyy[i] = np.reshape(self_mbyy[i],(self_nx,self_ny,self_nz),order="C")
             #         self.mbzz=self.mbzz*coef
-            self_mrho.remove(self_mrho[i])
-        else:
-            self_iout.pop(i)
-            self_mrho.pop(i)
-            self_mtpr.pop(i)
-            self_mbyy.pop(i)
-            self_mvyy.pop(i)
+            
         
     print("*Uploading done*\n")
     return self_iout, self_mbyy, self_mvyy, self_mtpr, self_mrho
