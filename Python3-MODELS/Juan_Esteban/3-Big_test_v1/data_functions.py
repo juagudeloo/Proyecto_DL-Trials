@@ -109,12 +109,12 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
         if np.any(self_mrho[i] == 0):
-            self_mrho.pop(i)
-            self_iout.pop(i)
-            self_mrho.pop(i)
-            self_mtpr.pop(i)
-            self_mbyy.pop(i)
-            self_mvyy.pop(i)
+            self_mrho.pop()
+            self_iout.pop()
+            self_mrho.pop()
+            self_mtpr.pop()
+            self_mbyy.pop()
+            self_mvyy.pop()
         else:
             self_mvyy[i]=self_mvyy[i]/self_mrho[i]
             self_mvyy[i] = scaling(self_mvyy[i]) #scaling
