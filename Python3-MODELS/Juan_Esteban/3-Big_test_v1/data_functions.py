@@ -1,3 +1,4 @@
+from cmath import inf
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -33,82 +34,82 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
     for i in range(len(self_filename)):
         print("reading rho")
         self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
-        if all(mrho[i] != 0 for mrho in self_mrho): #in case there is a value of zero density, we are not gonna add any of the columns so that we do not obtain inf values
-            self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
-            print("scaling...")
-            self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
-            self_mrho[i] = scaling(self_mrho[i])
-            self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
-            print(np.shape(self_mrho))
-            print("rho done")
-            print('\n')
+        self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
+        print("scaling...")
+        self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
+        self_mrho[i] = scaling(self_mrho[i])
+        self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
+        print(np.shape(self_mrho))
+        print("rho done")
+        print('\n')
 
-            print("reading IOUT")
-            self_iout.append(np.memmap(self_ptm+"iout."+self_filename[i],dtype=np.float32))
-            self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
-            print("scaling...")
-            self_iout[i] = scaling(self_iout[i]) #scaled intensity
-            self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
-            print(np.shape(self_iout[i]))
-            print("IOUT done")   
-            print('\n')
+        print("reading IOUT")
+        self_iout.append(np.memmap(self_ptm+"iout."+self_filename[i],dtype=np.float32))
+        self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
+        print("scaling...")
+        self_iout[i] = scaling(self_iout[i]) #scaled intensity
+        self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
+        print(np.shape(self_iout[i]))
+        print("IOUT done")   
+        print('\n')
 
-            print("reading EOS")
-            self_mtpr.append(np.memmap(self_ptm+"eos."+self_filename[i],dtype=np.float32))
-            self_mtpr[i] = np.reshape(self_mtpr[i], (2, self_nx,self_ny,self_nz), order="A")
-            n_eos = 0
-            self_mtpr[i] = self_mtpr[i][n_eos,:,:,:] 
-            print("scaling...")
-            self_mtpr[i] = scaling(self_mtpr[i])
-            self_mtpr[i] = np.reshape(self_mtpr[i], (self_nx,self_ny,self_nz), order="A")
-            # n_eos -> 0: temperature ; 1: pressure
-            print("EOS done")
-            print('\n')
+        print("reading EOS")
+        self_mtpr.append(np.memmap(self_ptm+"eos."+self_filename[i],dtype=np.float32))
+        self_mtpr[i] = np.reshape(self_mtpr[i], (2, self_nx,self_ny,self_nz), order="A")
+        n_eos = 0
+        self_mtpr[i] = self_mtpr[i][n_eos,:,:,:] 
+        print("scaling...")
+        self_mtpr[i] = scaling(self_mtpr[i])
+        self_mtpr[i] = np.reshape(self_mtpr[i], (self_nx,self_ny,self_nz), order="A")
+        # n_eos -> 0: temperature ; 1: pressure
+        print("EOS done")
+        print('\n')
 
-            #         print("reading vxx")
-            #         self.mvxx = np.fromfile(self.ptm+"result_1."+self.filename,dtype=np.float32)
-            #         self.mvxx = np.reshape(self.mvxx,(self.nx,self.nz,self.ny),order="C")
-            #         print("vxx done")
+        #         print("reading vxx")
+        #         self.mvxx = np.fromfile(self.ptm+"result_1."+self.filename,dtype=np.float32)
+        #         self.mvxx = np.reshape(self.mvxx,(self.nx,self.nz,self.ny),order="C")
+        #         print("vxx done")
 
-            print("reading vyy")
-            self_mvyy.append(np.memmap(self_ptm+"result_2."+self_filename[i],dtype=np.float32))
-            self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
-            print("vyy done")
-            print('\n')
-            #         print("reading vzz")
-            #         self.mvzz = np.fromfile(self.ptm+"result_3."+self.filename,dtype=np.float32)
-            #         self.mvzz = np.reshape(self.mvzz,(self.nx,self.nz, self.ny),order="A")
-            #         print(np.shape(self.mvzz))
-            #         print("vzz done")
+        print("reading vyy")
+        self_mvyy.append(np.memmap(self_ptm+"result_2."+self_filename[i],dtype=np.float32))
+        self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
+        print("vyy done")
+        print('\n')
+        #         print("reading vzz")
+        #         self.mvzz = np.fromfile(self.ptm+"result_3."+self.filename,dtype=np.float32)
+        #         self.mvzz = np.reshape(self.mvzz,(self.nx,self.nz, self.ny),order="A")
+        #         print(np.shape(self.mvzz))
+        #         print("vzz done")
 
-            #     print("reading eps")
-            #     self.eps = np.fromfile(self.ptm+"result_4."+self.filename,dtype=np.float32)
-            #     self.eps = np.reshape(self.eps,(self.nx,self.nz,self.ny),order="C")
-            #     print("eps done")
+        #     print("reading eps")
+        #     self.eps = np.fromfile(self.ptm+"result_4."+self.filename,dtype=np.float32)
+        #     self.eps = np.reshape(self.eps,(self.nx,self.nz,self.ny),order="C")
+        #     print("eps done")
 
-            #         print("reading bxx")
-            #         self.mbxx = np.fromfile(self.ptm+"result_5."+self.filename,dtype=np.float32)
-            #         self.mbxx = np.reshape(self.mbxx,(self.nx,self.nz,self.ny),order="C")
-            #         print("bxx done")
+        #         print("reading bxx")
+        #         self.mbxx = np.fromfile(self.ptm+"result_5."+self.filename,dtype=np.float32)
+        #         self.mbxx = np.reshape(self.mbxx,(self.nx,self.nz,self.ny),order="C")
+        #         print("bxx done")
 
-            print ("reading byy")
-            self_mbyy.append(np.memmap(self_ptm+"result_6."+self_filename[i],dtype=np.float32))
-            self_mbyy[i] = np.reshape(self_mbyy[i],(self_nx,self_ny,self_nz),order="C")
-            print("byy done")
-            print('\n')
+        print ("reading byy")
+        self_mbyy.append(np.memmap(self_ptm+"result_6."+self_filename[i],dtype=np.float32))
+        self_mbyy[i] = np.reshape(self_mbyy[i],(self_nx,self_ny,self_nz),order="C")
+        print("byy done")
+        print('\n')
 
-            #         print("reading bzz")
-            #         self.mbzz = np.fromfile(self.ptm+"result_7."+self.filename,dtype=np.float32)
-            #         self.mbzz = np.reshape(self.mbzz,(self.nx,self.nz, self.ny),order="A")
-            #         print(np.shape(self.mbzz))
-            #         print("bzz done")
+        #         print("reading bzz")
+        #         self.mbzz = np.fromfile(self.ptm+"result_7."+self.filename,dtype=np.float32)
+        #         self.mbzz = np.reshape(self.mbzz,(self.nx,self.nz, self.ny),order="A")
+        #         print(np.shape(self.mbzz))
+        #         print("bzz done")
 
-            #############################################################
-            #Converting the data into cgs units (if I'm not wrong)
-            #############################################################
+        #############################################################
+        #Converting the data into cgs units (if I'm not wrong)
+        #############################################################
 
-            #         self.mvxx=self.mvxx/self.mrho
-            self_mvyy[i]=self_mvyy[i]/self_mrho[i]
+        #         self.mvxx=self.mvxx/self.mrho
+        self_mvyy[i]=self_mvyy[i]/self_mrho[i]
+        if all(mvyy != np.inf for mvyy in self_mvyy):
             self_mvyy[i] = scaling(self_mvyy[i]) #scaling
             self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
             #         self.mvzz=(self.mvzz/self.mrho)*-6e10
@@ -117,8 +118,13 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             self_mbyy[i] = scaling(self_mbyy[i])
             self_mbyy[i] = np.reshape(self_mbyy[i],(self_nx,self_ny,self_nz),order="C")
             #         self.mbzz=self.mbzz*coef
-        else:
             self_mrho.remove(self_mrho[i])
+        else:
+            self_iout.pop(i)
+            self_mrho.pop(i)
+            self_mtpr.pop(i)
+            self_mbyy.pop(i)
+            self_mvyy.pop(i)
         
     print("*Uploading done*\n")
     return self_iout, self_mbyy, self_mvyy, self_mtpr, self_mrho
