@@ -53,8 +53,9 @@ def main():
     
     print_shape = 0
     VERBOSE = 0
-
-    data = np.array([mbyy, mvyy, mtpr, mrho])
+    data = []
+    for i in range(len(mbyy)):
+        data.append([mbyy[i], mvyy[i], mtpr[i], mrho[i]])
     labels = iout
 
     #DATA CLASSIFICATION
