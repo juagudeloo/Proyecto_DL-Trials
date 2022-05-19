@@ -25,6 +25,7 @@ def main():
     self_nx = 480
     self_ny = 256
     self_nz = 480
+    print(self_filename)
     iout, mbyy, mvyy, mtpr, mrho = data_f.charge_data(self_ptm, self_filename,
                                             self_nx, self_ny, self_nz)
     print(np.shape(iout))
