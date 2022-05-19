@@ -33,10 +33,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
     for i in range(len(self_filename)):
         print("reading rho")
         self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
-        if any(mrho[i] == 0 for mrho in self_mrho): #in case there is a value of zero density, we are not gonna add any of the columns so that we do not obtain inf values
-            self_mrho.remove(self_mrho[i])
-        else:
-
+        if all(mrho[i] != 0 for mrho in self_mrho): #in case there is a value of zero density, we are not gonna add any of the columns so that we do not obtain inf values
             self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
             print("scaling...")
             self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
@@ -120,6 +117,9 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             self_mbyy[i] = scaling(self_mbyy[i])
             self_mbyy[i] = np.reshape(self_mbyy[i],(self_nx,self_ny,self_nz),order="C")
             #         self.mbzz=self.mbzz*coef
+        else:
+            self_mrho.remove(self_mrho[i])
+        
     print("*Uploading done*\n")
     return self_iout, self_mbyy, self_mvyy, self_mtpr, self_mrho
     
