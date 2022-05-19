@@ -109,6 +109,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
         if np.any(self_mrho[i] == 0):
+            print(np.shape(self_mrho))
             self_mrho.pop()
             self_iout.pop()
             self_mrho.pop()
