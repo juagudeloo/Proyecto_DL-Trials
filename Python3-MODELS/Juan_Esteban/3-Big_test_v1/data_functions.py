@@ -54,7 +54,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         print('\n')
 
         print("reading rho")
-        self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename,dtype=np.float32))
+        self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
         self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
         print("scaling...")
         self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
