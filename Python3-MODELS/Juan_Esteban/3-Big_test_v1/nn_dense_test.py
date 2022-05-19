@@ -46,6 +46,9 @@ def main():
     model_lim = len(iout) - pr_n
     tr_n = int(model_lim*(3./4.)) #training number
     te_n = int(model_lim*(1./4.)) #testing number
+    print(f"tr_n = {tr_n}")
+    print(f"te_n = {te_n}")
+    print(f"pr_n = {pr_n}")
     
     print_shape = 0
     VERBOSE = 0
