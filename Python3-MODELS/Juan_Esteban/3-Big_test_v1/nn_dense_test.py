@@ -27,6 +27,11 @@ def main():
     self_nz = 480
     iout, mbyy, mvyy, mtpr, mrho = data_f.charge_data(self_ptm, self_filename,
                                             self_nx, self_ny, self_nz)
+    print(np.shape(iout))
+    print(np.shape(mbyy))
+    print(np.shape(mvyy))
+    print(np.shape(mtpr))
+    print(np.shape(mrho))
     data_f.plotting(iout, mbyy, mvyy, mrho, mtpr, self_nx, self_ny, self_nz)
 
 
