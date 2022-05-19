@@ -25,12 +25,14 @@ def main():
             self_filename.append('0'+str(file_interval[i]))
         else:
             self_filename.append(str(file_interval[i]))
+    self_filename.append('054000')
     print(self_filename)
     self_nx = 480
     self_ny = 256
     self_nz = 480
     iout, mbyy, mvyy, mtpr, mrho = data_f.charge_data(self_ptm, self_filename,
                                             self_nx, self_ny, self_nz)
+    
     print(np.shape(iout))
     print(np.shape(mbyy))
     print(np.shape(mvyy))
