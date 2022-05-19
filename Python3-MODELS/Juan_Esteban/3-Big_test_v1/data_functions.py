@@ -109,7 +109,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
         self_mvyy[i]=self_mvyy[i]/self_mrho[i]
-        check_div0 = [mvyy == np.inf for mvyy in self_mvyy]
+        check_div0 = [mvyy == np.inf for mvyy in self_mvyy[i]]
         print(check_div0)
         if any(check_div0):
             self_mrho.pop(i)
