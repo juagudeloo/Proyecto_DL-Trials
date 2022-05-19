@@ -33,7 +33,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
     for i in range(len(self_filename)):
         print("reading rho")
         self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
-        if self_mrho[i] == 0: #in case there is a value of zero density, we are not gonna add any of the columns so that we do not obtain inf values
+        if any(mrho[i] == 0 for mrho in self_mrho): #in case there is a value of zero density, we are not gonna add any of the columns so that we do not obtain inf values
             self_mrho.remove(self_mrho[i])
         else:
 
