@@ -1,4 +1,4 @@
-from cmath import inf
+from cmath import inf, nan
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -112,7 +112,8 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         if np.any(self_mrho[i] == 0):
             nx0 = np.argwhere(self_mrho[i] == 0)[0][0]
             nz0 = np.argwhere(self_mrho[i] == 0)[0][2]
-            self_iout[i][nx0,:,nz0] = np.zeros(self_ny)
+            self_iout[i][nx0, nz0] = nan #It is been given this value to the iout pixel
+            #beacuse of the condition given, it is not going to be added in the labels listt
             self_mrho[i][nx0,:,nz0] = np.zeros(self_ny)
             self_mtpr[i][nx0,:,nz0] = np.zeros(self_ny)
             self_mbyy[i][nx0,:,nz0] = np.zeros(self_ny)
