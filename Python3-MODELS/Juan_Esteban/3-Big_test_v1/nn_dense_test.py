@@ -19,7 +19,7 @@ def main():
     path = '/mnt/scratch/juagudeloo/Total_MURAM_data/' #Juan Esteban path
     self_ptm = path
     self_filename = []
-    file_interval = np.arange(54000, 223000, 10000)
+    file_interval = np.arange(53000, 223000, 50000)
     for i in range(len(file_interval)):
         if file_interval[i] < 100000:
             self_filename.append('0'+str(file_interval[i]))
