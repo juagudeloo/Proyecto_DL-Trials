@@ -108,8 +108,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         #############################################################
 
         #         self.mvxx=self.mvxx/self.mrho
-        self_mvyy[i]=self_mvyy[i]/self_mrho[i]
-        if np.any(self_mvyy[i] == np.inf):
+        if np.any(self_mrho[i] == 0):
             self_mrho.pop(i)
             self_iout.pop(i)
             self_mrho.pop(i)
@@ -117,6 +116,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             self_mbyy.pop(i)
             self_mvyy.pop(i)
         else:
+            self_mvyy[i]=self_mvyy[i]/self_mrho[i]
             self_mvyy[i] = scaling(self_mvyy[i]) #scaling
             self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
             #         self.mvzz=(self.mvzz/self.mrho)*-6e10
