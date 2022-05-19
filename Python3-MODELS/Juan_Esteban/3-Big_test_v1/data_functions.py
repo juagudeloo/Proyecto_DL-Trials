@@ -258,7 +258,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     pr_data = []
     pr_labels = []
     PR_INIC = TR_N + TE_N
-    if i>1:
+    if PR_N>1:
         for i in range(PR_N):
             for j in range(NX):
                 for k in range(NZ):
@@ -273,7 +273,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     else:
         for j in range(NX):
                 for k in range(NZ):
-                    if not np.all(data[PR_INIC + i][0][j,:,k]==0):
+                    if not np.all(data[PR_INIC + PR_N][0][j,:,k]==0):
                         pr_data.append([data[PR_INIC + PR_N][0][j,:,k], 
                                         data[PR_INIC + PR_N][1][j,:,k],
                                         data[PR_INIC + PR_N][2][j,:,k],
