@@ -21,12 +21,14 @@ def main():
     self_filename = []
     file_interval = np.arange(54000, 223000, 10000)
     for i in range(len(file_interval)):
-        self_filename.append(str(file_interval[i]))
+        if file_interval[i] < 100000:
+            self_filename.append('0'+str(file_interval[i]))
+        else:
+            self_filename.append(str(file_interval[i]))
     print(self_filename)
     self_nx = 480
     self_ny = 256
     self_nz = 480
-    print(self_filename)
     iout, mbyy, mvyy, mtpr, mrho = data_f.charge_data(self_ptm, self_filename,
                                             self_nx, self_ny, self_nz)
     print(np.shape(iout))
