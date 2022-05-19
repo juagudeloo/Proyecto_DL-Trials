@@ -110,7 +110,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
         if np.any(self_mrho[i] == 0):
-            n0 = np.argwhere(self_mrho[i] == 0)[0][0]
+            n0 = np.argwhere(self_mrho[i] == 0)[0][1]
             print(n0)
             self_iout.pop()
             self_mrho.pop()
