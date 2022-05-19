@@ -40,6 +40,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         self_mrho[i] = scaling(self_mrho[i])
         self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
         print(np.shape(self_mrho))
+        print(type(self_mrho))
         print("rho done")
         print('\n')
 
