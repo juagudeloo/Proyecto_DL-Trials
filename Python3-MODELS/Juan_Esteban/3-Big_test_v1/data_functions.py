@@ -32,18 +32,6 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
     # equation of state (EOS)
     ################################
     for i in range(len(self_filename)):
-        print("reading rho")
-        self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
-        self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
-        print("scaling...")
-        self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
-        self_mrho[i] = scaling(self_mrho[i])
-        self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
-        print(np.shape(self_mrho))
-        print(type(self_mrho))
-        print("rho done")
-        print('\n')
-
         print("reading IOUT")
         self_iout.append(np.memmap(self_ptm+"iout."+self_filename[i],dtype=np.float32))
         self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
@@ -104,12 +92,23 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         #         print(np.shape(self.mbzz))
         #         print("bzz done")
 
-        #############################################################
-        #Converting the data into cgs units (if I'm not wrong)
-        #############################################################
+        
 
         #         self.mvxx=self.mvxx/self.mrho
+
+        print("reading rho")
+        self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
+        self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
+        print("scaling...")
         if np.any(self_mrho[i] == 0):
+            self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
+            self_mrho[i] = scaling(self_mrho[i])
+            self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
+            print(np.shape(self_mrho))
+            print(type(self_mrho))
+            print("rho done")
+            print('\n')
+        
             nx0 = np.argwhere(self_mrho[i] == 0)[0][0]
             nz0 = np.argwhere(self_mrho[i] == 0)[0][2]
             self_iout[i][nx0, nz0] = nan #It is been given this value to the iout pixel
@@ -119,6 +118,9 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             self_mbyy[i][nx0,:,nz0] = np.zeros(self_ny)
             self_mvyy[i][nx0,:,nz0] = np.zeros(self_ny)
         else:
+            #############################################################
+            #Converting the data into cgs units (if I'm not wrong)
+            #############################################################
             self_mvyy[i]=self_mvyy[i]/self_mrho[i]
             self_mvyy[i] = scaling(self_mvyy[i]) #scaling
             self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
