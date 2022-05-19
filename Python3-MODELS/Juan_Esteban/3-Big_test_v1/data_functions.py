@@ -110,13 +110,13 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
         if np.any(self_mrho[i] == 0):
-            n0 = np.argwhere(self_mrho[i] == 0)[0][1]
-            print(n0)
-            self_iout.pop()
-            self_mrho.pop()
-            self_mtpr.pop()
-            self_mbyy.pop()
-            self_mvyy.pop()
+            nx0 = np.argwhere(self_mrho[i] == 0)[0][0]
+            nz0 = np.argwhere(self_mrho[i] == 0)[0][2]
+            self_iout[i][nx0,:,nz0] = np.zeros(self_ny)
+            self_mrho[i][nx0,:,nz0] = np.zeros(self_ny)
+            self_mtpr[i][nx0,:,nz0] = np.zeros(self_ny)
+            self_mbyy[i][nx0,:,nz0] = np.zeros(self_ny)
+            self_mvyy[i][nx0,:,nz0] = np.zeros(self_ny)
         else:
             self_mvyy[i]=self_mvyy[i]/self_mrho[i]
             self_mvyy[i] = scaling(self_mvyy[i]) #scaling
@@ -212,12 +212,13 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     for i in range(TR_N):
         for j in range(NX):
             for k in range(NZ):
-                tr_data.append([data[i][0][j,:,k], 
-                                data[i][1][j,:,k],
-                                data[i][2][j,:,k],
-                                data[i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
-                tr_labels.append(labels[i][j,k]) #the values from the column of targets
-                
+                if not np.all(data[i][0][j,:,k] == 0):
+                    tr_data.append([data[i][0][j,:,k], 
+                                    data[i][1][j,:,k],
+                                    data[i][2][j,:,k],
+                                    data[i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                    tr_labels.append(labels[i][j,k]) #the values from the column of targets
+                    
     tr_data = np.array(tr_data)   
     tr_labels = np.array(tr_labels)  
     print("Done")
@@ -233,11 +234,12 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     for i in range(TE_N):
         for j in range(NX):
             for k in range(NZ):
-                te_data.append([data[TR_N + i][0][j,:,k], 
-                                data[TR_N + i][1][j,:,k],
-                                data[TR_N + i][2][j,:,k],
-                                data[TR_N + i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
-                te_labels.append(labels[TR_N + i][j,k]) #the values from the column of targets
+                if not np.all(data[TR_N + i][0][j,:,k]==0):
+                    te_data.append([data[TR_N + i][0][j,:,k], 
+                                    data[TR_N + i][1][j,:,k],
+                                    data[TR_N + i][2][j,:,k],
+                                    data[TR_N + i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                    te_labels.append(labels[TR_N + i][j,k]) #the values from the column of targets
 
     te_data = np.array(te_data)   
     te_labels = np.array(te_labels)  
@@ -257,19 +259,25 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
         for i in range(PR_N):
             for j in range(NX):
                 for k in range(NZ):
-                    pr_data.append([data[PR_INIC + i][0][j,:,k], 
-                                    data[PR_INIC + i][1][j,:,k],
-                                    data[PR_INIC + i][2][j,:,k],
-                                    data[PR_INIC + i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
-                    pr_labels.append(labels[PR_INIC + i][j,k]) #the values from the column of targets
+                    if not np.all(data[PR_INIC + i][0][j,:,k]):
+                        pr_data.append([data[PR_INIC + i][0][j,:,k], 
+                                        data[PR_INIC + i][1][j,:,k],
+                                        data[PR_INIC + i][2][j,:,k],
+                                        data[PR_INIC + i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                        pr_labels.append(labels[PR_INIC + i][j,k]) #the values from the column of targets
+                    else:
+                        raise ValueError('sorry, you have encountered prediction values that are not predictable')
     else:
         for j in range(NX):
                 for k in range(NZ):
-                    pr_data.append([data[PR_INIC + PR_N][0][j,:,k], 
-                                    data[PR_INIC + PR_N][1][j,:,k],
-                                    data[PR_INIC + PR_N][2][j,:,k],
-                                    data[PR_INIC + PR_N][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
-                    pr_labels.append(labels[PR_INIC + PR_N][j,k])
+                    if not np.all(data[PR_INIC + i][0][j,:,k]):
+                        pr_data.append([data[PR_INIC + PR_N][0][j,:,k], 
+                                        data[PR_INIC + PR_N][1][j,:,k],
+                                        data[PR_INIC + PR_N][2][j,:,k],
+                                        data[PR_INIC + PR_N][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                        pr_labels.append(labels[PR_INIC + PR_N][j,k])
+                    else:
+                        raise ValueError('sorry, you have encountered prediction values that are not predictable')
 
     pr_data = np.array(pr_data)    
     pr_labels = np.array(pr_labels)  
