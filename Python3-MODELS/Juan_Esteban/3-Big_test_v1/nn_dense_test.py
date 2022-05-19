@@ -21,6 +21,7 @@ def main():
     self_filename = []
     file_interval = np.arange(54000, 223000, 10000)
     for i in range(len(self_filename)):
+        print(str(file_interval[i]))
         self_filename.append(str(file_interval[i]))
     self_nx = 480
     self_ny = 256
