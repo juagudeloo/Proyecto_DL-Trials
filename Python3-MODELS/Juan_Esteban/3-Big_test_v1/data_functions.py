@@ -275,11 +275,11 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
         for j in range(NX):
                 for k in range(NZ):
                     if not np.all(data[(PR_INIC + PR_N) - 1][0][j,:,k]==0):
-                        pr_data.append([data[PR_INIC + PR_N][0][j,:,k], 
-                                        data[PR_INIC + PR_N][1][j,:,k],
-                                        data[PR_INIC + PR_N][2][j,:,k],
-                                        data[PR_INIC + PR_N][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
-                        pr_labels.append(labels[PR_INIC + PR_N][j,k])
+                        pr_data.append([data[(PR_INIC + PR_N) - 1][0][j,:,k], 
+                                        data[(PR_INIC + PR_N) - 1][1][j,:,k],
+                                        data[(PR_INIC + PR_N) - 1][2][j,:,k],
+                                        data[(PR_INIC + PR_N) - 1][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                        pr_labels.append(labels[(PR_INIC + PR_N) - 1][j,k])
                     else:
                         raise ValueError('sorry, you have encountered prediction values that are not predictable')
 
