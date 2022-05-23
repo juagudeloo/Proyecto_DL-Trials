@@ -103,6 +103,7 @@ def main():
 
     intensity_pred = test.predict_intensity(models, PR_D, pr_BATCH_SIZE, self_nx, self_nz)
     var_values = range(len(models))
+    print(f"intensity predicted shape: {np.shape(intensity_pred)}")
     data_f.plot_dist(intensity_pred, history, metrics,
                         titles, PR_L, dist_name, 
                         error_fig_name, var_values, plot_var_values, plot_errors = False)
