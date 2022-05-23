@@ -80,7 +80,7 @@ def main():
     pr_BATCH_SIZE = int(len(PR_D)/10)
     print(pr_BATCH_SIZE)
 
-    TR_BATCH_SIZE = int(len(TR_D[:,1,2])/1)
+    TR_BATCH_SIZE = int(len(TR_D[:,1,2])/500000)
 
     #MODELS DATA DICTIONARY
     models = []
@@ -101,7 +101,7 @@ def main():
 
     models, metrics, history = test.test_dense_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
 
-    intensity_pred = test.predict_intensity(models, PR_D, pr_BATCH_SIZE, pr_div_nx, pr_div_nz)
+    intensity_pred = test.predict_intensity(models, PR_D, pr_BATCH_SIZE, self_nx, self_nz)
     var_values = range(len(models))
     data_f.plot_dist(intensity_pred, history, metrics,
                         titles, PR_L, dist_name, 
