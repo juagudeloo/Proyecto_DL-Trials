@@ -16,6 +16,9 @@ import testing_functions as test
 
 #################################################################### MAIN FUNCTION ####################################################################
 def main():
+    config = tf.compat.v1.ConfigProto()
+    config.gpu_options.per_process_gpu_memory_fraction = 0.4
+
     path = '/mnt/scratch/juagudeloo/Total_MURAM_data/' #Juan Esteban path
     self_ptm = path
     self_filename = []
