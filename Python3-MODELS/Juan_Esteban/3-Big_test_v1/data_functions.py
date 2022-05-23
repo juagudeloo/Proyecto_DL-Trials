@@ -297,7 +297,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     return tr_data, tr_labels, te_data, te_labels, pr_data, pr_labels
 
 #AFTER-TRAINING FUNCTIONS
-def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, error_fig_name, var_values=0, plot_var_values=True, loss_metric = 'mean_squared_error'):
+def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, error_fig_name, var_values=0, plot_var_values=True, plot_errors = True, loss_metric = 'mean_squared_error'):
     """
     ----------------------------------------------------------------------------
     Distribution and error relation plots
@@ -316,45 +316,82 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
     print("*plotting...*")
     diff = 0
     row_len = len(intensity_out)
-    if plot_var_values is True:
-        fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
-        for i in range(row_len):
-            diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
-            ax1[0,i].hist(x=diff, bins = 'auto',
-                                        alpha=0.7, 
-                                        rwidth=0.85)
-            ax1[0,i].set_title(titles[i])
-        for i in range(row_len):
-            ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
-            ax1[1,i].set_title(titles[i])
+    if plot_errors == True:
+        if plot_var_values is True:
+            fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
+            for i in range(row_len):
+                diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
+                ax1[0,i].hist(x=diff, bins = 'auto',
+                                            alpha=0.7, 
+                                            rwidth=0.85)
+                ax1[0,i].set_title(titles[i])
+            for i in range(row_len):
+                ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
+                ax1[1,i].set_title(titles[i])
 
-        x = np.arange(1, 8)+1
-        for i in range(row_len):
-            y = history[i].history[loss_metric][1:10]
-            print(np.size(y))
-            print(np.size(x))
-            ax1[2,i].scatter(x, y)
-            ax1[2,i].set_ylabel(loss_metric)
-            ax1[2,i].set_xlabel('epoch')
-            ax1[2,i].set_ylim(0,0.3)
-        fig1.savefig(path+dist_fig_name)
-        print("*figure saved*")
+            x = np.arange(1, 8)+1
+            for i in range(row_len):
+                y = history[i].history[loss_metric][1:10]
+                print(np.size(y))
+                print(np.size(x))
+                ax1[2,i].scatter(x, y)
+                ax1[2,i].set_ylabel(loss_metric)
+                ax1[2,i].set_xlabel('epoch')
+                ax1[2,i].set_ylim(0,0.3)
+            fig1.savefig(path+dist_fig_name)
+            print("*figure saved*")
 
-        #Error distribution
-        final_error = np.zeros(row_len)
-        for i in range(row_len):
-            y = history[i].history[loss_metric]
-            final_error[i] = history[i].history[loss_metric][len(y) - 1]
-        x = np.arange(0,row_len)
-        fig3, ax3 = plt.subplots(figsize = (5,5))
+            #Error distribution
+            final_error = np.zeros(row_len)
+            for i in range(row_len):
+                y = history[i].history[loss_metric]
+                final_error[i] = history[i].history[loss_metric][len(y) - 1]
+            x = np.arange(0,row_len)
+            fig3, ax3 = plt.subplots(figsize = (5,5))
 
-        ax3.plot(x, np.log10(final_error), label ='final_training_error')
-        ax3.plot(x, np.log10(var_values), label = 'learning_rate')
-        ax3.plot(x, np.log10(var_metrics), label = 'test metric')
-        ax3.legend()
-        fig3.savefig(path+error_fig_name)
+            ax3.plot(x, np.log10(final_error), label ='final_training_error')
+            ax3.plot(x, np.log10(var_values), label = 'learning_rate')
+            ax3.plot(x, np.log10(var_metrics), label = 'test metric')
+            ax3.legend()
+            fig3.savefig(path+error_fig_name)
+        else:
+            fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
+            for i in range(row_len):
+                diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
+                ax1[0,i].hist(x=diff, bins = 'auto',
+                                            alpha=0.7, 
+                                            rwidth=0.85)
+                ax1[0,i].set_title(titles[i])
+            for i in range(row_len):
+                ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
+                ax1[1,i].set_title(titles[i])
+
+            x = np.arange(1, 8)+1
+            for i in range(row_len):
+                y = history[i].history[loss_metric][1:10]
+                print(np.size(y))
+                print(np.size(x))
+                ax1[2,i].scatter(x, y)
+                ax1[2,i].set_ylabel(loss_metric)
+                ax1[2,i].set_xlabel('epoch')
+                ax1[2,i].set_ylim(0,0.3)
+            fig1.savefig(path+dist_fig_name)
+            print("*figure saved*")
+
+            #Error distribution
+            final_error = np.zeros(row_len)
+            for i in range(row_len):
+                y = history[i].history[loss_metric]
+                final_error[i] = history[i].history[loss_metric][len(y) - 1]
+            x = np.arange(0,row_len)
+            fig3, ax3 = plt.subplots(figsize = (5,5))
+
+            ax3.plot(x, np.log10(final_error), label ='final_training_error')
+            ax3.plot(x, np.log10(var_metrics), label = 'test metric')
+            ax3.legend()
+            fig3.savefig(path+error_fig_name)
     else:
-        fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
+        fig1, ax1 = plt.subplots(2, row_len, figsize = (40,10))
         for i in range(row_len):
             diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
             ax1[0,i].hist(x=diff, bins = 'auto',
@@ -365,27 +402,7 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
             ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
             ax1[1,i].set_title(titles[i])
 
-        x = np.arange(1, 8)+1
-        for i in range(row_len):
-            y = history[i].history[loss_metric][1:10]
-            print(np.size(y))
-            print(np.size(x))
-            ax1[2,i].scatter(x, y)
-            ax1[2,i].set_ylabel(loss_metric)
-            ax1[2,i].set_xlabel('epoch')
-            ax1[2,i].set_ylim(0,0.3)
         fig1.savefig(path+dist_fig_name)
         print("*figure saved*")
+        
 
-        #Error distribution
-        final_error = np.zeros(row_len)
-        for i in range(row_len):
-            y = history[i].history[loss_metric]
-            final_error[i] = history[i].history[loss_metric][len(y) - 1]
-        x = np.arange(0,row_len)
-        fig3, ax3 = plt.subplots(figsize = (5,5))
-
-        ax3.plot(x, np.log10(final_error), label ='final_training_error')
-        ax3.plot(x, np.log10(var_metrics), label = 'test metric')
-        ax3.legend()
-        fig3.savefig(path+error_fig_name)
