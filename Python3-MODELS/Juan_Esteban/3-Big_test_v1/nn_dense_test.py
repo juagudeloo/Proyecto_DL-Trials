@@ -80,7 +80,7 @@ def main():
     pr_BATCH_SIZE = int(len(PR_D)/10)
     print(pr_BATCH_SIZE)
 
-    TR_BATCH_SIZE = int(len(TR_D[:,1,2])/500000)
+    TR_BATCH_SIZE = int(len(TR_D[:,1,2])/50000)
 
     #MODELS DATA DICTIONARY
     models = []
