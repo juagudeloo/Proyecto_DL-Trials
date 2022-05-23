@@ -100,7 +100,7 @@ def main():
   
 
     #models, metrics, history = test.test_dense_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
-
+    print(f"PR_D shape = {np.shape(PR_D)}")
     intensity_pred = test.predict_intensity(models, PR_D, pr_BATCH_SIZE, self_nx, self_nz)
     var_values = range(len(models))
     print(f"intensity predicted shape: {np.shape(intensity_pred)}")

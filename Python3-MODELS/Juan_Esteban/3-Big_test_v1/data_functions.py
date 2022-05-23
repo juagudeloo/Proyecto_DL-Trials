@@ -292,7 +292,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
         print(f'predict data shape: {np.shape(pr_data)}')
         print(f'predict labels shape: {np.shape(pr_labels)}\n')
 
-    print("*Clasiffying data done*")
+    print("*Clasifying data done*")
 
     return tr_data, tr_labels, te_data, te_labels, pr_data, pr_labels
 
