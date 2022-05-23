@@ -210,7 +210,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     tr_data = []
     tr_labels = []
 
-    print("training data...")
+    print("training data classification...")
     #Here I'm dividing the whole data for the nx, nz dimensions. The first half is the training set and the second half is the test set
     for i in range(TR_N):
         for j in range(NX):
@@ -231,7 +231,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
         print(f'training data shape: {np.shape(tr_data)}')
         print(f'training labels shape: {np.shape(tr_labels)}\n')
 
-    print("test data...")
+    print("test data classification...")
     te_data = []
     te_labels = []
     for i in range(TE_N):
@@ -254,7 +254,7 @@ def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
         print(f'test labels shape: {np.shape(te_labels)}\n')
 
 
-    print("predicting data...")
+    print("predicting data classification...")
     pr_data = []
     pr_labels = []
     PR_INIC = TR_N + TE_N
