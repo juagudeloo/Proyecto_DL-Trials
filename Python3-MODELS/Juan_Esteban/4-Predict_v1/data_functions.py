@@ -392,26 +392,26 @@ def plot_dist(intensity_out, history, var_metrics, titles, PR_L, dist_fig_name, 
             fig3.savefig(path+error_fig_name)
     else:
         fig1, ax1 = plt.subplots(3, row_len, figsize = (40,10))
-            for i in range(row_len):
-                diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
-                ax1[0,i].hist(x=diff, bins = 'auto',
-                                            alpha=0.7, 
-                                            rwidth=0.85)
-                ax1[0,i].set_title(titles[i])
-            for i in range(row_len):
-                ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
-                ax1[1,i].set_title(titles[i])
+        for i in range(row_len):
+            diff = np.absolute(np.ravel(intensity_out[i])-np.ravel(PR_L))/np.absolute(np.ravel(PR_L))
+            ax1[0,i].hist(x=diff, bins = 'auto',
+                                        alpha=0.7, 
+                                        rwidth=0.85)
+            ax1[0,i].set_title(titles[i])
+        for i in range(row_len):
+            ax1[1,i].imshow(intensity_out[i], cmap = 'gist_gray')
+            ax1[1,i].set_title(titles[i])
 
-            x = np.arange(1, 8)+1
-            for i in range(row_len):
-                y = history[i].history[loss_metric][1:10]
-                print(np.size(y))
-                print(np.size(x))
-                ax1[2,i].scatter(x, y)
-                ax1[2,i].set_ylabel(loss_metric)
-                ax1[2,i].set_xlabel('epoch')
-                ax1[2,i].set_ylim(0,0.3)
-            fig1.savefig(path+dist_fig_name)
+        x = np.arange(1, 8)+1
+        for i in range(row_len):
+            y = history[i].history[loss_metric][1:10]
+            print(np.size(y))
+            print(np.size(x))
+            ax1[2,i].scatter(x, y)
+            ax1[2,i].set_ylabel(loss_metric)
+            ax1[2,i].set_xlabel('epoch')
+            ax1[2,i].set_ylim(0,0.3)
+        fig1.savefig(path+dist_fig_name)
         print("*figure saved*")
         
 
