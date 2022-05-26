@@ -13,29 +13,29 @@ class NN_MODEL:
         self.epochs = epochs
         self.n_layers = n_layers #number of layers of the convolution model
     def model_conv_layers(self):
-        self.model = tf.keras.Sequential()
+        model = tf.keras.Sequential()
         if(self.n_layers == 1):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
-            self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
+            model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
         if(self.n_layers == 2):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
-            self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
-            self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
+            model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
+            model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
         if(self.n_layers == 3):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
-            self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
-            self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
-            self.model.add(tf.keras.layers.Conv1D(128, 2, activation='relu'))
+            model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
+            model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
+            model.add(tf.keras.layers.Conv1D(128, 2, activation='relu'))
         if(self.n_layers == 4):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
-            self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
-            self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
-            self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu'))
-            self.model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
-        self.model.add(tf.keras.layers.GlobalMaxPool1D())
-        self.model.add(tf.keras.layers.Dense(64, activation='relu'))
-        self.model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
-        self.model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
+            model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
+            model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
+            model.add(tf.keras.layers.Conv1D(128, 1, activation='relu'))
+            model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
+        model.add(tf.keras.layers.GlobalMaxPool1D())
+        model.add(tf.keras.layers.Dense(64, activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
+        model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
     def model_fitting(self, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
