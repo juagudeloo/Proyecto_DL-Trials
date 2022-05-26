@@ -11,10 +11,8 @@ class NN_MODEL:
         self.nz = nz
         self.epochs = epochs
         self.n_layers = n_layers #number of layers of the convolution model
-        self.model = None
-
-    def model_fitting(self, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         self.model = tf.keras.Sequential()
+    def model_fitting(self, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         if(self.n_layers == 1):
             self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
             self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
