@@ -69,12 +69,6 @@ def main():
 
     TR_BATCH_SIZE = int(len(TR_D[:,1,2])/50000)
 
-    #MODELS DATA DICTIONARY
-    models = []
-    history = []
-    metrics = []
-    intensity_pred = []
-
     #PLOT INFORMATION
     title = [f"CNN 4 - TR BATCH SIZE = {TR_BATCH_SIZE}"]     
     dist_name = "nn_dense_models_dist.png"
@@ -82,7 +76,7 @@ def main():
     model = nn_model.NN_MODEL(IN_LS, self_nx, self_ny, self_nz, epochs = 20)
     model.model_fitting(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
     print(f"PR_D shape = {np.shape(PR_D)}")
-    model.predict_intensity(models, PR_D, pr_BATCH_SIZE, self_nx, self_nz)
+    model.predict_intensity(PR_D, pr_BATCH_SIZE)
     model.plot_dist(PR_L, title, dist_name)
 
 

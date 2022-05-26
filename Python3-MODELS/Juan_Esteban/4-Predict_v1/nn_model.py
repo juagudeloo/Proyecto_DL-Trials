@@ -49,9 +49,9 @@ class NN_MODEL:
         print('\n')
         print('\n CONV NEURAL TYPES DONE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n')
     #PREDICTING FUNCTION
-    def predict_intensity(self, model, PR_D:float, pr_BATCH_SIZE:float):
+    def predict_intensity(self, PR_D:float, pr_BATCH_SIZE:float):
         print("*predicting intensity...*")
-        self.intensity_out = model.predict(PR_D, batch_size=pr_BATCH_SIZE, verbose=1)
+        self.intensity_out = self.model.predict(PR_D, batch_size=pr_BATCH_SIZE, verbose=1)
         self.intensity_out = self.intensity_out.reshape(self.nx, self.nz)
         print("*intensity_done*\n")
         print(f"predicted intensity shape = {np.shape(self.intensity_out)}")
