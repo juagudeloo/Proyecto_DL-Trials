@@ -134,6 +134,167 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         
     print("*Uploading done*\n")
     return self_iout, self_mbyy, self_mvyy, self_mtpr, self_mrho
+def plotting(iout, mbyy, mvyy, mrho, mtpr, nx, ny, nz):
+    #############################################################
+    # Here we select the slices for a nz=cte so that we obtain the 2d graphs of 
+    # the intensity, temperature, magnetic field in z and velocity in z
+    #############################################################v
+    plot_mbyy, plot_iout, plot_mvyy, plot_mrho, plot_mtpr = np.zeros((nx, nz)), np.zeros((nx, nz)), np.zeros((nx, nz)), np.zeros((nx, nz)), np.zeros((nx, nz))
+
+    ny_slice = 170 #equivalent in pixels to height
+    
+    plot_mbyy = mbyy[0][:,ny_slice,:]
+    plot_mvyy = mvyy[0][:,ny_slice,:]
+    plot_mtpr = mtpr[0][:,ny_slice,:]
+    plot_iout = iout[0]
+
+    #############################################################
+    # Here we plot the 2D graphs using Matplotlib
+    #############################################################
+    print("*Plotting...*")
+    f = plt.figure(figsize=(15,15))
+
+    ax1 = f.add_subplot(221)
+    by = ax1.imshow(plot_mbyy, cmap='gist_gray', origin='lower')
+    ax1.set_title('magnetic field in y')
+    divider1 = make_axes_locatable(ax1)
+    cax1 = divider1.append_axes('top', size='5%', pad=0.8)
+    f.colorbar(by, cax=cax1, orientation="horizontal", label="NN")
+    ax1.grid()
+
+    ax2 = f.add_subplot(222)
+    surf = ax2.imshow(plot_iout, cmap='gist_gray', origin='lower')
+    ax2.set_title('Intensity')
+    divider2 = make_axes_locatable(ax2)
+    cax2 = divider2.append_axes('top', size='5%', pad=0.8)
+    f.colorbar(surf, cax=cax2, orientation="horizontal", label="NN")
+    ax2.grid()
+
+    ax3 = f.add_subplot(223)
+    divider3 = make_axes_locatable(ax3)
+    vy = ax3.imshow(plot_mvyy, cmap='gist_gray', interpolation='gaussian', origin='lower')
+    cax3 = divider3.append_axes('top', size='5%', pad=0.8)
+    ax3.set_title('Velocity in y')
+    f.colorbar(vy, cax=cax3, orientation="horizontal", label="NN")
+    ax3.grid()
+
+    ax4 = f.add_subplot(224)
+
+    divider4 = make_axes_locatable(ax4)
+    cax4 = divider4.append_axes('top', size='5%', pad=0.8, label='a')
+    data = plot_mtpr
+    extent = (np.min(data), np.max(data), np.min(data), np.max(data))
+    position = (0,0)      
+    tem = ax4.imshow(data, origin='lower',   cmap='gist_gray', interpolation='gaussian', vmax=np.max(data), extent=extent)
+    ax4.set_title('Temperature')
+    f.colorbar(tem, cax=cax4, orientation="horizontal", label="NN")
+    ax4.grid()
+
+    plt.savefig("simulation_images.png")
+
+    print("*Plot done*\n")
+#DATA CLASSIFICATION
+def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
+    #DIVIDING THE DATA WE WANT TO CLASIFFY AND ITS LABELS - It is being used the 
+    #scaled data
+
+    print("*Classifying data -> Training, Testing, Predicting*\n")
+    print("shape of full data and label arrays:")
+
+    if (print_shape == 1):
+        print(f'full data list shape: {np.shape(data)}')
+        print(f'full data labels shape: {np.shape(labels)}\n')
+
+    #TRAINING SET AND DATA SET
+    tr_data = []
+    tr_labels = []
+
+    print("training data classification...")
+    #Here I'm dividing the whole data for the nx, nz dimensions. The first half is the training set and the second half is the test set
+    for i in range(TR_N):
+        for j in range(NX):
+            for k in range(NZ):
+                if not np.all(data[i][0][j,:,k] == 0):
+                    tr_data.append([data[i][0][j,:,k], 
+                                    data[i][1][j,:,k],
+                                    data[i][2][j,:,k],
+                                    data[i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                    tr_labels.append(labels[i][j,k]) #the values from the column of targets
+                    
+    tr_data = np.array(tr_data)   
+    tr_labels = np.array(tr_labels)  
+    print("Done")
+
+    print("shape of training data and training labels:")
+    if (print_shape == 1):
+        print(f'training data shape: {np.shape(tr_data)}')
+        print(f'training labels shape: {np.shape(tr_labels)}\n')
+
+    print("test data classification...")
+    te_data = []
+    te_labels = []
+    for i in range(TE_N):
+        for j in range(NX):
+            for k in range(NZ):
+                if not np.all(data[TR_N + i][0][j,:,k]==0):
+                    te_data.append([data[TR_N + i][0][j,:,k], 
+                                    data[TR_N + i][1][j,:,k],
+                                    data[TR_N + i][2][j,:,k],
+                                    data[TR_N + i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                    te_labels.append(labels[TR_N + i][j,k]) #the values from the column of targets
+
+    te_data = np.array(te_data)   
+    te_labels = np.array(te_labels)  
+    print("Done")
+    
+    print("shape of testing data and testing labels:")
+    if (print_shape == 1):
+        print(f'test data shape: {np.shape(te_data)}')
+        print(f'test labels shape: {np.shape(te_labels)}\n')
+
+
+    print("predicting data classification...")
+    pr_data = []
+    pr_labels = []
+    PR_INIC = TR_N + TE_N
+    print(f"PR_INIC + PR_N = {PR_INIC + PR_N}")
+    if PR_N>1:
+        for i in range(PR_N):
+            for j in range(NX):
+                for k in range(NZ):
+                    if not np.all(data[PR_INIC + i][0][j,:,k]==0):
+                        pr_data.append([data[PR_INIC + i][0][j,:,k], 
+                                        data[PR_INIC + i][1][j,:,k],
+                                        data[PR_INIC + i][2][j,:,k],
+                                        data[PR_INIC + i][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                        pr_labels.append(labels[PR_INIC + i][j,k]) #the values from the column of targets
+                    else:
+                        raise ValueError('sorry, you have encountered prediction values that are not predictable')
+    else:
+        for j in range(NX):
+                for k in range(NZ):
+                    if not np.all(data[(PR_INIC + PR_N) - 1][0][j,:,k]==0):
+                        pr_data.append([data[(PR_INIC + PR_N) - 1][0][j,:,k], 
+                                        data[(PR_INIC + PR_N) - 1][1][j,:,k],
+                                        data[(PR_INIC + PR_N) - 1][2][j,:,k],
+                                        data[(PR_INIC + PR_N) - 1][3][j,:,k]]) #It puts the magnetic field, velocity, temperature and density values in one row for 240x240=57600 columns
+                        pr_labels.append(labels[(PR_INIC + PR_N) - 1][j,k])
+                    else:
+                        raise ValueError('sorry, you have encountered prediction values that are not predictable')
+
+    pr_data = np.array(pr_data)    
+    pr_labels = np.array(pr_labels)  
+    print("Done")
+    
+    print("shape of predicting data and predicting labels:")
+    if (print_shape == 1):
+        print(f'predict data shape: {np.shape(pr_data)}')
+        print(f'predict labels shape: {np.shape(pr_labels)}\n')
+
+    print("*Clasifying data done*")
+
+    return tr_data, tr_labels, te_data, te_labels, pr_data, pr_labels
+
 #DATA CLASSIFICATION
 def data_classif(data, labels, NX, NZ, TR_N, TE_N, PR_N, print_shape = 0):
     #DIVIDING THE DATA WE WANT TO CLASIFFY AND ITS LABELS - It is being used the 
