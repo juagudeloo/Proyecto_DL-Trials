@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 #NN MODEL TESTING
 class NN_MODEL:
-    def __init__(self, IN_LS, nx, ny, nz, n_layers, epochs):
+    def __init__(self, IN_LS, nx, ny, nz, n_layers = 4, epochs = 20):
         self.IN_LS = IN_LS 
         self.nx = nx
         self.ny = ny
