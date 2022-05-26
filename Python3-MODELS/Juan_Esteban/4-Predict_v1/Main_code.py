@@ -9,26 +9,13 @@ from tensorflow import keras
 from sklearn.preprocessing import MinMaxScaler
 #DATA TREATMENT MODULE
 import data_functions as data_f
-import testing_functions as test
+import nn_model 
 
 
 ## Parameters for the obtaining the data
 
 #################################################################### MAIN FUNCTION ####################################################################
 def main():
-    gpus = tf.config.list_physical_devices('GPU')
-    if gpus:
-        try:
-            # Currently, memory growth needs to be the same across GPUs
-            for gpu in gpus:
-                tf.config.experimental.set_memory_growth(gpu, True)
-            logical_gpus = tf.config.list_logical_devices('GPU')
-            print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
-        except RuntimeError as e:
-            # Memory growth must be set before GPUs have been initialized
-            print(e)
-
-
     path = '/mnt/scratch/juagudeloo/Total_MURAM_data/' #Juan Esteban path
     self_ptm = path
     self_filename = []
@@ -89,24 +76,14 @@ def main():
     intensity_pred = []
 
     #PLOT INFORMATION
-    titles = ['Dense 1','Dense 2','Dense 3','Dense4']
-                            
+    title = [f"CNN 4 - TR BATCH SIZE = {TR_BATCH_SIZE}"]     
     dist_name = "nn_dense_models_dist.png"
-    error_fig_name = "nn_dense_models_error.png"
     plot_var_values = True
-    ##### NEURAL NETWORK TYPE VARIATIONS
-    #dense models
-
-  
-
-    models, metrics, history = test.test_dense_models(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
+    model = nn_model.NN_MODEL(IN_LS, self_nx, self_ny, self_nz, epochs = 20)
+    model.model_fitting(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
     print(f"PR_D shape = {np.shape(PR_D)}")
-    intensity_pred = test.predict_intensity(models, PR_D, pr_BATCH_SIZE, self_nx, self_nz)
-    var_values = range(len(models))
-    print(f"intensity predicted shape: {np.shape(intensity_pred)}")
-    data_f.plot_dist(intensity_pred, history, metrics,
-                        titles, PR_L, dist_name, 
-                        error_fig_name, var_values, plot_var_values, plot_errors = False)
+    model.predict_intensity(models, PR_D, pr_BATCH_SIZE, self_nx, self_nz)
+    model.plot_dist(PR_L, title, dist_name)
 
 
 
