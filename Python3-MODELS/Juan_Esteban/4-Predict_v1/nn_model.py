@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 #NN MODEL TESTING
 class NN_MODEL:
-    def __init__(self, IN_LS, nx, ny, nz, n_layers = 4, epochs = 20):
+    def __init__(self, nx, ny, nz, n_layers = 4, epochs = 20):
         self.nx = nx
         self.ny = ny
         self.nz = nz
@@ -16,19 +16,19 @@ class NN_MODEL:
     def model_fitting(self, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         self.model = tf.keras.Sequential()
         if(self.n_layers == 1):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
             self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
         if(self.n_layers == 2):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
             self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
             self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
         if(self.n_layers == 3):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
             self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
             self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
             self.model.add(tf.keras.layers.Conv1D(128, 2, activation='relu'))
         if(self.n_layers == 4):
-            self.model.add(tf.keras.layers.Input(shape = self.IN_LS, name='data_in'))
+            self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
             self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
             self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
             self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu'))

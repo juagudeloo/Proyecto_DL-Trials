@@ -73,8 +73,8 @@ def main():
     title = [f"CNN 4 - TR BATCH SIZE = {TR_BATCH_SIZE}"]     
     dist_name = "nn_dense_models_dist.png"
     plot_var_values = True
-    model = nn_model.NN_MODEL(IN_LS, self_nx, self_ny, self_nz, n_layers=4, epochs = 20)
-    model.model_fitting(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
+    model = nn_model.NN_MODEL(self_nx, self_ny, self_nz, n_layers=4, epochs = 20)
+    fitted = model.model_fitting(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L)
     print(f"PR_D shape = {np.shape(PR_D)}")
     model.predict_intensity(PR_D, pr_BATCH_SIZE)
     model.plot_dist(PR_L, title, dist_name)
