@@ -5,7 +5,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import MinMaxScaler
 
 def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_nz:int):    
-    print("*Uploading data...*\n")
+    print(f"*{self_filename[i]} Uploading data...*\n")
     #Scaling function
     def scaling(array):
         scaler = MinMaxScaler()
@@ -32,17 +32,17 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
     # equation of state (EOS)
     ################################
     for i in range(len(self_filename)):
-        print("reading IOUT")
+        print(f"reading IOUT {self_filename[i]}")
         self_iout.append(np.memmap(self_ptm+"iout."+self_filename[i],dtype=np.float32))
         self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
         print("scaling...")
         self_iout[i] = scaling(self_iout[i]) #scaled intensity
         self_iout[i] = np.reshape(self_iout[i], (self_nx, self_nz), order="A")
         print(np.shape(self_iout[i]))
-        print("IOUT done")   
+        print(f"IOUT done {self_filename[i]}")   
         print('\n')
 
-        print("reading EOS")
+        print(f"reading EOS {self_filename[i]}")
         self_mtpr.append(np.memmap(self_ptm+"eos."+self_filename[i],dtype=np.float32))
         self_mtpr[i] = np.reshape(self_mtpr[i], (2, self_nx,self_ny,self_nz), order="A")
         n_eos = 0
@@ -51,7 +51,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         self_mtpr[i] = scaling(self_mtpr[i])
         self_mtpr[i] = np.reshape(self_mtpr[i], (self_nx,self_ny,self_nz), order="A")
         # n_eos -> 0: temperature ; 1: pressure
-        print("EOS done")
+        print(f"EOS done {self_filename[i]}")
         print('\n')
 
         #         print("reading vxx")
@@ -59,10 +59,10 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         #         self.mvxx = np.reshape(self.mvxx,(self.nx,self.nz,self.ny),order="C")
         #         print("vxx done")
 
-        print("reading vyy")
+        print(f"reading vyy {self_filename[i]}")
         self_mvyy.append(np.memmap(self_ptm+"result_2."+self_filename[i],dtype=np.float32))
         self_mvyy[i] = np.reshape(self_mvyy[i],(self_nx,self_ny,self_nz),order="C")
-        print("vyy done")
+        print(f"vyy done {self_filename[i]}")
         print('\n')
         #         print("reading vzz")
         #         self.mvzz = np.fromfile(self.ptm+"result_3."+self.filename,dtype=np.float32)
@@ -80,10 +80,10 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
         #         self.mbxx = np.reshape(self.mbxx,(self.nx,self.nz,self.ny),order="C")
         #         print("bxx done")
 
-        print ("reading byy")
+        print (f"reading byy {self_filename[i]}")
         self_mbyy.append(np.memmap(self_ptm+"result_6."+self_filename[i],dtype=np.float32))
         self_mbyy[i] = np.reshape(self_mbyy[i],(self_nx,self_ny,self_nz),order="C")
-        print("byy done")
+        print(f"byy done {self_filename[i]}")
         print('\n')
 
         #         print("reading bzz")
@@ -96,17 +96,17 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
 
         #         self.mvxx=self.mvxx/self.mrho
 
-        print("reading rho")
+        print(f"reading rho {self_filename[i]}")
         self_mrho.append(np.memmap(self_ptm+"result_0."+self_filename[i],dtype=np.float32))
         self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
         print("scaling...")
-        if np.any(self_mrho[i] == 0):
+        if np.any(self_mrho[i] == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
             self_mrho[i] = np.log10(self_mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
             self_mrho[i] = scaling(self_mrho[i])
             self_mrho[i] = np.reshape(self_mrho[i], (self_nx,self_ny,self_nz), order="A")
             print(np.shape(self_mrho))
             print(type(self_mrho))
-            print("rho done")
+            print(f"rho done {self_filename[i]}")
             print('\n')
         
             nx0 = np.argwhere(self_mrho[i] == 0)[0][0]
@@ -132,7 +132,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             #         self.mbzz=self.mbzz*coef
             
         
-    print("*Uploading done*\n")
+    print(f"*{self_filename[i]} Uploading done*\n")
     return self_iout, self_mbyy, self_mvyy, self_mtpr, self_mrho
 def plotting(iout, mbyy, mvyy, mrho, mtpr, nx, ny, nz):
     #############################################################
