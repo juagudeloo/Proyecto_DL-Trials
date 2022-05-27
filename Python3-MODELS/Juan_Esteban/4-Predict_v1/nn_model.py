@@ -12,6 +12,7 @@ class NN_MODEL:
         self.epochs = epochs
         self.n_layers = n_layers #number of layers of the convolution model
         self.model = tf.keras.Sequential()
+        self.intensity_out = []
     def model_fitting(self, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L):
         if(self.n_layers == 1):
             self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
@@ -37,7 +38,7 @@ class NN_MODEL:
         self.model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
-        self.history = self.model.fit(TR_D, TR_L, epochs=self.epochs, batch_size=TR_BATCH_SIZE, verbose=1)
+        self.history = self.model.fit(TR_D, TR_L, epochs=self.epochs, batch_size=TR_BATCH_SIZE, verbose=0)
         start_time = time.time()
         #TESTING
         print('*TEST*')
