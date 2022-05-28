@@ -5,7 +5,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import MinMaxScaler
 
 def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_nz:int):    
-    print(f"*{self_filename[i]} Uploading data...*\n")
+    print(f"*Uploading data...*\n")
     #Scaling function
     def scaling(array):
         scaler = MinMaxScaler()
@@ -132,7 +132,7 @@ def charge_data(self_ptm:str, self_filename:str, self_nx:int, self_ny:int, self_
             #         self.mbzz=self.mbzz*coef
             
         
-    print(f"*{self_filename[i]} Uploading done*\n")
+    print(f"*Uploading done*\n")
     return self_iout, self_mbyy, self_mvyy, self_mtpr, self_mrho
 def plotting(iout, mbyy, mvyy, mrho, mtpr, nx, ny, nz):
     #############################################################
