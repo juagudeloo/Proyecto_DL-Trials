@@ -25,7 +25,7 @@ def main():
             self_filename.append('0'+str(file_interval[i]))
         else:
             self_filename.append(str(file_interval[i]))
-    file_to_append = input("file number:")
+    file_to_append = str(input("file number:"))
     self_filename.append(file_to_append)
     print(self_filename)
     self_nx = 480
@@ -40,7 +40,9 @@ def main():
     print(np.shape(mtpr))
     print(np.shape(mrho))
     data_f.plotting(iout, mbyy, mvyy, mrho, mtpr, self_nx, self_ny, self_nz)
-
+    plt.figure(figsize = (10,10))
+    plt.imshow(iout[len(iout)-1])
+    plt.savefig("Images/original_pred_image_"+file_to_append+".png")
 
     #training, testing and predicting division
     pr_n = 1 #predicting number
