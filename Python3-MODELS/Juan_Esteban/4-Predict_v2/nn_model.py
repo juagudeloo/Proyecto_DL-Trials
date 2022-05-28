@@ -38,7 +38,7 @@ class NN_MODEL:
         self.model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
-        self.history = self.model.fit(TR_D, TR_L, epochs=self.epochs, batch_size=TR_BATCH_SIZE, verbose=0)
+        self.history = self.model.fit(TR_D, TR_L, epochs=self.epochs, batch_size=TR_BATCH_SIZE, verbose=1)
         start_time = time.time()
         #TESTING
         print('*TEST*')
