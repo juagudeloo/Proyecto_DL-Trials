@@ -71,7 +71,7 @@ class NN_MODEL:
         path = "Images/"
         print("*plotting...*")
         diff = 0
-        fig1, ax1 = plt.subplots(1,4, figsize = (40,10))
+        fig1, ax1 = plt.subplots(1,4, figsize = (10,40))
         x = np.arange(1, self.epochs)+1
         y = self.history.history[loss_metric][1:10]
         print(np.size(y))
