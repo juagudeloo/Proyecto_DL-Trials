@@ -41,12 +41,12 @@ class NN_MODEL:
         self.history = self.model.fit(TR_D, TR_L, epochs=self.epochs, batch_size=TR_BATCH_SIZE, verbose=1)
         start_time = time.time()
         #TESTING
-        print('*TEST*')
-        metrics = self.model.evaluate(TE_D, TE_L)
-        print("%s: %2.f%%" % (self.model.metrics_names[1], metrics[1]*100))
-        print("--- %s seconds ---" % (time.time() - start_time))
-        print('\n')
-        print('\n CONV NEURAL TYPES DONE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n')
+        #print('*TEST*')
+        #metrics = self.model.evaluate(TE_D, TE_L)
+        #print("%s: %2.f%%" % (self.model.metrics_names[1], metrics[1]*100))
+        #print("--- %s seconds ---" % (time.time() - start_time))
+        #print('\n')
+        #print('\n CONV NEURAL TYPES DONE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n')
     #PREDICTING FUNCTION
         print("*predicting intensity...*")
         self.intensity_out = self.model.predict(PR_D, batch_size=pr_BATCH_SIZE, verbose=1)
