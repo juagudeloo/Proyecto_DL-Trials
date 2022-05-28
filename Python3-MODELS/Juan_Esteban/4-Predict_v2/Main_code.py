@@ -64,7 +64,7 @@ def main():
                                                     print_shape=1)
 
     IN_LS = np.array([4,256]) #input shape in input layer
-    pr_BATCH_SIZE = int(len(PR_D)/10)
+    pr_BATCH_SIZE = 10
     print(pr_BATCH_SIZE)
 
     #TR_BATCH_SIZE = int(len(TR_D[:,1,2])/345600)
