@@ -68,7 +68,7 @@ def main():
     print(pr_BATCH_SIZE)
 
     #TR_BATCH_SIZE = int(len(TR_D[:,1,2])/345600)
-    TR_BATCH_SIZE = 2
+    TR_BATCH_SIZE = 100
 
     #PLOT INFORMATION
     title = [f"CNN 4 - TR BATCH SIZE = {TR_BATCH_SIZE}"]     
