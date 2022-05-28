@@ -25,7 +25,8 @@ def main():
             self_filename.append('0'+str(file_interval[i]))
         else:
             self_filename.append(str(file_interval[i]))
-    self_filename.append('054000')
+    file_to_append = input("file number:")
+    self_filename.append(file_to_append)
     print(self_filename)
     self_nx = 480
     self_ny = 256

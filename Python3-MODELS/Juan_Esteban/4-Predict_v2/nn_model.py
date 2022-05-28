@@ -71,22 +71,26 @@ class NN_MODEL:
         path = "Images/"
         print("*plotting...*")
         diff = 0
-        fig1, ax1 = plt.subplots(3, figsize = (40,10))
-        diff = np.absolute(np.ravel(self.intensity_out)-np.ravel(PR_L))
-        ax1[0].hist(x=diff, bins = 'auto',
-                                    alpha=0.7, 
-                                    rwidth=0.85)
-        ax1[0].set_title(dist_title)
-        ax1[1].imshow(self.intensity_out, cmap = 'gist_gray')
-        ax1[1].set_title(dist_title)
+        fig1, ax1 = plt.subplots(1,4, figsize = (40,10))
         x = np.arange(1, self.epochs)+1
         y = self.history.history[loss_metric][1:10]
         print(np.size(y))
         print(np.size(x))
-        ax1[2].scatter(x, y)
-        ax1[2].set_ylabel(loss_metric)
-        ax1[2].set_xlabel('epoch')
-        ax1[2].set_ylim(0,0.3)
+        ax1[0].scatter(x, y)
+        ax1[0].set_ylabel(loss_metric)
+        ax1[0].set_xlabel('epoch')
+        ax1[0].set_ylim(0,0.3)
         fig1.savefig(path+dist_fig_name)
         print("*figure saved*")
+        diff = np.absolute(np.ravel(self.intensity_out)-np.ravel(PR_L))
+        ax1[1].hist(x=diff, bins = 'auto',
+                                    alpha=0.7, 
+                                    rwidth=0.85)
+        ax1[1].set_title(dist_title)
+        ax1[2].imshow(self.intensity_out, cmap = 'gist_gray')
+        ax1[2].set_title(dist_title)
+        ax1[3].imshow(PR_L.reshape(self.nx, self.nz), cmap = 'gist_gray')
+        ax1[3].set_title(dist_title)
+        
+        
 
