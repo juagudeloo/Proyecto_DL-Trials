@@ -72,7 +72,7 @@ class NN_MODEL:
         print("*plotting...*")
         diff = 0
         fig1, ax1 = plt.subplots(2, figsize = (40,10))
-        diff = np.absolute(np.ravel(self.intensity_out)-np.ravel(PR_L)
+        diff = np.absolute(np.ravel(self.intensity_out)-np.ravel(PR_L))
         ax1[0].hist(x=diff, bins = 'auto',
                                     alpha=0.7, 
                                     rwidth=0.85)
