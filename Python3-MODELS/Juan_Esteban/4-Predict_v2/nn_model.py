@@ -95,7 +95,7 @@ class NN_MODEL:
         ax1[2].set_title(dist_title)
         ax1[3].imshow(PR_L.reshape(self.nx, self.nz), cmap = 'gist_gray')
         ax1[3].set_title("Original")
-        fig1.savefig(path+dist_fig_name+self.filename_pred)
+        fig1.savefig(path+self.filename_pred+dist_fig_name)
         print("*figure saved*")
         
         
