@@ -76,21 +76,21 @@ class NN_MODEL:
         y = self.history.history[loss_metric][1:10]
         print(np.size(y))
         print(np.size(x))
-        ax1[0,0].scatter(x, y)
-        ax1[0,0].set_ylabel(loss_metric)
-        ax1[0,0].set_xlabel('epoch')
-        ax1[0,0].set_ylim(0,0.3)
+        ax1[0].scatter(x, y)
+        ax1[0].set_ylabel(loss_metric)
+        ax1[0].set_xlabel('epoch')
+        ax1[0].set_ylim(0,0.3)
         fig1.savefig(path+dist_fig_name)
         print("*figure saved*")
         diff = np.absolute(np.ravel(self.intensity_out)-np.ravel(PR_L))
         ax1[1].hist(x=diff, bins = 'auto',
                                     alpha=0.7, 
                                     rwidth=0.85)
-        ax1[0,1].set_title(dist_title)
-        ax1[0,2].imshow(self.intensity_out, cmap = 'gist_gray')
-        ax1[0,2].set_title(dist_title)
-        ax1[0,3].imshow(PR_L.reshape(self.nx, self.nz), cmap = 'gist_gray')
-        ax1[0,3].set_title(dist_title)
+        ax1[1].set_title(dist_title)
+        ax1[2].imshow(self.intensity_out, cmap = 'gist_gray')
+        ax1[2].set_title(dist_title)
+        ax1[3].imshow(PR_L.reshape(self.nx, self.nz), cmap = 'gist_gray')
+        ax1[3].set_title(dist_title)
         
         
 
