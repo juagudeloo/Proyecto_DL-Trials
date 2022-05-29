@@ -77,7 +77,7 @@ def main():
     title = [f"CNN 4 - TR BATCH SIZE = {TR_BATCH_SIZE}"]     
     dist_name = "nn_dense_models_dist.png"
     plot_var_values = True
-    model = nn_model.NN_MODEL(self_nx, self_ny, self_nz, n_layers=4, epochs = 4)
+    model = nn_model.NN_MODEL(self_nx, self_ny, self_nz, n_layers=4, epochs = 4, filename_pred = file_to_append)
     print(f"PR_D shape = {np.shape(PR_D)}")
     fitted = model.model_fitting(IN_LS, TR_D, TR_L, TR_BATCH_SIZE, TE_D, TE_L, PR_D, pr_BATCH_SIZE, PR_L, title, dist_name)
     

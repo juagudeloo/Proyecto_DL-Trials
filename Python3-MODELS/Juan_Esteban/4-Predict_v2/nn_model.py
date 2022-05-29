@@ -5,7 +5,12 @@ import matplotlib.pyplot as plt
 import time
 #NN MODEL TESTING
 class NN_MODEL:
-    def __init__(self, nx, ny, nz, n_layers = 4, epochs = 20):
+    def __init__(self, nx, ny, nz, filename_pred = "", n_layers = 4, epochs = 20):
+        """
+        -------------------------------------------------------------
+        filename_pred: number of the filename used for the prediction
+        -------------------------------------------------------------
+        """
         self.nx = nx
         self.ny = ny
         self.nz = nz
@@ -13,6 +18,7 @@ class NN_MODEL:
         self.n_layers = n_layers #number of layers of the convolution model
         self.model = tf.keras.Sequential()
         self.intensity_out = []
+        self.filename_pred = filename_pred
     def model_fitting(self, IN_LS, TR_D, TR_L, TR_BATCH_SIZE:float, TE_D, TE_L, PR_D, pr_BATCH_SIZE:float, PR_L, dist_title, dist_fig_name, loss_metric = 'mean_squared_error'):
         if(self.n_layers == 1):
             self.model.add(tf.keras.layers.Input(shape = IN_LS, name='data_in'))
@@ -89,7 +95,7 @@ class NN_MODEL:
         ax1[2].set_title(dist_title)
         ax1[3].imshow(PR_L.reshape(self.nx, self.nz), cmap = 'gist_gray')
         ax1[3].set_title("Original")
-        fig1.savefig(path+dist_fig_name)
+        fig1.savefig(path+dist_fig_name+self.filename_pred)
         print("*figure saved*")
         
         
