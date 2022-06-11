@@ -10,6 +10,8 @@ def main():
     nlam = 300
     ix, iy = [0,0]
     prof_im = mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy)
+    print(np.shape(prof_im))
+
     fig, ax = plt.subplots(figsize = (10,10))
     ax.imshow(prof_im, cmap="Greys")
     fig.savefig("first_prof.png")
