@@ -28,7 +28,7 @@ def main():
     
     prof_im = []
     for lam in range(nlam):
-        prof_im.appen(prof_im_sub)
+        prof_im.append(prof_im_sub)
     #Plotting the four profiles for the 300 lambda values
     title = ['I', 'Q', 'U', 'V']
     fig, ax = plt.subplots(300, 4, figsize=(300,40))
