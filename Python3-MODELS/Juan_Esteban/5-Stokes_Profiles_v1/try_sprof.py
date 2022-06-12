@@ -20,13 +20,14 @@ def main():
     
     print(np.shape(profs))
     
-    #Obtaining the first stokes profile (I) 
+    #Obtaining the stokes profiles
     #from the charged data in the 480x480 points
+    #for a specific wavelength step value
     prof_im = []
     for n in range(N_profs):
         prof_im.append(np.zeros((nx, ny)))
     
-    lam = 150 #step number 
+    lam = 150 #wavelength step number 
     for n in range(N_profs): 
         for i in range(nx):
             for j in range(ny):
@@ -34,7 +35,7 @@ def main():
     
     #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
-    fig, ax = plt.subplots(1, 4, figsize=(10,10))
+    fig, ax = plt.subplots(1, 4, figsize=(10,40))
     for n in range(N_profs):
         ax[n].imshow(prof_im[n], cmap = 'Greys')
         ax[n].set_title(title[n])
