@@ -22,24 +22,27 @@ def main():
     
     #Obtaining the first stokes profile (I) 
     #from the charged data in the 480x480 points
-    prof_im = []
+    prof_im_sub = []
     for n in range(N_profs):
-        prof_im.append(np.zeros((nx, ny)))
+        prof_im_sub.append(np.zeros((nx, ny)))
     
+    prof_im = []
+    for lam in range(nlam):
+        prof_im.appen(prof_im_sub)
     #Plotting the four profiles for the 300 lambda values
     title = ['I', 'Q', 'U', 'V']
+    fig, ax = plt.subplots(300, 4, figsize=(300,40))
     for lam in range(nlam):
         for n in range(N_profs): 
             for i in range(nx):
                 for j in range(ny):
-                    prof_im[n][i,j] = profs[i+j][n,lam]
+                    prof_im[lam][n][i,j] = profs[i+j][n,lam]
         
         #Plotting the four profiles 
-        fig, ax = plt.subplots(1, 4, figsize=(10,40))
         for n in range(N_profs):
-            ax[n].imshow(prof_im[n], cmap = 'Greys')
-            ax[n].set_title(title[n])
-        fig.savefig(f'Images/params_0-052-lam_{lam}.png')
+            ax[lam,n].imshow(prof_im[lam][n], cmap = 'Greys')
+            ax[lam,n].set_title(title[n])
+    fig.savefig(f'Images/params_0-052-lam.png')
     
     
 if __name__ == "__main__":
