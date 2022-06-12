@@ -18,6 +18,15 @@ def main():
     
     print(np.shape(prof_im))
     
+    im_try = np.zeros((nx, ny))
+    for i in range(nx):
+        for j in range(ny):
+            im_try[i,j] = prof_im[i+j][0,0]
+    
+    fig, ax = plt.subplots(figsize=(10,10))
+    ax.imshow(im_try, cmap = 'Greys')
+    fig.savefig('Images/I_param_0-052.png')
+    
     
 if __name__ == "__main__":
     main()
