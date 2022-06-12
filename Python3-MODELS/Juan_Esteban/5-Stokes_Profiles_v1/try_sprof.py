@@ -8,23 +8,29 @@ def main():
     nx = 480
     ny = 480
     nlam = 300
-    prof_im = []
+    profs = []
+    N_profs = 4
     for i in range(nx):
         for j in range(ny):
             ix, iy = [i,j]
             p_prof = mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy)
-            p_prof = np.reshape(p_prof, (4, nlam))
-            prof_im.append(p_prof)
+            p_prof = np.reshape(p_prof, (N_profs, nlam))
+            profs.append(p_prof)
     
-    print(np.shape(prof_im))
+    print(np.shape(profs))
     
-    im_try = np.zeros((nx, ny))
-    for i in range(nx):
-        for j in range(ny):
-            im_try[i,j] = prof_im[i+j][0,0]
+    prof_im = []
+    for n in range(N_profs):
+        prof_im.append(np.zeros((nx, ny)))
     
-    fig, ax = plt.subplots(figsize=(10,10))
-    ax.imshow(im_try, cmap = 'Greys')
+    for n in range(N_profs): 
+        for i in range(nx):
+            for j in range(ny):
+                prof_im[n][i,j] = profs[i+j][n,0]
+    
+    fig, ax = plt.subplots(1, 4, figsize=(10,10))
+    for n in range(N_profs):
+        ax[n].imshow(prof_im[n], cmap = 'Greys')
     fig.savefig('Images/I_param_0-052.png')
     
     
