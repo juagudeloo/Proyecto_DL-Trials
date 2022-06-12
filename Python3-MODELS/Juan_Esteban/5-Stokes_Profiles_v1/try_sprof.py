@@ -28,10 +28,12 @@ def main():
             for j in range(ny):
                 prof_im[n][i,j] = profs[i+j][n,0]
     
+    title = ['I', 'Q', 'U', 'V']
     fig, ax = plt.subplots(1, 4, figsize=(10,10))
     for n in range(N_profs):
         ax[n].imshow(prof_im[n], cmap = 'Greys')
-    fig.savefig('Images/I_param_0-052.png')
+        ax[n].set_title(title[n])
+    fig.savefig('Images/params_0-052.png')
     
     
 if __name__ == "__main__":
