@@ -10,7 +10,7 @@ def main():
     nlam = 300
     prof_im = []
     for i in range(0, 4):
-        ix, iy = [i,i]
+        ix, iy = [0,i]
         prof_im.append(mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy))
     N_prof = len(prof_im)
     fig, ax = plt.subplots(N_prof, figsize = (10,10))
