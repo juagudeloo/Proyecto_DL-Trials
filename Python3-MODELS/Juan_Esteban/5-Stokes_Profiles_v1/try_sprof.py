@@ -14,7 +14,7 @@ def main():
             ix, iy = [i,j]
             p_prof = mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy)
             p_prof = np.reshape(p_prof, (4, nlam))
-            prof_im.append()
+            prof_im.append(p_prof)
     
     print(np.shape(prof_im))
     
