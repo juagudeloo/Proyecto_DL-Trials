@@ -8,12 +8,14 @@ def main():
     nx = 480
     ny = 480
     nlam = 300
-    ix, iy = [0,0]
-    prof_im = mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy)
-    print(np.shape(prof_im))
-    fig, ax = plt.subplots(figsize = (10,10))
-    x = np.arange(0, len(prof_im), 1)
-    ax.scatter(x,prof_im)
+    prof_im = []
+    for i in range(0, 3):
+        ix, iy = [i,i]
+        prof_im.append(mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy))
+    fig, ax = plt.subplots(2, 2, figsize = (10,10))
+    x = np.arange(0, len(prof_im[0]), 1)
+    for i in range(len(prof_im)):
+        ax[i%2, i].scatter(x,prof_im[i])
     fig.savefig("first_prof.png")
     
     
