@@ -10,7 +10,7 @@ def main():
     nlam = 300
     profs = []
     N_profs = 4
-    #Charging the stokes profiles for the specific file
+    #Charging the stokes profiles 
     for i in range(nx):
         for j in range(ny):
             ix, iy = [i,j]
@@ -20,27 +20,18 @@ def main():
     
     print(np.shape(profs))
     
-    #Obtaining the stokes profiles
-    #from the charged data in the 480x480 points
-    #for a specific wavelength step value
-    prof_im = []
-    for n in range(N_profs):
-        prof_im.append(np.zeros((nx, ny)))
+    ix = 200
+    iy = 200
+    nlam_inf = 6300.5
+    nlam_sup = nlam_inf+nlam*0.01
+    x = np.linspace(nlam_inf,nlam_sup,nlam)
     
-    lam = 150 #wavelength step number 
-    for n in range(N_profs): 
-        for i in range(nx):
-            for j in range(ny):
-                prof_im[n][i,j] = profs[i+j][n,lam]
-    
-    #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
-    fig, ax = plt.subplots(1, 4, figsize=(40,10))
-    for n in range(N_profs):
-        ax[n].imshow(prof_im[n], cmap = 'Greys')
-        ax[n].set_title(title[n])
-    fig.savefig(f'Images/params_0-052-lam_{lam}.png')
-    
+    fig, ax = plt.subplots(1,4, figsize = (40, 10))
+    for prof in range(N_profs):
+        ax[prof].plot(x, p_prof[ix+iy][prof, :])
+        ax.set_title(title[prof])
+    fig.savefig(f'Images/profiles-ix_{ix}-iy_{iy}.png')
     
 if __name__ == "__main__":
     main()
