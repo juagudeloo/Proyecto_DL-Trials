@@ -30,7 +30,7 @@ def main():
     fig, ax = plt.subplots(1,4, figsize = (40, 10))
     for prof in range(N_profs):
         ax[prof].plot(x, profs[ix+iy][prof, :])
-        ax.set_title(title[prof])
+        ax[prof].set_title(title[prof])
     fig.savefig(f'Images/profiles-ix_{ix}-iy_{iy}.png')
     
 if __name__ == "__main__":
