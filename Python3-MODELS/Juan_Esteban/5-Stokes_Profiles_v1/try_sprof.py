@@ -10,6 +10,7 @@ def main():
     nlam = 300
     profs = []
     N_profs = 4
+    #Charging the stokes profiles for the specific file
     for i in range(nx):
         for j in range(ny):
             ix, iy = [i,j]
@@ -19,6 +20,8 @@ def main():
     
     print(np.shape(profs))
     
+    #Obtaining the first stokes profile (I) 
+    #from the charged data in the 480x480 points
     prof_im = []
     for n in range(N_profs):
         prof_im.append(np.zeros((nx, ny)))
@@ -28,6 +31,7 @@ def main():
             for j in range(ny):
                 prof_im[n][i,j] = profs[i+j][n,0]
     
+    #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
     fig, ax = plt.subplots(1, 4, figsize=(10,10))
     for n in range(N_profs):
