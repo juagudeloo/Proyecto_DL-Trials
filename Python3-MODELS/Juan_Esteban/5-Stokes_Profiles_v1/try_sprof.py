@@ -12,7 +12,8 @@ def main():
     prof_im = mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy)
     print(np.shape(prof_im))
     fig, ax = plt.subplots(figsize = (10,10))
-    ax.plot(range(len(prof_im)),prof_im, "b-")
+    x = range(0, len(prof_im))
+    ax.plot(x,prof_im)
     fig.savefig("first_prof.png")
     
     
