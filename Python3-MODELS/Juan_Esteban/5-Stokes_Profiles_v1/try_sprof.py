@@ -35,7 +35,7 @@ def main():
     
     #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
-    fig, ax = plt.subplots(1, 4, figsize=(10,40))
+    fig, ax = plt.subplots(1, 4, figsize=(40,10))
     for n in range(N_profs):
         ax[n].imshow(prof_im[n], cmap = 'Greys')
         ax[n].set_title(title[n])
