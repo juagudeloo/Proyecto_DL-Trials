@@ -29,7 +29,7 @@ def main():
     title = ['I', 'U', 'V', 'Q']
     
     fig2, ax2 = plt.subplots(1,4,figsize=(40,10))
-    N_profiles = len(profiles[:,300])
+    N_profiles = len(profiles[:,0])
     for i in range(N_profiles):
         ax2[i].scatter(range(profiles[i,:]), profiles[i,:])
         ax2[i].set_xlim((0,nlam))
