@@ -15,7 +15,7 @@ def main():
     profiles = mprof.read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential)
     print(np.shape(profiles))
     profiles = np.array(profiles)
-    profiles = print(np.shape(profiles))
+    print(np.shape(profiles))
     
     
     fig1, ax1 = plt.subplots(figsize = (10,10))
