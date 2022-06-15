@@ -24,7 +24,7 @@ def main():
     ax1.set_xlim((0,1200))
     fig1.savefig("wholw_array.png")
     
-    profiles = np.reshape(4, 300)
+    profiles = np.reshape((4, 300))
     
     title = ['I', 'U', 'V', 'Q']
     
