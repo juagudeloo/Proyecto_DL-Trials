@@ -289,7 +289,7 @@ def read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential=0):
     import re
     import sys
     global idl, irec, f # Save values between calls
-
+    print(irec)
     [int4f,intf,flf]=check_types()
 # Read a particular profile from a profile file 
 # Note that ix, iy=0 represents the first profile
@@ -366,7 +366,6 @@ def read_model(filename, filetype, nx, ny, nz, ix, iy, sequential=0):
     import re
     import sys
     global idl, irec, f # Save values between calls
-    print(irec)
     
     [int4f,intf,flf]=check_types()
     if ix < 0 or iy < 0: 
