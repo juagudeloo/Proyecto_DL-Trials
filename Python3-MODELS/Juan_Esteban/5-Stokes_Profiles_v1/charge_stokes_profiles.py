@@ -4,7 +4,7 @@ import model_prof_tools as mprof
 
 def main():
     #extracting parameters
-    path = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES"
+    path = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
     filename = path+"052000_0000_0000.prof"
     filetype = "nicole"
     nlam = 300
