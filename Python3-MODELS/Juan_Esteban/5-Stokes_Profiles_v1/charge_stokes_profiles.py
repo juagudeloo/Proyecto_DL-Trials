@@ -12,7 +12,7 @@ def main():
     nx, ny = [480, 480]
     ix, iy = [0,0]
 
-    profiles = mprof.read_prof(filename, filetype, nx, ny, nlam, ix, iy)
+    profiles = mprof.read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential)
     print(np.shape(profiles))
     
 if __name__ == "__main__":
