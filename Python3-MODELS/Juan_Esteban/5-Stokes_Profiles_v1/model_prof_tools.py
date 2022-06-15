@@ -318,10 +318,11 @@ def read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential=0):
         if (sequential == 0):
             irec=iy+ix*ny
         else:
+            irec = 0
             irec=irec+1
         sizerec=4*nlam # Floats (multiply by 8 to convert to bytes)
+        f=open(filename,'rb')
         if (sequential == 0):
-            f=open(filename,'rb')
             f.seek(sizerec*8*(irec+1)) # Skip header and previous records
         data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
         data=list(data)
