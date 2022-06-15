@@ -39,7 +39,7 @@ def check_types():
         print('This architecture has a non-standard float size')
         print('which is not supported in this version. Please, contact the')
         print('author to get support for this platform.')
-        sys.exit(1)
+        sys.print(it(1))
     return [int4f,intf,flf]
     
 
@@ -279,12 +279,6 @@ def read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential=0):
 # read sequentially rather than accessing specific records. In that
 # case, the values of ix and iy are irrelevant. The first record
 # needs to be read with sequential=0 and ix,iy = 0
-
-#nlam: number of wavelength points
-#sequential -> set to 1 when I call it
-#ix and iy can have any value 
-#filetype -> set it equal to 'nicole'
-#nlam -> set it to 300 - 6300.5 Angstroems - step is 10 miliangstroems
     import struct
     import re
     import sys
@@ -789,5 +783,3 @@ def read_model(filename, filetype, nx, ny, nz, ix, iy, sequential=0):
     else:
         print('Unknown file type')
         sys.exit(1)
-        
-
