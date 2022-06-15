@@ -318,6 +318,7 @@ def read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential=0):
         if (sequential == 0):
             irec=iy+ix*ny
         else:
+            irec = 0
             irec=irec+1
         sizerec=4*nlam # Floats (multiply by 8 to convert to bytes)
         if (sequential == 0):
