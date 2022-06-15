@@ -8,7 +8,7 @@ def main():
     filename = path+"052000_0000_0000.prof"
     filetype = "nicole"
     nlam = 300
-    sequential = 0
+    sequential = 1
     nx, ny = [480, 480]
     ix, iy = [0,0]
 
