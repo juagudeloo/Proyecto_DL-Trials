@@ -366,7 +366,8 @@ def read_model(filename, filetype, nx, ny, nz, ix, iy, sequential=0):
     import re
     import sys
     global idl, irec, f # Save values between calls
-
+    print(irec)
+    
     [int4f,intf,flf]=check_types()
     if ix < 0 or iy < 0: 
         print('Error in call to read_model')
@@ -524,7 +525,7 @@ def read_model(filename, filetype, nx, ny, nz, ix, iy, sequential=0):
             f.seek(sizerec*8*(irec+1)) # Skip header and previous records
         data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
         data2=list()
-        for ind in range(17*nz): data2.append(data[ind])
+        for ind in range(17*nz): d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ata2.append(data[ind])
         for ivar in range(5):
             for ind in range(nz):
                 data2.append(0.)
