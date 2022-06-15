@@ -15,5 +15,10 @@ def main():
     profiles = mprof.read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential)
     print(np.shape(profiles))
     
+    fig, ax = plt.subplots(figsize = (10,10))
+    ax.plot(range(len(profiles), profiles))
+    fig.savefig("profiles.png")
+
+    
 if __name__ == "__main__":
     main()
