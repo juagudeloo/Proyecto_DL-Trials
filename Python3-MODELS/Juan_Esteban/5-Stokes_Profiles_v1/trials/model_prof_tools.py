@@ -781,5 +781,5 @@ def read_model(filename, filetype, nx, ny, nz, ix, iy, sequential=0):
         for i in range(len(data)): data[i]=float(data[i])
         return data
     else:
-        print('Unknown file type')
+        print('Unknown file type'
         sys.exit(1)
