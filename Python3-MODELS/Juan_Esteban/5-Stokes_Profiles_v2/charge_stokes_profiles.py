@@ -28,10 +28,9 @@ def main():
         prof_im.append(np.zeros((nx, ny)))
     
     lam = 150 #wavelength step number 
-    for n in range(N_profs): 
-        for i in range(nx):
-            for j in range(ny):
-                prof_im[n][i,j] = profs[i*ny+j][nlam]
+    for i in range(nx):
+        for j in range(ny):
+            prof_im[:][i,j] = profs[i*ny+j][nlam,:]
     
     #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
