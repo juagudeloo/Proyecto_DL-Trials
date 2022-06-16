@@ -4,7 +4,7 @@ import model_prof_tools as mprof
 
 def main():
     path = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
-    file = "052000_0000_0000.prof"
+    file = "053000_0000_0000.prof"
     nx = 480
     ny = 480
     nlam = 300
@@ -27,20 +27,31 @@ def main():
     for n in range(N_profs):
         prof_im.append(np.zeros((nx, ny)))
     print(np.shape(prof_im))
-    
-    lam = 150 #wavelength step number 
-    for i in range(nx):
-        for j in range(ny):
-            prof_im[:][i][j] = profs[i*ny+j][lam,:]
+    print(np.shape(prof_im[0][0,0]))
+    print(np.shape(prof_im[:][0][0]))
+    print(np.shape(prof_im[0][:][0]))
+    print(np.shape(prof_im[0][0][:]))     
+
+    lam = 60 #wavelength step number
+    for n in range(N_profs): 
+        for i in range(nx):
+            for j in range(ny):
+                prof_im[n][i,j] = profs[i*ny+j][lam,n]
     
     #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
     fig, ax = plt.subplots(1, 4, figsize=(40,10))
     for n in range(N_profs):
-        ax[n].imshow(prof_im[n], cmap = 'Greys')
+        ax[n].imshow(prof_im[n], cmap = 'gist_gray')
         ax[n].set_title(title[n])
-    fig.savefig(f'Images/params_0-052-lam_{lam}.png')
+    fig.savefig(f'Images/params_0-053-lam_{lam}.png')
     
+    ix = 200
+    iy =14
+    fig2, ax2 = plt.subplots(1,4,figsize = (40,10))
+    for n in range(N_profs):
+        ax2[n].plot(range(nlam), profs[ix*ny+iy][:,n])
+    fig2.savefig('profiles_plots.png')    
     
 if __name__ == "__main__":
     main()
