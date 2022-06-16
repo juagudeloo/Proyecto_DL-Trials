@@ -26,6 +26,7 @@ def main():
     prof_im = []
     for n in range(N_profs):
         prof_im.append(np.zeros((nx, ny)))
+    print(np.shape(prof_im))
     
     lam = 150 #wavelength step number 
     for i in range(nx):
