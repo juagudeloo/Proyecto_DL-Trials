@@ -15,7 +15,7 @@ def main():
         for j in range(ny):
             ix, iy = [i,j]
             p_prof = mprof.read_prof(path+file, 'nicole',  nx, ny, nlam, ix, iy)
-            p_prof = np.reshape(p_prof, (N_profs, nlam))
+            p_prof = np.reshape(p_prof, (nlam, N_profs))
             profs.append(p_prof)
     
     print(np.shape(profs))
@@ -31,7 +31,7 @@ def main():
     for n in range(N_profs): 
         for i in range(nx):
             for j in range(ny):
-                prof_im[n][i,j] = profs[i+j][n,lam]
+                prof_im[n][i,j] = profs[i*ny+j][nlam]
     
     #Plotting the four profiles 
     title = ['I', 'Q', 'U', 'V']
