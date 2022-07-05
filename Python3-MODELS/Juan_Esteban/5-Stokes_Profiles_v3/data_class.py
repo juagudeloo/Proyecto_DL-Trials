@@ -18,7 +18,7 @@ def scaling(array):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_NN_model(NN_Model):
-    def __init__(self, ptm, filename, nx = 480, ny = 256, nz = 480):
+    def __init__(self, nx = 480, ny = 256, nz = 480):
         #size of the cubes of the data
         self.nx = nx
         self.ny = ny
