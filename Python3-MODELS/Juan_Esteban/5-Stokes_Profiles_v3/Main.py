@@ -10,6 +10,18 @@ def main():
     profs = model.charge_stokes_params(stokes_ptm, stokes_filename)
     print(np.shape(profs))
 
+    title = ['I','Q','U','V']
+    fig, ax = plt.subplot(1,4,figsize=(40,10))
+    for i in range(4):
+        ax[i].imshow(range(profs[:,:,100,i]))
+        ax[i].set_title(title[i])
+    fig.savefig("Images/stk_spatial_wl=ctn.png")
+
+    fig, ax = plt.subplot(1,4,figsize=(40,10))
+    for i in range(4):
+        ax[i].plot(range(profs[0,0,:,i]))
+        ax[i].set_title(title[i])
+    fig.savefig("Images/stk_vs_wl.png")
 
 if __name__ == "__main__":
     main()
