@@ -20,7 +20,7 @@ def main():
 
     fig, ax = plt.subplots(1,4,figsize=(40,10))
     for i in range(4):
-        ax[i].plot(rangelen((profs[0,0,:,i])), profs[0,0,:,i])
+        ax[i].plot(range(len(profs[0,0,:,i])), profs[0,0,:,i])
         ax[i].set_title(title[i])
     fig.savefig("Images/stk_vs_wl.png")
 
