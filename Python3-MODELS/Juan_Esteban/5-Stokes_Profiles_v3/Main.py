@@ -9,6 +9,7 @@ def main():
     model = Data_NN_model()
     profs = model.charge_stokes_params(stokes_ptm, stokes_filename)
     print(np.shape(profs))
+    print(type(profs))
 
     title = ['I','Q','U','V']
     fig, ax = plt.subplots(1,4,figsize=(40,10))
