@@ -250,5 +250,6 @@ class Data_NN_model(NN_Model):
                 p_prof = np.reshape(p_prof, (self.nlam, N_profs))
                 profs.append(p_prof)
         
+        profs = profs.reshape(self.nx, self.nz, self.nlam, N_profs)
         return profs
 
