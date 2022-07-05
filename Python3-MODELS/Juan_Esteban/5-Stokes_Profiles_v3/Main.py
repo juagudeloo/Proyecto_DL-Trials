@@ -9,12 +9,11 @@ def main():
     model = Data_NN_model()
     profs = model.charge_stokes_params(stokes_ptm, stokes_filename)
     print(np.shape(profs))
-    print(type(profs))
 
     title = ['I','Q','U','V']
     fig, ax = plt.subplots(1,4,figsize=(40,10))
     for i in range(4):
-        ax[i].imshow(profs[:,:,100,i])
+        ax[i].imshow(profs[:,:,100,i], "gist_gray")
         ax[i].set_title(title[i])
     fig.savefig("Images/stk_spatial_wl=ctn.png")
 
