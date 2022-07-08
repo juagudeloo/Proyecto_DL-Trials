@@ -244,8 +244,8 @@ class Data_NN_model(NN_Model):
         self.profs = []
         N_profs = 4
         #Charging the stokes profiles for the specific file
-        if type(self.filename) == str: #if filename is just a string
-            print(f"reading Stokes params {self.filename}")
+        if type(self.stk_filename) == str: #if filename is just a string
+            print(f"reading Stokes params {self.stk_filename}")
             for ix in range(self.nx):
                 for iy in range(self.nz):
                     p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, ix, iy)
@@ -256,11 +256,11 @@ class Data_NN_model(NN_Model):
             self.profs = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
         else: #if filename is an array of strings
             profs_interm = []
-            for i in range(len(self.filename)):
-                print(f"reading Stokes params {self.filename[i]}")
+            for i in range(len(self.stk_filename[i])):
+                print(f"reading Stokes params {self.stk_filename[i]}")
                 for ix in range(self.nx):
                     for iy in range(self.nz):
-                        p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, ix, iy)
+                        p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename[i], file_type,  self.nx, self.nz, self.nlam, ix, iy)
                         p_prof = np.reshape(p_prof, (self.nlam, N_profs))
                         profs_interm.append(p_prof)
                 profs_interm = np.array(self.profs)
