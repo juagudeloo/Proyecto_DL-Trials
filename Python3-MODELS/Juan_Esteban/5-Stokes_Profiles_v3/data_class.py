@@ -232,11 +232,11 @@ class Data_NN_model(NN_Model):
             N_files = len(self.mvyy_ravel)
             N_points = len(self.mvyy_ravel[0])
 
-            def ovf_outputs(output_list): #Organize various files outputs
-                N_files = len(output_list)
-                N_points = len(output_list[0])
-                output_array = np.array(output_list)
-                return output_array.reshape(N_files*N_points, self.nx*self.nz, self.ny)
+            def ovf_outputs(input_list): #Organize various files outputs
+                N_files = len(input_list)
+                N_points = len(input_list[0])
+                input_array = np.array(input_list)
+                return input_array.reshape(N_files*N_points, self.nx*self.nz, self.ny)
 
             self.mvyy_ravel = ovf_outputs(self.mvyy_ravel)
             self.mbyy_ravel = ovf_outputs(self.mbyy_ravel)
@@ -244,14 +244,14 @@ class Data_NN_model(NN_Model):
             self.mrho_ravel = ovf_outputs(self.mrho_ravel)
 
         
-        self.ravel_outputs = [self.mvyy_ravel, self.mbyy_ravel, self.mtpr_ravel, self.mrho_ravel]
-        self.ravel_outputs = np.array(self.ravel_outputs)
-        self.ravel_outputs = np.moveaxis(self.ravel_outputs,0,1)
-        self.reshaped_outputs = [self.mbyy, self.mvyy, self.mtpr, self.mrho]
-        self.reshaped_outputs = np.array(self.reshaped_outputs)
-        self.reshaped_outputs = np.moveaxis(self.reshaped_outputs,0,1)
+        self.ravel_inputs = [self.mvyy_ravel, self.mbyy_ravel, self.mtpr_ravel, self.mrho_ravel]
+        self.ravel_inputs = np.array(self.ravel_inputs)
+        self.ravel_inputs = np.moveaxis(self.ravel_inputs,0,1)
+        self.reshaped_inputs = [self.mbyy, self.mvyy, self.mtpr, self.mrho]
+        self.reshaped_inputs = np.array(self.reshaped_inputs)
+        self.reshaped_inputs = np.moveaxis(self.reshaped_inputs,0,1)
         print(f"*Uploading done*\n")
-        return self.ravel_outputs, self.reshaped_outputs
+        return self.ravel_inputs, self.reshaped_inputs
     def charge_intensity(self, ptm, filename):
         self.ptm = ptm
         self.filename = filename
