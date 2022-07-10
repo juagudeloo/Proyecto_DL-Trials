@@ -9,6 +9,7 @@ def main():
 
     model = Data_NN_model()
     a,b = model.charge_inputs(ptm, filename)
+    print(np.shape(a))
 
 if __name__ == "__main__":
     main()
