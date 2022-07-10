@@ -2,7 +2,7 @@ import numpy as np
 from data_class import Data_NN_model
 
 def main():
-    n_file = ["053000", "054000"]
+    n_file = ["053000", "054000","074000","108000"]
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     filename = n_file
