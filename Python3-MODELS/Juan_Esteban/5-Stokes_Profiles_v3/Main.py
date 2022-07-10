@@ -3,9 +3,13 @@ import numpy as np
 from data_class import Data_NN_model
 
 def main():
+    n_file = "053000"
+    #Intensity specifications
+    ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
+    filename = n_file
     #Stokes parameters specifications
     stokes_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
-    stokes_filename = "053000_0000_0000.prof"
+    stokes_filename = n_file+"_0000_0000.prof"
     model = Data_NN_model()
     profs = model.charge_stokes_params(stokes_ptm, stokes_filename)
     print(np.shape(profs))

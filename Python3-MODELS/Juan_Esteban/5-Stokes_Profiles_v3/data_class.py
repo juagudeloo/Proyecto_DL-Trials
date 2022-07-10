@@ -33,7 +33,16 @@ class Data_NN_model(NN_Model):
         self.mrho = []
         self.mvyy = []
         self.mbyy = []
+        self.mvyy_ravel = []
+        self.mbyy_ravel = []
+        self.mtpr_ravel = []
+        self.mrho_ravel = []
         coef = np.sqrt(4.0*np.pi) #for converting data to cgs units
+        #Function for raveling the nx and nz coordinates after the processing
+        def ravel_xz(array):
+                array_ravel = np.moveaxis(array,1,2)
+                array_ravel = array_ravel.reshape(self.nx*self.nz, self.ny) 
+                return array_ravel
         ################################
         # Charging the data into the code - every data is converted into a cube 
         # of data so that it has the form of the dominium of the simulation
@@ -48,7 +57,7 @@ class Data_NN_model(NN_Model):
         if type(self.filename) == str: #if we just want to chek one file
             print(f"reading EOS {self.filename}")
             #Charging temperature data
-            self.mtpr.append(np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32))
+            self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
             self.mtpr = np.reshape(self.mtpr, (2, self.nx,self.ny,self.nz), order="A")
             n_eos = 0
             self.mtpr = self.mtpr[n_eos,:,:,:] 
@@ -58,21 +67,21 @@ class Data_NN_model(NN_Model):
             
             #Charging line of sight velocities
             print(f"reading vyy {self.filename}")
-            self.mvyy.append(np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32))
+            self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
             self.mvyy = np.reshape(self.mvyy,(self.nx,self.ny,self.nz),order="C")
             print(f"vyy done {self.filename}")
             print('\n')
 
             #Charging line of sight magnetic field components
             print (f"reading byy {self.filename}")
-            self.mbyy.append(np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32))
+            self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
             self.mbyy = np.reshape(self.mbyy,(self.nx,self.ny,self.nz),order="C")
             print(f"byy done {self.filename}")
             print('\n')
 
             #Charging density values
             print(f"reading rho {self_filename}")
-            self.mrho.append(np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32))
+            self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
             self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
             print("scaling...")
             if np.any(self.mrho == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
@@ -108,7 +117,7 @@ class Data_NN_model(NN_Model):
                 self.mbyy = scaling(self.mbyy)
                 self.mbyy = np.reshape(self.mbyy,(self.nx,self.ny,self.nz),order="C")
 
-            #Scaling the charge data    
+            #Scaling the charge data   
             print("scaling...")
             self.mvyy=self.mvyy/self.mrho
             self.mvyy = scaling(self.mvyy) #scaling
@@ -122,6 +131,14 @@ class Data_NN_model(NN_Model):
 
             self.mrho = scaling(self.mrho)
             self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
+
+            #Saving ravel outputs for easier splitting
+            self.mvyy_ravel = ravel_xz(self.mvyy)
+            self.mbyy_ravel = ravel_xz(self.mbyy)
+            self.mtpr_ravel = ravel_xz(self.mtpr)
+            self.mrho_ravel = ravel_xz(self.mrho)
+
+            
 
         else: #if filename is an array of strings
             for i in range(len(self.filename)):
@@ -171,10 +188,10 @@ class Data_NN_model(NN_Model):
                     #but no zero, therefore there is not going to be any problem when dividing 
                     #mvyy/mrho. It is also done so that this columns are discard from the 
                     #fitting
-                    self.mrho[i][nx0,:,nz0] = np.ones(self.ny)
-                    self.mtpr[i][nx0,:,nz0] = np.ones(self.ny)
-                    self.mbyy[i][nx0,:,nz0] = np.ones(self.ny)
-                    self.mvyy[i][nx0,:,nz0] = np.ones(self.ny)
+                    self.mrho[i][self.nx0,:,self.nz0] = np.ones(self.ny)
+                    self.mtpr[i][self.nx0,:,self.nz0] = np.ones(self.ny)
+                    self.mbyy[i][self.nx0,:,self.nz0] = np.ones(self.ny)
+                    self.mvyy[i][self.nx0,:,self.nz0] = np.ones(self.ny)
                     #############################################################
                     #Converting the data into cgs units (if I'm not wrong)
                     #############################################################
@@ -201,17 +218,47 @@ class Data_NN_model(NN_Model):
 
                 self.mrho[i] = scaling(self.mrho[i])
                 self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
-                
-        print(f"*Uploading done*\n")
-        return self.mbyy, self.mvyy, self.mtpr, self.mrho
 
+                #Saving ravel outputs for easier splitting
+                self.mvyy_ravel.append(ravel_xz(self.mvyy[i]))
+                self.mbyy_ravel.append(ravel_xz(self.mbyy[i]))
+                self.mtpr_ravel.append(ravel_xz(self.mtpr[i]))
+                self.mrho_ravel.append(ravel_xz(self.mrho[i]))
+
+
+
+            #Here I am organizing the outputs so that they are
+            #organized in one axis over all files and points 
+            N_files = len(self.mvyy_ravel)
+            N_points = len(self.mvyy_ravel[0])
+
+            def ovf_outputs(output_list): #Organize various files outputs
+                N_files = len(output_list)
+                N_points = len(output_list[0])
+                output_array = np.array(output_list)
+                return output_array.reshape(N_files*N_points, self.nx*self.nz, self.ny)
+
+            self.mvyy_ravel = ovf_outputs(self.mvyy_ravel)
+            self.mbyy_ravel = ovf_outputs(self.mbyy_ravel)
+            self.mtpr_ravel = ovf_outputs(self.mtpr_ravel)
+            self.mrho_ravel = ovf_outputs(self.mrho_ravel)
+
+        
+        self.ravel_outputs = [self.mvyy_ravel, self.mbyy_ravel, self.mtpr_ravel, self.mrho_ravel]
+        self.ravel_outputs = np.array(self.ravel_outputs)
+        self.ravel_outputs = np.moveaxis(self.ravel_outputs,0,1)
+        self.reshaped_outputs = [self.mbyy, self.mvyy, self.mtpr, self.mrho]
+        self.reshaped_outputs = np.array(self.reshaped_outputs)
+        self.reshaped_outputs = np.moveaxis(self.reshaped_outputs,0,1)
+        print(f"*Uploading done*\n")
+        return self.ravel_outputs, self.reshaped_outputs
     def charge_intensity(self, ptm, filename):
         self.ptm = ptm
         self.filename = filename
         self.iout = []
         if type(self.filename) == str: #if filename is just a string
             print(f"reading IOUT {self.filename}")
-            self.iout.append(np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32))
+            self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
             self.iout = np.reshape(self.iout, (self.nx, self.nz), order="A")
             if np.any(self.mrho == 0):
                 self.iout[self.nx0, self.nz0] = 1 #It is been given this value to the iout pixel
@@ -236,12 +283,14 @@ class Data_NN_model(NN_Model):
                 print(np.shape(self.iout[i]))
                 print(f"IOUT done {self.filename[i]}")   
                 print('\n')
-
+            self.iout = np.array(self.iout)
+        return self.iout
     def charge_stokes_params(self, stk_ptm, stk_filename, file_type = "nicole"):
         self.stk_ptm = stk_ptm
         self.stk_filename = stk_filename
-        self.nlam = 300 #wavelenght interval - its from 6300 amstroengs
-        self.profs = []
+        self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
+        self.profs = [] #It's for the reshaped data - better for visualization.
+        self.profs_ravel = [] #its for the ravel data to make the splitting easier.
         N_profs = 4
         #Charging the stokes profiles for the specific file
         if type(self.stk_filename) == str: #if filename is just a string
@@ -252,8 +301,8 @@ class Data_NN_model(NN_Model):
                     p_prof = np.reshape(p_prof, (self.nlam, N_profs))
                     self.profs.append(p_prof)
             
-            self.profs = np.array(self.profs)
-            self.profs = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
+            self.profs_ravel = np.array(self.profs) #without resizing - better for splitting.
+            self.profs = self.profs_ravel.reshape(self.nx, self.nz, self.nlam, N_profs)
         else: #if filename is an array of strings
             profs_interm = []
             for i in range(len(self.stk_filename[i])):
@@ -263,10 +312,36 @@ class Data_NN_model(NN_Model):
                         p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename[i], file_type,  self.nx, self.nz, self.nlam, ix, iy)
                         p_prof = np.reshape(p_prof, (self.nlam, N_profs))
                         profs_interm.append(p_prof)
+
                 profs_interm = np.array(self.profs)
+                self.profs_ravel.append(profs_interm) #ravel data
+
                 profs_interm = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
-                self.profs.append(profs_interm)
+                self.profs.append(profs_interm) #resized data
+
+            self.profs_ravel = np.array(self.profs_ravel)
+            self.profs = np.array(self.profs)
+
+        return self.profs_ravel, self.profs
+
+    def split_data(self, TRAIN_S, TEST_S):
+        """
+        Splits the data into a test set and a training set.
+        It is a hand made splitting.
+        """
+        tr_input = []
+        te_input = []
+        tr_output = []
+        te_output = []
+
+	
+
         
-        
-        return self.profs
+
+
+
+
+
+
+
 
