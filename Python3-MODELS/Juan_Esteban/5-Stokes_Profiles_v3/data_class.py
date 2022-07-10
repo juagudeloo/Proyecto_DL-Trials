@@ -236,7 +236,7 @@ class Data_NN_model(NN_Model):
                 N_files = len(input_list)
                 N_points = len(input_list[0])
                 input_array = np.array(input_list)
-                return input_array.reshape(N_files*N_points, self.nx*self.nz, self.ny)
+                return input_array.reshape(N_files*N_points, self.ny)
 
             self.mvyy_ravel = ovf_outputs(self.mvyy_ravel)
             self.mbyy_ravel = ovf_outputs(self.mbyy_ravel)
