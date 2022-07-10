@@ -80,7 +80,7 @@ class Data_NN_model(NN_Model):
             print('\n')
 
             #Charging density values
-            print(f"reading rho {self_filename}")
+            print(f"reading rho {self.filename}")
             self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
             self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
             print("scaling...")
