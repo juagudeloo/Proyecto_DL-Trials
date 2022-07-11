@@ -217,7 +217,7 @@ class Data_NN_model(NN_Model):
                 self.mtpr[i] = scaling(self.mtpr[i])
                 self.mtpr[i] = np.reshape(self.mtpr[i], (self.nx,self.ny,self.nz), order="A")
                 
-                #self.mrho[i] = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
+                self.mrho[i] = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
                 self.mrho[i] = scaling(self.mrho[i])
                 self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
 
@@ -328,7 +328,7 @@ class Data_NN_model(NN_Model):
                 profs_interm = np.array(self.profs)
                 self.profs_ravel.append(profs_interm) #ravel data
 
-                profs_interm = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
+                profs_interm = profs_interm.reshape(self.nx, self.nz, self.nlam, N_profs)
                 self.profs.append(profs_interm) #resized data
 
             self.profs_ravel = np.array(self.profs_ravel)
