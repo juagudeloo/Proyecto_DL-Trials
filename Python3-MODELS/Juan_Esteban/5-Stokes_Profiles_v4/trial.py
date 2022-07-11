@@ -5,7 +5,7 @@ def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
     filename = []
-    for i in range(53,253):
+    for i in range(53,54):
         if i < 100:
             fln = "0"+str(i)+"000"
             filename.append(fln)
@@ -16,7 +16,7 @@ def main():
 
 def developing_model(ptm, filename):
     model = Data_NN_model()
-    model.charge_stokes_params(ptm, filename)
+    model.split_data(ptm, filename)
 
 if __name__ == "__main__":
     main()

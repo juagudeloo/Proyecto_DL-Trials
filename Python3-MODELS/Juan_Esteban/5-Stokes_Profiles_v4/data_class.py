@@ -24,7 +24,7 @@ class Data_NN_model(NN_Model):
         self.ny = ny
         self.nz = nz
         print("Starting the charging process!")
-    def charge_inputs(self, ptm, filename):
+    def charge_inputs(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data"):
         #path and filename specifications
         self.ptm = ptm
         self.filename = filename
@@ -98,7 +98,7 @@ class Data_NN_model(NN_Model):
         self.input_values = np.array(self.input_values)
         self.input_values = np.moveaxis(self.input_values,0,1)
         return self.input_values
-    def charge_intensity(self, ptm, filename):
+    def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data"):
         self.ptm = ptm
         self.filename = filename
         self.iout = []
@@ -111,7 +111,7 @@ class Data_NN_model(NN_Model):
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
-    def charge_stokes_params(self, stk_ptm, filename, file_type = "nicole"):
+    def charge_stokes_params(self, filename, stk_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/",  file_type = "nicole"):
         self.stk_ptm = stk_ptm
         self.stk_filename = filename+"_0000_0000.prof"
         self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
@@ -132,16 +132,26 @@ class Data_NN_model(NN_Model):
         self.profs = np.array(self.profs) 
         print(np.shape(self.profs))
         return self.profs
-
-    def split_data(self, TRAIN_S, TEST_S):
+    def split_data(self, filename, TR_S, output_intensity = False, output_stokes_params = False):
         """
         Splits the data into a test set and a training set.
         It is a hand made splitting.
+        TR_S: relative ratio of the whole data selected to the training set.
         """
         tr_input = []
         te_input = []
         tr_output = []
         te_output = []
+        TE_S = 1-TR_S
+        self.charge_inputs(filename)
+        n_data = self.input_values.size[0]
+        print(n_data)
+        if output_intensity == True:
+            self.charge_intensity(filename)
+        if output_stokes_params == True:
+            self.charge_stokes_params(filename)
+
+        
 
 	
 
