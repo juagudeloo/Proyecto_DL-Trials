@@ -129,7 +129,7 @@ class Data_NN_model(NN_Model):
                 #the dimensional indexes are disposed as ix*self.nz+iy.
                 ##############################################################################
                 self.profs.append(p_prof) 
-        self.profs_ravel = np.array(self.profs_ravel) 
+        self.profs = np.array(self.profs) 
         print(np.shape(self.profs))
         return self.profs
 

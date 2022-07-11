@@ -326,7 +326,6 @@ def read_prof(filename, filetype, nx, ny, nlam, ix, iy, sequential=0):
             f.seek(sizerec*8*(irec+1)) # Skip header and previous records
         data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
         data=list(data)
-        f.close()
         return data
     elif filetype == 'idl':
         import idlsave
