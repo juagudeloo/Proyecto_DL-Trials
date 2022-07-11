@@ -314,6 +314,7 @@ class Data_NN_model(NN_Model):
                     self.profs.append(p_prof)
             
             self.profs_ravel = np.array(self.profs) #without resizing - better for splitting.
+            print(np.shape(self.profs))
             #self.profs = self.profs_ravel.reshape(self.nx, self.nz, self.nlam, N_profs)
         #else: #if filename is an array of strings
         #    profs_interm = []
