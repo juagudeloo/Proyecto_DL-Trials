@@ -130,7 +130,7 @@ class Data_NN_model(NN_Model):
             self.mtpr = np.reshape(self.mtpr, (self.nx,self.ny,self.nz), order="A")
                 
                 
-            self.mrho = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
+            #self.mrho = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
             self.mrho = scaling(self.mrho)
             self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
 
