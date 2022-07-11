@@ -317,7 +317,7 @@ class Data_NN_model(NN_Model):
             self.profs = self.profs_ravel.reshape(self.nx, self.nz, self.nlam, N_profs)
         else: #if filename is an array of strings
             profs_interm = []
-            for i in range(len(self.stk_filename[i])):
+            for i in range(len(self.stk_filename)):
                 print(f"reading Stokes params {self.stk_filename[i]}")
                 for ix in range(self.nx):
                     for iy in range(self.nz):
