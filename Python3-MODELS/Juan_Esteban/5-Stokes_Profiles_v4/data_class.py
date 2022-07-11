@@ -102,7 +102,6 @@ class Data_NN_model(NN_Model):
         self.ptm = ptm
         self.filename = filename
         self.iout = []
-        self.iout_ravel = []
         print(f"reading IOUT {self.filename}")
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
         print("scaling...")
@@ -152,12 +151,12 @@ class Data_NN_model(NN_Model):
         self.te_input = self.input_values[idx[TR_delim:]]
         if output_intensity == True:
             self.charge_intensity(filename)
-            self.tr_output = self.charge_intensity[idx[:TR_delim]]
-            self.te_output = self.charge_intensity[idx[TR_delim:]]
+            self.tr_output = self.iout[idx[:TR_delim]]
+            self.te_output = self.iout[idx[TR_delim:]]
         if output_stokes_params == True:
             self.charge_stokes_params(filename)
-            self.tr_output = self.charge_stokes_params[idx[:TR_delim]]
-            self.te_output = self.charge_stokes_params[idx[TR_delim:]]
+            self.tr_output = self.profs[idx[:TR_delim]]
+            self.te_output = self.profs[idx[TR_delim:]]
 
         print(self.tr_input.shape)
         print(self.te_input.shape)
