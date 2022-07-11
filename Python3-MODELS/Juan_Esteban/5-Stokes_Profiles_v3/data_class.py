@@ -279,6 +279,10 @@ class Data_NN_model(NN_Model):
                 self.iout.append(np.memmap(self.ptm+"iout."+self.filename[i],dtype=np.float32))
                 self.iout[i] = np.reshape(self.iout[i], (self.nx, self.nz), order="A")
                 if np.any(self.mrho[i] == 0):
+                    #x,z coordinates where the density have zero values
+                    self.nx0 = np.argwhere(self.mrho[i] == 0)[0][0]
+                    self.nz0 = np.argwhere(self.mrho[i] == 0)[0][2]
+                    
                     self.iout[i][self.nx0, self.nz0] = 1 #It is been given this value to the iout pixel
                             #because of the condition given, it is not going to be added in the labels listt
                 print("scaling...")
