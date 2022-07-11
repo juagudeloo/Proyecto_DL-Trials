@@ -325,7 +325,7 @@ class Data_NN_model(NN_Model):
                         p_prof = np.reshape(p_prof, (self.nlam, N_profs))
                         profs_interm.append(p_prof)
 
-                profs_interm = np.array(self.profs)
+                profs_interm = np.array(profs_interm)
                 self.profs_ravel.append(profs_interm) #ravel data
 
                 profs_interm = profs_interm.reshape(self.nx, self.nz, self.nlam, N_profs)
