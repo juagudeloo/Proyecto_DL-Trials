@@ -15,7 +15,7 @@ def main():
     profs_ravel, profs = model.charge_stokes_params(stokes_ptm, stokes_filename)
     print(np.shape(iout))
     print(np.shape(profs))
-    print(np.shape(np.profs_ravel))
+    print(np.shape(profs_ravel))
 
 
     title = ['I','Q','U','V']
