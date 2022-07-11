@@ -18,7 +18,7 @@ def scaling(array):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_NN_model(NN_Model):
-    def __init__(IN_LS, OUT_LS, output_type self, nx = 480, ny = 256, nz = 480): 
+    def __init__(IN_LS, OUT_LS, output_type, self, nx = 480, ny = 256, nz = 480): 
         """
         output_type options:
         "Intensity" -> The model predicts intensity.
