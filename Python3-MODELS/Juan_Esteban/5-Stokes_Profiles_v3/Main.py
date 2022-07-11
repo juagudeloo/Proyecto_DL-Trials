@@ -21,7 +21,7 @@ def main():
     fig, ax = plt.subplots(1,2,figsize=(20,10))
     ax[0].imshow(iout)
     ax[1].imshow(profs[:,:,0,0])
-    fig.savefig("iout_vs_stokes.png")
+    fig.savefig("Images/iout_vs_stokes.png")
 
 if __name__ == "__main__":
     main()
