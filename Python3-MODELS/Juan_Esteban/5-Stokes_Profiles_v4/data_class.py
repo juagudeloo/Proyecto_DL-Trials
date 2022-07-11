@@ -138,18 +138,20 @@ class Data_NN_model(NN_Model):
         It is a hand made splitting.
         TR_S: relative ratio of the whole data selected to the training set.
         """
-        tr_input = []
-        te_input = []
+        self.tr_input = []
+        self.te_input = []
         tr_output = []
         te_output = []
         TE_S = 1-TR_S
         self.charge_inputs(filename)
         n_data = self.input_values[:,0,0].size
         idx = np.arange(n_data) 
-        print(idx)
-        np.random.shuffle(idx)
-        print(idx)
-        print(n_data)
+        np.random.shuffle(idx) #shufling this indexes to obtain a random training subset selection of the original set of data.
+        TR_delim = int(n_data*TR_S)
+        self.tr_input = self.input_values[idx[:TR_delim],:]
+        self.te_input = self.input_values[idx[TR_delim:],:]
+        print(self.tr_input.shape)
+        print(self.te_input.shape)
         if output_intensity == True:
             self.charge_intensity(filename)
         if output_stokes_params == True:
