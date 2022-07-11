@@ -296,7 +296,7 @@ class Data_NN_model(NN_Model):
                 print('\n')
             self.iout_ravel = self.iout.reshape(len(self.iout)*self.nx*self.nz)
             self.iout = np.array(self.iout)
-        return self.iout_ravel, self.iout
+        return self.iout
     def charge_stokes_params(self, stk_ptm, stk_filename, file_type = "nicole"):
         self.stk_ptm = stk_ptm
         self.stk_filename = stk_filename
@@ -334,7 +334,7 @@ class Data_NN_model(NN_Model):
             self.profs_ravel = np.array(self.profs_ravel)
             self.profs = np.array(self.profs)
 
-        return self.profs_ravel, self.profs
+        return self.profs
     def split_data(self, TRAIN_S, TEST_S):
         """
         Splits the data into a test set and a training set.
