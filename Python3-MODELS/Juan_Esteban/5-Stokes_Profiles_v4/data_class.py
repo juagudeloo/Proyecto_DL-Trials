@@ -88,8 +88,8 @@ class Data_NN_model(NN_Model):
             self.mrho = ravel_xz(self.mrho)
             print(f"rho done {self.filename}")
             print('\n')
-            if np.any(self.mrho == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
-                print(np.argwhere(self.mrho == 0))
+            #if np.any(self.mrho == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
+            print(np.argwhere(self.mrho == 0))
 
                 #x,z coordinates where the density have zero values
 #                self.nx0 = np.argwhere(self.mrho == 0)[0][0]
