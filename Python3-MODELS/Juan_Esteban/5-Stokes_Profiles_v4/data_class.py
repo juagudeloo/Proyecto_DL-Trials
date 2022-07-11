@@ -97,51 +97,19 @@ class Data_NN_model(NN_Model):
         self.input_values = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.input_values = np.array(self.input_values)
         self.input_values = np.moveaxis(self.input_values,0,1)
-        print(np.shape(self.input_values))
-
-
+        return self.input_values
     def charge_intensity(self, ptm, filename):
         self.ptm = ptm
         self.filename = filename
         self.iout = []
         self.iout_ravel = []
-        if type(self.filename) == str: #if filename is just a string
-            print(f"reading IOUT {self.filename}")
-            self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
-            self.iout = np.reshape(self.iout, (self.nx, self.nz), order="A")
-            if np.any(self.mrho == 0):
-                #x,z coordinates where the density have zero values
-                self.nx0 = np.argwhere(self.mrho == 0)[0][0]
-                self.nz0 = np.argwhere(self.mrho == 0)[0][2]
-                self.iout[self.nx0, self.nz0] = 1 #It is been given this value to the iout pixel
-                        #because of the condition given, it is not going to be added in the labels listt
-            print("scaling...")
-            self.iout = scaling(self.iout) #scaled intensity
-            self.iout = np.reshape(self.iout, (self.nx, self.nz), order="A")
-            print(np.shape(self.iout))
-            self.iout_ravel = self.iout.reshape(self.nx*self.nz)
-            print(f"IOUT done {self.filename}")   
-            print('\n') 
-        else: #if filename is an array of strings
-            for i in range(len(self.filename)):
-                print(f"reading IOUT {self.filename[i]}")
-                self.iout.append(np.memmap(self.ptm+"iout."+self.filename[i],dtype=np.float32))
-                self.iout[i] = np.reshape(self.iout[i], (self.nx, self.nz), order="A")
-                if np.any(self.mrho[i] == 0):
-                    #x,z coordinates where the density have zero values
-                    self.nx0 = np.argwhere(self.mrho[i] == 0)[0][0]
-                    self.nz0 = np.argwhere(self.mrho[i] == 0)[0][2]
-
-                    self.iout[i][self.nx0, self.nz0] = 1 #It is been given this value to the iout pixel
-                            #because of the condition given, it is not going to be added in the labels listt
-                print("scaling...")
-                self.iout[i] = scaling(self.iout[i]) #scaled intensity
-                self.iout[i] = np.reshape(self.iout[i], (self.nx, self.nz), order="A")
-                print(np.shape(self.iout[i]))
-                print(f"IOUT done {self.filename[i]}")   
-                print('\n')
-            self.iout = np.array(self.iout)
-            self.iout_ravel = self.iout.reshape(len(self.iout)*self.nx*self.nz)
+        print(f"reading IOUT {self.filename}")
+        self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
+        print("scaling...")
+        self.iout = scaling(self.iout) #scaled intensity
+        print(np.shape(self.iout))
+        print(f"IOUT done {self.filename}")   
+        print('\n') 
         return self.iout
     def charge_stokes_params(self, stk_ptm, stk_filename, file_type = "nicole"):
         self.stk_ptm = stk_ptm
