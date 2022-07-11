@@ -309,12 +309,12 @@ class Data_NN_model(NN_Model):
             print(f"reading Stokes params {self.stk_filename}")
             for ix in range(self.nx):
                 for iy in range(self.nz):
-                    p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, ix, iy)
+                    p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
                     p_prof = np.reshape(p_prof, (self.nlam, N_profs))
                     self.profs.append(p_prof)
             
             self.profs_ravel = np.array(self.profs) #without resizing - better for splitting.
-            self.profs = self.profs_ravel.reshape(self.nz, self.nx, self.nlam, N_profs)
+            self.profs = self.profs_ravel.reshape(self.nx, self.nz, self.nlam, N_profs)
         else: #if filename is an array of strings
             profs_interm = []
             for i in range(len(self.stk_filename[i])):
