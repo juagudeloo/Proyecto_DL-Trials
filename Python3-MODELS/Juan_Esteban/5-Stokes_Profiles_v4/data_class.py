@@ -129,7 +129,7 @@ class Data_NN_model(NN_Model):
                 ##############################################################################
                 self.profs.append(p_prof) 
         self.profs = np.array(self.profs) 
-        print(np.shape(self.profs))
+        print("Stokes params done!")
         return self.profs
     def split_data(self, filename, TR_S, output_intensity = False, output_stokes_params = False):
         """
@@ -162,6 +162,7 @@ class Data_NN_model(NN_Model):
         print(self.te_input.shape)
         print(self.tr_output.shape)
         print(self.te_output.shape)
+
 
         
 
