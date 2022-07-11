@@ -33,6 +33,7 @@ class Data_NN_model(NN_Model):
         self.mrho = []
         self.mvyy = []
         self.mbyy = []
+        #Arrays for saving the charged data for each filename and raveled
         self.mvyy_ravel = []
         self.mbyy_ravel = []
         self.mtpr_ravel = []
@@ -85,7 +86,6 @@ class Data_NN_model(NN_Model):
             self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
             print("scaling...")
             if np.any(self.mrho == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
-                self.mrho = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
                 self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
                 print(np.shape(self.mrho))
                 print(type(self.mrho))
@@ -128,7 +128,9 @@ class Data_NN_model(NN_Model):
 
             self.mtpr = scaling(self.mtpr)
             self.mtpr = np.reshape(self.mtpr, (self.nx,self.ny,self.nz), order="A")
-
+                
+                
+            self.mrho = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
             self.mrho = scaling(self.mrho)
             self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
 
@@ -172,7 +174,6 @@ class Data_NN_model(NN_Model):
                 self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
                 print("scaling...")
                 if np.any(self.mrho[i] == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
-                    self.mrho[i] = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
                     self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
                     print(np.shape(self.mrho))
                     print(type(self.mrho))
@@ -215,7 +216,8 @@ class Data_NN_model(NN_Model):
 
                 self.mtpr[i] = scaling(self.mtpr[i])
                 self.mtpr[i] = np.reshape(self.mtpr[i], (self.nx,self.ny,self.nz), order="A")
-
+                
+                self.mrho[i] = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
                 self.mrho[i] = scaling(self.mrho[i])
                 self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
 
@@ -256,6 +258,7 @@ class Data_NN_model(NN_Model):
         self.ptm = ptm
         self.filename = filename
         self.iout = []
+        self.iout_ravel = []
         if type(self.filename) == str: #if filename is just a string
             print(f"reading IOUT {self.filename}")
             self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
@@ -267,6 +270,7 @@ class Data_NN_model(NN_Model):
             self.iout = scaling(self.iout) #scaled intensity
             self.iout = np.reshape(self.iout, (self.nx, self.nz), order="A")
             print(np.shape(self.iout))
+            self.iout_ravel = self.iout.reshape(self.nx*self.nz)
             print(f"IOUT done {self.filename}")   
             print('\n') 
         else: #if filename is an array of strings
@@ -283,8 +287,9 @@ class Data_NN_model(NN_Model):
                 print(np.shape(self.iout[i]))
                 print(f"IOUT done {self.filename[i]}")   
                 print('\n')
+            self.iout_ravel = self.iout.reshape(len(self.iout)*self.nx*self.nz)
             self.iout = np.array(self.iout)
-        return self.iout
+        return self.iout_ravel, self.iout
     def charge_stokes_params(self, stk_ptm, stk_filename, file_type = "nicole"):
         self.stk_ptm = stk_ptm
         self.stk_filename = stk_filename
@@ -323,7 +328,6 @@ class Data_NN_model(NN_Model):
             self.profs = np.array(self.profs)
 
         return self.profs_ravel, self.profs
-
     def split_data(self, TRAIN_S, TEST_S):
         """
         Splits the data into a test set and a training set.
