@@ -24,7 +24,7 @@ class Data_NN_model(NN_Model):
         self.ny = ny
         self.nz = nz
         print("Starting the charging process!")
-    def charge_inputs(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data"):
+    def charge_inputs(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
         self.ptm = ptm
         self.filename = filename
@@ -98,7 +98,7 @@ class Data_NN_model(NN_Model):
         self.input_values = np.array(self.input_values)
         self.input_values = np.moveaxis(self.input_values,0,1)
         return self.input_values
-    def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data"):
+    def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
         self.filename = filename
         self.iout = []
