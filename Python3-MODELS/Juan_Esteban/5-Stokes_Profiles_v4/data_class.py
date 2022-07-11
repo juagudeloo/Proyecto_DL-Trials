@@ -74,7 +74,7 @@ class Data_NN_model(NN_Model):
         print (f"reading byy {self.filename}")
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
-        self_mbyy=self_mbyy*coef
+        self.mbyy=self.mbyy*coef
         self.mbyy = scaling(self.mbyy)
         self.mbyy = ravel_xz(self.mbyy)
         print(f"byy done {self.filename}")
