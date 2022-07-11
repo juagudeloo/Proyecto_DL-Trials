@@ -145,6 +145,10 @@ class Data_NN_model(NN_Model):
         TE_S = 1-TR_S
         self.charge_inputs(filename)
         n_data = self.input_values[:,0,0].size
+        idx = np.arange(n_data) 
+        print(idx)
+        np.random.shuffle(idx)
+        print(idx)
         print(n_data)
         if output_intensity == True:
             self.charge_intensity(filename)
