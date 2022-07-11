@@ -10,6 +10,7 @@ def main():
     stokes_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
     stokes_filename = filename+"_0000_0000.prof"
     model = Data_NN_model()
+    model.charge_inputs(ptm, filename)
     iout_ravel, iout = model.charge_intensity(ptm, filename)
     profs = model.charge_stokes_params(stokes_ptm, stokes_filename)
     print(np.shape(iout))
