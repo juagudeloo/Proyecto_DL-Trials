@@ -13,7 +13,7 @@ def main():
 
 def developing_model(ptm, filename):
     model = Data_NN_model()
-    model.charge_inputs(ptm, filename)
+    model.charge_intensity(ptm, filename)
 
 if __name__ == "__main__":
     main()
