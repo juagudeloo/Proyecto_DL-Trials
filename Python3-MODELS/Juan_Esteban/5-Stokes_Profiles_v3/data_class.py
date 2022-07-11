@@ -315,24 +315,24 @@ class Data_NN_model(NN_Model):
             
             self.profs_ravel = np.array(self.profs) #without resizing - better for splitting.
             #self.profs = self.profs_ravel.reshape(self.nx, self.nz, self.nlam, N_profs)
-        else: #if filename is an array of strings
-            profs_interm = []
-            for i in range(len(self.stk_filename[i])):
-                print(f"reading Stokes params {self.stk_filename[i]}")
-                for ix in range(self.nx):
-                    for iy in range(self.nz):
-                        p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename[i], file_type,  self.nx, self.nz, self.nlam, ix, iy)
-                        p_prof = np.reshape(p_prof, (self.nlam, N_profs))
-                        profs_interm.append(p_prof)
-
-                profs_interm = np.array(self.profs)
-                self.profs_ravel.append(profs_interm) #ravel data
-
-                profs_interm = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
-                self.profs.append(profs_interm) #resized data
-
-            self.profs_ravel = np.array(self.profs_ravel)
-            self.profs = np.array(self.profs)
+        #else: #if filename is an array of strings
+        #    profs_interm = []
+        #    for i in range(len(self.stk_filename[i])):
+        #        print(f"reading Stokes params {self.stk_filename[i]}")
+        #        for ix in range(self.nx):
+        #            for iy in range(self.nz):
+        #                p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename[i], file_type,  self.nx, self.nz, self.nlam, ix, iy)
+        #                p_prof = np.reshape(p_prof, (self.nlam, N_profs))
+        #                profs_interm.append(p_prof)
+#
+        #        profs_interm = np.array(self.profs)
+        #        self.profs_ravel.append(profs_interm) #ravel data
+#
+        #        profs_interm = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
+        #        self.profs.append(profs_interm) #resized data
+#
+        #    self.profs_ravel = np.array(self.profs_ravel)
+        #    self.profs = np.array(self.profs)
 
         return self.profs_ravel, self.profs
     def split_data(self, TRAIN_S, TEST_S):
