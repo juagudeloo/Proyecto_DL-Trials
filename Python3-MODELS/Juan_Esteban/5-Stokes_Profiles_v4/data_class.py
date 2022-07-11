@@ -129,6 +129,7 @@ class Data_NN_model(NN_Model):
                 ##############################################################################
                 self.profs.append(p_prof) 
         self.profs = np.array(self.profs) 
+        self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         print("Stokes params done!")
         return self.profs
     def split_data(self, filename, TR_S, output_intensity = False, output_stokes_params = False):
