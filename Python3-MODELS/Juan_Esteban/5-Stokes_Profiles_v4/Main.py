@@ -6,8 +6,8 @@ def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     tr_filename = "53000"
-    
-    model = Data_NN_model("Intensity", (4,256), 1)
+    IN_LS = np.array([4,256]) #input shape in input layer
+    model = Data_NN_model("Intensity", IN_LS, 1)
     model.model_train(tr_filename, TR_S = 0.75, epochs = 10)
     model.plot_loss()
 

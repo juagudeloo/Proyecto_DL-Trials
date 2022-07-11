@@ -22,12 +22,10 @@ class NN_Model():
         opt = keras.optimizers.Adam(learning_rate = lr)
         loss = keras.metrics.MeanSquaredError(learning_rate = lr)
         self.model.compile(optimizer = opt, loss = loss, metrics = loss)
-    def fit_stokes(self, data_TR, labels_TR, data_TE, labels_TE, epochs = 10):
-        self.compile()
+    def fit_model(self, data_TR, labels_TR, data_TE, labels_TE, epochs = 10):
         self.history = self.model.fit(data_TR, labels_TR, epochs)
         self.model.evaluate(data_TE, labels_TE)
         self.loss_history = self.history['loss']
-
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
         ax.plot(range(len(self.loss_history)), self.loss_history)
