@@ -111,45 +111,27 @@ class Data_NN_model(NN_Model):
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
-    def charge_stokes_params(self, stk_ptm, stk_filename, file_type = "nicole"):
+    def charge_stokes_params(self, stk_ptm, filename, file_type = "nicole"):
         self.stk_ptm = stk_ptm
-        self.stk_filename = stk_filename
+        self.stk_filename = filename+"_0000_0000.prof"
         self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
         self.profs = [] #It's for the reshaped data - better for visualization.
         self.profs_ravel = [] #its for the ravel data to make the splitting easier.
         N_profs = 4
         #Charging the stokes profiles for the specific file
-        if type(self.stk_filename) == str: #if filename is just a string
-            print(f"reading Stokes params {self.stk_filename}")
-            for ix in range(self.nx):
-                for iy in range(self.nz):
-                    p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
-                    p_prof = np.reshape(p_prof, (self.nlam, N_profs))
-                    ##############################################################################
-                    #self.profs_ravel is going to safe all the data in a one dimensional array where
-                    #the dimensional indexes are disposed as ix*self.nz+iy.
-                    ##############################################################################
-                    self.profs_ravel.append(p_prof) 
-            
-            self.profs_ravel = np.array(self.profs_ravel) 
-        else: #if filename is an array of strings
-            for i in range(len(self.stk_filename)):
-                profs_interm = []
-                print(f"reading Stokes params {self.stk_filename[i]}")
-                for ix in range(self.nx):
-                    for iy in range(self.nz):
-                        p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename[i], file_type,  self.nx, self.nz, self.nlam, ix, iy)
-                        p_prof = np.reshape(p_prof, (self.nlam, N_profs))
-                        ##############################################################################
-                        #self.profs_ravel is going to safe all the data in a one dimensional array where
-                        #the dimensional indexes are disposed as ix*self.nz+iy, and every self.nz*self.ny 
-                        #virtual sets of data it begins the data columns of the next file. 
-                        ##############################################################################
-                        self.profs_ravel.append(p_prof)
-                        profs_interm
-            
-            self.profs_ravel = np.array(self.profs_ravel)
-        return self.profs_ravel
+        print(f"reading Stokes params {self.stk_filename}")
+        for ix in range(self.nx):
+            for iy in range(self.nz):
+                p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
+                p_prof = np.reshape(p_prof, (self.nlam, N_profs))
+                ##############################################################################
+                #self.profs_ravel is going to safe all the data in a one dimensional array where
+                #the dimensional indexes are disposed as ix*self.nz+iy.
+                ##############################################################################
+                self.profs.append(p_prof) 
+        self.profs_ravel = np.array(self.profs_ravel) 
+        print(np.shape(self.profs))
+        return self.profs
 
     def split_data(self, TRAIN_S, TEST_S):
         """
