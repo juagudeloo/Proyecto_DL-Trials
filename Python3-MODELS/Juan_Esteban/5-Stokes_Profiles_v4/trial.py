@@ -6,8 +6,11 @@ def main():
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     filename = []
     for i in range(53,254):
-        fln = "0"+str(i)+"000"
-        filename.append(fln)
+        if i < 100:
+            fln = "0"+str(i)+"000"
+            filename.append(fln)
+        else:
+            fln = str(i)+"000"
         developing_model(ptm, fln)
         
 
