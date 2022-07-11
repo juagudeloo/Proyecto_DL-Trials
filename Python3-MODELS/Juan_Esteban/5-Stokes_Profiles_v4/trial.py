@@ -16,7 +16,7 @@ def main():
 
 def developing_model(ptm, filename):
     model = Data_NN_model()
-    model.split_data(ptm, filename)
+    model.split_data(filename, TR_S = 0.75)
 
 if __name__ == "__main__":
     main()
