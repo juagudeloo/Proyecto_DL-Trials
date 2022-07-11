@@ -8,7 +8,9 @@ def main():
     filename = ["053000", "056000"]
     #Stokes parameters specifications
     stokes_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
-    stokes_filename = filename+"_0000_0000.prof"
+    stokes_filename = []
+    for elem in filename:
+        stokes_filename.append(elem+"_0000_0000.prof")
     model = Data_NN_model()
     model.charge_inputs(ptm, filename)
     iout = model.charge_intensity(ptm, filename)
