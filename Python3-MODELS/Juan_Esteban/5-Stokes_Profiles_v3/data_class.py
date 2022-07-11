@@ -294,8 +294,8 @@ class Data_NN_model(NN_Model):
                 print(np.shape(self.iout[i]))
                 print(f"IOUT done {self.filename[i]}")   
                 print('\n')
-            self.iout_ravel = self.iout.reshape(len(self.iout)*self.nx*self.nz)
             self.iout = np.array(self.iout)
+            self.iout_ravel = self.iout.reshape(len(self.iout)*self.nx*self.nz)
         return self.iout
     def charge_stokes_params(self, stk_ptm, stk_filename, file_type = "nicole"):
         self.stk_ptm = stk_ptm
