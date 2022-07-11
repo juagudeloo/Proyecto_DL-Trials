@@ -41,7 +41,7 @@ class Data_NN_model(NN_Model):
         coef = np.sqrt(4.0*np.pi) #for converting data to cgs units
         #Function for raveling the nx and nz coordinates after the processing
         def ravel_xz(array):
-                array_ravel = array.ravel.reshape(self.nx, self.ny, self.nz)
+                array_ravel = array_ravel.reshape(self.nx, self.ny, self.nz)
                 array_ravel = np.moveaxis(array,1,2)
                 array_ravel = array_ravel.reshape(self.nx*self.nz, self.ny) 
                 return array_ravel
