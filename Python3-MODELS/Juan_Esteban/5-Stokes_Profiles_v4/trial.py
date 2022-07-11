@@ -3,7 +3,7 @@ from data_class import Data_NN_model
 
 def main():
     #Intensity specifications
-    ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
+    ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/"
     filename = []
     for i in range(53,253):
         if i < 100:
