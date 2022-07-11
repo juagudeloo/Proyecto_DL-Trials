@@ -18,11 +18,18 @@ def scaling(array):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_NN_model(NN_Model):
-    def __init__(self, nx = 480, ny = 256, nz = 480):
+    def __init__(output_type, IN_LS, OUT_LS, self, nx = 480, ny = 256, nz = 480): 
+        """
+        output_type options:
+        "Intensity" -> The model predicts intensity.
+        "Stokes params" -> The model predicts the Stokes parameters.
+        """
+        super().__init__(IN_LS, OUT_LS)
         #size of the cubes of the data
         self.nx = nx
         self.ny = ny
         self.nz = nz
+        self.output_type = output_type
         print("Starting the charging process!")
     def charge_inputs(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
@@ -116,7 +123,6 @@ class Data_NN_model(NN_Model):
         self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
         self.profs = [] #It's for the reshaped data - better for visualization.
         self.profs_ravel = [] #its for the ravel data to make the splitting easier.
-        N_profs = 4
         #Charging the stokes profiles for the specific file
         print(f"reading Stokes params {self.stk_filename}")
         for ix in range(self.nx):
@@ -132,17 +138,18 @@ class Data_NN_model(NN_Model):
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         print("Stokes params done!")
         return self.profs
-    def split_data(self, filename, TR_S, output_intensity = False, output_stokes_params = False):
+    def split_data(self, filename, TR_S):
         """
         Splits the data into a test set and a training set.
         It is a hand made splitting.
         TR_S: relative ratio of the whole data selected to the training set.
         """
+        #Arrays of input and output training and testing sets
         self.tr_input = []
         self.te_input = []
         self.tr_output = []
         self.te_output = []
-        TE_S = 1-TR_S
+        #Delimiting the training and testing sets
         self.charge_inputs(filename)
         n_data = self.input_values[:,0,0].size
         idx = np.arange(n_data) 
@@ -150,19 +157,52 @@ class Data_NN_model(NN_Model):
         TR_delim = int(n_data*TR_S)
         self.tr_input = self.input_values[idx[:TR_delim]]
         self.te_input = self.input_values[idx[TR_delim:]]
-        if output_intensity == True:
+        if self.output_type == "Intensity":
             self.charge_intensity(filename)
             self.tr_output = self.iout[idx[:TR_delim]]
             self.te_output = self.iout[idx[TR_delim:]]
-        if output_stokes_params == True:
+        if self.output_type == "Stokes params":
             self.charge_stokes_params(filename)
             self.tr_output = self.profs[idx[:TR_delim]]
             self.te_output = self.profs[idx[TR_delim:]]
+    ######## functions to call for the training
+    def model_train(self, filename, TR_S, epochs = 10):
+        self.split_data(filename, TR_S)
+        self.history = self.model.fit(self.tr_input, self.tr_output, epochs)
+        self.model.evaluate(self.te_input, self.tr_output)
+    def plot_loss(self):
+        fig,ax = plt.subplots(figsize = (10,7))
+        ax.plot(range(self.history['loss'].size), self.history['loss'])
+        fig.savefig(f"Images/loss_plot-{self.filename}.png")
+################################### PREDICTING DATA ###################################
+    def predict_values(self, filename):
+        self.charge_inputs(filename)
+        if self.output_type == "Intensity":
+            self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz)
+        if self.output_type == "Stokes params":
+            self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz, 4, self.nlam)
+        return self.predicted_values
+    def plot_predict(self):
+        if self.output_type == "Intensity":
+            fig, ax = plt.subplots(figsize = (7,7))
+            ax.imshow(self.predicted_values)
+            ax.set_title(f"Predicted intensity")
+            fig.savefig(f"Predicted_intensity-{self.filename}.png")
+        if self.output_type == "Stokes params":
+            N_profs = 4
+            ix = 200
+            iz = 280
+            wave_lam = 200
+            title = ['I','Q','U','V']
+            fig, ax = plt.subplots(2,4,figsize=(7,28))
+            for i in range(N_profs):
+                ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
+                ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
+                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam])     
+                ax[1,i].set_title(f"Stokes params distribution - title={title[i]} - "+r"$\lambda$"+f"={wave_lam}")   
+                  
+            fig.savefig(f"Predicted_Stokes_parameters-{self.filename}.png")         
 
-        print(self.tr_input.shape)
-        print(self.te_input.shape)
-        print(self.tr_output.shape)
-        print(self.te_output.shape)
 
 
         
