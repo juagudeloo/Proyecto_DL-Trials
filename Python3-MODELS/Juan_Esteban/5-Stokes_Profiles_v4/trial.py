@@ -8,7 +8,7 @@ def main():
     for i in range(53,254):
         fln = "0"+str(i)+"000"
         filename.append(fln)
-        developing_model(ptn, fln)
+        developing_model(ptm, fln)
         
 
 def developing_model(ptm, filename):
