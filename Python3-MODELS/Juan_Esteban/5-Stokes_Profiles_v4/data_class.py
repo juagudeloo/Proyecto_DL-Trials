@@ -3,6 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import MinMaxScaler
+from pickletools import optimize
+import tensorflow as tf
+from tensorflow.keras.layers import Conv1D, Input, GlobalMaxPool1D, Dense
+from tensorflow.keras.models import Model
+import keras 
+from sklearn.metrics import r2_score
+
 from nn_model import NN_Model #module in the same folder
 import model_prof_tools as mpt
 
@@ -17,14 +24,26 @@ def scaling(array):
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
-class Data_NN_model(NN_Model):
+class Data_NN_model():
     def __init__(IN_LS, OUT_LS, output_type, self, nx = 480, ny = 256, nz = 480): 
         """
         output_type options:
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.
         """
-        super().__init__(IN_LS, OUT_LS)
+        inputs = Input(shape = IN_LS)
+        conv = Conv1D(512, 2, activation = 'sigmoid')(inputs)
+        conv = Conv1D(256, 2, activation = 'sigmoid')(conv)
+        conv = Conv1D(128, 2, activation = 'sigmoid')(conv)
+        conv = Conv1D(64, 2, activation = 'sigmoid')(conv)
+        max_pool = GlobalMaxPool1D()(conv)
+        dense = Dense(64, activation = 'sigmoid')(max_pool)
+        outputs = Dense(OUT_LS, activation = 'softmax')(dense)
+        self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl', validation = 0.2)
+        lr = 0.001
+        opt = keras.optimizers.Adam(learning_rate = lr)
+        loss = keras.metrics.MeanSquaredError(learning_rate = lr)
+        self.model.compile(optimizer = opt, loss = loss, metrics = loss)
         #size of the cubes of the data
         self.nx = nx
         self.ny = ny
