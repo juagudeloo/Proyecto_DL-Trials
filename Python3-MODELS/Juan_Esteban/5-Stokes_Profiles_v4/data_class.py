@@ -140,22 +140,29 @@ class Data_NN_model(NN_Model):
         """
         self.tr_input = []
         self.te_input = []
-        tr_output = []
-        te_output = []
+        self.tr_output = []
+        self.te_output = []
         TE_S = 1-TR_S
         self.charge_inputs(filename)
         n_data = self.input_values[:,0,0].size
         idx = np.arange(n_data) 
         np.random.shuffle(idx) #shufling this indexes to obtain a random training subset selection of the original set of data.
         TR_delim = int(n_data*TR_S)
-        self.tr_input = self.input_values[idx[:TR_delim],:]
-        self.te_input = self.input_values[idx[TR_delim:],:]
-        print(self.tr_input.shape)
-        print(self.te_input.shape)
+        self.tr_input = self.input_values[idx[:TR_delim]]
+        self.te_input = self.input_values[idx[TR_delim:]]
         if output_intensity == True:
             self.charge_intensity(filename)
+            self.tr_output = self.charge_intensity[idx[:TR_delim]]
+            self.te_output = self.charge_intensity[idx[TR_delim:]]
         if output_stokes_params == True:
             self.charge_stokes_params(filename)
+            self.tr_output = self.charge_stokes_params[idx[:TR_delim]]
+            self.te_output = self.charge_stokes_params[idx[TR_delim:]]
+
+        print(self.tr_input.shape)
+        print(self.te_input.shape)
+        print(self.tr_output.shape)
+        print(self.te_output.shape)
 
         
 
