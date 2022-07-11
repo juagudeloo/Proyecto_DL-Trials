@@ -7,7 +7,7 @@ def main():
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     tr_filename = "53000"
     IN_LS = np.array([4,256]) #input shape in input layer
-    model = Data_NN_model("Intensity", IN_LS, 1)
+    model = Data_NN_model(IN_LS, 1, "Intensity")
     model.model_train(tr_filename, TR_S = 0.75, epochs = 10)
     model.plot_loss()
 
