@@ -327,8 +327,8 @@ class Data_NN_model(NN_Model):
                 profs_interm = self.profs.reshape(self.nx, self.nz, self.nlam, N_profs)
                 self.profs.append(profs_interm) #resized data
 
-            self.profs_ravel = np.array(self.profs_ravel)
-            self.profs = np.array(self.profs)
+            #self.profs_ravel = np.array(self.profs_ravel)
+            #self.profs = np.array(self.profs)
 
         return self.profs_ravel, self.profs
     def split_data(self, TRAIN_S, TEST_S):
