@@ -56,203 +56,50 @@ class Data_NN_model(NN_Model):
         # The temperature is obtained from the data file related to the 
         # equation of state (EOS)
         ################################
-        if type(self.filename) == str: #if we just want to chek one file
-            print(f"reading EOS {self.filename}")
-            #Charging temperature data
-            self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
-            self.mtpr = np.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
-            n_eos = 0
-            self.mtpr = self.mtpr[n_eos,:,:,:] 
-            # n_eos -> 0: temperature ; 1: pressure
-            self.mtpr = ravel_xz(self.mtpr)
-            print(f"EOS done {self.filename}")
-            print('\n')
-            
-            #Charging line of sight velocities
-            print(f"reading vyy {self.filename}")
-            self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
-            self.mvyy = ravel_xz(self.mvyy)
-            print(f"vyy done {self.filename}")
-            print('\n')
+        print(f"reading EOS {self.filename}")
+        #Charging temperature data
+        self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
+        self.mtpr = np.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
+        n_eos = 0
+        self.mtpr = self.mtpr[n_eos,:,:,:] 
+        # n_eos -> 0: temperature ; 1: pressure
+        self.mtpr = scaling(self.mtpr)
+        self.mtpr = ravel_xz(self.mtpr)
+        print(f"EOS done {self.filename}")
+        print('\n')
+        
+        
 
-            #Charging line of sight magnetic field components
-            print (f"reading byy {self.filename}")
-            self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
-            self.mbyy = ravel_xz(self.mbyy)
-            print(f"byy done {self.filename}")
-            print('\n')
+        #Charging line of sight magnetic field components
+        print (f"reading byy {self.filename}")
+        self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
+        coef = np.sqrt(4.0*np.pi) #cgs units conversion
+        self_mbyy=self_mbyy*coef
+        self.mbyy = scaling(self.mbyy)
+        self.mbyy = ravel_xz(self.mbyy)
+        print(f"byy done {self.filename}")
+        print('\n')
 
-            #Charging density values
-            print(f"reading rho {self.filename}")
-            self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
-            self.mrho = ravel_xz(self.mrho)
-            print(f"rho done {self.filename}")
-            print('\n')
-            #if np.any(self.mrho == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
-            print(np.argwhere(self.mrho == 0))
+        #Charging density values
+        print(f"reading rho and mvyy (dividing mvyy/mrho to obtain vyy) {self.filename}")
+        self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
+        self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
+        self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
+        
+        self.mrho = scaling(self.mrho)
+        self.mrho = ravel_xz(self.mrho)
+        self.mvyy = scaling(self.mvyy)
+        self.mvyy = ravel_xz(self.mvyy)
+        print(f"rho and vyy done {self.filename}")
+        print('\n')
+        
+        #Organizing the input data
+        self.input_values = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
+        self.input_values = np.array(self.input_values)
+        self.input_values = np.moveaxis(self.input_values,0,1)
+        print(np.shape(self.input_values))
 
-                #x,z coordinates where the density have zero values
-#                self.nx0 = np.argwhere(self.mrho == 0)[0][0]
-#                self.nz0 = np.argwhere(self.mrho == 0)[0][2]
-#
-#                #I set this columns to ones beacuse due to the magnitude of each 
-#                #of this measurements, when scaling they are going to be almost negligible
-#                #but no zero, therefore there is not going to be any problem when dividing 
-#                #mvyy/mrho. It is also done so that this columns are discard from the 
-#                #fitting
-#                self.mrho[self.nx0,:,self.nz0] = np.ones(self.ny)
-#                self.mtpr[self.nx0,:,self.nz0] = np.ones(self.ny)
-#                self.mbyy[self.nx0,:,self.nz0] = np.ones(self.ny)
-#                self.mvyy[self.nx0,:,self.nz0] = np.ones(self.ny)
-#                #############################################################
-#                #Converting the data into cgs units (if I'm not wrong)
-#                #############################################################
-#                
-#            else:
-#                self.mvyy=self.mvyy/self.mrho
-#                self.mvyy = scaling(self.mvyy) #scaling
-#                self.mvyy = np.reshape(self.mvyy,(self.nx,self.ny,self.nz),order="C")
-#
-#                self.mbyy = scaling(self.mbyy)
-#                self.mbyy = np.reshape(self.mbyy,(self.nx,self.ny,self.nz),order="C")
-#
-#            #Scaling the charge data   
-#            print("scaling...")
-#            self.mvyy=self.mvyy/self.mrho
-#            self.mvyy = scaling(self.mvyy) #scaling
-#            self.mvyy = np.reshape(self.mvyy,(self.nx,self.ny,self.nz),order="C")
-#
-#            self.mbyy = scaling(self.mbyy)
-#            self.mbyy = np.reshape(self.mbyy,(self.nx,self.ny,self.nz),order="C")
-#
-#            self.mtpr = scaling(self.mtpr)
-#            self.mtpr = np.reshape(self.mtpr, (self.nx,self.ny,self.nz), order="A")
-#                
-#                
-#            #self.mrho = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
-#            self.mrho = scaling(self.mrho)
-#            self.mrho = np.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
-#
-#            #Saving ravel outputs for easier splitting
-#            self.mvyy_ravel = ravel_xz(self.mvyy)
-#            self.mbyy_ravel = ravel_xz(self.mbyy)
-#            self.mtpr_ravel = ravel_xz(self.mtpr)
-#            self.mrho_ravel = ravel_xz(self.mrho)
-#
-#            
 
-#        else: #if filename is an array of strings
-#            for i in range(len(self.filename)):
-#                print(f"reading EOS {self.filename[i]}")
-#                #Charging temperature data
-#                self.mtpr.append(np.memmap(self.ptm+"eos."+self.filename[i],dtype=np.float32))
-#                self.mtpr[i] = np.reshape(self.mtpr[i], (2, self.nx,self.ny,self.nz), order="A")
-#                n_eos = 0
-#                self.mtpr[i] = self.mtpr[i][n_eos,:,:,:] 
-#                # n_eos -> 0: temperature ; 1: pressure
-#                print(f"EOS done {self.filename[i]}")
-#                print('\n')
-#                
-#                #Charging line of sight velocities
-#                print(f"reading vyy {self.filename[i]}")
-#                self.mvyy.append(np.memmap(self.ptm+"result_2."+self.filename[i],dtype=np.float32))
-#                self.mvyy[i] = np.reshape(self.mvyy[i],(self.nx,self.ny,self.nz),order="C")
-#                print(f"vyy done {self.filename[i]}")
-#                print('\n')
-#
-#                #Charging line of sight magnetic field components
-#                print (f"reading byy {self.filename[i]}")
-#                self.mbyy.append(np.memmap(self.ptm+"result_6."+self.filename[i],dtype=np.float32))
-#                self.mbyy[i] = np.reshape(self.mbyy[i],(self.nx,self.ny,self.nz),order="C")
-#                print(f"byy done {self.filename[i]}")
-#                print('\n')
-#
-#                #Charging density values
-#                print(f"reading rho {self.filename[i]}")
-#                self.mrho.append(np.memmap(self.ptm+"result_0."+self.filename[i],dtype=np.float32))
-#                self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
-#                print("scaling...")
-#                if np.any(self.mrho[i] == 0): #In case this condition happens, the logarithm will diverge, then we will ignore this kind of data by setting all the columns of all quantities related with this value to zero
-#                    self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
-#                    print(np.shape(self.mrho))
-#                    print(type(self.mrho))
-#                    print(f"rho done {self.filename[i]}")
-#                    print('\n')
-#
-#                    #x,z coordinates where the density have zero values
-#                    self.nx0 = np.argwhere(self.mrho[i] == 0)[0][0]
-#                    self.nz0 = np.argwhere(self.mrho[i] == 0)[0][2]
-#
-#                    #I set this columns to ones beacuse due to the magnitude of each 
-#                    #of this measurements, when scaling they are going to be almost negligible
-#                    #but no zero, therefore there is not going to be any problem when dividing 
-#                    #mvyy/mrho. It is also done so that this columns are discard from the 
-#                    #fitting
-#                    self.mrho[i][self.nx0,:,self.nz0] = np.ones(self.ny)
-#                    self.mtpr[i][self.nx0,:,self.nz0] = np.ones(self.ny)
-#                    self.mbyy[i][self.nx0,:,self.nz0] = np.ones(self.ny)
-#                    self.mvyy[i][self.nx0,:,self.nz0] = np.ones(self.ny)
-#                    #############################################################
-#                    #Converting the data into cgs units (if I'm not wrong)
-#                    #############################################################
-#                    
-#                else:
-#                    self.mvyy[i]=self.mvyy[i]/self.mrho[i]
-#                    self.mvyy[i] = scaling(self.mvyy[i]) #scaling
-#                    self.mvyy[i] = np.reshape(self.mvyy[i],(self.nx,self.ny,self.nz),order="C")
-#
-#                    self.mbyy[i] = scaling(self.mbyy[i])
-#                    self.mbyy[i] = np.reshape(self.mbyy[i],(self.nx,self.ny,self.nz),order="C")
-#
-#                #Scaling the charge data    
-#                print("scaling...")
-#                self.mvyy[i]=self.mvyy[i]/self.mrho[i]
-#                self.mvyy[i] = scaling(self.mvyy[i]) #scaling
-#                self.mvyy[i] = np.reshape(self.mvyy[i],(self.nx,self.ny,self.nz),order="C")
-#
-#                self.mbyy[i] = scaling(self.mbyy[i])
-#                self.mbyy[i] = np.reshape(self.mbyy[i],(self.nx,self.ny,self.nz),order="C")
-#
-#                self.mtpr[i] = scaling(self.mtpr[i])
-#                self.mtpr[i] = np.reshape(self.mtpr[i], (self.nx,self.ny,self.nz), order="A")
-#                
-#                self.mrho[i] = np.log10(self.mrho) #I get the logarithm in base 10 out of the density values so that the big valued data does not damage the code
-#                self.mrho[i] = scaling(self.mrho[i])
-#                self.mrho[i] = np.reshape(self.mrho[i], (self.nx,self.ny,self.nz), order="A")
-#
-#                #Saving ravel outputs for easier splitting
-#                self.mvyy_ravel.append(ravel_xz(self.mvyy[i]))
-#                self.mbyy_ravel.append(ravel_xz(self.mbyy[i]))
-#                self.mtpr_ravel.append(ravel_xz(self.mtpr[i]))
-#                self.mrho_ravel.append(ravel_xz(self.mrho[i]))
-#
-#
-#
-#            #Here I am organizing the outputs so that they are
-#            #organized in one axis over all files and points 
-#            N_files = len(self.mvyy_ravel)
-#            N_points = len(self.mvyy_ravel[0])
-#
-#            def ovf_outputs(input_list): #Organize various files outputs
-#                N_files = len(input_list)
-#                N_points = len(input_list[0])
-#                input_array = np.array(input_list)
-#                return input_array.reshape(N_files*N_points, self.ny)
-#
-#            self.mvyy_ravel = ovf_outputs(self.mvyy_ravel)
-#            self.mbyy_ravel = ovf_outputs(self.mbyy_ravel)
-#            self.mtpr_ravel = ovf_outputs(self.mtpr_ravel)
-#            self.mrho_ravel = ovf_outputs(self.mrho_ravel)
-#
-#        
-#        self.ravel_inputs = [self.mvyy_ravel, self.mbyy_ravel, self.mtpr_ravel, self.mrho_ravel]
-#        self.ravel_inputs = np.array(self.ravel_inputs)
-#        self.ravel_inputs = np.moveaxis(self.ravel_inputs,0,1)
-#        self.reshaped_inputs = [self.mbyy, self.mvyy, self.mtpr, self.mrho]
-#        self.reshaped_inputs = np.array(self.reshaped_inputs)
-#        self.reshaped_inputs = np.moveaxis(self.reshaped_inputs,0,1)
-#        print(f"*Uploading done*\n")
-#        return self.ravel_inputs, self.reshaped_inputs
     def charge_intensity(self, ptm, filename):
         self.ptm = ptm
         self.filename = filename
