@@ -19,7 +19,7 @@ class NN_Model():
         outputs = Dense(OUT_LS, activation = 'softmax')(dense)
         self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl')
         lr = 0.001
-        opt = keras.optimizers.Adam(learning_rate=lr)
+        opt = tf.keras.optimizers.Adam(learning_rate=lr)
         loss = keras.metrics.MeanSquaredError()
         self.model.compile(optimizer = opt, loss = loss, metrics = loss)
     
