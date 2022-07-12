@@ -171,6 +171,8 @@ class Data_NN_model(NN_Model):
         self.compile_model()
         self.split_data(filename, TR_S)
         self.model.summary()
+        print(type(self.tr_input))
+        print(type(self.tr_output))
         training = tf.data.Dataset.from_tensor_slices((self.tr_input, self.tr_output))
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=10, batch_size=2, verbose=1)
         self.model.evaluate(self.te_input, self.tr_output)
