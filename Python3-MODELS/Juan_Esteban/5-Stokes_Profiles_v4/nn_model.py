@@ -17,7 +17,7 @@ class NN_Model():
         max_pool = GlobalMaxPool1D()(conv)
         dense = Dense(64, activation = 'sigmoid')(max_pool)
         outputs = Dense(OUT_LS, activation = 'softmax')(dense)
-        self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl', validation = 0.2)
+        self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl')
         lr = 0.001
         opt = keras.optimizers.Adam(learning_rate = lr)
         loss = keras.metrics.MeanSquaredError(learning_rate = lr)
