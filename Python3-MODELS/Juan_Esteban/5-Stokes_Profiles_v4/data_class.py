@@ -170,6 +170,8 @@ class Data_NN_model(NN_Model):
         self.compile_model()
         self.split_data(filename, TR_S)
         self.model.summary()
+        print(self.tr_input.shape)
+        print(self.tr_output.shape)
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs)
         self.model.evaluate(self.te_input, self.tr_output)
     def plot_loss(self):
