@@ -19,7 +19,7 @@ class NN_Model():
         conv = Conv1D(64, 1, activation = 'sigmoid')(conv)
         max_pool = GlobalMaxPool1D()(conv)
         dense = Dense(64, activation = 'sigmoid')(max_pool)
-        outputs = Dense(self.out_ls, activation = 'softmax')(dense)
+        outputs = Dense(self.out_ls, activation = 'sigmoid')(dense)
         self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl')
         lr = 0.001
         opt = tf.keras.optimizers.Adam(learning_rate=lr)
