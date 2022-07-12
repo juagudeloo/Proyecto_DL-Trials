@@ -170,6 +170,12 @@ class Data_NN_model():
         self.model = create_model(IN_LS, OUT_LS)
         self.split_data(filename, TR_S)
         self.model.summary()
+        print("compiling model...")
+        lr = 0.001
+        opt = tf.keras.optimizers.Adam(learning_rate=lr)
+        loss = tf.keras.metrics.MeanSquaredError()
+        self.model.compile(optimizer = opt, loss = loss, metrics = loss)
+        print("model compiled!")
         training = tf.data.Dataset.from_tensor_slices((self.tr_input, self.tr_output))
         self.history = self.model.fit(training, epochs=10, batch_size=2, verbose=1)
         self.model.evaluate(self.te_input, self.tr_output)
