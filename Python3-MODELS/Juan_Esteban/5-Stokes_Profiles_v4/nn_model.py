@@ -12,15 +12,15 @@ class NN_Model():
         self.in_ls = IN_LS
         self.out_ls = OUT_LS
     def compile_model(self):
-        inputs = Input(shape = self.in_ls, name = "data in")
-        conv = Conv1D(512, 2, activation = tf.nn.relu)(inputs)
-        conv = Conv1D(256, 2, activation = tf.nn.relu)(conv)
-        conv = Conv1D(128, 2, activation = tf.nn.relu)(conv)
-        conv = Conv1D(64, 1, activation = tf.nn.relu)(conv)
-        max_pool = GlobalMaxPool1D()(conv)
-        dense = Dense(64, activation = tf.nn.relu)(max_pool)
-        outputs = Dense(self.out_ls, activation = tf.nn.sigmoid, name = "output")(dense)
-        self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl')
+        self.model = tf.keras.Sequential()
+        self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
+        self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
+        self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=in_ls))
+        self.model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
+        self.model.add(tf.keras.layers.GlobalMaxPool1D())
+        self.model.add(tf.keras.layers.Dense(64, activation='relu'))
+        self.model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
+        self.model.add(tf.keras.layers.Dense(1))
         lr = 0.001
         opt = tf.keras.optimizers.Adam(learning_rate=lr)
         loss = keras.metrics.MeanSquaredError()
