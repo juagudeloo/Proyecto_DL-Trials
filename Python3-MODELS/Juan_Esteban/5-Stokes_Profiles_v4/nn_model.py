@@ -1,9 +1,8 @@
 from pickletools import optimize
 import tensorflow as tf
-import keras
 import numpy as np
-from keras.layers import Conv1D, Input, GlobalMaxPool1D, Dense, Dropout
-from keras.models import Model
+from tensorflow.keras.layers import Conv1D, Input, GlobalMaxPool1D, Dense, Dropout
+from tensorflow.keras.models import Model
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
@@ -13,18 +12,18 @@ class NN_Model():
         self.out_ls = OUT_LS
     def compile_model(self):
         print("compiling the model...")
-        self.model = keras.Sequential()
+        self.model = tf.keras.Sequential()
         self.model.add(Conv1D(512, 2, activation='relu', input_shape=self.in_ls))
         self.model.add(Conv1D(256, 2, activation='relu'))
         self.model.add(Conv1D(128, 1, activation='relu'))
         self.model.add(Conv1D(64, 2, activation='relu'))
-        self.model.add(GlobalMaxPool1D())
-        self.model.add(Dense(64, activation='relu'))
-        self.model.add(Dropout(0.3)) #Layer added to avoid the overfitting
-        self.model.add(Dense(self.out_ls))
+        #self.model.add(GlobalMaxPool1D())
+        #self.model.add(Dense(64, activation='relu'))
+        #self.model.add(Dropout(0.3)) #Layer added to avoid the overfitting
+        self.model.add(Dense(self.out_ls, name="output"))
         lr = 0.001
-        opt = 'adam'
-        loss = keras.metrics.MeanSquaredError()
+        opt = tf.keras.optimizers.Adam(learning_rate=lr)
+        loss = tf.keras.metrics.MeanSquaredError()
         self.model.compile(optimizer = opt, loss = loss, metrics = loss)
         print("model compiled!")
     
