@@ -13,7 +13,7 @@ class NN_Model():
         conv = Conv1D(512, 2, activation = 'sigmoid')(inputs)
         conv = Conv1D(256, 2, activation = 'sigmoid')(conv)
         conv = Conv1D(128, 2, activation = 'sigmoid')(conv)
-        conv = Conv1D(64, 2, activation = 'sigmoid')(conv)
+        conv = Conv1D(64, 1, activation = 'sigmoid')(conv)
         max_pool = GlobalMaxPool1D()(conv)
         dense = Dense(64, activation = 'sigmoid')(max_pool)
         outputs = Dense(OUT_LS, activation = 'softmax')(dense)
