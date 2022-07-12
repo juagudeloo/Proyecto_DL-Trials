@@ -23,7 +23,7 @@ class NN_Model():
         self.model.add(Dropout(0.3)) #Layer added to avoid the overfitting
         self.model.add(Dense(self.out_ls))
         lr = 0.001
-        opt = keras.optimizers.Adam(learning_rate=lr)
+        opt = keras.optimizers.SGD(learning_rate=lr)
         loss = keras.metrics.MeanSquaredError()
         self.model.compile(optimizer = opt, loss = loss, metrics = loss)
         print("model compiled!")
