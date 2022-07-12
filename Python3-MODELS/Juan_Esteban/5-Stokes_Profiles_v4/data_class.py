@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import MinMaxScaler
+import tensorflow as tf
 from nn_model import NN_Model #module in the same folder
 import model_prof_tools as mpt
 
@@ -170,8 +171,10 @@ class Data_NN_model(NN_Model):
         self.compile_model()
         self.split_data(filename, TR_S)
         self.model.summary()
-        print(self.tr_input.shape)
-        print(self.tr_output.shape)
+        self.tr_input = tf.data.Dataset.from_tensor_slices(self.tr_input)
+        self.tr_output = tf.data.Dataset.from_tensor_slices(self.tr_output)
+        print(tf.shape(self.tr_input))
+        print(tf.shape(self.tr_output))
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs)
         self.model.evaluate(self.te_input, self.tr_output)
     def plot_loss(self):
