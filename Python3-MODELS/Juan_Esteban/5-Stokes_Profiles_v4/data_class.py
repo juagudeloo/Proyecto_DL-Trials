@@ -24,7 +24,7 @@ class Data_NN_model(NN_Model):
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.
         """
-        super().__init__(IN_LS, OUT_LS)
+        #super().__init__(IN_LS, OUT_LS)
         #size of the cubes of the data
         self.nx = nx
         self.ny = ny
