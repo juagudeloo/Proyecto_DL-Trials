@@ -172,7 +172,7 @@ class Data_NN_model(NN_Model):
         self.split_data(filename, TR_S)
         self.model.summary()
         training = tf.data.Dataset.from_tensor_slices((self.tr_input, self.tr_output))
-        self.history = self.model.fit(self.tr_input, self.tr_output, epochs=10,batch_size=2, verbose=1)
+        self.history = self.model.fit(training, epochs=10, batch_size=2, verbose=1)
         self.model.evaluate(self.te_input, self.tr_output)
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
