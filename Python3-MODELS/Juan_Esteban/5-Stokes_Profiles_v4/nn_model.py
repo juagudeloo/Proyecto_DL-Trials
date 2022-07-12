@@ -13,13 +13,13 @@ class NN_Model():
         self.out_ls = OUT_LS
     def compile_model(self):
         inputs = Input(shape = self.in_ls, name = "data in")
-        conv = Conv1D(512, 2, activation = 'sigmoid')(inputs)
-        conv = Conv1D(256, 2, activation = 'sigmoid')(conv)
-        conv = Conv1D(128, 2, activation = 'sigmoid')(conv)
-        conv = Conv1D(64, 1, activation = 'sigmoid')(conv)
+        conv = Conv1D(512, 2, activation = 'relu')(inputs)
+        conv = Conv1D(256, 2, activation = 'relu')(conv)
+        conv = Conv1D(128, 2, activation = 'relu')(conv)
+        conv = Conv1D(64, 1, activation = 'relu')(conv)
         max_pool = GlobalMaxPool1D()(conv)
-        dense = Dense(64, activation = 'sigmoid')(max_pool)
-        outputs = Dense(self.out_ls, activation = 'sigmoid')(dense)
+        dense = Dense(64, activation = 'relu')(max_pool)
+        outputs = Dense(self.out_ls, activation = 'relu', name = "output")(dense)
         self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl')
         lr = 0.001
         opt = tf.keras.optimizers.Adam(learning_rate=lr)
