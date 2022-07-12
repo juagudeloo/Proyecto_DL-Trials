@@ -15,12 +15,12 @@ class NN_Model():
         self.model = tf.keras.Sequential()
         self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
         self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
-        self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=in_ls))
+        self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=self.in_ls))
         self.model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
         self.model.add(tf.keras.layers.GlobalMaxPool1D())
         self.model.add(tf.keras.layers.Dense(64, activation='relu'))
         self.model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
-        self.model.add(tf.keras.layers.Dense(1))
+        self.model.add(tf.keras.layers.Dense(self.out_ls))
         lr = 0.001
         opt = tf.keras.optimizers.Adam(learning_rate=lr)
         loss = keras.metrics.MeanSquaredError()
