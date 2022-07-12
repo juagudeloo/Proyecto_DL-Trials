@@ -9,14 +9,17 @@ from sklearn.metrics import r2_score
 
 class NN_Model():
     def __init__(self, IN_LS, OUT_LS):
-        inputs = Input(shape = IN_LS, name = "data in")
+        self.in_ls = IN_LS
+        self.out_ls = OUT_LS
+    def compile_model(self):
+        inputs = Input(shape = self.in_ls, name = "data in")
         conv = Conv1D(512, 2, activation = 'sigmoid')(inputs)
         conv = Conv1D(256, 2, activation = 'sigmoid')(conv)
         conv = Conv1D(128, 2, activation = 'sigmoid')(conv)
         conv = Conv1D(64, 1, activation = 'sigmoid')(conv)
         max_pool = GlobalMaxPool1D()(conv)
         dense = Dense(64, activation = 'sigmoid')(max_pool)
-        outputs = Dense(OUT_LS, activation = 'softmax')(dense)
+        outputs = Dense(self.out_ls, activation = 'softmax')(dense)
         self.model = Model(inputs = inputs, outputs = outputs, name = 'project_dl')
         lr = 0.001
         opt = tf.keras.optimizers.Adam(learning_rate=lr)

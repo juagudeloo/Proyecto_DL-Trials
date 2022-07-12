@@ -167,6 +167,7 @@ class Data_NN_model(NN_Model):
             self.te_output = self.profs[idx[TR_delim:]]
     ######## functions to call for the training
     def model_train(self, filename, TR_S, epochs = 10):
+        self.compile_model()
         self.split_data(filename, TR_S)
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs)
         self.model.evaluate(self.te_input, self.tr_output)
