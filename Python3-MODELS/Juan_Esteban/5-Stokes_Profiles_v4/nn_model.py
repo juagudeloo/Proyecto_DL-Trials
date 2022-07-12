@@ -12,6 +12,7 @@ class NN_Model():
         self.in_ls = IN_LS
         self.out_ls = OUT_LS
     def compile_model(self):
+        print("compiling the model...")
         self.model = tf.keras.Sequential()
         self.model.add(Conv1D(512, 2, activation='relu'))
         self.model.add(Conv1D(256, 2, activation='relu'))
@@ -25,6 +26,7 @@ class NN_Model():
         opt = tf.keras.optimizers.Adam(learning_rate=lr)
         loss = keras.metrics.MeanSquaredError()
         self.model.compile(optimizer = opt, loss = loss, metrics = loss)
+        print("model compiled!")
     
     
 
