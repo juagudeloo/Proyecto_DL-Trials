@@ -1,7 +1,7 @@
 from pickletools import optimize
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.layers import Conv1D, Input, GlobalMaxPool1D, Dense
+from tensorflow.keras.layers import Conv1D, Input, GlobalMaxPool1D, Dense, Dropout
 from tensorflow.keras.models import Model
 import matplotlib.pyplot as plt
 import keras 
@@ -13,14 +13,14 @@ class NN_Model():
         self.out_ls = OUT_LS
     def compile_model(self):
         self.model = tf.keras.Sequential()
-        self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
-        self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
-        self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=self.in_ls))
-        self.model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
-        self.model.add(tf.keras.layers.GlobalMaxPool1D())
-        self.model.add(tf.keras.layers.Dense(64, activation='relu'))
-        self.model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
-        self.model.add(tf.keras.layers.Dense(self.out_ls))
+        self.model.add(Conv1D(512, 2, activation='relu'))
+        self.model.add(Conv1D(256, 2, activation='relu'))
+        self.model.add(Conv1D(128, 1, activation='relu', input_shape=self.in_ls))
+        self.model.add(Conv1D(64, 2, activation='relu'))
+        self.model.add(GlobalMaxPool1D())
+        self.model.add(Dense(64, activation='relu'))
+        self.model.add(Dropout(0.3)) #Layer added to avoid the overfitting
+        self.model.add(Dense(self.out_ls))
         lr = 0.001
         opt = tf.keras.optimizers.Adam(learning_rate=lr)
         loss = keras.metrics.MeanSquaredError()
