@@ -42,7 +42,7 @@ class NN_model(Data_class):
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
         self.split_data(filename, output_type, TR_S)
-        self.compile_model()
+        self.compile_model(IN_LS)
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
