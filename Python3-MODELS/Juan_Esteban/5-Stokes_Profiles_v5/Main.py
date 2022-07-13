@@ -14,7 +14,7 @@ def main():
     sun_model = NN_model("Stokes params")
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
-        sun_model.train(fln, tr_s = 0.75, batch_size_percentage = 0.05, epochs=10)
+        sun_model.train(fln, tr_s = 0.75, batch_size_percentage = 2, epochs=10)
         sun_model.plot_loss()
     #Model predicting
     pr_filename = []
