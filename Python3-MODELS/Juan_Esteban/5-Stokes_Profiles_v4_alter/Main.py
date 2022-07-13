@@ -32,7 +32,7 @@ class NN_model():
         self.in_ls = IN_LS
         self.tr_batch_size = TR_BATCH_SIZE
     def compile_model(self):
-        data_in =  tf.keras.layers.Input(shape = IN_LS, name='data_in')
+        data_in =  tf.keras.layers.Input(shape = self.in_ls, name='data_in')
         dense1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
         dense2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
         dense3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
@@ -50,6 +50,7 @@ class NN_model():
         x = output(x)
 
         self.model = tf.keras.models.Model(inputs = data_in, outputs = x)
+        return self.model
     def model_train(self):
         self.compile_model()
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
