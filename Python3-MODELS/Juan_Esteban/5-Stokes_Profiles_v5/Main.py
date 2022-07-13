@@ -40,7 +40,7 @@ class NN_model(Data_class):
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
         return self.model
-    def train(self,filename, output_type, tr_s, batch_size):
+    def train(self,filename, output_type, tr_s, batch_size_percentage):
         """
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
