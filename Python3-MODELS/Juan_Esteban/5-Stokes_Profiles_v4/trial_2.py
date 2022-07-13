@@ -12,8 +12,8 @@ dataset = dataset.batch(256)
 
 #### - Define your model here - ####
 model = tf.keras.Sequential()
-model.add(Conv1D(20, 2, activation='relu', input_shape=(40,)))
-model.add(Conv1D(10, 2, activation='relu'))
+model.add(Dense(20, activation='relu', input_shape=(40,)))
+model.add(Dense(10, activation='relu'))
 model.add(Dense(1, name="output"))
 lr = 0.001
 opt = tf.keras.optimizers.Adam(learning_rate=lr)
