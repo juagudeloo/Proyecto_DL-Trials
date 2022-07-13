@@ -70,17 +70,20 @@ class NN_model(Data_class):
     ##### PREDICTING PHASE #####
     def predict_values(self, filename):
         self.charge_inputs(filename)
+        print(f"{self.filename} predicting...")
         if self.output_type == "Intensity":
             self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz)
+            print(f"{self.filename} prediction done!")
         if self.output_type == "Stokes params":
             self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz, 4, self.nlam)
+            print(f"{self.filename} prediction done!")
         return self.predicted_values
     def plot_predict(self):
         if self.output_type == "Intensity":
             fig, ax = plt.subplots(figsize = (7,7))
             ax.imshow(self.predicted_values)
             ax.set_title(f"Predicted intensity")
-            fig.savefig(f"Predicted_intensity-{self.filename}.png")
+            fig.savefig(f"Images/Predicted_intensity-{self.filename}.png")
         if self.output_type == "Stokes params":
             N_profs = 4
             ix = 200
@@ -92,8 +95,8 @@ class NN_model(Data_class):
                 ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam])     
-                ax[1,i].set_title(f"Stokes params distribution - title={title[i]} - "+r"$\lambda$"+f"={wave_lam}")   
                   
             fig.savefig(f"Predicted_Stokes_parameters-{self.filename}.png")   
+        print(f"{self.filename} prediction plotted")
 if __name__ == "__main__":
     main()
