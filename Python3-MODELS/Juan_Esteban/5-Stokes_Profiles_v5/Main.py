@@ -7,12 +7,12 @@ import testing_functions as tef
 def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
-    tr_filename = "053000"
+    tr_filename = ["053000", "054000"]
     IN_LS = np.array([4,256]) #input shape in input layer
 
     sun_model = NN_model()
     sun_model.compile_model(IN_LS)
-    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, batch_size_percentage = 0.0005)
+    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, batch_size_percentage = 0.05)
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
