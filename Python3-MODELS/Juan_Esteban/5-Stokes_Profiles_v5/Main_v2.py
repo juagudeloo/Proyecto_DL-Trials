@@ -11,7 +11,7 @@ def main():
     IN_LS = np.array([4,256]) #input shape in input layer
 
     sun_model = NN_model()
-    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, in_ls = IN_LS batch_size = 0.05)
+    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, in_ls = IN_LS, batch_size = 0.05)
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
