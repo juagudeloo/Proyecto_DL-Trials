@@ -8,15 +8,10 @@ def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     tr_filename = "053000"
-
-    data = Data_class()
-    TR_D, TR_L, TE_D, TE_L = data.split_data(tr_filename, TR_S = 0.75, output_type="Intensity")
-
     IN_LS = np.array([4,256]) #input shape in input layer
-    TR_BATCH_SIZE = int(len(TR_D[:,1,2])/1)
 
-    model = NN_model(IN_LS, TR_D, TR_L, TE_D, TE_L, TR_BATCH_SIZE)
-    model.model_train()
+    sun_model = NN_model()
+    sun_model.train(tr_filename, "Intensity", IN_LS, TR_S = 0.75, batch_size = 0.05)
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
@@ -42,12 +37,16 @@ class NN_model(Data_class):
 
         self.model = tf.keras.models.Model(inputs = data_in, outputs = x)
         return self.model
-    def model_train(self,filename, output_type, TR_S, IN_LS, TR_BATCH_SIZE):
+    def train(self,filename, output_type, TR_S, IN_LS, batch_size):
+        """
+        batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
+        """
         self.split_data(filename, output_type, TR_S)
         self.compile_model()
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
+        TR_BATCH_SIZE = int(self.tr_input[:,1,2].size*batch_size)
         self.model.fit(self.tr_input, self.tr_output, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)
 
 if __name__ == "__main__":
