@@ -76,7 +76,7 @@ class NN_model(Data_class):
             for i in range(N_profs):
                 ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
-                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_grey")     
+                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")     
                 ax[1,i].set_title(f"Stokes params spatial distribution- title={title[i]}")
             fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.filename}.png")   
         print(f"{self.filename} prediction plotted\n")
