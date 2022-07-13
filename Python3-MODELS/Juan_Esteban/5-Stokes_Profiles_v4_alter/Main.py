@@ -40,11 +40,11 @@ class NN_model():
 
 def compile_model(IN_LS):
     data_in =  tf.keras.layers.Input(shape = IN_LS, name='data_in')
-    dense1 = tf.keras.layers.Conv1D(units = 512, activation=tf.nn.relu)
-    dense2 = tf.keras.layers.Conv1D(units = 256, activation=tf.nn.relu)
-    dense3 = tf.keras.layers.Conv1D(units = 128, activation=tf.nn.relu)
-    dense4 = tf.keras.layers.Conv1D(units = 64, activation=tf.nn.relu) 
-    output = tf.keras.layers.Conv1D(units = 1, activation=tf.nn.sigmoid)
+    dense1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
+    dense2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
+    dense3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
+    dense4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
+    output = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)
     dropout = tf.keras.layers.Dropout(0.5)
     flattened = tf.keras.layers.Flatten()
     
