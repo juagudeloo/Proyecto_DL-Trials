@@ -32,12 +32,31 @@ class NN_model():
         self.in_ls = IN_LS
         self.tr_batch_size = TR_BATCH_SIZE
     def model_train(self):
-        self.model = tef.model_conv_layers(self.in_ls, n_layers = 4)
+        self.model = compile_model(self.in_ls)
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
         self.model.fit(self.tr_input, self.tr_output, epochs=8, batch_size=self.tr_batch_size, verbose=1)
 
+def compile_model(IN_LS):
+    data_in =  tf.keras.layers.Input(shape = IN_LS, name='data_in')
+    dense1 = tf.keras.layers.Conv1D(units = 512, activation=tf.nn.relu)
+    dense2 = tf.keras.layers.Conv1D(units = 256, activation=tf.nn.relu)
+    dense3 = tf.keras.layers.Conv1D(units = 128, activation=tf.nn.relu)
+    dense4 = tf.keras.layers.Conv1D(units = 64, activation=tf.nn.relu) 
+    output = tf.keras.layers.Conv1D(units = 1, activation=tf.nn.sigmoid)
+    dropout = tf.keras.layers.Dropout(0.5)
+    flattened = tf.keras.layers.Flatten()
+    
+    input = dense1(data_in)
+    x = dense2(input)
+    x = dense3(x)
+    x = dense4(x)
+    x = dropout(x)
+    x = flattened(x) #If this layer is not put, then the output will be of 4 channels......but for some reason is not working here
+    x = output(x)
+
+    return tf.keras.models.Model(inputs = data_in, outputs = x)
 
 
 
