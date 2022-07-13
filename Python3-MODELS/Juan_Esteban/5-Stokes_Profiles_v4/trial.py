@@ -23,7 +23,7 @@ def main():
     loss = tf.keras.metrics.MeanSquaredError()
     model.compile(optimizer = opt, loss = loss, metrics = loss)
     print("model compiled!")
-    print(mode.summary())
+    print(model.summary())
 
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
