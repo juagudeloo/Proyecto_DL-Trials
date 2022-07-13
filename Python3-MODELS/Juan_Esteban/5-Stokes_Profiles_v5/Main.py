@@ -16,7 +16,7 @@ def main():
     sun_model = NN_model()
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
-        sun_model.train(fln, "Intensity", tr_s = 0.75, batch_size_percentage = 0.05, epochs=3)
+        sun_model.train(fln, "Stokes params", tr_s = 0.75, batch_size_percentage = 0.05, epochs=3)
         sun_model.plot_loss()
     #Model predicting
     pr_filename = []
@@ -29,22 +29,26 @@ def main():
         sun_model.plot_predict()
 
 class NN_model(Data_class):
-    def __init__(self, nx = 480, ny = 256, nz = 480):
+    def __init__(self, output_type, nx = 480, ny = 256, nz = 480):
         super().__init__(nx,ny,nz)
+        self.output_type = output_type
     def compile_model(self, in_ls):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
-        dense1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
-        dense2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
-        dense3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
-        dense4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
-        output = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)
+        conv1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
+        conv2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
+        conv3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
+        conv4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
         flattened = tf.keras.layers.Flatten()
-        
-        input = dense1(data_in)
-        x = dense2(input)
-        x = dense3(x)
-        x = dense4(x)
+        if self.output_type == "Intensity":
+            output = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)
+        if self.output_type == "Stokes params":   
+            output = tf.keras.layers.Dense(1200, activation=tf.nn.sigmoid)
+            
+        input = conv1(data_in)
+        x = conv2(input)
+        x = conv3(x)
+        x = conv4(x)
         x = dropout(x)
         x = flattened(x) #If this layer is not put, then the output will be of 4 channels......but for some reason is not working here
         x = output(x)
@@ -53,12 +57,13 @@ class NN_model(Data_class):
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
+        
         return self.model
-    def train(self,filename, output_type, tr_s, batch_size_percentage, epochs=8):
+    def train(self,filename, tr_s, batch_size_percentage, epochs=8):
         """
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
-        self.split_data(filename, output_type, tr_s)
+        self.split_data(filename, self.output_type, tr_s)
         TR_BATCH_SIZE = int(self.tr_input[:,1,2].size*batch_size_percentage)
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=TR_BATCH_SIZE, verbose=1)
         self.model.evaluate(self.te_input, self.te_output)
@@ -83,7 +88,7 @@ class NN_model(Data_class):
             fig, ax = plt.subplots(figsize = (7,7))
             ax.imshow(self.predicted_values)
             ax.set_title(f"Predicted intensity")
-            fig.savefig(f"Images/Predicted_intensity-{self.filename}.png")
+            fig.savefig(f"Images/Intensity/Predicted_intensity-{self.filename}.png")
         if self.output_type == "Stokes params":
             N_profs = 4
             ix = 200
@@ -95,8 +100,8 @@ class NN_model(Data_class):
                 ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam])     
-                  
-            fig.savefig(f"Predicted_Stokes_parameters-{self.filename}.png")   
+                ax[1,i].set_title(f"Stokes params spatial distribution- title={title[i]}")
+            fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.filename}.png")   
         print(f"{self.filename} prediction plotted")
 if __name__ == "__main__":
     main()

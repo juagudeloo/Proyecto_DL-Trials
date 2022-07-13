@@ -124,6 +124,7 @@ class Data_class():
         self.profs_ravel = [] #its for the ravel data to make the splitting easier.
         #Charging the stokes profiles for the specific file
         print(f"reading Stokes params {self.stk_filename}")
+        N_profs = 4
         for ix in range(self.nx):
             for iy in range(self.nz):
                 p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
@@ -133,9 +134,14 @@ class Data_class():
                 #the dimensional indexes are disposed as ix*self.nz+iy.
                 ##############################################################################
                 self.profs.append(p_prof) 
+        print("scaling...")
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
-        print("Stokes params done!")
+        for i in range(N_profs):
+            self.profs[:,i,:] = scaling(self.profs[:,i,:])
+        #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
+        self.profs = self.profs.reshape(self.nx*self.nz,N_profs*self.nlam) 
+        print(f"Stokes params done! {self.filename}")
         return self.profs
     def split_data(self, filename, output_type, TR_S):
         """
