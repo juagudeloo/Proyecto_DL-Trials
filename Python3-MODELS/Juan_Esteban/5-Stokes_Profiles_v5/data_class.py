@@ -5,7 +5,6 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import MinMaxScaler
 import tensorflow as tf
 import model_prof_tools as mpt
-import testing_functions as tef
 
 #This is the scaling function
 def scaling(array):
