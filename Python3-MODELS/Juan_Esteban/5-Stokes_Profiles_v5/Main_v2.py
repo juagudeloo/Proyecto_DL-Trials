@@ -11,7 +11,7 @@ def main():
     IN_LS = np.array([4,256]) #input shape in input layer
 
     sun_model = NN_model()
-    sun_model.train(tr_filename, "Intensity", IN_LS, TR_S = 0.75, batch_size = 0.05)
+    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, in_ls = IN_LS batch_size = 0.05)
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
@@ -37,12 +37,12 @@ class NN_model(Data_class):
 
         self.model = tf.keras.models.Model(inputs = data_in, outputs = x)
         return self.model
-    def train(self,filename, output_type, TR_S, IN_LS, batch_size):
+    def train(self,filename, output_type, tr_s, in_ls, batch_size):
         """
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
-        self.split_data(filename, output_type, TR_S)
-        self.compile_model(IN_LS)
+        self.split_data(filename, output_type, tr_s)
+        self.compile_model(in_ls)
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
