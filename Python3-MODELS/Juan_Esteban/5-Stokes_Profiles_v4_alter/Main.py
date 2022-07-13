@@ -32,23 +32,12 @@ class NN_model():
         self.in_ls = IN_LS
         self.tr_batch_size = TR_BATCH_SIZE
     def model_train(self):
-        self.model = conv_model(self.in_ls)
+        self.model = tef.model_dense_layers(self.in_ls, n_layers = 4)
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
         self.model.fit(self.tr_input, self.tr_output, epochs=8, batch_size=self.tr_batch_size, verbose=1)
 
-def conv_model(IN_LS):
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
-    model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
-    model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=IN_LS))
-    model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
-    model.add(tf.keras.layers.GlobalMaxPool1D())
-    model.add(tf.keras.layers.Dense(64, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
-    model.add(tf.keras.layers.Dense(1))
-    return model
 
 
 
