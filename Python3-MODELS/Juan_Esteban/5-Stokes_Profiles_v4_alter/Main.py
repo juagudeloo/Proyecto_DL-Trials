@@ -32,17 +32,18 @@ class NN_model():
         self.in_ls = IN_LS
         self.tr_batch_size = TR_BATCH_SIZE
     def compile_model(self):
-        self.model = tf.keras.Sequential()
-        self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
-        self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
-        self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=self.in_ls))
-        self.model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
-        self.model.add(tf.keras.layers.GlobalMaxPool1D())
-        self.model.add(tf.keras.layers.Dense(64, activation='relu'))
-        self.model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
-        self.model.add(tf.keras.layers.Dense(1))
+        model = tf.keras.Sequential()
+        model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
+        model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
+        model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=self.in_ls))
+        model.add(tf.keras.layers.Conv1D(64, 2, activation='relu'))
+        model.add(tf.keras.layers.GlobalMaxPool1D())
+        model.add(tf.keras.layers.Dense(64, activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.3)) #Layer added to avoid the overfitting
+        model.add(tf.keras.layers.Dense(1))
+        return model
     def model_train(self):
-        self.compile_model()
+        self.model = self.compile_model()
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
