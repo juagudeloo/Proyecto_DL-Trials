@@ -1,4 +1,3 @@
-from pickletools import optimize
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.layers import Conv1D, Input, GlobalMaxPool1D, Dense, Dropout
