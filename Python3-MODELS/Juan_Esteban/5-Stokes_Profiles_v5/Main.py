@@ -12,12 +12,21 @@ def main():
         a = "0"+str(i)+"000"
         tr_filename.append(a)
     IN_LS = np.array([4,256]) #input shape in input layer
-
+    #Model training
     sun_model = NN_model()
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
         sun_model.train(fln, "Intensity", tr_s = 0.75, batch_size_percentage = 0.05, epochs=3)
         sun_model.plot_loss()
+    #Model predicting
+    pr_filename = []
+    for i in range(61,70):
+        a = "0"+str(i)+"000"
+        pr_filename.append(a)
+    
+    for fln in pr_filename:
+        sun_model.predict_values(fln)
+        sun_model.plot_predict()
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
@@ -58,6 +67,33 @@ class NN_model(Data_class):
         ax.plot(range(len(self.history.history['loss'])), self.history.history['loss'])
         fig.savefig(f"Images/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
-
+    ##### PREDICTING PHASE #####
+    def predict_values(self, filename):
+        self.charge_inputs(filename)
+        if self.output_type == "Intensity":
+            self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz)
+        if self.output_type == "Stokes params":
+            self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz, 4, self.nlam)
+        return self.predicted_values
+    def plot_predict(self):
+        if self.output_type == "Intensity":
+            fig, ax = plt.subplots(figsize = (7,7))
+            ax.imshow(self.predicted_values)
+            ax.set_title(f"Predicted intensity")
+            fig.savefig(f"Predicted_intensity-{self.filename}.png")
+        if self.output_type == "Stokes params":
+            N_profs = 4
+            ix = 200
+            iz = 280
+            wave_lam = 200
+            title = ['I','Q','U','V']
+            fig, ax = plt.subplots(2,4,figsize=(7,28))
+            for i in range(N_profs):
+                ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
+                ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
+                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam])     
+                ax[1,i].set_title(f"Stokes params distribution - title={title[i]} - "+r"$\lambda$"+f"={wave_lam}")   
+                  
+            fig.savefig(f"Predicted_Stokes_parameters-{self.filename}.png")   
 if __name__ == "__main__":
     main()
