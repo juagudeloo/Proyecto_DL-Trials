@@ -51,7 +51,7 @@ class NN_model(Data_class):
         """
         self.split_data(filename, output_type, tr_s)
         TR_BATCH_SIZE = int(self.tr_input[:,1,2].size*batch_size_percentage)
-        self.history = sself.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=TR_BATCH_SIZE, verbose=1)
+        self.history = self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=TR_BATCH_SIZE, verbose=1)
         self.model.evaluate(self.te_input, self.tr_output)
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
