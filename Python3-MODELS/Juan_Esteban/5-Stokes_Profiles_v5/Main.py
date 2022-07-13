@@ -44,7 +44,7 @@ class NN_model(Data_class):
             output = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)
         if self.output_type == "Stokes params":   
             output = tf.keras.layers.Dense(1200, activation=tf.nn.sigmoid)
-            
+
         input = conv1(data_in)
         x = conv2(input)
         x = conv3(x)
@@ -70,7 +70,10 @@ class NN_model(Data_class):
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
         ax.plot(range(len(self.history.history['loss'])), self.history.history['loss'])
-        fig.savefig(f"Images/loss_plot-{self.filename}.png")
+        if self.output_type == "Intensity":
+            fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
+        if self.output_type == "Stokes params":
+            fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     ##### PREDICTING PHASE #####
     def predict_values(self, filename):
