@@ -39,6 +39,8 @@ def main():
     print(np.shape(tr_outputs))
     print(type(tr_outputs))
 
+    model.fit(tr_inputs, tr_outputs)
+
 
     
 
