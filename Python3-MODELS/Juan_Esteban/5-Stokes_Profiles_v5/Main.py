@@ -55,7 +55,7 @@ class NN_model(Data_class):
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
-        ax.plot(range(self.history.history['loss'].size), self.history.history['loss'])
+        ax.plot(range(len(self.history.history['loss'])), self.history.history['loss'])
         fig.savefig(f"Images/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
 
