@@ -12,7 +12,7 @@ def main():
 
     sun_model = NN_model()
     sun_model.compile_model(IN_LS)
-    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, in_ls = IN_LS, batch_size_percentage = 0.0005)
+    sun_model.train(tr_filename, "Intensity", tr_s = 0.75, batch_size_percentage = 0.0005)
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
