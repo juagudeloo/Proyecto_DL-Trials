@@ -172,7 +172,7 @@ class Data_NN_model(NN_Model):
         model = tef.model_conv_layers(self.in_ls, n_layers = 4)
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
-        self.model.summary()
+        model.summary()
         print(type(self.tr_input))
         print(type(self.tr_output))
         self.history = model.fit(self.tr_input, self.tr_output, epochs=10, batch_size=2, verbose=1)
