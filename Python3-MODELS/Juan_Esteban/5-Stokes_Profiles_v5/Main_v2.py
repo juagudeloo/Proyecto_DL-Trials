@@ -16,9 +16,8 @@ def main():
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
         super().__init__(nx,ny,nz)
-    def compile_model(self, IN_LS):
-        self.in_ls
-        data_in =  tf.keras.layers.Input(shape = self.in_ls, name='data_in')
+    def compile_model(self, in_ls):
+        data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
         dense1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
         dense2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
         dense3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
