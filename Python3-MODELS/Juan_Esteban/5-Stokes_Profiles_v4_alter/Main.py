@@ -32,7 +32,7 @@ class NN_model():
         self.in_ls = IN_LS
         self.tr_batch_size = TR_BATCH_SIZE
     def model_train(self):
-        self.model = tef.model_dense_layers(self.in_ls, n_layers = 4)
+        self.model = tef.model_conv_layers(self.in_ls, n_layers = 4)
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
