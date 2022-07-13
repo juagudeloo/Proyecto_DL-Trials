@@ -9,7 +9,7 @@ def main():
     tr_filename = "053000"
 
     data = Data_class()
-    TR_D, TR_L, TE_D, TE_L = data.split_data(tr_filename)
+    TR_D, TR_L, TE_D, TE_L = data.split_data(tr_filename, TR_S = 0.75, output_type="Intensity")
 
     IN_LS = np.array([4,256]) #input shape in input layer
     TR_BATCH_SIZE = int(len(TR_D[:,1,2])/1)
