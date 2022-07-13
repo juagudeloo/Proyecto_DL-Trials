@@ -7,13 +7,16 @@ import testing_functions as tef
 def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
-    tr_filename = ["053000", "054000"]
+    tr_filename = []
+    for i in range(53,60):
+        a = "0"+str(i)+"000"
+        tr_filename.append(a)
     IN_LS = np.array([4,256]) #input shape in input layer
 
     sun_model = NN_model()
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
-        sun_model.train(fln, "Intensity", tr_s = 0.75, batch_size_percentage = 0.05)
+        sun_model.train(fln, "Intensity", tr_s = 0.75, batch_size_percentage = 0.05, epochs=3)
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
@@ -41,13 +44,13 @@ class NN_model(Data_class):
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
         return self.model
-    def train(self,filename, output_type, tr_s, batch_size_percentage):
+    def train(self,filename, output_type, tr_s, batch_size_percentage, epochs=8):
         """
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
         self.split_data(filename, output_type, tr_s)
         TR_BATCH_SIZE = int(self.tr_input[:,1,2].size*batch_size_percentage)
-        self.model.fit(self.tr_input, self.tr_output, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)
+        self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=TR_BATCH_SIZE, verbose=1)
 
 if __name__ == "__main__":
     main()
