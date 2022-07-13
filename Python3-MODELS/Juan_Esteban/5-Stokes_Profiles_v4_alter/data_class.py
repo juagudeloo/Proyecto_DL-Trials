@@ -19,19 +19,17 @@ def scaling(array):
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
-class Data_NN_model(NN_Model):
-    def __init__(self, IN_LS, OUT_LS, output_type, nx = 480, ny = 256, nz = 480): 
+class Data_class(NN_Model):
+    def __init__(self, nx = 480, ny = 256, nz = 480): 
         """
         output_type options:
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.
         """
-        super().__init__(IN_LS, OUT_LS)
         #size of the cubes of the data
         self.nx = nx
         self.ny = ny
         self.nz = nz
-        self.output_type = output_type
         print("Starting the charging process!")
     def charge_inputs(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
@@ -140,12 +138,13 @@ class Data_NN_model(NN_Model):
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         print("Stokes params done!")
         return self.profs
-    def split_data(self, filename, TR_S):
+    def split_data(self, filename, output_type, TR_S):
         """
         Splits the data into a test set and a training set.
         It is a hand made splitting.
         TR_S: relative ratio of the whole data selected to the training set.
         """
+        self.output_type = output_type
         #Arrays of input and output training and testing sets
         self.tr_input = []
         self.te_input = []
@@ -167,49 +166,8 @@ class Data_NN_model(NN_Model):
             self.charge_stokes_params(filename)
             self.tr_output = self.profs[idx[:TR_delim]]
             self.te_output = self.profs[idx[TR_delim:]]
-    ######## functions to call for the training
-    def model_train(self, filename, TR_S, epochs = 10):
-        model = tef.model_conv_layers(self.in_ls, n_layers = 4)
-        print(type(model))
-        opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
-        model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
-        model.summary()
-        print(type(self.tr_input))
-        print(type(self.tr_output))
-        self.history = model.fit(self.tr_input, self.tr_output, epochs=10, batch_size=2, verbose=1)
-        model.evaluate(self.te_input, self.tr_output)
-    def plot_loss(self):
-        fig,ax = plt.subplots(figsize = (10,7))
-        ax.plot(range(self.history['loss'].size), self.history['loss'])
-        fig.savefig(f"Images/loss_plot-{self.filename}.png")
-################################### PREDICTING DATA ###################################
-    def predict_values(self, filename):
-        self.charge_inputs(filename)
-        if self.output_type == "Intensity":
-            self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz)
-        if self.output_type == "Stokes params":
-            self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz, 4, self.nlam)
-        return self.predicted_values
-    def plot_predict(self):
-        if self.output_type == "Intensity":
-            fig, ax = plt.subplots(figsize = (7,7))
-            ax.imshow(self.predicted_values)
-            ax.set_title(f"Predicted intensity")
-            fig.savefig(f"Predicted_intensity-{self.filename}.png")
-        if self.output_type == "Stokes params":
-            N_profs = 4
-            ix = 200
-            iz = 280
-            wave_lam = 200
-            title = ['I','Q','U','V']
-            fig, ax = plt.subplots(2,4,figsize=(7,28))
-            for i in range(N_profs):
-                ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
-                ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
-                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam])     
-                ax[1,i].set_title(f"Stokes params distribution - title={title[i]} - "+r"$\lambda$"+f"={wave_lam}")   
-                  
-            fig.savefig(f"Predicted_Stokes_parameters-{self.filename}.png")         
+        return self.tr_input, self.tr_output, self.te_input, self.te_output
+
 
 
 
