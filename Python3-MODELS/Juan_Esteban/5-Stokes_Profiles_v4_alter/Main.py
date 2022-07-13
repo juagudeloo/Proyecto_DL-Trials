@@ -32,6 +32,7 @@ class NN_model():
         self.in_ls = IN_LS
         self.tr_batch_size = TR_BATCH_SIZE
     def compile_model(self):
+        self.model = tf.keras.Sequential()
         self.model.add(tf.keras.layers.Conv1D(512, 2, activation='relu'))
         self.model.add(tf.keras.layers.Conv1D(256, 2, activation='relu'))
         self.model.add(tf.keras.layers.Conv1D(128, 1, activation='relu', input_shape=self.in_ls))
