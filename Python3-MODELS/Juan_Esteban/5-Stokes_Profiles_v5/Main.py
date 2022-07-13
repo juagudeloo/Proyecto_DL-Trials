@@ -98,7 +98,7 @@ class NN_model(Data_class):
             iz = 280
             wave_lam = 200
             title = ['I','Q','U','V']
-            fig, ax = plt.subplots(2,4,figsize=(7,28))
+            fig, ax = plt.subplots(2,4,figsize=(28,7))
             for i in range(N_profs):
                 ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
