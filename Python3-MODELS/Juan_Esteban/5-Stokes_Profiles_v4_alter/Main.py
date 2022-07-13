@@ -56,11 +56,5 @@ class NN_model():
         self.model.summary()
         self.model.fit(self.tr_input, self.tr_output, epochs=8, batch_size=self.tr_batch_size, verbose=1)
 
-def compile_model(IN_LS):
-    
-
-
-
-
 if __name__ == "__main__":
     main()
