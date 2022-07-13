@@ -174,7 +174,7 @@ class Data_NN_model(NN_Model):
         print(type(self.tr_input))
         print(type(self.tr_output))
         training = tf.data.Dataset.from_tensor_slices((self.tr_input, self.tr_output))
-        training[0] = tf.reshape(training[0], (None, 4, 256))
+        training = tf.reshape(training, (None, 4, 256))
         self.history = self.model.fit(training, epochs=10, batch_size=2, verbose=1)
         self.model.evaluate(self.te_input, self.tr_output)
     def plot_loss(self):
