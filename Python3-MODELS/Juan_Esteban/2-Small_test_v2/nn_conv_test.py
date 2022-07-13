@@ -49,7 +49,10 @@ def main():
                                                     te_div_nx, te_div_nz, 
                                                     pr_div_nx, pr_div_nz, 
                                                     print_shape=1)
-
+    print(TR_D.shape)
+    print(TR_L.shape)
+    print(TE_D.shape)
+    print(TE_L.shape)
     IN_LS = np.array([4,256]) #input shape in input layer
     pr_BATCH_SIZE = int(len(PR_D)/10)
     print(pr_BATCH_SIZE)
