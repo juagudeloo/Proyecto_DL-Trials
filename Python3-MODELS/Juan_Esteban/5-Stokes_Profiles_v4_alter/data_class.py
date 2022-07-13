@@ -170,6 +170,7 @@ class Data_NN_model(NN_Model):
     ######## functions to call for the training
     def model_train(self, filename, TR_S, epochs = 10):
         model = tef.model_conv_layers(self.in_ls, n_layers = 4)
+        print(type(model))
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         model.summary()
