@@ -51,6 +51,7 @@ class NN_model():
 
         self.model = tf.keras.models.Model(inputs = data_in, outputs = x)
     def model_train(self):
+        self.compile_model()
         opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
