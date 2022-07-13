@@ -15,12 +15,32 @@ def main():
     IN_LS = np.array([4,256]) #input shape in input layer
     TR_BATCH_SIZE = int(len(TR_D[:,1,2])/1)
 
-    model = tef.model_dense_layers(IN_LS, n_layers = 4)
-    opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
-    model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
-    model.summary()
-    model.fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)
+    #model = tef.model_dense_layers(IN_LS, n_layers = 4)
+    #opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
+    #model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
+    #model.summary()
+    #model.fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)
+    model = NN_model(IN_LS, TR_D, TR_L, TE_D, TE_L, TR_BATCH_SIZE)
+    model.model_train()
 
-    
+class NN_model():
+    def __init__(self, IN_LS, TR_D, TR_L, TE_D, TE_L, TR_BATCH_SIZE):
+        self.tr_input = TR_D
+        self.tr_output = TR_L
+        self.te_input = TE_D
+        self.te_output = TE_L
+        self.in_ls = IN_LS
+        self.tr_batch_size = TR_BATCH_SIZE
+    def model_train(self):
+        model = tef.model_dense_layers(self.in_ls, n_layers = 4)
+        opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
+        model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
+        model.summary()
+        model.fit(self.tr_input, self.tr_output, epochs=8, batch_size=self.tr_batch_size, verbose=1)
+
+
+
+
+
 if __name__ == "__main__":
     main()
