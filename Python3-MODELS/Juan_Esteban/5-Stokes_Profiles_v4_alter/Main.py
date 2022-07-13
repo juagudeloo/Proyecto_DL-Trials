@@ -19,6 +19,7 @@ def main():
     opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
     model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
     model.summary()
+    model.fit(TR_D, TR_L, epochs=8, batch_size=TR_BATCH_SIZE, verbose=1)
 
     
 if __name__ == "__main__":
