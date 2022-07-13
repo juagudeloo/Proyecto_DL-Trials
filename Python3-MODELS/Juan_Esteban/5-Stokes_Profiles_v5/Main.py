@@ -8,7 +8,7 @@ def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     tr_filename = []
-    for i in range(53,60):
+    for i in range(53,55):
         a = "0"+str(i)+"000"
         tr_filename.append(a)
     IN_LS = np.array([4,256]) #input shape in input layer
@@ -20,7 +20,7 @@ def main():
         sun_model.plot_loss()
     #Model predicting
     pr_filename = []
-    for i in range(61,70):
+    for i in range(56,57):
         a = "0"+str(i)+"000"
         pr_filename.append(a)
     
