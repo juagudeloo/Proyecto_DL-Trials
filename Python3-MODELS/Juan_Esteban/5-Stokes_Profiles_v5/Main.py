@@ -84,7 +84,7 @@ class NN_model(Data_class):
             print(f"{self.filename} prediction done!")
         if self.output_type == "Stokes params":
             self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz, 4, self.nlam)
-            print(f"{self.filename} prediction done!")
+            print(f"{self.filename} prediction done!\n")
         return self.predicted_values
     def plot_predict(self):
         if self.output_type == "Intensity":
@@ -105,6 +105,6 @@ class NN_model(Data_class):
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam])     
                 ax[1,i].set_title(f"Stokes params spatial distribution- title={title[i]}")
             fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.filename}.png")   
-        print(f"{self.filename} prediction plotted")
+        print(f"{self.filename} prediction plotted\n")
 if __name__ == "__main__":
     main()
