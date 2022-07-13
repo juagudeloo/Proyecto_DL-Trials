@@ -17,6 +17,7 @@ def main():
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
         sun_model.train(fln, "Intensity", tr_s = 0.75, batch_size_percentage = 0.05, epochs=3)
+        sun_model.plot_loss()
 
 class NN_model(Data_class):
     def __init__(self, nx = 480, ny = 256, nz = 480):
@@ -50,7 +51,12 @@ class NN_model(Data_class):
         """
         self.split_data(filename, output_type, tr_s)
         TR_BATCH_SIZE = int(self.tr_input[:,1,2].size*batch_size_percentage)
-        self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=TR_BATCH_SIZE, verbose=1)
+        self.history = sself.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=TR_BATCH_SIZE, verbose=1)
+        self.model.evaluate(self.te_input, self.tr_output)
+    def plot_loss(self):
+        fig,ax = plt.subplots(figsize = (10,7))
+        ax.plot(range(self.history['loss'].size), self.history['loss'])
+        fig.savefig(f"Images/loss_plot-{self.filename}.png")
 
 if __name__ == "__main__":
     main()
