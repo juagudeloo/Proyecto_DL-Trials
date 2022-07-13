@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import MinMaxScaler
 import tensorflow as tf
-from nn_model import NN_Model #module in the same folder
 import model_prof_tools as mpt
 import testing_functions as tef
 
