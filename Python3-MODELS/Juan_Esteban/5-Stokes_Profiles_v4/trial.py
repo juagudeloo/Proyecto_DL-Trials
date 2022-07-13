@@ -8,7 +8,7 @@ from data_class import Data_NN_model
 
 def main():
     #model to test
-    IN_LS = (4,256) #input shape in input layer
+    IN_LS = np.array([4,256]) #input shape in input layer
     print("compiling the model...")
     model = tf.keras.Sequential()
     model.add(Conv1D(512, 2, activation='relu', input_shape=IN_LS))
@@ -38,8 +38,8 @@ def main():
     print(type(tr_inputs))
     print(np.shape(tr_outputs))
     print(type(tr_outputs))
-
-    model.fit(tr_inputs, tr_outputs)
+    TR_BATCH_SIZE = int(len(tr_inputs[:,1,2])/1)
+    history = model.fit(tr_inputs, tr_outputs, epochs=8, batch_size = TR_BATCH_SIZE, verbose=1)
 
 
     
