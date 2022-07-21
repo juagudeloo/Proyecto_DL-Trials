@@ -135,7 +135,7 @@ class Data_class():
         sizerec=0
         f=0
         data=0
-        f=open(self.stk_filename,'rb')
+        f=open(self.stk_ptm+self.stk_filename,'rb')
         for ix in range(self.nx):
             for iy in range(self.nz):
                 irec=iy+ix*self.ny
