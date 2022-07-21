@@ -116,6 +116,12 @@ class Data_class():
         print('\n') 
         return self.iout
     def charge_stokes_params(self, filename, stk_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/",  file_type = "nicole"):
+        import struct
+        import re
+        import sys
+        global idl, irec, f # Save values between calls
+
+        [int4f,intf,flf]=mpt.check_types()
         self.stk_ptm = stk_ptm
         self.stk_filename = filename+"_0000_0000.prof"
         self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
@@ -124,13 +130,29 @@ class Data_class():
         #Charging the stokes profiles for the specific file
         print(f"reading Stokes params {self.stk_filename}")
         N_profs = 4
-        self.profs = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, 0, 0,sequential=1)
-        self.profs = np.reshape(self.profs, (self.nx*self.nz,self.nlam, N_profs))
-        ##############################################################################
-        #self.profs_ravel is going to safe all the data in a one dimensional array where
-        #the dimensional indexes are disposed as ix*self.nz+iy.
-        ############################################################################## 
+        #Extracting variables
+        irec=0
+        sizerec=0
+        f=0
+        data=0
+        f=open(filename,'rb')
+        for ix in range(self.nx):
+            for iy in range(self.nz):
+                irec=iy+ix*self.ny
+                sizerec=4*self.nlam # Floats (multiply by 8 to convert to bytes)
+                f.seek(sizerec*8*(irec+1)) # Skip header and previous records
+                data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
+                data=list(data)
+                p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
+                p_prof = np.reshape(p_prof, (self.nlam, N_profs))
+                ##############################################################################
+                #self.profs_ravel is going to safe all the data in a one dimensional array where
+                #the dimensional indexes are disposed as ix*self.nz+iy.
+                ##############################################################################
+                self.profs.append(p_prof) 
+        f.close()
         print("scaling...")
+        self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         for i in range(N_profs):
             self.profs[:,i,:] = scaling(self.profs[:,i,:]).reshape(self.nx*self.nz, self.nlam)
