@@ -184,10 +184,12 @@ class Data_class():
             self.charge_intensity(filename)
             self.tr_output = self.iout[idx[:TR_delim]]
             self.te_output = self.iout[idx[TR_delim:]]
+            self.iout = 0
         if self.output_type == "Stokes params":
             self.charge_stokes_params(filename)
             self.tr_output = self.profs[idx[:TR_delim]]
             self.te_output = self.profs[idx[TR_delim:]]
+            self.profs = 0
         return self.tr_input, self.tr_output, self.te_input, self.te_output
 
 
