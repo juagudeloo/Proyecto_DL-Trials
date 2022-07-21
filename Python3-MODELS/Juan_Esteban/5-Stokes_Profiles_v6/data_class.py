@@ -124,7 +124,7 @@ class Data_class():
         #Charging the stokes profiles for the specific file
         print(f"reading Stokes params {self.stk_filename}")
         N_profs = 4
-        self.profs = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, 0, 0)
+        self.profs = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, 0, 0,sequential=1)
         self.profs = np.reshape(self.profs, (self.nx*self.nz,self.nlam, N_profs))
         ##############################################################################
         #self.profs_ravel is going to safe all the data in a one dimensional array where
