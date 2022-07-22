@@ -132,7 +132,7 @@ class Data_class():
         for ix in range(self.nx):
             for iy in range(self.nz):
                 p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
-                p_prof = np.memmap.reshape(p_prof, (self.nlam, N_profs))
+                p_prof = np.memmap.reshape(np.array(p_prof), (self.nlam, N_profs))
                 ##############################################################################
                 #self.profs_ravel is going to safe all the data in a one dimensional array where
                 #the dimensional indexes are disposed as ix*self.nz+iy.
