@@ -129,28 +129,15 @@ class Data_class():
         #Charging the stokes profiles for the specific file
         print(f"reading Stokes params {self.stk_filename}")
         N_profs = 4
-        #Extracting variables
-        irec=0
-        sizerec=0
-        f=0
-        data=0
-        f=open(self.stk_ptm+self.stk_filename,'rb')
         for ix in range(self.nx):
             for iy in range(self.nz):
-                irec=iy+ix*self.ny
-                sizerec=4*self.nlam # Floats (multiply by 8 to convert to bytes)
-                f.seek(sizerec*8*(irec+1)) # Skip header and previous records
-                data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
-                data=list(data)
                 p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
-                p_prof = np.array(p_prof)
                 p_prof = np.memmap.reshape(p_prof, (self.nlam, N_profs))
                 ##############################################################################
                 #self.profs_ravel is going to safe all the data in a one dimensional array where
                 #the dimensional indexes are disposed as ix*self.nz+iy.
                 ##############################################################################
-                self.profs.append(p_prof) 
-        f.close()
+                self.profs.append(p_prof)  
         print("scaling...")
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
