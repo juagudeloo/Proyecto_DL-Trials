@@ -155,7 +155,8 @@ class Data_class():
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         for i in range(N_profs):
-            self.profs[:,i,:] = scaling(self.profs[:,i,:]).memmap.reshape(self.nx*self.nz, self.nlam)
+            self.profs[:,i,:] = scaling(self.profs[:,i,:])
+            self.profs[:,i,:] = np.memmap.reshape(self.profs(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
         self.profs = self.profs.memmap.reshape(self.nx*self.nz,N_profs*self.nlam) 
         print(f"Stokes params done! {self.filename}")
