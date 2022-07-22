@@ -9,7 +9,7 @@ import model_prof_tools as mpt
 #This is the scaling function
 def scaling(array):
     scaler = MinMaxScaler()
-    array1 = array.memmap.reshape(-1,1)
+    array1 = np.memmap.reshape(array,(-1,1))
     scaler.fit(array1)
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
@@ -46,9 +46,9 @@ class Data_class():
         coef = np.sqrt(4.0*np.pi) #for converting data to cgs units
         #Function for raveling the nx and nz coordinates after the processing
         def ravel_xz(array):
-                array_ravel = array.memmap.reshape(self.nx, self.ny, self.nz)
+                array_ravel = np.memmap.reshape(array,(self.nx, self.ny, self.nz))
                 array_ravel = np.moveaxis(array_ravel,1,2)
-                array_ravel = array_ravel.memmap.reshape(self.nx*self.nz, self.ny) 
+                array_ravel = np.memmap.reshape(array_ravel,(self.nx*self.nz, self.ny))
                 return array_ravel
         ################################
         # Charging the data into the code - every data is converted into a cube 
@@ -64,7 +64,7 @@ class Data_class():
         print(f"reading EOS {self.filename}")
         #Charging temperature data
         self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
-        self.mtpr = np.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
+        self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
@@ -143,7 +143,7 @@ class Data_class():
                 data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
                 data=list(data)
                 p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
-                p_prof = np.reshape(p_prof, (self.nlam, N_profs))
+                p_prof = np.memmap.reshape(p_prof, (self.nlam, N_profs))
                 ##############################################################################
                 #self.profs_ravel is going to safe all the data in a one dimensional array where
                 #the dimensional indexes are disposed as ix*self.nz+iy.
