@@ -177,7 +177,7 @@ class Data_class():
             TR_delim = int(n_data*TR_S)
             self.tr_input = self.profs[idx[:TR_delim]]
             self.te_input = self.profs[idx[TR_delim:]]
-        self.charge_stokes_params(filename)
+        self.charge_atm_params(filename)
         self.tr_output = self.atm_params[idx[:TR_delim]]
         self.te_output = self.atm_params[idx[TR_delim:]]
         return self.tr_input, self.tr_output, self.te_input, self.te_output
