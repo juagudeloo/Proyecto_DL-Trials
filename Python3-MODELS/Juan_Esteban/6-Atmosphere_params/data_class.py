@@ -120,10 +120,10 @@ class Data_class():
         import re
         import sys
         global idl, irec, f # Save values between calls
-
+        self.filename = filename
         [int4f,intf,flf]=mpt.check_types()
         self.stk_ptm = stk_ptm
-        self.stk_filename = filename+"_0000_0000.prof"
+        self.stk_filename = self.filename+"_0000_0000.prof"
         self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
         self.profs = [] #It's for the reshaped data - better for visualization.
         self.profs_ravel = [] #its for the ravel data to make the splitting easier.

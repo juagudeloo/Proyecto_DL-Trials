@@ -44,10 +44,13 @@ class NN_model_atm(Data_class):
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
         ax.plot(range(len(self.history.history['loss'])), self.history.history['loss'])
+        ax.set_title("Atmosphere parameters")
+        ax.set_ylabel("Loss")
+        ax.set_xlabel("epochs")
         if self.input_type == "Intensity":
             fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
         if self.input_type == "Stokes params":
-            fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     ##### PREDICTING PHASE #####
     def predict_values(self, filename):
@@ -80,5 +83,8 @@ class NN_model_atm(Data_class):
             ax[2,i].set_title(f"Atmosphere parameters spatial distribution- title={title[i]}")
             ax[3,i].imshow(original_atm[:,:,i,height], cmap = "gist_gray")     
             ax[3,i].set_title(f"ORIGINAL spatial distribution - title={title[i]}")
-        fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.pred_filename}.png")   
+        if self.input_type == "Intensity":
+            fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
+        if self.input_type == "Stokes params":
+            fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
         print(f"{self.pred_filename} prediction plotted\n")
