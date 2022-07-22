@@ -9,7 +9,7 @@ import model_prof_tools as mpt
 #This is the scaling function
 def scaling(array):
     scaler = MinMaxScaler()
-    array1 = array.reshape(-1,1)
+    array1 = array.memmap.reshape(-1,1)
     scaler.fit(array1)
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
@@ -46,9 +46,9 @@ class Data_class():
         coef = np.sqrt(4.0*np.pi) #for converting data to cgs units
         #Function for raveling the nx and nz coordinates after the processing
         def ravel_xz(array):
-                array_ravel = array.reshape(self.nx, self.ny, self.nz)
+                array_ravel = array.memmap.reshape(self.nx, self.ny, self.nz)
                 array_ravel = np.moveaxis(array_ravel,1,2)
-                array_ravel = array_ravel.reshape(self.nx*self.nz, self.ny) 
+                array_ravel = array_ravel.memmap.reshape(self.nx*self.nz, self.ny) 
                 return array_ravel
         ################################
         # Charging the data into the code - every data is converted into a cube 
@@ -111,7 +111,6 @@ class Data_class():
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
         print("scaling...")
         self.iout = scaling(self.iout) #scaled intensity
-        print(np.shape(self.iout))
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
@@ -155,9 +154,9 @@ class Data_class():
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         for i in range(N_profs):
-            self.profs[:,i,:] = scaling(self.profs[:,i,:]).reshape(self.nx*self.nz, self.nlam)
+            self.profs[:,i,:] = scaling(self.profs[:,i,:]).memmap.reshape(self.nx*self.nz, self.nlam)
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
-        self.profs = self.profs.reshape(self.nx*self.nz,N_profs*self.nlam) 
+        self.profs = self.profs.memmap.reshape(self.nx*self.nz,N_profs*self.nlam) 
         print(f"Stokes params done! {self.filename}")
         return self.profs
     def split_data(self, filename, output_type, TR_S):
