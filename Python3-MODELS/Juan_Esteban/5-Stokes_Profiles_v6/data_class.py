@@ -143,6 +143,7 @@ class Data_class():
                 data=struct.unpack('<'+str(sizerec)+flf,f.read(sizerec*8))
                 data=list(data)
                 p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
+                p_prof = np.array(p_prof)
                 p_prof = np.memmap.reshape(p_prof, (self.nlam, N_profs))
                 ##############################################################################
                 #self.profs_ravel is going to safe all the data in a one dimensional array where
