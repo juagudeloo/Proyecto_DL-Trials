@@ -53,7 +53,7 @@ class Data_class_indiv():
             print (f"reading byy {self.filename}")
             self.magnitude = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
             coef = np.sqrt(4.0*np.pi) #cgs units conversion
-            self.magnitude=self.mbyy*coef
+            self.magnitude=self.magnitude*coef
             print(f"byy done {self.filename}")
         if self.phys_mag == "mvyy":
             print(f"reading rho and mvyy (dividing mvyy/mrho to obtain vyy) {self.filename}")
