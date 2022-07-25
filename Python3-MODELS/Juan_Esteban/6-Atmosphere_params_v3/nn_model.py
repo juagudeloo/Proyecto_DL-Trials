@@ -48,7 +48,7 @@ class NN_model_indiv(Data_class_indiv):
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=batch_size, verbose=1)
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
-        title = {"mbyy":'Magnetic Field',
+        title = {"mbyy":'Magnetic_Field',
                 "mvyy": 'Velocity',
                 "mrho": 'Density',
                 "mtpr": 'Temperature'}
