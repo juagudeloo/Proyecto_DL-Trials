@@ -16,7 +16,7 @@ def main():
     elif input_type == "Stokes params":
         IN_LS = np.array([4,300]) #input shape in input layer - Stokes profiles as input
     #Model training
-    phys_m = "mptr" #Temperature
+    phys_m = "mbyy" #Temperature
     sun_model = NN_model_indiv(input_type, phys_m)
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
