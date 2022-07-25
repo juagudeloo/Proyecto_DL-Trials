@@ -1,7 +1,7 @@
 from tkinter.tix import InputOnly
 import matplotlib.pyplot as plt
 import numpy as np
-from nn_model import NN_model_indiv_atm
+from nn_model import NN_model_indiv
 
 def main():
     physical_magnitudes = ["mbyy", "mvyy", "mrho", "mtpr"]
