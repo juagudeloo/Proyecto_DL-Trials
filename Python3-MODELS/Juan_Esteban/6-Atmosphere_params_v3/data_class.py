@@ -149,7 +149,7 @@ class Data_class_indiv():
             TR_delim = int(n_data*TR_S)
             self.tr_input = self.profs[idx[:TR_delim]]
             self.te_input = self.profs[idx[TR_delim:]]
-        self.charge_magnitude(filename, physical_magnitude)
+        self.charge_magnitude(filename)
         self.tr_output = self.magnitude[idx[:TR_delim]]
         self.te_output = self.magnitude[idx[TR_delim:]]
         return self.tr_input, self.tr_output, self.te_input, self.te_output
