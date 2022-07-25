@@ -48,15 +48,19 @@ class NN_model_indiv(Data_class_indiv):
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=batch_size, verbose=1)
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
+        title = {"mbyy":'Magnetic Field',
+                "mvyy": 'Velocity',
+                "mrho": 'Density',
+                "mtpr": 'Temperature'}
         fig,ax = plt.subplots(figsize = (10,7))
         ax.plot(range(len(self.history.history['loss'])), self.history.history['loss'])
-        ax.set_title("Atmosphere parameters")
+        ax.set_title({title[self.phys_mag]})
         ax.set_ylabel("Loss")
         ax.set_xlabel("epochs")
         if self.input_type == "Intensity":
             fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
         if self.input_type == "Stokes params":
-            fig.savefig(f"Images/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/loss_plot-{title[self.phys_mag]}-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     ##### PREDICTING PHASE #####
     def predict_values(self, filename):
@@ -92,7 +96,7 @@ class NN_model_indiv(Data_class_indiv):
         ax[3].imshow(original_atm[:,:,height], cmap = "gist_gray")     
         ax[3].set_title(f"ORIGINAL spatial distribution - title={title[self.phys_mag]}")
         if self.input_type == "Intensity":
-            fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/Intensity/{title[self.phys_mag]}_plot-{self.filename}.png")
         if self.input_type == "Stokes params":
-            fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/Stokes_params/{title[self.phys_mag]}_plot-{self.filename}.png")
         print(f"{self.pred_filename} prediction plotted\n")
