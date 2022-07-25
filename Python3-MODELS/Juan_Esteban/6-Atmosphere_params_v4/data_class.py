@@ -9,6 +9,7 @@ import model_prof_tools as mpt
 #This is the scaling function
 def scaling(array):
     scaler = MinMaxScaler()
+    array = np.array(array)
     array1 = np.memmap.reshape(array,(-1,1))
     scaler.fit(array1)
     array1 = scaler.transform(array1)
