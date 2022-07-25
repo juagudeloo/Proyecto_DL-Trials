@@ -44,7 +44,7 @@ class NN_model_indiv(Data_class_indiv):
         """
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
-        self.split_data(filename, self.input_type, self.physical_magnitude, tr_s)
+        self.split_data(filename, self.input_type, self.phys_mag, tr_s)
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=batch_size, verbose=1)
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
