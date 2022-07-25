@@ -18,7 +18,7 @@ def scaling(array):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_class_indiv():
-    def __init__(physical_magnitude, self, nx = 480, ny = 256, nz = 480): 
+    def __init__(self, physical_magnitude, nx = 480, ny = 256, nz = 480): 
         #size of the cubes of the data
         self.phys_mag = physical_magnitude
         self.nx = nx
