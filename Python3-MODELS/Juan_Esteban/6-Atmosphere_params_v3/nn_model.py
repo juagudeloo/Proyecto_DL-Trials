@@ -68,15 +68,14 @@ class NN_model_indiv(Data_class_indiv):
         print(f"{self.pred_filename} predicting...")
         if self.input_type == "Intensity":
             self.charge_intensity(self.pred_filename)
-            self.predicted_values = np.memmap.reshape(self.model.predict(self.iout), (self.nx, self.nz, 4, self.ny))
+            self.predicted_values = np.memmap.reshape(self.model.predict(self.iout), (self.nx, self.nz, self.ny))
             print(f"{self.pred_filename} prediction done!")
         if self.input_type == "Stokes params":
             self.charge_stokes_params(self.pred_filename)
-            self.predicted_values = np.memmap.reshape(self.model.predict(self.profs), (self.nx, self.nz, 4, self.ny))
+            self.predicted_values = np.memmap.reshape(self.model.predict(self.profs), (self.nx, self.nz, self.ny))
             print(f"{self.pred_filename} prediction done!\n")
         return self.predicted_values
     def plot_predict(self):
-        N_profs = 4
         ix = 200
         iz = 280
         height = 200
@@ -86,7 +85,7 @@ class NN_model_indiv(Data_class_indiv):
                 "mtpr": 'Temperature'}
         fig, ax = plt.subplots(1,4,figsize=(30,7))
         original_atm = self.charge_magnitude(self.pred_filename)
-        original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, 4, self.ny))
+        original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.ny))
         ax[0].plot(range(self.ny), self.predicted_values[ix,iz,])
         ax[0].set_title(f"Atmosphere parameters height serie - title={title[self.phys_mag]} - ix={ix}, iy={iz}")
         ax[1].plot(range(self.ny), original_atm[ix,iz])
