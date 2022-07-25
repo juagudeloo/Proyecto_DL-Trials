@@ -127,7 +127,7 @@ class NN_model_indiv_atm(Data_class):
         self.split_data(filename, self.input_type, tr_s)
         self.history = []
         for i in range(len(self.models)):
-            self.history.append(self.models.fit(self.tr_input[:,i], self.tr_output[:,i], epochs=epochs, batch_size=batch_size, verbose=1))
+            self.history.append(self.models[i].fit(self.tr_input[:,i], self.tr_output[:,i], epochs=epochs, batch_size=batch_size, verbose=1))
             self.models[i].evaluate(self.te_input[:,i], self.te_output[:,i])
     def plot_loss(self):
         title = ["mbyy", "mvyy", "mrho", "mtpr"]
