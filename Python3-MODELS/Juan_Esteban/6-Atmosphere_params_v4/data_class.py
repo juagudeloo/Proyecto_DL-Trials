@@ -9,7 +9,6 @@ import model_prof_tools as mpt
 #This is the scaling function
 def scaling(array):
     scaler = MinMaxScaler()
-    array = np.array(array)
     array1 = np.memmap.reshape(array,(-1,1))
     scaler.fit(array1)
     array1 = scaler.transform(array1)
@@ -56,23 +55,25 @@ class Data_class_indiv():
             coef = np.sqrt(4.0*np.pi) #cgs units conversion
             self.magnitude=self.magnitude*coef
             print(f"byy done {self.filename}")
-        if self.phys_mag == "mvyy":
+        elif self.phys_mag == "mvyy":
             print(f"reading rho and mvyy (dividing mvyy/mrho to obtain vyy) {self.filename}")
             mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
             mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
             self.magnitude = mvyy/mrho #obtaining the velocity from the momentum values
             print(f"vyy done {self.filename}")
-        if self.phys_mag == "mrho":
+        elif self.phys_mag == "mrho":
             print(f"reading rho {self.filename}")
             self.magnitude = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
             print(f"rho done {self.filename}")
-        if self.phys_mag == "mtpr":
+        elif self.phys_mag == "mtpr":
             print(f"reading temperature {self.filename}")
             tpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
             tpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
             n_eos = 0
             self.magnitude = tpr[n_eos,:,:,:] 
             print(f"temperature done {self.filename}")
+        else:
+            raise ValueError("not valid physical magnitude str")
         print('\n')
         self.magnitude = scaling(self.magnitude)
         self.magnitude = ravel_xz(self.magnitude)
