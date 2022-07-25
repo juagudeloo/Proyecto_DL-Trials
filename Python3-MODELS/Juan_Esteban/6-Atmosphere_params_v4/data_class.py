@@ -67,10 +67,10 @@ class Data_class_indiv():
             print(f"rho done {self.filename}")
         elif self.phys_mag == "mtpr":
             print(f"reading temperature {self.filename}")
-            tpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
-            tpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
+            mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
+            mtpr = np.memmap.reshape(mtpr, (2,self.nx,self.ny,self.nz), order="A")
             n_eos = 0
-            self.magnitude = tpr[n_eos,:,:,:] 
+            self.magnitude = mtpr[n_eos,:,:,:] 
             print(f"temperature done {self.filename}")
         else:
             raise ValueError("not valid physical magnitude str")
