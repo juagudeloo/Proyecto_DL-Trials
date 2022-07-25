@@ -60,7 +60,7 @@ class NN_model_indiv(Data_class_indiv):
         if self.input_type == "Intensity":
             fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
         if self.input_type == "Stokes params":
-            fig.savefig(f"Images/loss_plot-{title[self.phys_mag]}-{self.filename}.png")
+            fig.savefig(f"Images/Stokes_params/loss_plot-{title[self.phys_mag]}-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     ##### PREDICTING PHASE #####
     def predict_values(self, filename):
