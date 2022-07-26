@@ -47,7 +47,7 @@ class NN_model_atm(Data_class):
         if self.input_type == "Intensity":
             fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
         if self.input_type == "Stokes params":
-            fig.savefig(f"Images/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     ##### PREDICTING PHASE #####
     def predict_values(self, filename):
@@ -81,7 +81,7 @@ class NN_model_atm(Data_class):
             ax[3,i].imshow(original_atm[:,:,i,height], cmap = "gist_gray")     
             ax[3,i].set_title(f"ORIGINAL spatial distribution - title={title[i]}")
         if self.input_type == "Intensity":
-            fig.savefig(f"Images/Intensity/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/Intensity/Atmosphere_parameter-{self.filename}.png")
         if self.input_type == "Stokes params":
-            fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
+            fig.savefig(f"Images/Stokes_params/Atmosphere_parameter-{self.filename}.png")
         print(f"{self.pred_filename} prediction plotted\n")
