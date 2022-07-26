@@ -20,7 +20,7 @@ def main():
     sun_model = NN_model_indiv(input_type, phys_m)
     sun_model.compile_model(IN_LS)
     for fln in tr_filename:
-        sun_model.train(fln, tr_s = 0.75, batch_size= 2, epochs=3)
+        sun_model.train(fln, tr_s = 0.75, batch_size= 2, epochs=10)
         sun_model.plot_loss()
     #Model predicting
     pr_filename = []
