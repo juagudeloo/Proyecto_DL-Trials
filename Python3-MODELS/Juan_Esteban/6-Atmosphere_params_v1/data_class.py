@@ -99,6 +99,7 @@ class Data_class():
         print('\n')
         
         #Organizing the input data
+        print(self.mbyy.shape)
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
         self.atm_params = np.moveaxis(self.atm_params,0,1)
