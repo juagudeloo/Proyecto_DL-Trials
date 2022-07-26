@@ -69,7 +69,7 @@ class Data_class():
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
         self.mtpr = scaling(self.mtpr)
-        self.mtpr = ravel_xz(self.mtpr)[:,127:] #we just want the upper half of the parameter values
+        self.mtpr = ravel_xz(self.mtpr)[:,128:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -81,7 +81,7 @@ class Data_class():
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
         self.mbyy = scaling(self.mbyy)
-        self.mbyy = ravel_xz(self.mbyy)[:,127:] #we just want the upper half of the parameter values
+        self.mbyy = ravel_xz(self.mbyy)[:,128:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
 
@@ -92,9 +92,9 @@ class Data_class():
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
         self.mrho = scaling(self.mrho)
-        self.mrho = ravel_xz(self.mrho)[:,127:] #we just want the upper half of the parameter values
+        self.mrho = ravel_xz(self.mrho)[:,128:] #we just want the upper half of the parameter values
         self.mvyy = scaling(self.mvyy)
-        self.mvyy = ravel_xz(self.mvyy)[:,127:] #we just want the upper half of the parameter values
+        self.mvyy = ravel_xz(self.mvyy)[:,128:] #we just want the upper half of the parameter values
         print(f"rho and vyy done {self.filename}")
         print('\n')
         
