@@ -14,11 +14,8 @@ class NN_model_atm(Data_class):
         conv3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
         conv4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
-        flattened = tf.keras.layers.Flatten()
-        if self.input_type == "Intensity":
-            output = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)
-        if self.input_type == "Stokes params":   
-            output = tf.keras.layers.Dense(4*256, activation=tf.nn.sigmoid)
+        flattened = tf.keras.layers.Flatten()  
+        output = tf.keras.layers.Dense(4*128, activation=tf.nn.sigmoid)
 
         input = conv1(data_in)
         x = conv2(input)
