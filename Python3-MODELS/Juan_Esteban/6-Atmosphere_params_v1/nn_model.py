@@ -36,7 +36,7 @@ class NN_model_atm(Data_class):
         batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
         """
         self.split_data(filename, self.input_type, tr_s)
-        self.history = self.model.fit(self.tr_input, self.tr_output, epochs=epochs, batch_size=batch_size, verbose=1)
+        self.history = self.model.fit(self.tr_input, self.tr_output[:,], epochs=epochs, batch_size=batch_size, verbose=1)
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
