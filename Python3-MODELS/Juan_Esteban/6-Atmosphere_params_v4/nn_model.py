@@ -25,7 +25,7 @@ class NN_model_indiv(Data_class_indiv):
         conv4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
         flattened = tf.keras.layers.Flatten()
-        output = tf.keras.layers.Dense(256, activation=tf.nn.sigmoid)
+        output = tf.keras.layers.Dense(128, activation=tf.nn.sigmoid)
 
         input = conv1(data_in)
         x = conv2(input)
