@@ -81,7 +81,7 @@ class Data_class():
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
         self.mbyy = scaling(self.mbyy)
-        self.mbyy = ravel_xz(self.mbyy)[:,127:255] #we just want the upper half of the parameter values
+        self.mbyy = ravel_xz(self.mbyy)[:,127:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
 
@@ -102,7 +102,7 @@ class Data_class():
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
         self.atm_params = np.moveaxis(self.atm_params,0,1)
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*self.ny))
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*128))
         return self.atm_params
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
