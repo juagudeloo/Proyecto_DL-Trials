@@ -78,7 +78,7 @@ class NN_model_indiv(Data_class_indiv):
     def plot_predict(self):
         ix = 200
         iz = 280
-        height = 200
+        height = 170
         title = {"mbyy":'Magnetic Field',
                 "mvyy": 'Velocity',
                 "mrho": 'Density',
