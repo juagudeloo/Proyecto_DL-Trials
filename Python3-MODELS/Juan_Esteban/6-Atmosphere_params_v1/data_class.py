@@ -66,7 +66,7 @@ class Data_class():
         self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
         self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
-        self.mtpr = self.mtpr[n_eos,:,:,127:] 
+        self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
         self.mtpr = scaling(self.mtpr)
         self.mtpr = ravel_xz(self.mtpr)[:,127:] #we just want the upper half of the parameter values
