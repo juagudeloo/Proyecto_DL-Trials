@@ -76,7 +76,7 @@ class Data_class_indiv():
             raise ValueError("not valid physical magnitude str")
         print('\n')
         self.magnitude = scaling(self.magnitude)
-        self.magnitude = ravel_xz(self.magnitude)[:,127:] #we just want the upper half of the parameters
+        self.magnitude = ravel_xz(self.magnitude)[:,128:] #we just want the upper half of the parameters
         return self.magnitude
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
