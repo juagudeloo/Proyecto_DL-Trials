@@ -55,11 +55,11 @@ class NN_model_atm(Data_class):
         print(f"{self.pred_filename} predicting...")
         if self.input_type == "Intensity":
             self.charge_intensity(self.pred_filename)
-            self.predicted_values = np.memmap.reshape(self.model.predict(self.iout), (self.nx, self.nz, 4, self.ny))
+            self.predicted_values = np.memmap.reshape(self.model.predict(self.iout), (self.nx, self.nz, 4, 128))
             print(f"{self.pred_filename} prediction done!")
         if self.input_type == "Stokes params":
             self.charge_stokes_params(self.pred_filename)
-            self.predicted_values = np.memmap.reshape(self.model.predict(self.profs), (self.nx, self.nz, 4, self.ny))
+            self.predicted_values = np.memmap.reshape(self.model.predict(self.profs), (self.nx, self.nz, 4, 128))
             print(f"{self.pred_filename} prediction done!\n")
         return self.predicted_values
     def plot_predict(self):
