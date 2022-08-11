@@ -83,7 +83,7 @@ class Data_class():
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
         self.mbyy = scaling(self.mbyy)
-        self.mbyy = ravel_xz(self.mbyy)[:,128:] #we just want the upper half of the parameter values
+        self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
 
