@@ -33,7 +33,7 @@ class NN_model_atm(Data_class):
         return self.model
     def train(self,filename, tr_s, batch_size, epochs=8):
         """
-        batch_size: its a fraction relative to the total of the set (must be between 0<x<1).
+        tr_s: training size percentage
         """
         self.split_data(filename, self.input_type, tr_s)
         self.history = self.model.fit(self.tr_input, self.tr_output[:,], epochs=epochs, batch_size=batch_size, verbose=1)
@@ -68,18 +68,21 @@ class NN_model_atm(Data_class):
         iz = 280
         height = 10
         title = ['Magnetic Field','Velocity','Density','Temperature']
-        fig, ax = plt.subplots(4,4,figsize=(40,7))
+        fig, ax = plt.subplots(4,4,figsize=(50,7))
         original_atm = self.charge_atm_params(self.pred_filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, 4, (256-self.lb)))
         for i in range(N_profs):
-            ax[0,i].plot(range(256-self.lb), self.predicted_values[ix,iz,i,:])
+            ax[0,i].plot(range(256-self.lb), self.predicted_values[ix,iz,i,:], label="Predicted curve")
             ax[0,i].set_title(f"Atmosphere parameters height serie - title={title[i]} - ix={ix}, iy={iz}")
-            ax[1,i].plot(range(256-self.lb), original_atm[ix,iz,i,:])
-            ax[1,i].set_title(f"ORIGINAL height serie - title={title[i]} - ix={ix}, iy={iz}")
-            ax[2,i].imshow(self.predicted_values[:,:,i,height], cmap = "gist_gray")     
-            ax[2,i].set_title(f"Atmosphere parameters spatial distribution- title={title[i]}")
-            ax[3,i].imshow(original_atm[:,:,i,height], cmap = "gist_gray")     
-            ax[3,i].set_title(f"ORIGINAL spatial distribution - title={title[i]}")
+            ax[0,i].plot(range(256-self.lb), original_atm[ix,iz,i,:], label="Original curve")
+            ax[0,i].legend()
+            ax[1,i].imshow(self.predicted_values[:,:,i,height], cmap = "gist_gray")     
+            ax[1,i].set_title(f"Atmosphere parameters spatial distribution- title={title[i]}")
+            ax[2,i].imshow(original_atm[:,:,i,height], cmap = "gist_gray")     
+            ax[2,i].set_title(f"ORIGINAL spatial distribution - title={title[i]}")
+            ax[3,i].imshow(np.abs(np.subtract(original_atm[:,:,i,height],self.predicted_values[:,:,i,height])), cmap = "gist_gray")     
+            ax[3,i].set_title(f"Substraction of both images - title={title[i]}")
+
         if self.input_type == "Intensity":
             fig.savefig(f"Images/Intensity/Atmosphere_parameter-{self.filename}.png")
         if self.input_type == "Stokes params":
