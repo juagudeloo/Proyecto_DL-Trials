@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from data_class import Data_class
 
 class NN_model_atm(Data_class):
-    def __init__(self, input_type, nx = 480, ny = 256, nz = 480):
-        super().__init__(nx,ny,nz)
+    def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180):
+        super().__init__(nx,ny,nz,lower_boundary)
         self.input_type = input_type
     def compile_model(self, in_ls):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
