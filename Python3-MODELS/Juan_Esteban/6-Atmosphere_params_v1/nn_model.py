@@ -66,15 +66,15 @@ class NN_model_atm(Data_class):
         N_profs = 4
         ix = 200
         iz = 280
-        height = 200
+        height = 10
         title = ['Magnetic Field','Velocity','Density','Temperature']
         fig, ax = plt.subplots(4,4,figsize=(40,7))
         original_atm = self.charge_atm_params(self.pred_filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, 4, (256-self.lb)))
         for i in range(N_profs):
-            ax[0,i].plot(range(self.ny), self.predicted_values[ix,iz,i,:])
+            ax[0,i].plot(range(256-self.lb), self.predicted_values[ix,iz,i,:])
             ax[0,i].set_title(f"Atmosphere parameters height serie - title={title[i]} - ix={ix}, iy={iz}")
-            ax[1,i].plot(range(self.ny), original_atm[ix,iz,i,:])
+            ax[1,i].plot(range(256-self.lb), original_atm[ix,iz,i,:])
             ax[1,i].set_title(f"ORIGINAL height serie - title={title[i]} - ix={ix}, iy={iz}")
             ax[2,i].imshow(self.predicted_values[:,:,i,height], cmap = "gist_gray")     
             ax[2,i].set_title(f"Atmosphere parameters spatial distribution- title={title[i]}")
