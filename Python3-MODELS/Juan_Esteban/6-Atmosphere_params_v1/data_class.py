@@ -71,7 +71,7 @@ class Data_class():
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
         self.mtpr = scaling(self.mtpr)
-        self.mtpr = ravel_xz(self.mtpr)[:,self.lower_boundary:] #we just want the upper half of the parameter values
+        self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -94,9 +94,9 @@ class Data_class():
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
         self.mrho = scaling(self.mrho)
-        self.mrho = ravel_xz(self.mrho)[:,self.lower_boundary:] #we just want the upper half of the parameter values
+        self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
         self.mvyy = scaling(self.mvyy)
-        self.mvyy = ravel_xz(self.mvyy)[:,self.lower_boundary:] #we just want the upper half of the parameter values
+        self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"rho and vyy done {self.filename}")
         print('\n')
         
@@ -105,7 +105,7 @@ class Data_class():
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
         self.atm_params = np.moveaxis(self.atm_params,0,1)
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*(256-self.lower_boundary)))
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*(256-self.lb)))
         return self.atm_params
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
