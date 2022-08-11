@@ -18,8 +18,9 @@ def scaling(array):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_class():
-    def __init__(self, nx = 480, ny = 256, nz = 480): 
+    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180): 
         """
+        lower_boundary -> indicates from where to take the data for training.
         output_type options:
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.
@@ -28,6 +29,7 @@ class Data_class():
         self.nx = nx
         self.ny = ny
         self.nz = nz
+        self.lb = lower_boundary
         print("Starting the charging process!")
     def charge_atm_params(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
@@ -69,7 +71,7 @@ class Data_class():
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
         self.mtpr = scaling(self.mtpr)
-        self.mtpr = ravel_xz(self.mtpr)[:,128:] #we just want the upper half of the parameter values
+        self.mtpr = ravel_xz(self.mtpr)[:,self.lower_boundary:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -92,9 +94,9 @@ class Data_class():
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
         self.mrho = scaling(self.mrho)
-        self.mrho = ravel_xz(self.mrho)[:,128:] #we just want the upper half of the parameter values
+        self.mrho = ravel_xz(self.mrho)[:,self.lower_boundary:] #we just want the upper half of the parameter values
         self.mvyy = scaling(self.mvyy)
-        self.mvyy = ravel_xz(self.mvyy)[:,128:] #we just want the upper half of the parameter values
+        self.mvyy = ravel_xz(self.mvyy)[:,self.lower_boundary:] #we just want the upper half of the parameter values
         print(f"rho and vyy done {self.filename}")
         print('\n')
         
@@ -103,7 +105,7 @@ class Data_class():
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
         self.atm_params = np.moveaxis(self.atm_params,0,1)
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*128))
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*(256-self.lower_boundary)))
         return self.atm_params
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
