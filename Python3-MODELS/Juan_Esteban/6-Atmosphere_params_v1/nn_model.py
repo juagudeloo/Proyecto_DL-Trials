@@ -21,7 +21,7 @@ class NN_model_atm(Data_class):
         x = conv2(input)
         x = conv3(x)
         x = conv4(x)
-        x = dropout(x)
+        #x = dropout(x)
         x = flattened(x) #If this layer is not put, then the output will be of 4 channels......but for some reason is not working here
         x = output(x)
 
