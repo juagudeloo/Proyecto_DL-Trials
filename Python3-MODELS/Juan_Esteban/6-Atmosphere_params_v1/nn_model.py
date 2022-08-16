@@ -7,7 +7,7 @@ class NN_model_atm(Data_class):
     def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180):
         super().__init__(nx,ny,nz,lower_boundary)
         self.input_type = input_type
-    def compile_model(self, in_ls):
+    def compile_model(self, in_ls, learning_rate=0.001):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
         conv1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
         conv2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
@@ -26,7 +26,7 @@ class NN_model_atm(Data_class):
         x = output(x)
 
         self.model = tf.keras.models.Model(inputs = data_in, outputs = x)
-        opt_func = tf.keras.optimizers.Adam(learning_rate=0.001)
+        opt_func = tf.keras.optimizers.Adam(learning_rate=learning_rate)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
         

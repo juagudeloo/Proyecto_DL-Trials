@@ -12,7 +12,7 @@ def main():
     IN_LS = np.array([4,300]) #input shape in input layer - Stokes profiles as input
     #Model training
     sun_model = NN_model_atm("Stokes params")
-    sun_model.compile_model(IN_LS)
+    sun_model.compile_model(IN_LS, learning_rate=0.001)
     for fln in tr_filename:
         sun_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=1000)
         sun_model.plot_loss()
