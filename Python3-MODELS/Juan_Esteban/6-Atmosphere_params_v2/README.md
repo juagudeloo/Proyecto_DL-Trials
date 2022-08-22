@@ -16,6 +16,16 @@ we have created does not recognize the precious creation of the model.
 For the memory problem, we try to pass the model_prof_tools.py code to obtain the Stokes profile columns of the cube 
 (sequential=0) to the data_class.py file so that I can manually close the Stokes profiles file after extracting the whole cube.
 
+# VERSION 6.1
+
+First implementation of invertions for atmosphere parameters using the Stokes parameters as inputs in the neural network.
+The network returns just the parameters over the ny=180 level (in the low optical depth region).
+PROBLEM: Incorrect normalization method
+
+# VERSION 6.2
+
+The normalization method is changed for it to be more general.
+
 #### NOTES:
 -   self.mvyy must be divided by self.mrho to obtain the actual velocity, because originally
     self.mvyy is the momentum (not with mass but with density). Due to this, division by zero 
