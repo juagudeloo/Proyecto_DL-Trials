@@ -19,7 +19,13 @@ def scaling(array, scaler_file_name, create_scaler):
     else: raise ValueError("Inserted a non boolean value")
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
-    
+    return array1
+
+def inverse_scaling(array, scaler_file_name):
+    array1 = np.memmap.reshape(array,(-1,1))
+    scaler = load(open(scaler_file_name, "rb"))
+    array1 = scaler.inverse_transform(array1)
+    array1 = np.ravel(array1)
     return array1
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 

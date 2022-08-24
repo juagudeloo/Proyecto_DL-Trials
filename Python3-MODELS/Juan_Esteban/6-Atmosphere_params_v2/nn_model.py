@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from data_class import Data_class
+from data_class import Data_class, inverse_scaling
 
 class NN_model_atm(Data_class):
     def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180, create_scaler = True):
@@ -62,12 +62,15 @@ class NN_model_atm(Data_class):
         print(f"{self.pred_filename} predicting...")
         if self.input_type == "Intensity":
             self.charge_intensity(self.pred_filename)
-            self.predicted_values = np.memmap.reshape(self.model.predict(self.iout), (self.nx, self.nz, 4, (256-self.lb)))
-            print(f"{self.pred_filename} prediction done!")
+            self.predicted_values = self.model.predict(self.iout)
         if self.input_type == "Stokes params":
             self.charge_stokes_params(self.pred_filename)
-            self.predicted_values = np.memmap.reshape(self.model.predict(self.profs), (self.nx, self.nz, 4, (256-self.lb)))
-            print(f"{self.pred_filename} prediction done!\n")
+            self.predicted_values = self.model.predict(self.profs)
+        self.predicted_values = np.memmap.reshape(self.predicted_values, (self.nx, self.nz, 4, (256-self.lb)))
+        scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
+        for i in range(len(scaler_names)):
+            self.predicted_values[:,:,i,:] = np.memmap.reshape(inverse_scaling(self.predicted_values[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
+        print(f"{self.pred_filename} prediction done!")
         return self.predicted_values
     def plot_predict(self):
         N_profs = 4
