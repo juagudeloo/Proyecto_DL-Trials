@@ -5,33 +5,40 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 import model_prof_tools as mpt
-from pickle import dump
+from pickle import dump, load
 
 #This is the scaling function
-def scaling(array, scaler_file_name):
-    scaler = StandardScaler()
+def scaling(array, scaler_file_name, create_scaler):
     array1 = np.memmap.reshape(array,(-1,1))
-    scaler.fit(array1)
+    if create_scaler == True:
+        scaler = StandardScaler()
+        scaler.fit(array1)
+        dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
+    if create_scaler == False: 
+        scaler = load(open(scaler_file_name, "rb"))
+    else: raise ValueError("Inserted a non boolean value")
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
-    dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
+    
     return array1
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_class():
-    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180): 
+    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = True): 
         """
         lower_boundary -> indicates from where to take the data for training.
         output_type options:
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.
+        create_scaler -> Set True by default. It determines wheter to create a scaler object or take an already created one.
         """
         #size of the cubes of the data
         self.nx = nx
         self.ny = ny
         self.nz = nz
         self.lb = lower_boundary
+        self.create_scaler = create_scaler
         print("Starting the charging process!")
     def charge_atm_params(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
@@ -54,6 +61,7 @@ class Data_class():
                 array_ravel = np.moveaxis(array_ravel,1,2)
                 array_ravel = np.memmap.reshape(array_ravel,(self.nx*self.nz, self.ny))
                 return array_ravel
+            
         ################################
         # Charging the data into the code - every data is converted into a cube 
         # of data so that it has the form of the dominium of the simulation
@@ -72,7 +80,7 @@ class Data_class():
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
-        self.mtpr = scaling(self.mtpr, "mtpr")
+        self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
         self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
@@ -84,7 +92,7 @@ class Data_class():
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
-        self.mbyy = scaling(self.mbyy, "mbyy")
+        self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
         self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
@@ -95,9 +103,9 @@ class Data_class():
         self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
-        self.mrho = scaling(self.mrho, "mrho")
+        self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
         self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
-        self.mvyy = scaling(self.mvyy, "mvyy")
+        self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
         self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"rho and vyy done {self.filename}")
         print('\n')
@@ -116,7 +124,7 @@ class Data_class():
         print(f"reading IOUT {self.filename}")
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
         print("scaling...")
-        self.iout = scaling(self.iout, "iout") #scaled intensity
+        self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
@@ -148,7 +156,7 @@ class Data_class():
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
-        self.profs = scaling(self.profs, "stokes")
+        self.profs = scaling(self.profs, "stokes", self.create_scaler)
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model

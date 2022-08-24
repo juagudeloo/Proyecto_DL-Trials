@@ -4,8 +4,15 @@ import matplotlib.pyplot as plt
 from data_class import Data_class
 
 class NN_model_atm(Data_class):
-    def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180):
-        super().__init__(nx,ny,nz,lower_boundary)
+    def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180, create_scaler = True):
+        """
+        lower_boundary -> indicates from where to take the data for training.
+        output_type options:
+        "Intensity" -> The model predicts intensity.
+        "Stokes params" -> The model predicts the Stokes parameters.
+        create_scaler -> Set True by default. It determines wheter to create a scaler object or take an already created one.
+        """
+        super().__init__(nx,ny,nz,lower_boundary, create_scaler)
         self.input_type = input_type
     def compile_model(self, in_ls, learning_rate=0.001):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
