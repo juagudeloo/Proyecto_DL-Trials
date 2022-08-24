@@ -10,7 +10,7 @@ def main():
         a = "0"+str(i)+"000"
         tr_filename.append(a)
     #Model training
-    dc = Data_class("Stokes params")
+    dc = Data_class()
     dc.charge_atm_params(tr_filename[0])
 
 

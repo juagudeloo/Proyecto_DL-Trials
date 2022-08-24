@@ -68,10 +68,6 @@ class Data_class():
         print(f"reading EOS {self.filename}")
         #Charging temperature data
         self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
-        print(type(self.mtpr))
-        print(type(self.nx))
-        print(type(self.ny))
-        print(type(self.nz))
         self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
