@@ -14,7 +14,7 @@ def scaling(array, scaler_file_name):
     scaler.fit(array1)
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
-    dump(scaler, open(f"{scaler_file_name}.pkl"))
+    dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
     return array1
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 
