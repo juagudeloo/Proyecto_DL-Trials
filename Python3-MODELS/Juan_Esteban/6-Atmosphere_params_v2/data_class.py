@@ -2,17 +2,19 @@ from cmath import inf, nan
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 import model_prof_tools as mpt
+from pickle import dump
 
 #This is the scaling function
-def scaling(array):
-    scaler = MinMaxScaler()
+def scaling(array, scaler_file_name):
+    scaler = StandardScaler()
     array1 = np.memmap.reshape(array,(-1,1))
     scaler.fit(array1)
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
+    dump(scaler, open(f"{scaler_file_name}.pkl"))
     return array1
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 
@@ -70,7 +72,7 @@ class Data_class():
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
-        self.mtpr = scaling(self.mtpr)
+        self.mtpr = scaling(self.mtpr, "mtpr")
         self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
@@ -82,7 +84,7 @@ class Data_class():
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
-        self.mbyy = scaling(self.mbyy)
+        self.mbyy = scaling(self.mbyy, "mbyy")
         self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
@@ -93,9 +95,9 @@ class Data_class():
         self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
-        self.mrho = scaling(self.mrho)
+        self.mrho = scaling(self.mrho, "mrho")
         self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
-        self.mvyy = scaling(self.mvyy)
+        self.mvyy = scaling(self.mvyy, "mvyy")
         self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"rho and vyy done {self.filename}")
         print('\n')
@@ -114,7 +116,7 @@ class Data_class():
         print(f"reading IOUT {self.filename}")
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
         print("scaling...")
-        self.iout = scaling(self.iout) #scaled intensity
+        self.iout = scaling(self.iout, "iout") #scaled intensity
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
@@ -145,8 +147,10 @@ class Data_class():
         print("scaling...")
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
-        for i in range(N_profs):
-            self.profs[:,i,:] = np.memmap.reshape(scaling(self.profs[:,i,:]),(self.nx*self.nz, self.nlam))
+        #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
+        self.profs = scaling(self.profs, "stokes")
+        #for i in range(N_profs):
+        #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
         self.profs = np.memmap.reshape(self.profs,(self.nx*self.nz,N_profs,self.nlam))
         print(f"Stokes params done! {self.filename}")
