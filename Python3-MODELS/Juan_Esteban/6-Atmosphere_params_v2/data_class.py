@@ -33,7 +33,7 @@ class Data_class():
         self.nz = nz
         self.lb = lower_boundary
         print("Starting the charging process!")
-    def charge_atm_params(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
+    def charge_atm_params(self, filename, ptm = "/mn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t/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
         self.ptm = ptm
         self.filename = filename
@@ -68,6 +68,10 @@ class Data_class():
         print(f"reading EOS {self.filename}")
         #Charging temperature data
         self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
+        print(type(self.mtpr))
+        print(type(self.nx))
+        print(type(self.ny))
+        print(type(self.nz))
         self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
