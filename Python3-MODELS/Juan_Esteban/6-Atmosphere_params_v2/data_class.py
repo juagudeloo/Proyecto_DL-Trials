@@ -33,7 +33,7 @@ class Data_class():
         self.nz = nz
         self.lb = lower_boundary
         print("Starting the charging process!")
-    def charge_atm_params(self, filename, ptm = "/mn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t/scratch/juagudeloo/Total_MURAM_data/"):
+    def charge_atm_params(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
         self.ptm = ptm
         self.filename = filename
