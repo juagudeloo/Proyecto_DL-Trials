@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from data_class.py import Data_class
+from data_class import Data_class
 
 def main():
     #Intensity specifications
