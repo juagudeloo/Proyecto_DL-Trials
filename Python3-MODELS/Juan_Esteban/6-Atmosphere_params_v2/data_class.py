@@ -10,11 +10,11 @@ from pickle import dump, load
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler):
     array1 = np.memmap.reshape(array,(-1,1))
-    if create_scaler == True:
+    if create_scaler == 1:
         scaler = StandardScaler()
         scaler.fit(array1)
         dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
-    if create_scaler == False: 
+    if create_scaler == 0: 
         scaler = load(open(scaler_file_name, "rb"))
     else: raise ValueError("Inserted a non boolean value")
     array1 = scaler.transform(array1)
@@ -31,7 +31,7 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_class():
-    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = True): 
+    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = 1): 
         """
         lower_boundary -> indicates from where to take the data for training.
         output_type options:
