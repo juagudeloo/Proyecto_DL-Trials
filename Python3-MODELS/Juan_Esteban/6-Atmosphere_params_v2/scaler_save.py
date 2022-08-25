@@ -12,6 +12,9 @@ def main():
     #Model training
     dc = Data_class()
     dc.charge_atm_params(tr_filename[0])
+    dc.charge_intensity(tr_filename[0])
+    dc.charge_stokes_params(tr_filename[0])
+
 
 
 if __name__ == "__main__":
