@@ -10,6 +10,7 @@ from pickle import dump, load
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler):
     array1 = np.memmap.reshape(array,(-1,1))
+    print(create_scaler)
     if create_scaler == True:
         scaler = StandardScaler()
         scaler.fit(array1)
