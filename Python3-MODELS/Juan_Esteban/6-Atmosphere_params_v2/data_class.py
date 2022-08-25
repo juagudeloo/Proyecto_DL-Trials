@@ -10,7 +10,6 @@ from pickle import dump, load
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler):
     array1 = np.memmap.reshape(array,(-1,1))
-    print(create_scaler)
     if create_scaler == True:
         scaler = StandardScaler()
         scaler.fit(array1)
@@ -80,6 +79,7 @@ class Data_class():
         # The temperature is obtained from the data file related to the 
         # equation of state (EOS)
         ################################
+        print(self.create_scaler)
         print(f"reading EOS {self.filename}")
         #Charging temperature data
         self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
