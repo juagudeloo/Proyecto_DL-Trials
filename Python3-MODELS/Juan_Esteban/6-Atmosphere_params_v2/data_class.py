@@ -23,7 +23,7 @@ def scaling(array, scaler_file_name, create_scaler):
 
 def inverse_scaling(array, scaler_file_name):
     array1 = np.memmap.reshape(array,(-1,1))
-    scaler = load(open(scaler_file_name, "rb"))
+    scaler = load(open(f"{scaler_file_name}.pkl", "rb"))
     array1 = scaler.inverse_transform(array1)
     array1 = np.ravel(array1)
     return array1
