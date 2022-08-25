@@ -10,12 +10,11 @@ from pickle import dump, load
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler):
     array1 = np.memmap.reshape(array,(-1,1))
-    print(create_scaler == True)
     if create_scaler == True:
         scaler = StandardScaler()
         scaler.fit(array1)
         dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
-    if create_scaler == False: 
+    elif create_scaler == False: 
         scaler = load(open(scaler_file_name, "rb"))
     else: raise ValueError("Inserted a non boolean value")
     array1 = scaler.transform(array1)
