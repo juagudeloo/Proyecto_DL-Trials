@@ -93,6 +93,7 @@ class Data_class():
         self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
+        self.mrho = np.log10(np.mrho)
         self.mrho = scaling(self.mrho)
         self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
         self.mvyy = scaling(self.mvyy)
