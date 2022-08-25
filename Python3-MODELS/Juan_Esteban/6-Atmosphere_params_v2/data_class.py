@@ -15,7 +15,7 @@ def scaling(array, scaler_file_name, create_scaler):
         scaler.fit(array1)
         dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
     elif create_scaler == False: 
-        scaler = load(open(scaler_file_name, "rb"))
+        scaler = load(open(f"{scaler_file_name}.pkl", "rb"))
     else: raise ValueError("Inserted a non boolean value")
     array1 = scaler.transform(array1)
     array1 = np.ravel(array1)
