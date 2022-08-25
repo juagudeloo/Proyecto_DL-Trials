@@ -81,6 +81,10 @@ class NN_model_atm(Data_class):
         fig, ax = plt.subplots(4,4,figsize=(50,7))
         original_atm = self.charge_atm_params(self.pred_filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, 4, (256-self.lb)))
+        scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
+        for i in range(len(scaler_names)):
+            original_atm[:,:,i,:] = np.memmap.reshape(inverse_scaling(original_atm[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
+        print(f"{self.pred_filename} prediction done!")
         for i in range(N_profs):
             ax[0,i].plot(range(256-self.lb), self.predicted_values[ix,iz,i,:], label="Predicted curve")
             ax[0,i].set_title(f"Atmosphere parameters height serie - title={title[i]} - ix={ix}, iy={iz}")
