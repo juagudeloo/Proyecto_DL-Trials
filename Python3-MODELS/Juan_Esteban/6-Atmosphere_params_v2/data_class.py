@@ -10,11 +10,12 @@ from pickle import dump, load
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler):
     array1 = np.memmap.reshape(array,(-1,1))
-    if create_scaler == 1:
+    print(create_scaler == True)
+    if create_scaler == True:
         scaler = StandardScaler()
         scaler.fit(array1)
         dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
-    if create_scaler == 0: 
+    if create_scaler == False: 
         scaler = load(open(scaler_file_name, "rb"))
     else: raise ValueError("Inserted a non boolean value")
     array1 = scaler.transform(array1)
@@ -31,7 +32,7 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class Data_class():
-    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = 1): 
+    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = True): 
         """
         lower_boundary -> indicates from where to take the data for training.
         output_type options:
@@ -79,7 +80,6 @@ class Data_class():
         # The temperature is obtained from the data file related to the 
         # equation of state (EOS)
         ################################
-        print(self.create_scaler)
         print(f"reading EOS {self.filename}")
         #Charging temperature data
         self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
