@@ -14,7 +14,7 @@ def main():
     sun_model = NN_model_atm("Stokes params", create_scaler=False)
     sun_model.compile_model(IN_LS, learning_rate=0.001)
     for fln in tr_filename:
-        sun_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=3)
+        sun_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=1000)
         sun_model.plot_loss()
     #Model predicting
     pr_filename = []
