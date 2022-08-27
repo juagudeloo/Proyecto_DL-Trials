@@ -7,8 +7,8 @@ main_code: %.pkl Main.py
 %.pkl: scaler_save.py
 	python3 scaler_save.py
 
-clean:
-	rm *.pkl
+clean_impressed:
+	rm *.npy
 
 clean_images:
 	rm Images/Stokes_params/*
