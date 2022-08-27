@@ -88,6 +88,8 @@ class Data_class():
         print(type(self.mtpr))
         # n_eos -> 0: temperature ; 1: pressure
         if self.create_scaler == True:
+            scaling(self.mtpr, "mtpr", self.create_scaler)
+        else:
             self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
         print(type(self.mtpr))
         self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
@@ -102,6 +104,8 @@ class Data_class():
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
         if self.create_scaler == False:
+            scaling(self.mbyy, "mbyy", self.create_scaler)
+        else:
             self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
         self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
@@ -115,9 +119,13 @@ class Data_class():
         
         self.mrho = np.log10(np.mrho)
         if self.create_scaler == True:
+            scaling(self.mrho, "mrho", self.create_scaler)
+        else:
             self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
         self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
         if self.create_scaler == True:
+            scaling(self.mvyy, "mvyy", self.create_scaler)
+        else:
             self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
         self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"rho and vyy done {self.filename}")
@@ -137,6 +145,8 @@ class Data_class():
         print(f"reading IOUT {self.filename}")
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
         if self.create_scaler == True:
+            scaling(self.iout, "iout", self.create_scaler) #scaled intensity
+        else:
             print("scaling...")
             self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
         print(f"IOUT done {self.filename}")   
@@ -170,7 +180,10 @@ class Data_class():
         self.profs = np.array(self.profs) 
         self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
-        self.profs = scaling(self.profs, "stokes", self.create_scaler)
+        if self.create_scaler == True:
+            scaling(self.profs, "stokes", self.create_scaler)
+        else:
+            self.profs = scaling(self.profs, "stokes", self.create_scaler)
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
