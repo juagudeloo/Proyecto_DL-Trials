@@ -103,7 +103,7 @@ class Data_class():
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion
         self.mbyy=self.mbyy*coef
-        if self.create_scaler == False:
+        if self.create_scaler == True:
             scaling(self.mbyy, "mbyy", self.create_scaler)
         else:
             self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
