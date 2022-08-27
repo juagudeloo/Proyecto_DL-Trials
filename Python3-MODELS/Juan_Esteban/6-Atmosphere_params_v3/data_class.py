@@ -117,7 +117,7 @@ class Data_class():
         self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
-        self.mrho = np.log10(np.mrho)
+        self.mrho = np.log10(self.mrho)
         if self.create_scaler == True:
             scaling(self.mrho, "mrho", self.create_scaler)
         else:
