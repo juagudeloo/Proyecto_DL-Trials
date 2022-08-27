@@ -85,6 +85,7 @@ class Data_class():
         self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
+        print(type(self.mtpr))
         # n_eos -> 0: temperature ; 1: pressure
         if self.create_scaler == True:
             self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
