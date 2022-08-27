@@ -8,19 +8,18 @@ import model_prof_tools as mpt
 from pickle import dump, load
 
 #This is the scaling function
-def scaling(array, scaler_file_name, create_scaler):
+def scaling(array, scaler_file_name, create_scaler=None):
     array1 = np.memmap.reshape(array,(-1,1))
     if create_scaler == True:
         scaler_pair = [np.ndarray.max(array1),
                         np.ndarray.min(array1)]
-
-        dump(scaler, open(f"{scaler_file_name}.pkl", "wb"))
+        np.save("scaler_file_name.npy", scaler_pair)
     elif create_scaler == False: 
         scaler = load(open(f"{scaler_file_name}.pkl", "rb"))
+        array1 = scaler.transform(array1)
+        array1 = np.ravel(array1)
+        return array1
     else: raise ValueError("Inserted a non boolean value")
-    array1 = scaler.transform(array1)
-    array1 = np.ravel(array1)
-    return array1
 
 def inverse_scaling(array, scaler_file_name):
     array1 = np.memmap.reshape(array,(-1,1))
