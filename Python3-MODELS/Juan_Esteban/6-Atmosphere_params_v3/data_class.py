@@ -13,7 +13,7 @@ def scaling(array, scaler_file_name, create_scaler=None):
     if create_scaler == True:
         scaler_pair = [np.ndarray.max(array1),
                         np.ndarray.min(array1)]
-        np.save("scaler_file_name.npy", scaler_pair)
+        np.save(f"{scaler_file_name}.npy", scaler_pair)
     elif create_scaler == False: 
         scaler = load(open(f"{scaler_file_name}.pkl", "rb"))
         array1 = scaler.transform(array1)
