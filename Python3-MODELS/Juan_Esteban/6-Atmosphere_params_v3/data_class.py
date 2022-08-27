@@ -88,6 +88,7 @@ class Data_class():
         # n_eos -> 0: temperature ; 1: pressure
         if self.create_scaler == True:
             self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
+        print(type(self.mtpr))
         self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
