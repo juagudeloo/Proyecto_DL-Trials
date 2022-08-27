@@ -15,13 +15,16 @@ def main():
                      names[5]: []}
     dc = Data_class()
     for i in range(53,254):
-        a = "0"+str(i)+"000"
-        tr_filename.append(a)
-        dc.charge_atm_params(a)
-        dc.charge_intensity(a)
-        dc.charge_stokes_params(a)
-        for nm in names:
-            scaler_pairs[nm].append(np.load(nm+".npy"))
+        if i == 76:
+            None
+        else:
+            a = "0"+str(i)+"000"
+            tr_filename.append(a)
+            dc.charge_atm_params(a)
+            dc.charge_intensity(a)
+            dc.charge_stokes_params(a)
+            for nm in names:
+                scaler_pairs[nm].append(np.load(nm+".npy"))
     
     print(scaler_pairs)
     
