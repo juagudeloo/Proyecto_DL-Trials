@@ -15,7 +15,7 @@ def main():
                      names[5]: []}
     dc = Data_class()
     for i in range(53,254):
-        a = ptm+"0"+str(i)+"000"
+        a = "0"+str(i)+"000"
         tr_filename.append(a)
         dc.charge_atm_params(a)
         dc.charge_intensity(a)
