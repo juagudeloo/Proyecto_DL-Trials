@@ -23,6 +23,7 @@ def main():
         for nm in names:
             scaler_pairs[nm].append(np.load(nm+".npy"))
     
+    print(scaler_pairs)
     
 
 
