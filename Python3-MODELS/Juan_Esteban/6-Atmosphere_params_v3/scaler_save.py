@@ -15,7 +15,7 @@ def main():
                      names[4]: [],
                      names[5]: []}
     dc = Data_class()
-    for i in range(53,254):
+    for i in range(53,100):
         if i == 76:
             None
         elif i == 85:
