@@ -18,10 +18,9 @@ class NN_model_atm(Data_class):
         self.input_type = input_type
     def compile_model(self, in_ls, learning_rate=0.001):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
-        conv1 = tf.keras.layers.Conv1D(512, kernel_size = 3, activation=tf.nn.relu)
-        conv2 = tf.keras.layers.Conv1D(256, kernel_size = 3, activation=tf.nn.relu)
-        conv3 = tf.keras.layers.Conv1D(128, kernel_size = 3, activation=tf.nn.relu)
-        conv4 = tf.keras.layers.Conv1D(64, kernel_size = 1, activation=tf.nn.relu) 
+        conv1 = tf.keras.layers.Conv1D(512, kernel_size = 2, activation=tf.nn.relu)
+        conv2 = tf.keras.layers.Conv1D(256, kernel_size = 2, activation=tf.nn.relu)
+        conv3 = tf.keras.layers.Conv1D(64, kernel_size = 1, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
         flattened = tf.keras.layers.Flatten()  
         output = tf.keras.layers.Dense(4*(256-self.lb), activation=tf.nn.relu)
@@ -29,7 +28,6 @@ class NN_model_atm(Data_class):
         input = conv1(data_in)
         x = conv2(input)
         x = conv3(x)
-        x = conv4(x)
         #x = dropout(x)
         x = flattened(x) #If this layer is not put, then the output will be of 4 channels......but for some reason is not working here
         x = output(x)
