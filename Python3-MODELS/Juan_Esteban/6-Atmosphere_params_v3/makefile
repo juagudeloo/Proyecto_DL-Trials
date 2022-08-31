@@ -1,10 +1,18 @@
-all: main_code
+all: all_process
 
-main_code: %.pkl Main.py
+all_process: %.pkl Main.py
 	rm Images/Stokes_params/*
 	rm Images/Intensity/*
 	python3 Main.py
 %.pkl: scaler_save.py
+	python3 scaler_save.py
+
+main_code:
+	rm Images/Stokes_params/*
+	rm Images/Intensity/*
+	python3 Main.py
+
+create_scaler:
 	python3 scaler_save.py
 
 clean_impressed:
