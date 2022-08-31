@@ -28,6 +28,8 @@ def main():
             None
         elif i == 95:
             None
+        elif i == 98:
+            None
         else:
             a = "0"+str(i)+"000"
             tr_filename.append(a)
