@@ -16,10 +16,10 @@ class NN_model_atm(Data_class):
         self.input_type = input_type
     def compile_model(self, in_ls, learning_rate=0.001):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
-        conv1 = tf.keras.layers.Conv1D(512, 5, activation=tf.nn.relu)
-        conv2 = tf.keras.layers.Conv1D(256, 5, activation=tf.nn.relu)
-        conv3 = tf.keras.layers.Conv1D(128, 5, activation=tf.nn.relu)
-        conv4 = tf.keras.layers.Conv1D(64, 3, activation=tf.nn.relu) 
+        conv1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
+        conv2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
+        conv3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
+        conv4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
         flattened = tf.keras.layers.Flatten()  
         output = tf.keras.layers.Dense(4*(256-self.lb), activation=tf.nn.relu)
