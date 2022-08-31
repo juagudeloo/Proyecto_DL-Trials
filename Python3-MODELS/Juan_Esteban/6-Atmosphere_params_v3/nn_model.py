@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 from data_class import Data_class, inverse_scaling
+from pickle import dump, load
 
 class NN_model_atm(Data_class):
     def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180, create_scaler = True):
@@ -56,7 +57,13 @@ class NN_model_atm(Data_class):
         if self.input_type == "Stokes params":
             fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
+    def save_model(self):
+        filehandler = open("trained_model.pkl", "w")
+        dump(self.model, filehander)
     ##### PREDICTING PHASE #####
+    def load_model(self):
+        filehandler = open("trained_model.pkl", "r")
+        self.model = load(filehandler)
     def predict_values(self, filename):
         self.pred_filename = filename
         print(f"{self.pred_filename} predicting...")
