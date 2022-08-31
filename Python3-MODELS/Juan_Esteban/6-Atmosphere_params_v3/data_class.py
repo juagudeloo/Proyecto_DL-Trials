@@ -5,7 +5,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 import model_prof_tools as mpt
-from pickle import dump, load
+import pandas as pd
 
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler=None):
@@ -15,8 +15,10 @@ def scaling(array, scaler_file_name, create_scaler=None):
                         np.ndarray.min(array1)]
         np.save(f"{scaler_file_name}.npy", scaler_pair)
     elif create_scaler == False: 
-        scaler = load(open(f"{scaler_file_name}.pkl", "rb"))
-        array1 = scaler.transform(array1)
+        minimum = scaler[scaler_file_name].loc[0]
+        maximum = scaler[scaler_file_name].loc[0]
+        scaler = pd.read_csv("scaler_pairs")
+        array1 = (array-minimum)/(maximum-minimum)
         array1 = np.ravel(array1)
         return array1
     else: raise ValueError("Inserted a non boolean value")
