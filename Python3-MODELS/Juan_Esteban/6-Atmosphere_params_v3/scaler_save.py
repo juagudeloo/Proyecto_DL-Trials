@@ -18,6 +18,12 @@ def main():
     for i in range(53,254):
         if i == 76:
             None
+        elif i == 85:
+            None
+        elif i == 88:
+            None
+        elif i == 89:
+            None
         else:
             a = "0"+str(i)+"000"
             tr_filename.append(a)
@@ -29,7 +35,7 @@ def main():
     
     for nm in names:
         scaler_pairs[nm] = [np.min(scaler_pairs[nm]), np.max(scaler_pairs[nm])]
-        
+        ss
     scaler_pairs = pd.DataFrame(scaler_pairs)
     scaler_pairs.to_csv("scaler_pairs.csv", index=False)
     
