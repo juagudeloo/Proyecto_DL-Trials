@@ -3,6 +3,7 @@ import numpy as np
 from data_class import Data_class
 import pandas as pd
 
+#
 def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
