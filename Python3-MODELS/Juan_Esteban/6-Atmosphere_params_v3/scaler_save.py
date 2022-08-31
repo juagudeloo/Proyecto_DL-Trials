@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from data_class import Data_class
+import pandas as pd
 
 def main():
     #Intensity specifications
@@ -26,7 +27,11 @@ def main():
             for nm in names:
                 scaler_pairs[nm].append(np.load(nm+".npy"))
     
-    print(scaler_pairs)
+    for nm in names:
+        scaler_pairs[nm] = [np.min(scaler_pairs[nm]), np.max(scaler_pairs[nm])]
+        
+    scaler_pairs = pd.DataFrame(scaler_pairs)
+    scaler_pairs.to_csv("scaler_pairs.csv", index=False)
     
 
 
