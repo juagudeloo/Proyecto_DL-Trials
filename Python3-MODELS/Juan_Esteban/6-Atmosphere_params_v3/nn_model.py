@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from data_class import Data_class, inverse_scaling
 from pickle import dump, load
 
+#
 class NN_model_atm(Data_class):
     def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180, create_scaler = True):
         """
@@ -17,9 +18,9 @@ class NN_model_atm(Data_class):
         self.input_type = input_type
     def compile_model(self, in_ls, learning_rate=0.001):
         data_in =  tf.keras.layers.Input(shape = in_ls, name='data_in')
-        conv1 = tf.keras.layers.Conv1D(512, 2, activation=tf.nn.relu)
-        conv2 = tf.keras.layers.Conv1D(256, 2, activation=tf.nn.relu)
-        conv3 = tf.keras.layers.Conv1D(128, 2, activation=tf.nn.relu)
+        conv1 = tf.keras.layers.Conv1D(512, 4, activation=tf.nn.relu)
+        conv2 = tf.keras.layers.Conv1D(256, 4, activation=tf.nn.relu)
+        conv3 = tf.keras.layers.Conv1D(128, 4, activation=tf.nn.relu)
         conv4 = tf.keras.layers.Conv1D(64, 1, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
         flattened = tf.keras.layers.Flatten()  
