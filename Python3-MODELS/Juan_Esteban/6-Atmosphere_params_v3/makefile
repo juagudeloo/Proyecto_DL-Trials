@@ -7,13 +7,17 @@ all_process: %.pkl Main.py
 %.pkl: scaler_save.py
 	python3 scaler_save.py
 
-main_code:
+train_model:
+	python3 Train_model.py
+
+obtain_values:
 	rm Images/Stokes_params/*
 	rm Images/Intensity/*
-	python3 Main.py
+	python3 Obtain_values.py
 
 create_scaler:
 	python3 scaler_save.py
+	rm *.npy
 
 clean_impressed:
 	rm *.npy
