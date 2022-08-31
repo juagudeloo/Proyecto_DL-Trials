@@ -41,7 +41,6 @@ def main():
     
     for nm in names:
         scaler_pairs[nm] = [np.min(scaler_pairs[nm]), np.max(scaler_pairs[nm])]
-        ss
     scaler_pairs = pd.DataFrame(scaler_pairs)
     scaler_pairs.to_csv("scaler_pairs.csv", index=False)
     
