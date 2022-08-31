@@ -25,3 +25,7 @@ clean_impressed:
 clean_images:
 	rm Images/Stokes_params/*
 	rm Images/Intensity/*
+
+clean_images_cloud:
+	git rm Images/Stokes_params/*
+	git rm Images/Intensity/*
