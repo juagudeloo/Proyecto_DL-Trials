@@ -24,6 +24,10 @@ def main():
             None
         elif i == 89:
             None
+        elif i == 94:
+            None
+        elif i == 95:
+            None
         else:
             a = "0"+str(i)+"000"
             tr_filename.append(a)
