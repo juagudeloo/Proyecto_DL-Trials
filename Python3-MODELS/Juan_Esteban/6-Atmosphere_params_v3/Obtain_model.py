@@ -1,4 +1,3 @@
-import numpy as np
 from nn_model import NN_model_atm
 
 def main():
