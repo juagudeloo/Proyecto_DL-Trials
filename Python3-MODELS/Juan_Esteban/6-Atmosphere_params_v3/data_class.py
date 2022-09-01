@@ -18,7 +18,7 @@ def scaling(array, scaler_file_name, create_scaler=None):
     elif create_scaler == False: 
         scaler = pd.read_csv("scaler_pairs.csv")
         minimum = scaler[scaler_file_name].loc[0]
-        maximum = scaler[scaler_file_name].loc[0]
+        maximum = scaler[scaler_file_name].loc[1]
         array1 = (array-minimum)/(maximum-minimum)
         array1 = np.ravel(array1)
         return array1
@@ -27,7 +27,7 @@ def scaling(array, scaler_file_name, create_scaler=None):
 def inverse_scaling(array, scaler_file_name):
     scaler = pd.read_csv("scaler_pairs.csv")
     minimum = scaler[scaler_file_name].loc[0]
-    maximum = scaler[scaler_file_name].loc[0]
+    maximum = scaler[scaler_file_name].loc[1]
     array1 = array*(maximum-minimum)+minimum
     array1 = np.ravel(array1)
     return array1
