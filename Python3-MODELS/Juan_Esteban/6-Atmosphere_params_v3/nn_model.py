@@ -58,7 +58,7 @@ class NN_model_atm(Data_class):
         print(f"{self.filename} loss plotted!")
     def save_model(self):
         filehandler = open("trained_model.pkl", "w")
-        dump(self.model, filehander)
+        dump(self.model, filehandler)
     ##### PREDICTING PHASE #####
     def load_model(self):
         filehandler = open("trained_model.pkl", "r")
