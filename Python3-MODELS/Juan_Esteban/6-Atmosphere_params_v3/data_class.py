@@ -16,7 +16,7 @@ def scaling(array, scaler_file_name, create_scaler=None):
                         np.ndarray.min(array1)]
         np.save(f"{scaler_file_name}.npy", scaler_pair)
     elif create_scaler == False: 
-        scaler = pd.read_csv("scaler_pairs")
+        scaler = pd.read_csv("scaler_pairs.csv")
         minimum = scaler[scaler_file_name].loc[0]
         maximum = scaler[scaler_file_name].loc[0]
         array1 = (array-minimum)/(maximum-minimum)
@@ -25,7 +25,7 @@ def scaling(array, scaler_file_name, create_scaler=None):
     else: raise ValueError("Inserted a non boolean value")
 
 def inverse_scaling(array, scaler_file_name):
-    scaler = pd.read_csv("scaler_pairs")
+    scaler = pd.read_csv("scaler_pairs.csv")
     minimum = scaler[scaler_file_name].loc[0]
     maximum = scaler[scaler_file_name].loc[0]
     array1 = array*(maximum-minimum)+minimum
