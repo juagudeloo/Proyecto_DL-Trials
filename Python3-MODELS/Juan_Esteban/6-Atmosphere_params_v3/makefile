@@ -2,7 +2,6 @@ all: all_process
 
 all_process: %.pkl
 	rm Images/Stokes_params/*
-	rm Images/Intensity/*
 	python3 Obtain_values.py
 %.pkl: Train_model.py
 	python3 Train_model.py
@@ -12,7 +11,6 @@ train_model:
 
 obtain_values:
 	rm Images/Stokes_params/*
-	rm Images/Intensity/*
 	python3 Obtain_values.py
 
 create_scaler:
