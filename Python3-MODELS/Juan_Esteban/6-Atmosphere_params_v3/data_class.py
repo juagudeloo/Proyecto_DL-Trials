@@ -104,7 +104,7 @@ class Data_class():
         #Charging line of sight magnetic field components
         print (f"reading byy {self.filename}")
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
-        coef = np.sqrt(4.0*np.pi) #cgs units conversion
+        coef = np.sqrt(4.0*np.pi) #cgs units conversion300
         self.mbyy=self.mbyy*coef
         if self.create_scaler == True:
             scaling(self.mbyy, "mbyy", self.create_scaler)
@@ -180,8 +180,7 @@ class Data_class():
                 ##############################################################################
                 self.profs.append(p_prof)  
         print("scaling...")
-        self.profs = np.array(self.profs) 
-        self.profs = np.moveaxis(self.profs,1,2) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
+        self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
         if self.create_scaler == True:
             scaling(self.profs, "stokes", self.create_scaler)
@@ -190,7 +189,7 @@ class Data_class():
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
-        self.profs = np.memmap.reshape(self.profs,(self.nx*self.nz,N_profs,self.nlam))
+        self.profs = np.memmap.reshape(self.profs,(self.nx*self.nz,self.nlam,N_profs))
         print(f"Stokes params done! {self.filename}")
         return self.profs
     def split_data(self, filename, input_type, TR_S):
