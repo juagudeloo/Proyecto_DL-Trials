@@ -1,11 +1,11 @@
 all: all_process
 
-all_process: %.pkl Main.py
+all_process: %.pkl
 	rm Images/Stokes_params/*
 	rm Images/Intensity/*
-	python3 Main.py
-%.pkl: scaler_save.py
-	python3 scaler_save.py
+	python3 Obtain_values.py
+%.pkl: Train_model.py
+	python3 Train_model.py
 
 train_model:
 	python3 Train_model.py
