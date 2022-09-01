@@ -5,7 +5,7 @@ def main():
     #Intensity specifications
     ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
     tr_filename = []
-    for i in np.arange(53,70,2):
+    for i in np.arange(80,100,1):
         a = "0"+str(i)+"000"
         tr_filename.append(a)
     IN_LS = np.array([300,4]) #input shape in input layer - Stokes profiles as input
