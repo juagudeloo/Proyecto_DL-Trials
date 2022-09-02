@@ -42,8 +42,10 @@ class NN_model_atm(Data_class):
         """
         tr_s: training size percentage
         """
+        self.batch_size = batch_size
+        self.epochs = epochs
         self.split_data(filename, self.input_type, tr_s)
-        self.history = self.model.fit(self.tr_input, self.tr_output[:,], epochs=epochs, batch_size=batch_size, verbose=1)
+        self.history = self.model.fit(self.tr_input, self.tr_output[:,], epochs=self.epochs, batch_size=self.batch_size, verbose=1)
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
@@ -77,6 +79,7 @@ class NN_model_atm(Data_class):
         for i in range(len(scaler_names)):
             self.predicted_values[:,:,i,:] = np.memmap.reshape(inverse_scaling(self.predicted_values[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
         print(f"{self.pred_filename} prediction done!")
+        np.save(f"obtained_values.npy-file={filename}-epochs={self.epochs}-batch_size={self.batch_size}.npy")
         return self.predicted_values
     def plot_predict(self):
         N_profs = 4
