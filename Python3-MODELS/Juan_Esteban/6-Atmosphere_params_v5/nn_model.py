@@ -79,7 +79,7 @@ class NN_model_atm(Data_class):
         for i in range(len(scaler_names)):
             self.predicted_values[:,:,i,:] = np.memmap.reshape(inverse_scaling(self.predicted_values[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
         print(f"{self.pred_filename} prediction done!")
-        np.save(f"obtained_value.npy", self.predicted_values)
+        np.save(f"obtained_value-{filename}.npy", self.predicted_values)
         return self.predicted_values
     def plot_predict(self):
         N_profs = 4
