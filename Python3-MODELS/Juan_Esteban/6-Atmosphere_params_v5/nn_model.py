@@ -23,7 +23,7 @@ class NN_model_atm(Data_class):
         conv3 = tf.keras.layers.Conv1D(64, kernel_size = 2, activation=tf.nn.relu) 
         dropout = tf.keras.layers.Dropout(0.5)
         flattened = tf.keras.layers.Flatten()  
-        output = tf.keras.layers.Dense(4*(256-self.lb), activation=tf.nn.relu)
+        output = tf.keras.layers.Dense(4*(256-self.lb), activation=tf.nn.sigmoid)
 
         input = conv1(data_in)
         x = conv2(input)
