@@ -5,7 +5,7 @@ def main():
     sun_model.load_model()
     #Model predicting
     pr_filename = []
-    for i in range(120,140):
+    for i in range(70,80):
         a = "0"+str(i)+"000"
         pr_filename.append(a)
     
