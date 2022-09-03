@@ -59,11 +59,11 @@ class NN_model_atm(Data_class):
             fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     def save_model(self):
-        filehandler = open(f"trained_model-epochs={self.epochs}-batch_size={self.batch_size}.pkl", "wb")
+        filehandler = open(f"trained_model.pkl", "wb")
         dump(self.model, filehandler)
     ##### PREDICTING PHASE #####
     def load_model(self):
-        filehandler = open(f"trained_model-epochs={self.epochs}-batch_size={self.batch_size}.pkl", "rb")
+        filehandler = open(f"trained_model.pkl", "rb")
         self.model = load(filehandler)
     def predict_values(self, filename):
         self.pred_filename = filename
