@@ -63,7 +63,7 @@ class NN_model_atm(Data_class):
         dump(self.model, filehandler)
     ##### PREDICTING PHASE #####
     def load_model(self):
-        filehandler = open("trained_model-epochs\=10-batch_size\=1000.pkl", "rb")
+        filehandler = open("trained_model-epochs=10-batch_size=1000.pkl", "rb")
         self.model = load(filehandler)
     def predict_values(self, filename):
         self.pred_filename = filename
