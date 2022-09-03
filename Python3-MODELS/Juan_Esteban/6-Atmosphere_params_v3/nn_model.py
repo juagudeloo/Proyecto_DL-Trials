@@ -59,7 +59,7 @@ class NN_model_atm(Data_class):
             fig.savefig(f"Images/Stokes_params/loss_plot-{self.filename}.png")
         print(f"{self.filename} loss plotted!")
     def save_model(self):
-        filehandler = open("trained_model.pkl", "wb")
+        filehandler = open(f"trained_model-epochs={self.epochs}-batch_size={self.batch_size}.pkl", "wb")
         dump(self.model, filehandler)
     ##### PREDICTING PHASE #####
     def load_model(self):
@@ -79,7 +79,7 @@ class NN_model_atm(Data_class):
         for i in range(len(scaler_names)):
             self.predicted_values[:,:,i,:] = np.memmap.reshape(inverse_scaling(self.predicted_values[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
         print(f"{self.pred_filename} prediction done!")
-        np.save(f"obtained_values.npy-file={filename}-epochs={self.epochs}-batch_size={self.batch_size}.npy")
+        np.save(f"obtained_value.npy")
         return self.predicted_values
     def plot_predict(self):
         N_profs = 4
