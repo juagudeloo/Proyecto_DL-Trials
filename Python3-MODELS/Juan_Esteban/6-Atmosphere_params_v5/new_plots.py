@@ -12,9 +12,6 @@ def main():
         max_values[i] = np.argwhere(atm_params[:,:,i,height]==np.max(atm_params[:,:,i,height]))
         min_values[i] = np.argwhere(atm_params[:,:,i,height]==np.min(atm_params[:,:,i,height]))
     
-    for i in range(4):
-        print(atm_params[max_values[i][0][0], max_values[i][0][1], i, height])
-
     fig, ax = plt.subplots(3,4,figsize=(40,40))
     for i in range(4):
         ax[0,i].plot(np.arange(0,max_height,1)+1, atm_params[max_values[i][0][0], max_values[i][0][1], i])
