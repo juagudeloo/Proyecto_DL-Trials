@@ -24,23 +24,25 @@ def main():
         min_values[i] = np.argwhere(atm_params[:,:,i,height]==np.min(atm_params[:,:,i,height]))
     
     #Location values obtained from the temperature data
-    x_plot = max_values[3][0][0]
-    z_plot = min_values[3][0][0]
+    max_x_plot = max_values[3][0][0]
+    max_z_plot = min_values[3][0][1]
+    min_x_plot = max_values[3][0][0]
+    min_z_plot = min_values[3][0][1]
 
     fig, ax = plt.subplots(3,4,figsize=(40,40))
     for i in range(4):
         
-        ax[0,i].plot(np.arange(0,max_height,1)+1, atm_params[x_plot, z_plot, i], label = "generated params")
-        ax[0,i].plot(np.arange(0,max_height,1)+1, original_atm[x_plot, z_plot, i], label = "original params")
+        ax[0,i].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i], label = "generated params")
+        ax[0,i].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i], label = "original params")
         ax[0,i].set_title("Height serie in a maximum")
         ax[0,i].legend()
-        ax[1,i].plot(np.arange(0,max_height,1)+1, atm_params[x_plot, z_plot, i], label = "generated params")
-        ax[1,i].plot(np.arange(0,max_height,1)+1, original_atm[x_plot, z_plot, i], label = "original params")
+        ax[1,i].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i], label = "generated params")
+        ax[1,i].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i], label = "original params")
         ax[1,i].set_title("Height serie in a minimum")
         ax[1,i].legend()
         ax[2,i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
-        ax[2,i].scatter(x_plot, z_plot, label = "maximum", color = "r")
-        ax[2,i].scatter(x_plot, z_plot, label = "minimun", color = "g")
+        ax[2,i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
+        ax[2,i].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
         ax[2,i].legend()
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}.png")
     
