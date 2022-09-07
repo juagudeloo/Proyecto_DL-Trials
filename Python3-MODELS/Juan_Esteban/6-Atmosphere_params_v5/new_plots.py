@@ -10,8 +10,10 @@ def main():
     for i in range(4):
         max_values[i] = np.argwhere(atm_params[:,:,i,height]==np.max(atm_params[:,:,i,height]))
         min_values[i] = np.argwhere(atm_params[:,:,i,height]==np.min(atm_params[:,:,i,height]))
+    
+    for i in range(4):
+        print(atm_params[max_values[i][0][0], max_values[i][0][1], i, height])
 
-    print(atm_params[max_values[0], 0, height])
 
 
 if __name__ == "__main__":
