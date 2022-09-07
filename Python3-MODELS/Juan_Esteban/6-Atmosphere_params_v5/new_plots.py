@@ -25,7 +25,7 @@ def main():
         ax[2,i].scatter(max_values[i][0][0], max_values[i][0][1], label = "maximum", color = "r")
         ax[2,i].scatter(min_values[i][0][0], min_values[i][0][1], label = "minimun", color = "g")
         ax[2,i].legend()
-    fig.save("Images/Stokes_params/height_serie_plots.png")
+    fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}000.png")
     
 
 
