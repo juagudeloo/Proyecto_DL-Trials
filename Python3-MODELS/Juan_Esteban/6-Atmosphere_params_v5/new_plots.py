@@ -25,8 +25,8 @@ def main():
     
     #Location values obtained from the temperature data
     max_x_plot = max_values[3][0][0]
-    max_z_plot = min_values[3][0][1]
-    min_x_plot = max_values[3][0][0]
+    max_z_plot = max_values[3][0][1]
+    min_x_plot = min_values[3][0][0]
     min_z_plot = min_values[3][0][1]
 
     fig, ax = plt.subplots(3,4,figsize=(40,40))
