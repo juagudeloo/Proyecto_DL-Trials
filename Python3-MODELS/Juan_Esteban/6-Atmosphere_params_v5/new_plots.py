@@ -14,6 +14,19 @@ def main():
     for i in range(4):
         print(atm_params[max_values[i][0][0], max_values[i][0][1], i, height])
 
+    fig, ax = plt.subplots(3,4,figsize=(40,40))
+    for i in range(4):
+        ax[0,i].plot(range(height)+1, atm_params[max_values[i][0][0], max_values[i][0][1], i])
+        ax[0,i].title("Height serie in a maximum")
+        ax[1,i].plot(range(height)+1, atm_params[max_values[i][0][0], max_values[i][0][1], i])
+        ax[1,i].title("Height serie in a minimum")
+        ax[2,i].imshow(atm_params[:,:,i,height])
+        ax[2,i].scatter(max_values[i][0][0], max_values[i][0][1], label = "maximum", color = "r")
+        ax[2,i].scatter(min_values[i][0][0], min_values[i][0][1], label = "minimun", color = "g")
+        ax[2,i].legend()
+    fig.save("Images/Stokes_params/height_serie_plots.png")
+    
+
 
 
 if __name__ == "__main__":
