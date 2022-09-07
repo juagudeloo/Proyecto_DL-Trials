@@ -141,7 +141,7 @@ class Data_class():
         self.atm_params = np.array(self.atm_params)
         self.atm_params = np.moveaxis(self.atm_params,0,1)
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*(256-self.lb)))
-        return self.atm_params
+        return np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4,(256-self.lb)))
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
         self.filename = filename
