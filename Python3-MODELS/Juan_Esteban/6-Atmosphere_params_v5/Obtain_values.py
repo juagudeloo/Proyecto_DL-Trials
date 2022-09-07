@@ -3,7 +3,10 @@ import numpy as np
 
 def main():
     sun_model = NN_model_atm("Stokes params", create_scaler=False)
-    sun_model.compile_model()
+
+    IN_LS = np.array([300,4]) #input shape in input layer - Stokes profiles as input
+    #Model training
+    sun_model.compile_model(IN_LS)
     sun_model.load_weights("training_1/cp.ckpt")
     #Model predicting
     pr_filename = []
