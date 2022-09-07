@@ -3,7 +3,7 @@ import numpy as np
 
 def main():
     sun_model = NN_model_atm("Stokes params", create_scaler=False)
-    sun_model.load_model()
+    sun_model.load_weights("training_1/cp.ckpt")
     #Model predicting
     pr_filename = []
     non_existing = [85, 88, 89, 94, 95, 98]

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from data_class import Data_class, inverse_scaling
 from pickle import dump, load
+import os
 
 #
 class NN_model_atm(Data_class):
@@ -38,14 +39,22 @@ class NN_model_atm(Data_class):
         self.model.summary()
         
         return self.model
-    def train(self,filename, tr_s, batch_size, epochs=8):
+    def train(self,filename, checkpoint_path, tr_s, batch_size, epochs=8, ):
         """
         tr_s: training size percentage
         """
+        checkpoint_path = "training_1/cp.ckpt"
+        checkpoint_dir = os.path.dirname(checkpoint_path)
+
+        # Create a callback that saves the model's weights
+        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
+                                                        save_weights_only=True,
+                                                        verbose=1)
+        
         self.batch_size = batch_size
         self.epochs = epochs
         self.split_data(filename, self.input_type, tr_s)
-        self.history = self.model.fit(self.tr_input, self.tr_output[:,], epochs=self.epochs, batch_size=self.batch_size, verbose=1)
+        self.history = self.model.fit(self.tr_input, self.tr_output[:,], epochs=self.epochs, batch_size=self.batch_size, verbose=1, callbacks=[cp_callback])
         self.model.evaluate(self.te_input, self.te_output)
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
@@ -65,6 +74,8 @@ class NN_model_atm(Data_class):
     def load_model(self):
         filehandler = open("trained_model-epochs=10-batch_size=1000.pkl", "rb")
         self.model = load(filehandler)
+    def load_weights(self, checkpoint_path):
+        self.model.load_weights(checkpoint_path)
     def predict_values(self, filename):
         self.pred_filename = filename
         print(f"{self.pred_filename} predicting...")
