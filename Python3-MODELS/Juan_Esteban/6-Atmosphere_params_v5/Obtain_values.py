@@ -3,6 +3,7 @@ import numpy as np
 
 def main():
     sun_model = NN_model_atm("Stokes params", create_scaler=False)
+    sun_model.compile_model()
     sun_model.load_weights("training_1/cp.ckpt")
     #Model predicting
     pr_filename = []
