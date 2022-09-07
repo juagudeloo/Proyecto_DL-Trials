@@ -1,5 +1,6 @@
 import numpy as np
 from nn_model import NN_model_atm
+import time
 
 def main():
     #Intensity specifications
@@ -16,9 +17,14 @@ def main():
     #Model training
     sun_model = NN_model_atm("Stokes params", create_scaler=False)
     sun_model.compile_model(IN_LS, learning_rate=0.001)
+    
+    start_time = time.time() #Time measured in seconds
     for fln in tr_filename:
         sun_model.train(fln, "training_1/cp.ckpt", tr_s = 0.75, batch_size= 1000, epochs=10)
         sun_model.plot_loss()
+
+    with open("training_1/training_time.txt", "w") as f:
+        f.write(f"{(time.time()-start_time)*(1/3600)} hours")
 
 if __name__ == "__main__":
     main()
