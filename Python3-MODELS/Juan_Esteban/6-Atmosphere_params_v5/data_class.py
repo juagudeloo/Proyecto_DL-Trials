@@ -1,8 +1,6 @@
 from cmath import inf, nan
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 import model_prof_tools as mpt
 import pandas as pd
