@@ -1,8 +1,10 @@
 from this import d
 from venv import create
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 from data_class import Data_class, inverse_scaling
+
 
 def main():
     obtained_file = int(input("File of the obtained atmosphere values: "))
@@ -29,21 +31,33 @@ def main():
     min_x_plot = min_values[3][0][0]
     min_z_plot = min_values[3][0][1]
 
-    fig, ax = plt.subplots(3,4,figsize=(40,40))
+    titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
+    ylabels = [r"$B_z$ [G]", r"$v$ [$10^5 \text{cm} \text{s}^{-1}]", r"$T$ [K]", r"$\rho$[g$\text{cm}^{-3}$]"]
+    fig, ax = plt.subplots(3,4,figsize=(20,20))
     for i in range(4):
         
         ax[0,i].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i], label = "generated params")
         ax[0,i].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i], label = "original params")
-        ax[0,i].set_title("Height serie in a maximum")
+        ax[0,i].set_title(titles[i]+"in maximum")
         ax[0,i].legend()
+        ax[0,i].set_xlabel("height pixels")
+        ax[0,i].set_ylabel(ylabels[i])
+
         ax[1,i].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i], label = "generated params")
         ax[1,i].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i], label = "original params")
-        ax[1,i].set_title("Height serie in a minimum")
+        ax[1,i].set_title(titles[i]+"in minimum")
         ax[1,i].legend()
-        ax[2,i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
+        ax[1,i].set_xlabel("height pixels")
+        ax[1,i].set_ylabel(ylabels[i])
+
+        im_i = ax[2,i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
         ax[2,i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
         ax[2,i].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
+        ax[2,i].title(titles[i])
         ax[2,i].legend()
+        divider = make_axes_locatable(ax[0,i])
+        cax = divider.append_axes('right', size='5%', pad=0.05)
+        fig.colorbar(im_i, cax=cax, orientation='horizontal')
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}.png")
     
 
