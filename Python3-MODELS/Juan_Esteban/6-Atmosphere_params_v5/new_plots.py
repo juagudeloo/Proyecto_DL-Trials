@@ -31,7 +31,7 @@ def main():
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
     ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$T$ [K]", r"$\rho$[g cm$^{-3}$]"]
-    fig, ax = plt.subplots(3,4,figsize=(25,17))
+    fig, ax = plt.subplots(3,4,figsize=(27,14))
     for i in range(4):
         
         ax[0,i].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i], label = "generated params")
