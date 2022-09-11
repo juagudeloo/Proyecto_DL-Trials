@@ -56,11 +56,11 @@ def main():
         ax[2,i].set_title(titles[i])
         ax[2,i].legend()
         divider = make_axes_locatable(ax[2,i])
-        cax = divider.append_axes('top', size='5%', pad=0.05)
+        cax = divider.append_axes('bottom', size='5%', pad=0.05)
         fig.colorbar(im_i, cax=cax, orientation="horizontal")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}.png")
     
-
+#
 
 
 if __name__ == "__main__":
