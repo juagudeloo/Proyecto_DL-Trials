@@ -51,7 +51,7 @@ def main():
         im_i = ax[2,i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
         ax[2,i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
         ax[2,i].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
-        ax[2,i].title(titles[i])
+        ax[2,i].set_title(titles[i])
         ax[2,i].legend()
         divider = make_axes_locatable(ax[0,i])
         cax = divider.append_axes('right', size='5%', pad=0.05)
