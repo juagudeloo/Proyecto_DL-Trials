@@ -40,7 +40,7 @@ def main():
         ax[0,i].legend()
         ax[0,i].set_xlabel("height pixels")
         ax[0,i].set_ylabel(ylabels[i])
-        ax[0,i].ticklabel_format(axis = "y", style = "sci")
+        ax[0,i].ticklabel_format(style = "sci")
 
         ax[1,i].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i], label = "generated params")
         ax[1,i].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i], label = "original params")
@@ -48,7 +48,7 @@ def main():
         ax[1,i].legend()
         ax[1,i].set_xlabel("height pixels")
         ax[1,i].set_ylabel(ylabels[i])
-        ax[1,i].ticklabel_format(axis = "y", style = "sci")
+        ax[1,i].ticklabel_format(style = "sci")
 
         im_i = ax[2,i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
         ax[2,i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
@@ -56,8 +56,8 @@ def main():
         ax[2,i].set_title(titles[i])
         ax[2,i].legend()
         divider = make_axes_locatable(ax[2,i])
-        cax = divider.append_axes('right', size='5%', pad=0.05)
-        fig.colorbar(im_i, cax=cax, orientation='horizontal', pad=0.2)
+        cax = divider.append_axes('top', size='5%', pad=0.05)
+        fig.colorbar(im_i, cax=cax, orientation="horizontal")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}.png")
     
 
