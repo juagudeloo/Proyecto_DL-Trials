@@ -55,7 +55,7 @@ def main():
         ax[2,i].legend()
         divider = make_axes_locatable(ax[2,i])
         cax = divider.append_axes('right', size='5%', pad=0.05)
-        fig.colorbar(im_i, cax=cax, orientation='horizontal')
+        fig.colorbar(im_i, cax=cax, orientation='vertical')
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}.png")
     
 
