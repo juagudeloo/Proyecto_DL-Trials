@@ -44,6 +44,7 @@ class Data_class():
         self.nz = nz
         self.lb = lower_boundary
         self.create_scaler = create_scaler
+        self.nlam = 300
         print("Starting the charging process!")
     def charge_atm_params(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         #path and filename specifications
