@@ -101,9 +101,9 @@ class NN_model_atm(Data_class_Stokes):
             original_atm[:,:,i,:] = np.memmap.reshape(inverse_scaling(original_atm[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
         print(f"{self.pred_filename} prediction done!")
         for i in range(N_profs):
-            ax[0,i].plot(range(256-self.lb), self.predicted_values[ix,iz,i,:], label="Predicted curve")
+            ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:], label="Predicted curve")
             ax[0,i].set_title(f"Atmosphere parameters height serie - title={title[i]} - ix={ix}, iy={iz}")
-            ax[0,i].plot(range(256-self.lb), original_atm[ix,iz,i,:], label="Original curve")
+            ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_atm[ix,iz,i,:], label="Original curve")
             ax[0,i].legend()
             ax[1,i].imshow(self.predicted_values[:,:,i,height], cmap = "gist_gray")     
             ax[1,i].set_title(f"Atmosphere parameters spatial distribution- title={title[i]}")
