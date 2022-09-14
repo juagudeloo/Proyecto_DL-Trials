@@ -1,12 +1,12 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from data_class import Data_class, inverse_scaling
+from data_class import Data_class_Stokes, inverse_scaling
 from pickle import dump, load
 import os
 
 #
-class NN_model_atm(Data_class):
+class NN_model_atm(Data_class_Stokes):
     def __init__(self, input_type, nx = 480, ny = 256, nz = 480, lower_boundary=180, create_scaler = True):
         """
         lower_boundary -> indicates from where to take the data for training.
