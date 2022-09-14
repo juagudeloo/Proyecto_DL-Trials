@@ -136,7 +136,7 @@ class Data_class_Stokes():
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
         self.atm_params = np.moveaxis(self.atm_params,0,1)
-        self.atm_params = np.moveaxis(self.atm_params,2,3)
+        self.atm_params = np.moveaxis(self.atm_params,1,2)
         print(np.shape(self.atm_params))
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz,(256-self.lb),4))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz,(256-self.lb),4))
