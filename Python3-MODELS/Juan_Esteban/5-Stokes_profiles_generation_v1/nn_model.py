@@ -95,16 +95,14 @@ class NN_model_atm(Data_class_Stokes):
         iz = 280
         wavelength = 200
         fig, ax = plt.subplots(4,4,figsize=(50,7))
-        original_atm = self.charge_atm_params(self.pred_filename)
-        scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
+        original_stokes = self.charge_stokes_params(self.pred_filename)
         ylabel = ["$I$ [ph]" "$Q/I$", "$U/I$", "$V/I$"]
-        for i in range(len(scaler_names)):
-            original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
+        original_stokes[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_stokes[:,:,:,i], "stokes"), (self.nx,self.nz,(256-self.lb), 4))
         print(f"{self.pred_filename} prediction done!")
         for i in range(N_profs):
             ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,:,i], label="Generated curve")
             ax[0,i].set_title(f"ix={ix}, iy={iz}")
-            ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_atm[ix,iz,i,:], label="Original curve")
+            ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_stokes[ix,iz,:,:], label="Original curve")
             ax[0,i].set_ylabel(ylabel[i])
             ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]")
             ax[0,i].legend()
@@ -112,10 +110,10 @@ class NN_model_atm(Data_class_Stokes):
             ax[1,i].imshow(self.predicted_values[:,:,wavelength,i], cmap = "gist_gray")     
             ax[1,i].set_title(f"Generated spatial distribution- title={ylabel[i]}")
 
-            ax[2,i].imshow(original_atm[:,:,wavelength,i], cmap = "gist_gray")     
+            ax[2,i].imshow(original_stokes[:,:,wavelength,i], cmap = "gist_gray")     
             ax[2,i].set_title(f"ORIGINAL spatial distribution - title={ylabel[i]}")
 
-            ax[3,i].imshow(np.abs(np.subtract(original_atm[:,:,wavelength,i],self.predicted_values[:,:,wavelength,i])), cmap = "gist_gray")     
+            ax[3,i].imshow(np.abs(np.subtract(original_stokes[:,:,wavelength,i],self.predicted_values[:,:,wavelength,i])), cmap = "gist_gray")     
             ax[3,i].set_title(f"Substraction of both images - title={ylabel[i]}")
 
         if self.input_type == "Intensity":

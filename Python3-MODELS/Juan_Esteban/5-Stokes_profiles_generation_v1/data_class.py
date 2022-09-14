@@ -190,7 +190,7 @@ class Data_class_Stokes():
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
         self.profs = np.memmap.reshape(self.profs,(self.nx*self.nz,self.nlam*N_profs))
         print(f"Stokes params done! {self.filename}")
-        return self.profs
+        return np.memmap.reshape(self.profs, (self.nx, self.nz, self.nlam, N_profs))
     def split_data(self, filename, input_type, TR_S):
         """
         Splits the data into a test set and a training set.
