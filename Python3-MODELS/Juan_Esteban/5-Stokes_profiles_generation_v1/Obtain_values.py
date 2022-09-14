@@ -11,7 +11,7 @@ def main():
     #Model predicting
     pr_filename = []
     non_existing = [85, 88, 89, 94, 95, 98]
-    for i in np.arange(83,100, 2):
+    for i in np.arange(91,100, 2):
         if i in non_existing:
             None
         else:
