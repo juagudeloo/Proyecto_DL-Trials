@@ -29,7 +29,7 @@ def inverse_scaling(array, scaler_file_name):
 
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
-class Data_class():
+class Data_class_Stokes():
     def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = False): 
         """
         lower_boundary -> indicates from where to take the data for training.
@@ -138,8 +138,8 @@ class Data_class():
         self.atm_params = np.moveaxis(self.atm_params,0,1)
         self.atm_params = np.moveaxis(self.atm_params,2,3)
         print(np.shape(self.atm_params))
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, 4,(256-self.lb)))
-        return np.memmap.reshape(self.atm_params, (self.nx, self.nz, 4,(256-self.lb)))
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz,(256-self.lb),4))
+        return np.memmap.reshape(self.atm_params, (self.nx, self.nz,(256-self.lb),4))
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
         self.filename = filename
@@ -214,7 +214,7 @@ class Data_class():
             self.te_output = self.iout[idx[TR_delim:]]
         if self.output_type == "Stokes params":
             self.charge_stokes_params(filename)
-            n_data = self.profs[:,0,0].size
+            n_data = self.profs[:,0].size
             idx = np.arange(n_data) 
             np.random.shuffle(idx) #shufling this indexes to obtain a random training subset selection of the original set of data.
             TR_delim = int(n_data*TR_S)

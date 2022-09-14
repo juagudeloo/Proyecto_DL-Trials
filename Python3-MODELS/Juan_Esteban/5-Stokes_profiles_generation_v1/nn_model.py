@@ -79,18 +79,13 @@ class NN_model_atm(Data_class):
     def predict_values(self, filename):
         self.pred_filename = filename
         print(f"{self.pred_filename} predicting...")
-        if self.input_type == "Intensity":
-            self.charge_atm_params(self.pred_filename)
-            self.predicted_values = self.model.predict(self.iout)
+        self.charge_atm_params(self.pred_filename)
+        self.predicted_values = self.model.predict(self.atm_params)
+        self.predicted_values = np.memmap.reshape(self.predicted_values, (self.nx, self.nz, 4, self.nlam))
         if self.input_type == "Stokes params":
-            self.charge_stokes_params(self.pred_filename)
-            self.predicted_values = self.model.predict(self.profs)
-        self.predicted_values = np.memmap.reshape(self.predicted_values, (self.nx, self.nz, 4, (256-self.lb)))
-        scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
-        for i in range(len(scaler_names)):
-            self.predicted_values[:,:,i,:] = np.memmap.reshape(inverse_scaling(self.predicted_values[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
-        print(f"{self.pred_filename} prediction done!")
-        np.save(f"obtained_value-{filename}.npy", self.predicted_values)
+            self.predicted_values = np.memmap.reshape(inverse_scaling(self.predicted_values, "stokes"), (self.nx,self.nz,(256-self.lb),4))
+            print(f"{self.pred_filename} prediction done!")
+            np.save(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_values-{filename}.npy", self.predicted_values)
         return self.predicted_values
     def plot_predict(self):
         N_profs = 4
