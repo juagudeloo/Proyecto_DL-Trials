@@ -85,7 +85,7 @@ class NN_model_atm(Data_class_Stokes):
         if self.input_type == "Stokes params":
             self.predicted_values = np.memmap.reshape(inverse_scaling(self.predicted_values, "stokes"), (self.nx,self.nz,300,4))
             for i in range(1,4):
-                self.predict_values[:,:,:,i] = self.predict_values[:,:,:,i]/self.predict_values[:,:,:,0]
+                self.predicted_values[:,:,:,i] = self.predicted_values[:,:,:,i]/self.predicted_values[:,:,:,0]
             print(f"{self.pred_filename} prediction done!")
             np.save(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_values-{filename}.npy", self.predicted_values)
         return self.predicted_values
