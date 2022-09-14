@@ -84,6 +84,8 @@ class NN_model_atm(Data_class_Stokes):
         self.predicted_values = np.memmap.reshape(self.predicted_values, (self.nx, self.nz, 4, self.nlam))
         if self.input_type == "Stokes params":
             self.predicted_values = np.memmap.reshape(inverse_scaling(self.predicted_values, "stokes"), (self.nx,self.nz,300,4))
+            for i in range(1,4):
+                self.predict_values[:,:,:,i] = self.predict_values[:,:,:,i]/self.predict_values[:,:,:,0]
             print(f"{self.pred_filename} prediction done!")
             np.save(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_values-{filename}.npy", self.predicted_values)
         return self.predicted_values
@@ -91,12 +93,14 @@ class NN_model_atm(Data_class_Stokes):
         N_profs = 4
         ix = 200
         iz = 280
-        height = 10
+        wavelength = 200
         title = ['Magnetic Field','Velocity','Density','Temperature']
         fig, ax = plt.subplots(4,4,figsize=(50,7))
         original_atm = self.charge_atm_params(self.pred_filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, 4, (256-self.lb)))
         scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
+        ylabel = ["$I$ [ph]" "$Q/I$", "$U/I$", "$V/I$"]
+        
         for i in range(len(scaler_names)):
             original_atm[:,:,i,:] = np.memmap.reshape(inverse_scaling(original_atm[:,:,i,:], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
         print(f"{self.pred_filename} prediction done!")
@@ -104,13 +108,18 @@ class NN_model_atm(Data_class_Stokes):
             ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:], label="Predicted curve")
             ax[0,i].set_title(f"Atmosphere parameters height serie - title={title[i]} - ix={ix}, iy={iz}")
             ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_atm[ix,iz,i,:], label="Original curve")
+            ax[0,i].set_ylabel(ylabel[i])
+            ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]")
             ax[0,i].legend()
-            ax[1,i].imshow(self.predicted_values[:,:,i,height], cmap = "gist_gray")     
-            ax[1,i].set_title(f"Atmosphere parameters spatial distribution- title={title[i]}")
-            ax[2,i].imshow(original_atm[:,:,i,height], cmap = "gist_gray")     
-            ax[2,i].set_title(f"ORIGINAL spatial distribution - title={title[i]}")
-            ax[3,i].imshow(np.abs(np.subtract(original_atm[:,:,i,height],self.predicted_values[:,:,i,height])), cmap = "gist_gray")     
-            ax[3,i].set_title(f"Substraction of both images - title={title[i]}")
+
+            ax[1,i].imshow(self.predicted_values[:,:,wavelength,i], cmap = "gist_gray")     
+            ax[1,i].set_title(f"Generated spatial distribution- title={ylabel[i]}")
+
+            ax[2,i].imshow(original_atm[:,:,wavelength,i], cmap = "gist_gray")     
+            ax[2,i].set_title(f"ORIGINAL spatial distribution - title={ylabel[i]}")
+
+            ax[3,i].imshow(np.abs(np.subtract(original_atm[:,:,wavelength,i],self.predicted_values[:,:,wavelength,i])), cmap = "gist_gray")     
+            ax[3,i].set_title(f"Substraction of both images - title={ylabel[i]}")
 
         if self.input_type == "Intensity":
             fig.savefig(f"Images/Intensity/Atmosphere_parameter-{self.filename}.png")
