@@ -102,7 +102,7 @@ class NN_model_atm(Data_class_Stokes):
         for i in range(N_profs):
             ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,:,i], label="Generated curve")
             ax[0,i].set_title(f"ix={ix}, iy={iz}")
-            ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_stokes[ix,iz,:,:], label="Original curve")
+            ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_stokes[ix,iz,:,i], label="Original curve")
             ax[0,i].set_ylabel(ylabel[i])
             ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]")
             ax[0,i].legend()
