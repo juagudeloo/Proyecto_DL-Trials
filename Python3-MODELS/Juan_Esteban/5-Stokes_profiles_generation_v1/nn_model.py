@@ -99,7 +99,7 @@ class NN_model_atm(Data_class_Stokes):
         scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
         ylabel = ["$I$ [ph]" "$Q/I$", "$U/I$", "$V/I$"]
         for i in range(len(scaler_names)):
-            original_atm[:,:,i,:] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
+            original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], scaler_names[i]), (self.nx,self.nz,(256-self.lb)))
         print(f"{self.pred_filename} prediction done!")
         for i in range(N_profs):
             ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,:,i], label="Generated curve")
