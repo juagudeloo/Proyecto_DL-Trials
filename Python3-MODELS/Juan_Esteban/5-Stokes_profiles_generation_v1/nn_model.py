@@ -96,7 +96,7 @@ class NN_model_atm(Data_class_Stokes):
         wavelength = 200
         fig, ax = plt.subplots(4,4,figsize=(50,7))
         original_stokes = self.charge_stokes_params(self.pred_filename)
-        ylabel = ["$I$ [ph]" "$Q/I$", "$U/I$", "$V/I$"]
+        ylabel = ["$I$ [ph]", "$Q/I$", "$U/I$", "$V/I$"]
         original_stokes = np.memmap.reshape(inverse_scaling(original_stokes, "stokes"), (self.nx,self.nz,self.nlam, 4))
         print(f"{self.pred_filename} prediction done!")
         for i in range(N_profs):
