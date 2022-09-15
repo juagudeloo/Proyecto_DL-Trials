@@ -100,6 +100,7 @@ class NN_model_atm(Data_class_Stokes):
         original_stokes = np.memmap.reshape(inverse_scaling(original_stokes, "stokes"), (self.nx,self.nz,self.nlam, 4))
         for i in range(1,4):
             self.predicted_values[:,:,:,i] = self.predicted_values[:,:,:,i]/self.predicted_values[:,:,:,0]
+            original_stokes[:,:,:,i] = original_stokes[:,:,:,i]/original_stokes[:,:,:,0]
         print(f"{self.pred_filename} prediction done!")
         for i in range(N_profs):
             ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,:,i], label="Generated curve")
