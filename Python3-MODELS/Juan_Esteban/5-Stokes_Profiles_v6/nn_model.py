@@ -80,7 +80,7 @@ class NN_model(Data_class):
                 ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]")
                 ax[0,i].set_ylabel(ylabel[i])
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")
-                ax[1,i].scatter(ix, iz, "r", label = "Spectra point")                     
+                ax[1,i].scatter(ix, iz, color = "r", label = "Spectra point")                     
                 ax[1,i].set_title(f"Stokes params spatial distribution- title={title[i]}")
             fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.filename}.png")   
         print(f"{self.filename} prediction plotted\n")
