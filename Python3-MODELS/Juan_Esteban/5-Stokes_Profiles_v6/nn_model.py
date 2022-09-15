@@ -77,6 +77,7 @@ class NN_model(Data_class):
             for i in range(N_profs):
                 ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_title(f"Stokes params spectra - ix={ix}, iy={iz}")
+                ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]")
                 ax[0,i].set_ylabel(ylabel[i])
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")
                 ax[1,i].scatter(ix, iz, "r", label = "Spectra point")                     
