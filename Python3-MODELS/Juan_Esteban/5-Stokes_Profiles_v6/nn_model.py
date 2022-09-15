@@ -74,7 +74,7 @@ class NN_model(Data_class):
             wave_lam = 200
             title = ['I','Q','U','V']
             ylabel = [r'$I$ [ph]',r'$Q$ [ph]',r'$U$ [ph]',r'$V$ [ph]']
-            fig, ax = plt.subplots(2,4,figsize=(35,15))
+            fig, ax = plt.subplots(2,4,figsize=(38,15))
             for i in range(N_profs):
                 ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]", fontsize = 18)
