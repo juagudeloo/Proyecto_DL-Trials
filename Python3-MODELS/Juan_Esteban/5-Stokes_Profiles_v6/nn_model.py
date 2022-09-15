@@ -72,11 +72,14 @@ class NN_model(Data_class):
             iz = 280
             wave_lam = 200
             title = ['I','Q','U','V']
+            ylabel = [r'$I$ [ph]',r'$Q$ [ph]',r'$U$ [ph]',r'$V$ [ph]']
             fig, ax = plt.subplots(2,4,figsize=(30,7))
             for i in range(N_profs):
-                ax[0,i].plot(range(self.nlam), self.predicted_values[ix,iz,i,:])
-                ax[0,i].set_title(f"Stokes params spectra - title={title[i]} - ix={ix}, iy={iz}")
-                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")     
+                ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:])
+                ax[0,i].set_title(f"Stokes params spectra - ix={ix}, iy={iz}")
+                ax[0,i].set_ylabel(ylabel[i])
+                ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")
+                ax[1,i].scatter(ix, iz, "r", label = "Spectra point")                     
                 ax[1,i].set_title(f"Stokes params spatial distribution- title={title[i]}")
             fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.filename}.png")   
         print(f"{self.filename} prediction plotted\n")
