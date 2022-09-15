@@ -68,6 +68,7 @@ class NN_model(Data_class):
             ax.set_title(f"Predicted intensity")
             fig.savefig(f"Images/Intensity/Predicted_intensity-{self.filename}.png")
         if self.output_type == "Stokes params":
+            original_stokes = self.charge_stokes_params(self.filename)
             N_profs = 4
             ix = 200
             iz = 280
@@ -77,6 +78,7 @@ class NN_model(Data_class):
             fig, ax = plt.subplots(2,4,figsize=(38,15))
             for i in range(N_profs):
                 ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:])
+                ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_stokes[ix,iz,i,:])
                 ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]", fontsize = 18)
                 ax[0,i].set_ylabel(ylabel[i], fontsize = 18)
                 ax[0,i].tick_params(labelsize = 18)
