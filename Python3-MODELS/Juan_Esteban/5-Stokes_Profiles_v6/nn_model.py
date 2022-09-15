@@ -82,7 +82,7 @@ class NN_model(Data_class):
                 ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]", fontsize = 18)
                 ax[0,i].set_ylabel(ylabel[i], fontsize = 18)
                 ax[0,i].tick_params(labelsize = 18)
-                ax[0,i].legend(labelsize = 16)
+                ax[0,i].legend(prop={'size': 16})
 
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")
                 ax[1,i].scatter(ix, iz, color = "r", label = "Spectra point")                     
