@@ -77,11 +77,12 @@ class NN_model(Data_class):
             ylabel = [r'$I$ [ph]',r'$Q$ [ph]',r'$U$ [ph]',r'$V$ [ph]']
             fig, ax = plt.subplots(2,4,figsize=(38,15))
             for i in range(N_profs):
-                ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:])
-                ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_stokes[ix,iz,i,:])
+                ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:], label = "Generado")
+                ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), original_stokes[ix,iz,i,:], label = "Original")
                 ax[0,i].set_xlabel(r"$\lambda$ [$\AA$]", fontsize = 18)
                 ax[0,i].set_ylabel(ylabel[i], fontsize = 18)
                 ax[0,i].tick_params(labelsize = 18)
+                ax[0,i].legend(labelsize = 16)
 
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")
                 ax[1,i].scatter(ix, iz, color = "r", label = "Spectra point")                     
