@@ -59,6 +59,7 @@ class NN_model(Data_class):
         if self.output_type == "Stokes params":
             self.predicted_values = self.model.predict(self.input_values).reshape(self.nx, self.nz, 4, self.nlam)
             print(f"{self.filename} prediction done!\n")
+            np.save(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_values-{filename}.npy", self.predicted_values)
         return self.predicted_values
     def plot_predict(self):
         if self.output_type == "Intensity":
@@ -73,7 +74,7 @@ class NN_model(Data_class):
             wave_lam = 200
             title = ['I','Q','U','V']
             ylabel = [r'$I$ [ph]',r'$Q$ [ph]',r'$U$ [ph]',r'$V$ [ph]']
-            fig, ax = plt.subplots(2,4,figsize=(30,7))
+            fig, ax = plt.subplots(2,4,figsize=(30,15))
             for i in range(N_profs):
                 ax[0,i].plot(np.arange(6302,6302+10*self.nlam, 10), self.predicted_values[ix,iz,i,:])
                 ax[0,i].set_title(f"Stokes params spectra - ix={ix}, iy={iz}")
@@ -82,5 +83,6 @@ class NN_model(Data_class):
                 ax[1,i].imshow(self.predicted_values[:,:,i,wave_lam], cmap = "gist_gray")
                 ax[1,i].scatter(ix, iz, color = "r", label = "Spectra point")                     
                 ax[1,i].set_title(f"Stokes params spatial distribution- title={title[i]}")
+                ax[1,i].legend()
             fig.savefig(f"Images/Stokes_params/Predicted_Stokes_parameters-{self.filename}.png")   
         print(f"{self.filename} prediction plotted\n")
