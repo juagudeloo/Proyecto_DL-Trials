@@ -7,8 +7,8 @@ from data_class import Data_class
 def main():
     obtained_file = int(input("File of the obtained atmosphere values: "))
     filename = "0"+str(obtained_file)
-    stokes = np.load(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_value-0{obtained_file}.npy")
-    data = Data_class(create_scaler=False)
+    stokes = np.load(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_values-0{obtained_file}.npy")
+    data = Data_class()
     original_stokes = data.charge_stokes_params(filename)
 
 
