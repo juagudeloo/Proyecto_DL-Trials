@@ -37,7 +37,7 @@ def main():
         ax1[i].set_xlabel("height pixels")
         ax1[i].set_ylabel(ylabels[i])
         ax1[i].ticklabel_format(style = "sci")
-    fig1.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-01.png")
+    fig1.savefig("Images/Stokes_params/stokes_plot_01.png")
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
