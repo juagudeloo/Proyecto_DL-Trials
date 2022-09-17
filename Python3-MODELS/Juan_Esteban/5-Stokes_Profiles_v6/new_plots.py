@@ -37,7 +37,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
-    fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-01.png")
+    fig.savefig("Images/Stokes_params/stokes_plot_0"+f"{obtained_file}"+"-01.png")
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
@@ -46,7 +46,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
-    fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-02.png")
+    fig.savefig(f"Images/Stokes_params/stokes_plot_0"+f"{obtained_file}"+"-02.png")
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes")
@@ -55,7 +55,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
-    fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-03.png")
+    fig.savefig(f"Images/Stokes_params/stokes_plot_0"+f"{obtained_file}"+"-03.png")
 
 
     fig, ax = plt.subplots(1,4,figsize=(9,17))
@@ -68,7 +68,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
-    fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-11.png")
+    fig.savefig(f"Images/Stokes_params/stokes_plot_0"+f"{obtained_file}"+"-11.png")
 
     for i in range(4):
         ax[i].plot(np.arange(0,max_height,1)+1, stokes[min_x_plot, min_z_plot, i], label = "generated stokes")
@@ -77,7 +77,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
-    fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-12.png")
+    fig.savefig(f"Images/Stokes_params/stokes_plot_0"+f"{obtained_file}"+"-12.png")
 
     for i in range(4):
         ax[i].plot(np.arange(0,max_height,1)+1, original_stokes[min_x_plot, min_z_plot, i], label = "original stokes")
@@ -86,7 +86,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
-    fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-13.png")
+    fig.savefig(f"Images/Stokes_params/stokes_plot_0"+f"{obtained_file}"+"-13.png")
 
 
     fig, ax = plt.subplots(1,4,figsize=(9,17))
@@ -100,7 +100,7 @@ def main():
         divider = make_axes_locatable(ax[i])
         cax = divider.append_axes('bottom', size='5%', pad=0.3)
         fig.colorbar(im_i, cax=cax, orientation="horizontal")
-    fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-2.png")
+    fig.savefig(f"Images/Stokes_params/height_serie_plots_0"+f"{obtained_file}"+"-2.png")
     
 #
 
