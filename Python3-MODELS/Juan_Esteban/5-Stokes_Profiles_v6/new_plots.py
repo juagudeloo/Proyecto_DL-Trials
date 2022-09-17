@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
-from data_class import Data_class, inverse_scaling
+from data_class import Data_class
 
 
 def main():
