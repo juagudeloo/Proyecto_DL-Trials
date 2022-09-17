@@ -27,7 +27,7 @@ def main():
     min_z_plot = min_values[3][0][1]
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
-    ylabels = [r"$I_{NORMALIZED}$", r"$Q_{NORMALIZED}$", r"$U_I_{NORMALIZED}$", r"$V_I_{NORMALIZED}$"]
+    ylabels = [r"$I$", r"$Q$", r"$U$", r"$V$"]
     fig, ax = plt.subplots(1,4,figsize=(9,17))
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
@@ -37,6 +37,7 @@ def main():
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
         ax[i].ticklabel_format(style = "sci")
+
     fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-01.png")
 
 #
