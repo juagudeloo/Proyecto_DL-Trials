@@ -10,7 +10,6 @@ def main():
     stokes = np.load(f"/mnt/scratch/juagudeloo/obtained_data/Stokes_obtained_value-0{obtained_file}.npy")
     data = Data_class(create_scaler=False)
     original_stokes = data.charge_stokes_params(filename)
-    original_stokes = np.memmap.reshape(inverse_scaling(original_stokes[:,:,i,:], "stokes"), (480,480,4,300))
 
 
     wavelength = 10
@@ -28,7 +27,7 @@ def main():
     min_z_plot = min_values[3][0][1]
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
-    ylabels = [r"$I$ [ph]", r"$Q/I$", r"$U/I$", r"$V/I$"]
+    ylabels = [r"$I_{NORMALIZED}$", r"$Q_{NORMALIZED}$", r"$U_I_{NORMALIZED}$", r"$V_I_{NORMALIZED}$"]
     fig, ax = plt.subplots(1,4,figsize=(9,17))
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
