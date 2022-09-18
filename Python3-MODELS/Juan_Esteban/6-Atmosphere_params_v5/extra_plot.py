@@ -16,7 +16,7 @@ def main():
     height = 10
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
-    ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$T$ [K]", r"$\rho$[g cm$^{-3}$]"]
+    ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$\rho$[g cm$^{-3}$]", r"$T$ [K]"]
     fig, ax = plt.subplots(1,4,figsize=(25,9))
 
     for i in range(4):
