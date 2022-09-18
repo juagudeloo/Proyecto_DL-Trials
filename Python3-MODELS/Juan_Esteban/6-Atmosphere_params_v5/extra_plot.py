@@ -6,7 +6,6 @@ from data_class import Data_class, inverse_scaling
 def main():
     obtained_file = int(input("File of the obtained atmosphere values: "))
     filename = "0"+str(obtained_file)
-    atm_params = np.load(f"/mnt/scratch/juagudeloo/obtained_data/obtained_value-0{obtained_file}.npy")
     data = Data_class(create_scaler=False)
     original_atm = data.charge_atm_params(filename)
     scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
