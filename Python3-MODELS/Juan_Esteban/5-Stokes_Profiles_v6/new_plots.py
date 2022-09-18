@@ -38,6 +38,7 @@ def main():
         ax[i].set_xlabel("height pixels", fontsize = 18)
         ax[i].set_ylabel(ylabels[i], fontsize = 18)
         ax[i].ticklabel_format(style = "sci")
+        ax[i].tick_params(labelsize = 14)
     fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-01.png")
 
     fig, ax = plt.subplots(1,4,figsize=figsize)
@@ -49,6 +50,7 @@ def main():
         ax[i].set_xlabel("height pixels", fontsize = 18)
         ax[i].set_ylabel(ylabels[i], fontsize = 18)
         ax[i].ticklabel_format(style = "sci")
+        ax[i].tick_params(labelsize = 14)
     fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-02.png")
 
     fig, ax = plt.subplots(1,4,figsize=figsize)
@@ -61,6 +63,7 @@ def main():
         ax[i].set_xlabel("height pixels", fontsize = 18)
         ax[i].set_ylabel(ylabels[i], fontsize = 18)
         ax[i].ticklabel_format(style = "sci")
+        ax[i].tick_params(labelsize = 16)
     fig.savefig(f"Images/Stokes_params/stokes_plot_0{obtained_file}-03.png")
 
 
