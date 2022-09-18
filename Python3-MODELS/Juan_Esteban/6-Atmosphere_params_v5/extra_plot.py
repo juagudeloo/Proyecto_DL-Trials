@@ -17,7 +17,7 @@ def main():
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
     ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$T$ [K]", r"$\rho$[g cm$^{-3}$]"]
-    fig, ax = plt.subplots(3,4,figsize=(7,7))
+    fig, ax = plt.subplots(1,4,figsize=(7,7))
 
     for i in range(4):
         im_i = ax[i].imshow(original_atm[:,:,i,height], cmap="gist_gray")
