@@ -33,7 +33,7 @@ def main():
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes")
-        ax[i].set_title(titles[i]+"in maximum", fontsize = 18)
+        ax[i].set_title(titles[i]+"-maximum", fontsize = 18)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 18)
         ax[i].set_ylabel(ylabels[i], fontsize = 18)
@@ -44,7 +44,7 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
-        ax[i].set_title(titles[i]+"in maximum", fontsize = 18)
+        ax[i].set_title(titles[i]+"-maximum", fontsize = 18)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 18)
         ax[i].set_ylabel(ylabels[i], fontsize = 18)
@@ -56,7 +56,7 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes")
-        ax[i].set_title(titles[i]+"in maximum", fontsize = 18)
+        ax[i].set_title(titles[i]+"-maximum", fontsize = 18)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 18)
         ax[i].set_ylabel(ylabels[i], fontsize = 18)
