@@ -65,7 +65,7 @@ def main():
             ax[i,j].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
             ax[i,j].set_title(titles[i+j], fontsize = fontsize)
             ax[i,j].legend(fontsize = fontsize)
-            divider = make_axes_locatable(ax[i+j])
+            divider = make_axes_locatable(ax[i,j])
             cax = divider.append_axes('bottom', size='5%', pad=0.3)
             fig.colorbar(im_i, cax=cax, orientation="horizontal")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-02.png")
