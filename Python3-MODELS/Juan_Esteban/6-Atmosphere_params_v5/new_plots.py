@@ -13,7 +13,6 @@ def main():
     scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
     for i in range(len(scaler_names)):
         original_atm[:,:,i,:] = np.memmap.reshape(inverse_scaling(original_atm[:,:,i,:], scaler_names[i]), (480,480,(256-180)))
-    original_atm[:,:,2,:] = np.memmap.reshape(np.exp(original_atm[:,:,2,:]), (480,480,(256-180)))
 
 
     height = 10
@@ -31,7 +30,7 @@ def main():
     min_z_plot = min_values[3][0][1]
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
-    ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$log(\rho$)[g cm$^{-3}$]", r"$T$ [K]"]
+    ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$log(\rho$)$", r"$T$ [K]"]
     fontsize = 16
     
     fig, ax = plt.subplots(2,2,figsize=(15,15))
