@@ -32,6 +32,7 @@ def main():
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes")
+        ax[i].set_title("In maximum", fontsize = 16)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
@@ -43,6 +44,7 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
+        ax[i].set_title("In maximum", fontsize = 16)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
@@ -55,6 +57,7 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes", color = "orange")
+        ax[i].set_title("In maximum", fontsize = 16)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
@@ -68,7 +71,7 @@ def main():
     for i in range(4):
         ax[i].plot(np.arange(0,max_height,1)+1, stokes[min_x_plot, min_z_plot, i], label = "generated stokes")
         ax[i].plot(np.arange(0,max_height,1)+1, original_stokes[min_x_plot, min_z_plot, i], label = "original stokes")
-        ax[i].set_title(titles[i]+"in minimum")
+        ax[i].set_title("In minimum")
         ax[i].legend()
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
@@ -79,7 +82,7 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(0,max_height,1)+1, stokes[min_x_plot, min_z_plot, i], label = "generated stokes")
-        ax[i].set_title(titles[i]+"in minimum")
+        ax[i].set_title("In minimum")
         ax[i].legend()
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
@@ -90,7 +93,7 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(0,max_height,1)+1, original_stokes[min_x_plot, min_z_plot, i], label = "original stokes")
-        ax[i].set_title(titles[i]+"in minimum")
+        ax[i].set_title("In minimum")
         ax[i].legend()
         ax[i].set_xlabel("height pixels")
         ax[i].set_ylabel(ylabels[i])
