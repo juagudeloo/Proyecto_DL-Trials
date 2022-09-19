@@ -34,38 +34,40 @@ def main():
     fontsize = 16
     
     fig, ax = plt.subplots(1,4,figsize=(30,6))
-    for i in range(4):
-        
-        ax[i].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i], label = "generated params")
-        ax[i].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i], label = "original params")
-        ax[i].set_title("In maximum", fontsize = fontsize)
-        ax[i].legend(fontsize = fontsize)
-        ax[i].set_xlabel("height pixels", fontsize = fontsize)
-        ax[i].set_ylabel(ylabels[i], fontsize = fontsize)
-        ax[i].ticklabel_format(style = "sci")
+    for i in range(2):
+        for j in range(2):
+            ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i+j], label = "generated params")
+            ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i+j], label = "original params")
+            ax[i,j].set_title("In maximum", fontsize = fontsize)
+            ax[i,j].legend(fontsize = fontsize)
+            ax[i,j].set_xlabel("height pixels", fontsize = fontsize)
+            ax[i,j].set_ylabel(ylabels[i+j], fontsize = fontsize)
+            ax[i,j].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-00.png")
 
     fig, ax = plt.subplots(1,4,figsize=(30,6))
-    for i in range(4):
-        ax[i].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i], label = "generated params")
-        ax[i].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i], label = "original params")
-        ax[i].set_title(titles[i]+"in minimum", fontsize = fontsize)
-        ax[i].legend(fontsize = fontsize)
-        ax[i].set_xlabel("height pixels", fontsize = fontsize)
-        ax[i].set_ylabel(ylabels[i], fontsize = fontsize)
-        ax[i].ticklabel_format(style = "sci")
+    for i in range(2):
+        for j in range(2):
+            ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i+j], label = "generated params")
+            ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i+j], label = "original params")
+            ax[i,j].set_title("In minimum", fontsize = fontsize)
+            ax[i,j].legend(fontsize = fontsize)
+            ax[i,j].set_xlabel("height pixels", fontsize = fontsize)
+            ax[i,j].set_ylabel(ylabels[i+j], fontsize = fontsize)
+            ax[i,j].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-01.png")
 
     fig, ax = plt.subplots(1,4,figsize=(30,6))
-    for i in range(4):
-        im_i = ax[i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
-        ax[i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
-        ax[i].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
-        ax[i].set_title(titles[i], fontsize = fontsize)
-        ax[i].legend(fontsize = fontsize)
-        divider = make_axes_locatable(ax[i])
-        cax = divider.append_axes('bottom', size='5%', pad=0.3)
-        fig.colorbar(im_i, cax=cax, orientation="horizontal")
+    for i in range(2):
+        for j in range(2):
+            im_i = ax[i].imshow(atm_params[:,:,i+j,height], cmap="gist_gray")
+            ax[i,j].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
+            ax[i,j].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
+            ax[i,j].set_title(titles[i+j], fontsize = fontsize)
+            ax[i,j].legend(fontsize = fontsize)
+            divider = make_axes_locatable(ax[i+j])
+            cax = divider.append_axes('bottom', size='5%', pad=0.3)
+            fig.colorbar(im_i, cax=cax, orientation="horizontal")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-02.png")
     
 #
