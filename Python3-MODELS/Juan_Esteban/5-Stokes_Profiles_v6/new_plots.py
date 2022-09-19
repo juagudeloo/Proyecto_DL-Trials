@@ -27,7 +27,7 @@ def main():
     min_z_plot = min_values[3][0][1]
 
     ylabels = [r"$I_{NORMALIZED}$", r"$Q_{NORMALIZED}$", r"$U_{NORMALIZED}$", r"$V_{NORMALIZED}$"]
-    figsize = (30,6)
+    figsize = (13,13)
     fig, ax = plt.subplots(2,2,figsize=figsize)
     for i in range(2):
         for j in range(2):
