@@ -13,7 +13,7 @@ def main():
     scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
     for i in range(len(scaler_names)):
         original_atm[:,:,i,:] = np.memmap.reshape(inverse_scaling(original_atm[:,:,i,:], scaler_names[i]), (480,480,(256-180)))
-    original_atm[:,:,2,:] = np.memmap.reshape(np.exp(original_atm[:,:,2,:], scaler_names[i]), (480,480,(256-180)))
+    original_atm[:,:,2,:] = np.memmap.reshape(np.exp(original_atm[:,:,2,:]), (480,480,(256-180)))
 
 
     height = 10
