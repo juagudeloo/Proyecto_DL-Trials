@@ -57,7 +57,7 @@ def main():
             ax[i,j].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-01.png")
 
-    fig, ax = plt.subplots(2,2,figsize=(13,13))
+    fig, ax = plt.subplots(2,2,figsize=(11,11))
     for i in range(2):
         for j in range(2):
             im_i = ax[i,j].imshow(atm_params[:,:,i+j,height], cmap="gist_gray")
