@@ -33,7 +33,7 @@ def main():
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes")
         ax[i].set_title("In maximum", fontsize = 16)
-        ax[i].legend()
+        ax[i].legend(labelsize = 16)
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
         ax[i].ticklabel_format(style = "sci")
@@ -45,7 +45,7 @@ def main():
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
         ax[i].set_title("In maximum", fontsize = 16)
-        ax[i].legend()
+        ax[i].legend(labelsize = 16)
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
         ax[i].ticklabel_format(style = "sci")
@@ -58,7 +58,7 @@ def main():
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes", color = "orange")
         ax[i].set_title("In maximum", fontsize = 16)
-        ax[i].legend()
+        ax[i].legend(labelsize = 16)
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
         ax[i].ticklabel_format(style = "sci")
