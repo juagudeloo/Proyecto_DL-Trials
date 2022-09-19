@@ -107,7 +107,6 @@ def main():
         im_i = ax[i].imshow(stokes[:,:,i,wavelength], cmap="gist_gray")
         ax[i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
         ax[i].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
-        ax[i].set_title(titles[i])
         ax[i].legend()
         divider = make_axes_locatable(ax[i])
         cax = divider.append_axes('bottom', size='5%', pad=0.3)
