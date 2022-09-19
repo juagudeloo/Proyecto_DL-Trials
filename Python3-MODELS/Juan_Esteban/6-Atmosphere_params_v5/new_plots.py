@@ -57,13 +57,13 @@ def main():
             ax[i,j].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-01.png")
 
-    fig, ax = plt.subplots(2,2,figsize=(10,10))
+    fig, ax = plt.subplots(2,2,figsize=(13,13))
     for i in range(2):
         for j in range(2):
             im_i = ax[i,j].imshow(atm_params[:,:,i+j,height], cmap="gist_gray")
             ax[i,j].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
             ax[i,j].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
-            ax[i,j].set_title(titles[i+j], fontsize = fontsize)
+            ax[i,j].set_title(ylabels[i+j], fontsize = fontsize)
             ax[i,j].legend(fontsize = fontsize)
             divider = make_axes_locatable(ax[i,j])
             cax = divider.append_axes('bottom', size='5%', pad=0.3)
