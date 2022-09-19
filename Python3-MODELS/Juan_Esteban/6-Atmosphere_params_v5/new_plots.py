@@ -33,7 +33,7 @@ def main():
     ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$T$ [K]", r"$\rho$[g cm$^{-3}$]"]
     fontsize = 16
     
-    fig, ax = plt.subplots(3,4,figsize=(30,6))
+    fig, ax = plt.subplots(1,4,figsize=(30,6))
     for i in range(4):
         
         ax[i].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i], label = "generated params")
@@ -45,7 +45,7 @@ def main():
         ax[i].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-00.png")
 
-    fig, ax = plt.subplots(3,4,figsize=(30,6))
+    fig, ax = plt.subplots(1,4,figsize=(30,6))
     for i in range(4):
         ax[i].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i], label = "generated params")
         ax[i].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i], label = "original params")
@@ -56,7 +56,7 @@ def main():
         ax[i].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-01.png")
 
-    fig, ax = plt.subplots(3,4,figsize=(30,6))
+    fig, ax = plt.subplots(1,4,figsize=(30,6))
     for i in range(4):
         im_i = ax[i].imshow(atm_params[:,:,i,height], cmap="gist_gray")
         ax[i].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
