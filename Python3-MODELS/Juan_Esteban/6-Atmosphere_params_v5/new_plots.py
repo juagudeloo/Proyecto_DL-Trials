@@ -33,7 +33,7 @@ def main():
     ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$T$ [K]", r"$\rho$[g cm$^{-3}$]"]
     fontsize = 16
     
-    fig, ax = plt.subplots(2,2,figsize=(20,20))
+    fig, ax = plt.subplots(2,2,figsize=(10,10))
     for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i+j], label = "generated params")
@@ -45,7 +45,7 @@ def main():
             ax[i,j].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-00.png")
 
-    fig, ax = plt.subplots(2,2,figsize=(20,20))
+    fig, ax = plt.subplots(2,2,figsize=(10,10))
     for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i+j], label = "generated params")
@@ -57,7 +57,7 @@ def main():
             ax[i,j].ticklabel_format(style = "sci")
     fig.savefig(f"Images/Stokes_params/height_serie_plots_0{obtained_file}-01.png")
 
-    fig, ax = plt.subplots(2,2,figsize=(20,20))
+    fig, ax = plt.subplots(2,2,figsize=(10,10))
     for i in range(2):
         for j in range(2):
             im_i = ax[i,j].imshow(atm_params[:,:,i+j,height], cmap="gist_gray")
