@@ -26,14 +26,12 @@ def main():
     min_x_plot = min_values[3][0][0]
     min_z_plot = min_values[3][0][1]
 
-    titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
     ylabels = [r"$I_{NORMALIZED}$", r"$Q_{NORMALIZED}$", r"$U_{NORMALIZED}$", r"$V_{NORMALIZED}$"]
     figsize = (24,6)
     fig, ax = plt.subplots(1,4,figsize=figsize)
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes")
-        ax[i].set_title(titles[i]+"-maximum", fontsize = 16)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
@@ -45,7 +43,6 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i], label = "generated stokes")
-        ax[i].set_title(titles[i]+"-maximum", fontsize = 16)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
@@ -58,7 +55,6 @@ def main():
 
     for i in range(4):
         ax[i].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i], label = "original stokes", color = "orange")
-        ax[i].set_title(titles[i]+"-maximum", fontsize = 16)
         ax[i].legend()
         ax[i].set_xlabel("height pixels", fontsize = 16)
         ax[i].set_ylabel(ylabels[i], fontsize = 16)
