@@ -29,7 +29,7 @@ def main():
     ylabels = [r"$I_{NORMALIZED}$", r"$Q_{NORMALIZED}$", r"$U_{NORMALIZED}$", r"$V_{NORMALIZED}$"]
     figsize = (30,6)
     fig, ax = plt.subplots(2,2,figsize=figsize)
-    for i in range(4):
+    for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i*2+j], label = "generated stokes")
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i*2+j], label = "original stokes")
@@ -43,7 +43,7 @@ def main():
 
     fig, ax = plt.subplots(2,2,figsize=figsize)
 
-    for i in range(4):
+    for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i*2+j], label = "generated stokes")
             ax[i,j].set_title("In maximum", fontsize = 16)
@@ -57,7 +57,7 @@ def main():
     fig, ax = plt.subplots(2,2,figsize=figsize)
 
 
-    for i in range(4):
+    for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i*2+j], label = "original stokes", color = "orange")
             ax[i,j].set_title("In maximum", fontsize = 16)
@@ -84,7 +84,7 @@ def main():
 
     fig, ax = plt.subplots(2,2,figsize=figsize)
 
-    for i in range(4):
+    for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(0,max_height,1)+1, stokes[min_x_plot, min_z_plot, i*2+j], label = "generated stokes")
             ax[i,j].set_title("In minimum")
@@ -96,7 +96,7 @@ def main():
 
     fig, ax = plt.subplots(2,2,figsize=figsize)
 
-    for i in range(4):
+    for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(0,max_height,1)+1, original_stokes[min_x_plot, min_z_plot, i*2+j], label = "original stokes")
             ax[i,j].set_title("In minimum")
@@ -109,7 +109,7 @@ def main():
 
     fig, ax = plt.subplots(2,2,figsize=figsize)
 
-    for i in range(4):
+    for i in range(2):
         for j in range(2):
             im_i = ax[i,j].imshow(stokes[:,:,i*2+j,wavelength], cmap="gist_gray")
             ax[i,j].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
