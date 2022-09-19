@@ -60,7 +60,7 @@ def main():
     fig, ax = plt.subplots(2,2,figsize=(20,20))
     for i in range(2):
         for j in range(2):
-            im_i = ax[i].imshow(atm_params[:,:,i+j,height], cmap="gist_gray")
+            im_i = ax[i,j].imshow(atm_params[:,:,i+j,height], cmap="gist_gray")
             ax[i,j].scatter(max_x_plot, max_z_plot, label = "maximum", color = "r")
             ax[i,j].scatter(min_x_plot, min_z_plot, label = "minimun", color = "g")
             ax[i,j].set_title(titles[i+j], fontsize = fontsize)
