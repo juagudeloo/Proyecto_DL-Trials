@@ -133,7 +133,8 @@ class Data_class():
         print(self.mbyy.shape)
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
-        self.atm_params = np.moveaxis(self.atm_params,0,1)
+        print("atm_params shape:")
+        print(np.shape(self.atm_params))
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*(256-self.lb)))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz, 4,(256-self.lb)))
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
