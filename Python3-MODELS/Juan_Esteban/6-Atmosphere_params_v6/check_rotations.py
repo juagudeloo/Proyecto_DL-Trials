@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def main():
-    filename = "092000"
+    filename = "099000"
     sun = Data_class()
     atm_params = sun.charge_atm_params(filename)
     intensity = sun.charge_intensity(filename)
