@@ -2,7 +2,7 @@ from train_generate.extract_compile.data_class import Data_class
 import numpy as np
 
 def main():
-    filename = "098000"
+    filename = "092000"
     sun = Data_class()
     atm_params = sun.charge_atm_params(filename)
     intensity = sun.charge_intensity(filename)
