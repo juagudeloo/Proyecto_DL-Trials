@@ -10,7 +10,6 @@ def main():
     print(np.shape(atm_params))
     print(np.shape(intensity))
     print(np.shape(stokes))
-c
 
 if __name__ == "__main__":
     main()
