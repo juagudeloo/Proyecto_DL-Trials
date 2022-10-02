@@ -1,5 +1,5 @@
 import numpy as np
-import extract_stokes.model_prof_tools as mpt
+import train_generate.extract_compile.model_prof_tools as mpt
 import pandas as pd
 
 #This is the scaling function
