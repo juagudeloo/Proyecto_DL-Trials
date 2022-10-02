@@ -133,10 +133,11 @@ class Data_class():
         print(self.mbyy.shape)
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
-        print("atm_params shape:")
-        print(np.shape(self.atm_params))
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, 4*(256-self.lb)))
-        return np.memmap.reshape(self.atm_params, (self.nx, self.nz, 4,(256-self.lb)))
+        #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
+        self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
+        self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, (256-self.lb)*4))
+        return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
     def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
         self.ptm = ptm
         self.filename = filename
@@ -150,7 +151,7 @@ class Data_class():
             self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
         print(f"IOUT done {self.filename}")   
         print('\n') 
-        return self.iout
+        return np.memmap.reshape(self.iout,(self.nx, self.nz))
     def charge_stokes_params(self, filename, stk_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/",  file_type = "nicole"):
         import struct
         import re
@@ -187,7 +188,7 @@ class Data_class():
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
         self.profs = np.memmap.reshape(self.profs,(self.nx*self.nz,self.nlam,N_profs))
         print(f"Stokes params done! {self.filename}")
-        return self.profs
+        return np.memmap.reshape(self.profs,(self.nx, self.nz,self.nlam,N_profs))
     def split_data(self, filename, input_type, TR_S):
         """
         Splits the data into a test set and a training set.
