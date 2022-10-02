@@ -1,5 +1,6 @@
 from train_generate.extract_compile.data_class import Data_class
 import numpy as np
+import matplotlib as plt
 
 def main():
     filename = "092000"
