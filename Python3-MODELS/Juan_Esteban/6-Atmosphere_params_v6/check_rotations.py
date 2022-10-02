@@ -15,7 +15,7 @@ def main():
     print(np.shape(stokes))
 
     fig, ax = plt.subplots(3,4, figsize = (32,7))
-    for i in range(4)
+    for i in range(4):
         ax[0,i].imshow(atm_params[:,:,10,i])
         ax[0,i].set_title(atm_titles[i])
         
