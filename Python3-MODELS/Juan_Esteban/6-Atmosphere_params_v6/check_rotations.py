@@ -21,7 +21,7 @@ def main():
     ax[2,0].imshow(stokes[:,:,10,1])
     ax[2,0].imshow(stokes[:,:,10,2])
     ax[2,0].imshow(stokes[:,:,10,3])
-    fig.savefig("")
+    fig.savefig("Images/rotations.png")
 
 
 if __name__ == "__main__":
