@@ -9,8 +9,11 @@ def main():
     atm_titles = ["mbyy", "mvyy", "mrho", "mtpr"]
     intensity = sun.charge_intensity(filename)
     stokes = sun.charge_stokes_params(filename)
-    print(np.min(stokes[0]))
-    print(np.max(stokes[0]))
+
+    threshold = (np.max(stokes[:,:,0,0])*0.5)
+    thres_location = np.argwhere(stokes[:,:,0,0] > threshold)
+    print(thres_location)
+
     stokes_titles = ["I", "Q", "U", "V"]
     print(np.shape(atm_params))
     print(np.shape(intensity))
