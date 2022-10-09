@@ -19,15 +19,19 @@ def main():
     print(np.shape(intensity))
     print(np.shape(stokes))
 
+    atm_params_filtered = atm_params[thres_location]*0
+    stokes_filtered = stokes[thres_location]*0
+    intensity_filtered = intensity[thres_location]*0
+
     fig, ax = plt.subplots(3,4, figsize = (32,7))
     for i in range(4):
-        ax[0,i].imshow(atm_params[:,:,10,i])
+        ax[0,i].imshow(atm_params_filtered[:,:,10,i])
         ax[0,i].set_title(atm_titles[i])
         
-        ax[2,i].imshow(stokes[:,:,10,i])
+        ax[2,i].imshow(stokes_filtered[:,:,10,i])
         ax[2,i].set_title(stokes_titles[i])
 
-    ax[1,0].imshow(intensity)
+    ax[1,0].imshow(intensity_filtered)
     ax[1,0].set_title("Intensity")
 
     fig.savefig("Images/rotations.png")
