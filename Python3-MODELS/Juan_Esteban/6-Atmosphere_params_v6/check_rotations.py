@@ -12,26 +12,25 @@ def main():
 
     threshold = (np.max(stokes[:,:,0,0])*0.5)
     thres_location = np.argwhere(stokes[:,:,0,0] < threshold)
-    print(thres_location)
 
     stokes_titles = ["I", "Q", "U", "V"]
     print(np.shape(atm_params))
     print(np.shape(intensity))
     print(np.shape(stokes))
-
-    atm_params_filtered = atm_params[thres_location]*0
-    stokes_filtered = stokes[thres_location]*0
-    intensity_filtered = intensity[thres_location]*0
+    for loc in thres_location:
+        atm_params[loc] *= 0
+        stokes[loc] *= 0
+        intensity[loc] *= 0
 
     fig, ax = plt.subplots(3,4, figsize = (32,7))
     for i in range(4):
-        ax[0,i].imshow(atm_params_filtered[:,:,10,i])
+        ax[0,i].imshow(atm_params[:,:,10,i])
         ax[0,i].set_title(atm_titles[i])
         
-        ax[2,i].imshow(stokes_filtered[:,:,10,i])
+        ax[2,i].imshow(stokes[:,:,10,i])
         ax[2,i].set_title(stokes_titles[i])
 
-    ax[1,0].imshow(intensity_filtered)
+    ax[1,0].imshow(intensity)
     ax[1,0].set_title("Intensity")
 
     fig.savefig("Images/rotations.png")
