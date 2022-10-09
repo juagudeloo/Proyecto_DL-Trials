@@ -11,7 +11,7 @@ def main():
     stokes = sun.charge_stokes_params(filename)
 
     threshold = (np.max(stokes[:,:,0,0])*0.5)
-    thres_location = np.argwhere(stokes[:,:,0,0] > threshold)
+    thres_location = np.argwhere(stokes[:,:,0,0] < threshold)
     print(thres_location)
 
     stokes_titles = ["I", "Q", "U", "V"]
