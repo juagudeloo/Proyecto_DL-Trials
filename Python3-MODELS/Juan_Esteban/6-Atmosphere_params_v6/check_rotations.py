@@ -19,8 +19,8 @@ def main():
     print(np.shape(intensity))
     print(np.shape(stokes))
     for loc in thres_location:
-        atm_params[loc] *= 0
-        stokes[loc] *= 0
+        atm_params[loc,:,:] *= 0
+        stokes[loc,:,:] *= 0
         intensity[loc] *= 0
 
     fig, ax = plt.subplots(3,4, figsize = (32,7))
