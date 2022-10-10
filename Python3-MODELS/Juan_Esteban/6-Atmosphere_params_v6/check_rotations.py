@@ -12,6 +12,7 @@ def main():
 
     threshold = (np.max(stokes[:,:,0,0])*0.4)
     thres_location = np.argwhere(stokes[:,:,0,0] < threshold)
+    print(np.shape(thres_location))
 
     stokes_titles = ["I", "Q", "U", "V"]
     print(np.shape(atm_params))
