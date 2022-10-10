@@ -10,7 +10,7 @@ def main():
     intensity = sun.charge_intensity(filename)
     stokes = sun.charge_stokes_params(filename)
 
-    threshold = (np.max(stokes[:,:,0,0])*0.5)
+    threshold = (np.max(stokes[:,:,0,0])*0.4)
     thres_location = np.argwhere(stokes[:,:,0,0] < threshold)
 
     stokes_titles = ["I", "Q", "U", "V"]
