@@ -33,7 +33,7 @@ def main():
         for j in range(2):
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i*2+j], label = "generated stokes")
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i*2+j], label = "original stokes")
-            ax[i,j].set_title("In maximum", fontsize = 16)
+            ax[i,j].set_title("Granular", fontsize = 16)
             ax[i,j].legend(fontsize = 16)
             ax[i,j].set_xlabel("height pixels", fontsize = 16)
             ax[i,j].set_ylabel(ylabels[i*2+j], fontsize = 16)
@@ -60,7 +60,7 @@ def main():
     for i in range(2):
         for j in range(2):
             ax[i,j].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i*2+j], label = "original stokes", color = "orange")
-            ax[i,j].set_title("In maximum", fontsize = 16)
+            ax[i,j].set_title("INtergranular", fontsize = 16)
             ax[i,j].legend(fontsize = 16)
             ax[i,j].set_xlabel("height pixels", fontsize = 16)
             ax[i,j].set_ylabel(ylabels[i*2+j], fontsize = 16)
