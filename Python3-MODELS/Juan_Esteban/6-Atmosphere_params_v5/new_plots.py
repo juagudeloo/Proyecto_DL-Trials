@@ -36,8 +36,8 @@ def main():
     fig, ax = plt.subplots(2,2,figsize=(15,15))
     for i in range(2):
         for j in range(2):
-            ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i*2+j], label = "generated params")
-            ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i*2+j], label = "original params")
+            ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i*2+j], label = "parámetros generados")
+            ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i*2+j], label = "parámetros originales")
             ax[i,j].set_title("Granular", fontsize = fontsize)
             ax[i,j].legend(fontsize = fontsize)
             ax[i,j].set_xlabel("height pixels", fontsize = fontsize)
@@ -48,8 +48,8 @@ def main():
     fig, ax = plt.subplots(2,2,figsize=(15,15))
     for i in range(2):
         for j in range(2):
-            ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i*2+j], label = "generated params")
-            ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i*2+j], label = "original params")
+            ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i*2+j], label = "parámetros generados")
+            ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i*2+j], label = "parámetros originales")
             ax[i,j].set_title("Intergranular", fontsize = fontsize)
             ax[i,j].legend(fontsize = fontsize)
             ax[i,j].set_xlabel("height pixels", fontsize = fontsize)

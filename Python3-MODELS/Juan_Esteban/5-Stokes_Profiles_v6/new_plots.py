@@ -31,8 +31,8 @@ def main():
     fig, ax = plt.subplots(2,2,figsize=figsize)
     for i in range(2):
         for j in range(2):
-            ax[i,j].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i*2+j], label = "generated stokes")
-            ax[i,j].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i*2+j], label = "original stokes")
+            ax[i,j].plot(np.arange(6302,6302+10*300, 10), stokes[max_x_plot, max_z_plot, i*2+j], label = "Stokes generados")
+            ax[i,j].plot(np.arange(6302,6302+10*300, 10), original_stokes[max_x_plot, max_z_plot, i*2+j], label = "Stokes originales")
             ax[i,j].set_title("Granular", fontsize = 16)
             ax[i,j].legend(fontsize = 16)
             ax[i,j].set_xlabel("height pixels", fontsize = 16)
