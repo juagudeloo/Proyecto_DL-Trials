@@ -30,7 +30,7 @@ def main():
     min_z_plot = min_values[3][0][1]
 
     titles = ["Magnetic field LOS", "Velocity LOS", "Density", "Temperature"]
-    ylabels = [r"$B_z$ [G]", r"$v$ [$10^5$ cm s$^{-1}$]", r"$\log(\rho)$", r"$T$ [K]"]
+    ylabels = [r"$B_z$ [G]", r"$v_z$ [$10^5$ cm s$^{-1}$]", r"$\log(\rho)$", r"$T$ [K]"]
     fontsize = 16
     
     fig, ax = plt.subplots(2,2,figsize=(15,15))
