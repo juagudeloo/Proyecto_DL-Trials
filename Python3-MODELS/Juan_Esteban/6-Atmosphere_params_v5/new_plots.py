@@ -38,7 +38,7 @@ def main():
         for j in range(2):
             ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[max_x_plot, max_z_plot, i*2+j], label = "generated params")
             ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[max_x_plot, max_z_plot, i*2+j], label = "original params")
-            ax[i,j].set_title("In maximum", fontsize = fontsize)
+            ax[i,j].set_title("Granular", fontsize = fontsize)
             ax[i,j].legend(fontsize = fontsize)
             ax[i,j].set_xlabel("height pixels", fontsize = fontsize)
             ax[i,j].set_ylabel(ylabels[i*2+j], fontsize = fontsize)
@@ -50,7 +50,7 @@ def main():
         for j in range(2):
             ax[i,j].plot(np.arange(0,max_height,1)+1, atm_params[min_x_plot, min_z_plot, i*2+j], label = "generated params")
             ax[i,j].plot(np.arange(0,max_height,1)+1, original_atm[min_x_plot, min_z_plot, i*2+j], label = "original params")
-            ax[i,j].set_title("In minimum", fontsize = fontsize)
+            ax[i,j].set_title("Intergranular", fontsize = fontsize)
             ax[i,j].legend(fontsize = fontsize)
             ax[i,j].set_xlabel("height pixels", fontsize = fontsize)
             ax[i,j].set_ylabel(ylabels[i*2+j], fontsize = fontsize)
