@@ -39,6 +39,15 @@ def main():
             dc.charge_stokes_params(a)
             for nm in names:
                 scaler_pairs[nm].append(np.load(nm+".npy"))
+    for i in range(115,201):
+        a = str(i)+"000"
+        tr_filename.append(a)
+        dc.charge_atm_params(a)
+        dc.charge_intensity(a)
+        dc.charge_stokes_params(a)
+        for nm in names:
+            scaler_pairs[nm].append(np.load(nm+".npy"))
+    
     
     for nm in names:
         scaler_pairs[nm] = [np.min(scaler_pairs[nm]), np.max(scaler_pairs[nm])]
