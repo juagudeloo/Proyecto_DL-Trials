@@ -16,23 +16,19 @@ def main():
                      names[4]: [],
                      names[5]: []}
     dc = Data_class()
-    for i in range(53,100):
+    for i in range(53,200):
         if i == 76:
             None
-        elif i == 85:
-            None
-        elif i == 88:
-            None
-        elif i == 89:
-            None
-        elif i == 94:
-            None
-        elif i == 95:
-            None
-        elif i == 98:
-            None
-        else:
+        elif i<100:
             a = "0"+str(i)+"000"
+            tr_filename.append(a)
+            dc.charge_atm_params(a)
+            dc.charge_intensity(a)
+            dc.charge_stokes_params(a)
+            for nm in names:
+                scaler_pairs[nm].append(np.load(nm+".npy"))
+        elif i >= 100:
+            a = str(i)+"000"
             tr_filename.append(a)
             dc.charge_atm_params(a)
             dc.charge_intensity(a)
