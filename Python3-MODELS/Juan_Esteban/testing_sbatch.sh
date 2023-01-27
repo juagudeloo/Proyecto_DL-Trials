@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=1  ## the number of threads allocated to each task
 #SBATCH --mem-per-cpu=500M   # memory per CPU core
 #SBATCH --partition=normal  ## the partitions to run in (comma seperated)
-#SBATCH --time=3-00:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --time=00:01:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --mail-user=juagudeloo@unal.edu.co
 
 ## Load modules
