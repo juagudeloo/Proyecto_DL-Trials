@@ -13,7 +13,7 @@ def main():
         else:
             a = str(i)+"000"
             tr_filename.append(a)
-    atm_model = LightObtainModel(light_type="Intensity", create_scaler=False)
+    atm_model = LightObtainModel(ptm = ptm, light_type="Intensity", create_scaler=False)
     atm_model.compile_model(learning_rate=0.001)
     
     start_time = time.time() #Time measured in seconds

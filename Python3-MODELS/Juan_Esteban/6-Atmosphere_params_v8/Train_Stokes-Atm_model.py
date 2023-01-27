@@ -4,8 +4,9 @@ import time
 
 def main():
     #Intensity specifications
-    ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
+    ptm = "/media/hdd/PRINCIPAL-2022-2/PROYECTOS/PROYECTO_DL/MURAM_data/"
     tr_filename = []
+    
     for i in np.arange(80,171,3):
         if i<100:
             a = "0"+str(i)+"000"
@@ -13,7 +14,8 @@ def main():
         else:
             a = str(i)+"000"
             tr_filename.append(a)
-    stokes_model = AtmObtainModel(light_type="Stokes params", create_scaler=False)
+    
+    stokes_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     stokes_model.compile_model(learning_rate=0.001)
     
     start_time = time.time() #Time measured in seconds

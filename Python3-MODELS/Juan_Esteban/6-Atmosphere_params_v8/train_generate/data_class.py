@@ -1,5 +1,5 @@
 import numpy as np
-import train_generate.extract_compile.model_prof_tools as mpt
+import train_generate.model_prof_tools as mpt
 import pandas as pd
 
 #This is the scaling function
@@ -29,7 +29,8 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class DataClass():
-    def __init__(self, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = False): 
+    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = False, 
+    light_type = "Intensity"): 
         """
         lower_boundary -> indicates from where to take the data for training.
         light_type options:
@@ -38,15 +39,16 @@ class DataClass():
         create_scaler -> Set True by default. It determines wheter to create a scaler object or take an already created one.
         """
         #size of the cubes of the data
+        self.ptm = ptm
         self.nx = nx
         self.ny = ny
         self.nz = nz
         self.lb = lower_boundary
         self.create_scaler = create_scaler
+        self.light_type = light_type
         print("Starting the charging process!")
-    def charge_atm_params(self, filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
+    def charge_atm_params(self, filename):
         #path and filename specifications
-        self.ptm = ptm
         self.filename = filename
         #Arrays for saving the charged data for each filename
         self.mtpr = []
@@ -136,10 +138,9 @@ class DataClass():
         #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx*self.nz, (256-self.lb)*4))
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
-    def charge_intensity(self,filename, ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"):
-        self.ptm = ptm
+    def charge_intensity(self,filename):
         self.filename = filename
         self.iout = []
         print(f"reading IOUT {self.filename}")
@@ -153,14 +154,13 @@ class DataClass():
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
-    def charge_stokes_params(self, filename, stk_ptm = "/mnt/scratch/juagudeloo/Stokes_profiles/PROFILES/",  file_type = "nicole"):
+    def charge_stokes_params(self, filename,  file_type = "nicole"):
         import struct
         import re
         import sys
         global idl, irec, f # Save values between calls
         self.filename = filename
         [int4f,intf,flf]=mpt.check_types()
-        self.stk_ptm = stk_ptm
         self.stk_filename = self.filename+"_0000_0000.prof"
         self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
         self.profs = [] #It's for the reshaped data - better for visualization.
@@ -170,7 +170,7 @@ class DataClass():
         N_profs = 4
         for ix in range(self.nx):
             for iy in range(self.nz):
-                p_prof = mpt.read_prof(self.stk_ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
+                p_prof = mpt.read_prof(self.ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
                 p_prof = np.memmap.reshape(np.array(p_prof), (self.nlam, N_profs))
                 ##############################################################################
                 #self.profs_ravel is going to safe all the data in a one dimensional array where
@@ -187,7 +187,7 @@ class DataClass():
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
-        self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz,self.nlam,N_profs))
+        self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
         print(f"Stokes params done! {self.filename}")
         return self.profs
     def split_data_atm_output(self, filename, light_type, TR_S):
@@ -205,15 +205,15 @@ class DataClass():
             threshold = (np.max(self.iout)-np.min(self.iout))/2.5 + np.min(self.iout)
             intergran_mask = np.ma.masked_where(self.iout > threshold, self.iout).mask
             gran_mask = np.ma.masked_where(self.iout <= threshold, self.iout).mask
-            len_intergran = len(intergran_mask)
-            len_gran = len(gran_mask)
+            len_intergran = len(np.ma.masked_where(self.iout > threshold, self.iout).compressed())
+            len_gran = len(np.ma.masked_where(self.iout <= threshold, self.iout).compressed())
             # Applying the masks over the intensity data
             iout_intergran = np.ma.array(self.iout, mask = intergran_mask).compressed()
             iout_gran = np.ma.array(self.iout, mask = gran_mask).compressed()
             # Creating the array of random indexes for the granular zones, to obtain the same total of data than the intergranular zones.
             index_select  = []
             np.random.seed(50)
-            if len_intergran < len(len_gran):
+            if len_intergran < len_gran:
                 index_select = np.random.choice(range(len_gran), size = (len_intergran,), replace = False)
             else:
                 raise ValueError("Intergranular points should always be less than granular points")
@@ -227,10 +227,12 @@ class DataClass():
             self.in_ls = (1,) #input shape for the neural network
 
         if self.light_type == "Stokes params":
+            self.charge_stokes_params(filename)
             threshold = (np.max(self.profs[:,:,0,0])-np.min(self.profs[:,:,0,0]))/2.5 + np.min(self.profs[:,:,0,0])
             intergran_mask = np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).mask
             gran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
-            self.charge_stokes_params(filename)
+            len_intergran = len(np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).compressed())
+            len_gran = len(np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).compressed())
             # Stokes profiles
 
             profile_intergran = []
@@ -247,15 +249,15 @@ class DataClass():
                 profile_intergran.append(p_in)
                 profile_gran.append(p_gran)
 
-                profile_intergran = np.array(profile_intergran)
-                profile_gran = np.array(profile_gran)
-                for i in range(2):
-                    profile_intergran = np.moveaxis(profile_intergran,0,2-i)
-                    profile_gran = np.moveaxis(profile_gran,0,2-i)
+            profile_intergran = np.array(profile_intergran)
+            profile_gran = np.array(profile_gran)
+            for i in range(2):
+                profile_intergran = np.moveaxis(profile_intergran,0,2-i)
+                profile_gran = np.moveaxis(profile_gran,0,2-i)
             # Creating the array of random indexes for the granular zones, to obtain the same total of data than the intergranular zones.
             index_select  = []
             np.random.seed(50)
-            if len_intergran < len(len_gran):
+            if len_intergran < len_gran:
                 index_select = np.random.choice(range(len_gran), size = (len_intergran,), replace = False)
             else:
                 raise ValueError("Intergranular points should always be less than granular points")
@@ -286,10 +288,18 @@ class DataClass():
             atm_intergran.append(a_in)
             atm_gran.append(a_gran)
         
+        atm_intergran = np.array(atm_intergran)
+        atm_gran = np.array(atm_gran)
 
+        for i in range(2):
+            atm_intergran = np.moveaxis(atm_intergran,0,2-i)
+            atm_gran = np.moveaxis(atm_gran,0,2-i)
         
         self.tr_output = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
         self.te_output = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
+
+        self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
+        self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
 
         return self.tr_input, self.tr_output, self.te_input, self.te_output
     def split_data_light_output(self, filename, light_type, TR_S):
@@ -315,7 +325,13 @@ class DataClass():
             atm_intergran.append(a_in)
             atm_gran.append(a_gran)
         
+        atm_intergran = np.array(atm_intergran)
+        atm_gran = np.array(atm_gran)
         
+        for i in range(2):
+            atm_intergran = np.moveaxis(atm_intergran,0,2-i)
+            atm_gran = np.moveaxis(atm_gran,0,2-i)
+            
         self.tr_input = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
         self.te_input = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
         self.in_ls = np.shape(atm_intergran[0,:,:])
@@ -332,15 +348,15 @@ class DataClass():
             threshold = (np.max(self.iout)-np.min(self.iout))/2.5 + np.min(self.iout)
             intergran_mask = np.ma.masked_where(self.iout > threshold, self.iout).mask
             gran_mask = np.ma.masked_where(self.iout <= threshold, self.iout).mask
-            len_intergran = len(intergran_mask)
-            len_gran = len(gran_mask)
+            len_intergran = len(np.ma.masked_where(self.iout > threshold, self.iout).compressed())
+            len_gran = len(np.ma.masked_where(self.iout <= threshold, self.iout).compressed())
             # Applying the masks over the intensity data
             iout_intergran = np.ma.array(self.iout, mask = intergran_mask).compressed()
             iout_gran = np.ma.array(self.iout, mask = gran_mask).compressed()
             # Creating the array of random indexes for the granular zones, to obtain the same total of data than the intergranular zones.
             index_select  = []
             np.random.seed(50)
-            if len_intergran < len(len_gran):
+            if len_intergran < len_gran:
                 index_select = np.random.choice(range(len_gran), size = (len_intergran,), replace = False)
             else:
                 raise ValueError("Intergranular points should always be less than granular points")
@@ -353,9 +369,12 @@ class DataClass():
             self.te_output = np.concatenate((iout_intergran[idx[TR_delim:]], iout_gran[index_select][idx[TR_delim:]]))
 
         if self.light_type == "Stokes params":
+            self.charge_stokes_params(filename)
             threshold = (np.max(self.profs[:,:,0,0])-np.min(self.profs[:,:,0,0]))/2.5 + np.min(self.profs[:,:,0,0])
             intergran_mask = np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).mask
             gran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
+            len_intergran = len(np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).compressed())
+            len_gran = len(np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).compressed())
             self.charge_stokes_params(filename)
             # Stokes profiles
 
@@ -373,15 +392,15 @@ class DataClass():
                 profile_intergran.append(p_in)
                 profile_gran.append(p_gran)
 
-                profile_intergran = np.array(profile_intergran)
-                profile_gran = np.array(profile_gran)
-                for i in range(2):
-                    profile_intergran = np.moveaxis(profile_intergran,0,2-i)
-                    profile_gran = np.moveaxis(profile_gran,0,2-i)
+            profile_intergran = np.array(profile_intergran)
+            profile_gran = np.array(profile_gran)
+            for i in range(2):
+                profile_intergran = np.moveaxis(profile_intergran,0,2-i)
+                profile_gran = np.moveaxis(profile_gran,0,2-i)
             # Creating the array of random indexes for the granular zones, to obtain the same total of data than the intergranular zones.
             index_select  = []
             np.random.seed(50)
-            if len_intergran < len(len_gran):
+            if len_intergran < len_gran:
                 index_select = np.random.choice(range(len_gran), size = (len_intergran,), replace = False)
             else:
                 raise ValueError("Intergranular points should always be less than granular points")
@@ -392,6 +411,9 @@ class DataClass():
 
             self.tr_output = np.concatenate((profile_intergran[idx[:TR_delim],:,:], profile_gran[index_select,:,:][idx[:TR_delim],:,:]))
             self.te_output = np.concatenate((profile_intergran[idx[TR_delim:],:,:], profile_gran[index_select,:,:][idx[TR_delim:],:,:]))
+
+            self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
+            self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
 
         return self.tr_input, self.tr_output, self.te_input, self.te_output
 
