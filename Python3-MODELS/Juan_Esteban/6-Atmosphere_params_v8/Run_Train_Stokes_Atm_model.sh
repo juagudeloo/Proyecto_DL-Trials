@@ -18,6 +18,6 @@ pip3 install pandas
 
 ## Insert code, and run your programs here (use 'srun').
 
-srun python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/Train_Stokes-Atm_model.py
-srun python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/Obtain_Stokes-Atm_model.py
+python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/Train_Stokes-Atm_model.py
+python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/Obtain_Stokes-Atm_model.py
 deactivate
