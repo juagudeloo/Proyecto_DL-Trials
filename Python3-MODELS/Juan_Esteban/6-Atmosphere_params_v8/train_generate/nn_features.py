@@ -33,7 +33,7 @@ class NN_ModelCompileMixin():
         self.model = tf.keras.models.Model(inputs = data_in, outputs = output_layer)
         opt_func = tf.keras.optimizers.Adam(#learning_rate=learning_rate
         )
-        self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = "mean_squared_error")
+        self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = ["mean_squared_error"])
         self.model.summary()
     def check_create_dirs(self, intermediate_dir: str):
     #Checking the current path of directories is created
