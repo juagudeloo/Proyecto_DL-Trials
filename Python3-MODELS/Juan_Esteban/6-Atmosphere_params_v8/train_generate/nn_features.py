@@ -31,7 +31,7 @@ class NN_ModelCompileMixin():
         output = tf.keras.layers.Dense(self.output_ravel_shape, activation=tf.nn.sigmoid)
         output_layer = output(hidden_layers(data_in))
         self.model = tf.keras.models.Model(inputs = data_in, outputs = output_layer)
-        opt_func = tf.compat.v1.train.AdamOptimizer(learning_rate=learning_rate)
+        opt_func = tf.compat.train.AdamOptimizer(learning_rate=learning_rate)
         self.model.compile(loss='mean_squared_error', optimizer = opt_func, metrics = [tf.keras.metrics.MeanSquaredError()])
         self.model.summary()
     def check_create_dirs(self, intermediate_dir: str):
