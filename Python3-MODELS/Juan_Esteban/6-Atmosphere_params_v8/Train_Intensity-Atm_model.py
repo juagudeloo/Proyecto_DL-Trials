@@ -1,10 +1,11 @@
 import numpy as np
 from train_generate.nn_model import AtmObtainModel
 import time
+from path import path
 
 def main():
     #Intensity specifications
-    ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
+    ptm = path()
     tr_filename = []
     for i in np.arange(80,171,3):
         if i<100:

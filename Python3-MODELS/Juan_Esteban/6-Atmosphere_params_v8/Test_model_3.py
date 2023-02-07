@@ -1,8 +1,10 @@
 from train_generate.nn_model import AtmObtainModel
 import numpy as np
+import time
+from path import path
 
 def main():
-    ptm = "/media/hdd/PRINCIPAL-2022-2/PROYECTOS/PROYECTO_DL/MURAM_data/"
+    ptm = path()
     atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
 
     #Model training

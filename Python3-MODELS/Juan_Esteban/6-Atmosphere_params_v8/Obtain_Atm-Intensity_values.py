@@ -1,8 +1,9 @@
 from train_generate.nn_model import LightObtainModel
 import numpy as np
+from path import path
 
 def main():
-    ptm = "/mnt/scratch/juagudeloo/Total_MURAM_data/"
+    ptm = path()
     light_model = LightObtainModel(ptm = ptm, light_type="Intensity", create_scaler=False)
 
     #Model training

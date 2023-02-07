@@ -1,10 +1,11 @@
 import numpy as np
 from train_generate.nn_model import AtmObtainModel
 import time
+from path import path
 
 def main():
     #Intensity specifications
-    ptm = "/media/hdd/PRINCIPAL-2022-2/PROYECTOS/PROYECTO_DL/MURAM_data/"
+    ptm = path()
     tr_filename = []
     
     for i in np.arange(80,171,3):
