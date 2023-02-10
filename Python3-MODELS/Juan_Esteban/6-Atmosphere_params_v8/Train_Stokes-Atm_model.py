@@ -21,7 +21,7 @@ def main():
     
     start_time = time.time() #Time measured in seconds
     for fln in tr_filename:
-        stokes_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=1000)
+        stokes_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=10)
         stokes_model.plot_loss()
 
     with open(f"{stokes_model.nn_model_type}/training/training_time.txt", "w") as f:
