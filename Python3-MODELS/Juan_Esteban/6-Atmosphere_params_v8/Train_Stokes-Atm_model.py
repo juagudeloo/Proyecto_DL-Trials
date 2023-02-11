@@ -9,12 +9,15 @@ def main():
     tr_filename = []
     
     for i in np.arange(80,171,3):
-        if i<100:
-            a = "0"+str(i)+"000"
-            tr_filename.append(a)
+        if i==98:
+            None
         else:
-            a = str(i)+"000"
-            tr_filename.append(a)
+            if i<100:
+                a = "0"+str(i)+"000"
+                tr_filename.append(a)
+            else:
+                a = str(i)+"000"
+                tr_filename.append(a)
     
     stokes_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     stokes_model.compile_model(learning_rate=0.001)

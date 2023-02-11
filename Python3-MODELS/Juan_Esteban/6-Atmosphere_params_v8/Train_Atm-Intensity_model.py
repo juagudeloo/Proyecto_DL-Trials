@@ -8,12 +8,15 @@ def main():
     ptm = path()
     tr_filename = []
     for i in np.arange(80,171,3):
-        if i<100:
-            a = "0"+str(i)+"000"
-            tr_filename.append(a)
+        if i==98:
+            None
         else:
-            a = str(i)+"000"
-            tr_filename.append(a)
+            if i<100:
+                a = "0"+str(i)+"000"
+                tr_filename.append(a)
+            else:
+                a = str(i)+"000"
+                tr_filename.append(a)
     atm_model = LightObtainModel(ptm = ptm, light_type="Intensity", create_scaler=False)
     atm_model.compile_model(learning_rate=0.001)
     
