@@ -20,4 +20,4 @@ for i in range(4):
 for i in range(4):
     ax[2, i].imshow(stokes_params[:,:,10,i])
 for i in range(4):
-ax[3, i].plot(atm_params[10,10,:,i])
+    ax[3, i].plot(atm_params[10,10,:,i])
