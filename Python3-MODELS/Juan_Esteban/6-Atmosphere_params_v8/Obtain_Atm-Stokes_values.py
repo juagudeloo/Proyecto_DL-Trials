@@ -11,7 +11,7 @@ def main():
     light_model.load_weights(f"{light_model.nn_model_type}/training/{light_model.light_type}/cp.ckpt")
     #Model predicting
     pr_filename = []
-    for i in np.arange(83,100, 2):
+    for i in np.arange(175,200, 2):
         if i <100:
             a = "0"+str(i)+"000"
             pr_filename.append(a)
