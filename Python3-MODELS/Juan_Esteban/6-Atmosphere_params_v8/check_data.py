@@ -9,7 +9,7 @@ filename = "134000"
 d_class = DataClass(path, light_type = "Stokes_params")
 
 atm_params = d_class.charge_atm_params(filename)
-stokes_params = d_class.charge_stokes_paramas(filename)
+stokes_params = d_class.charge_stokes_params(filename)
 
 del d_class
 
