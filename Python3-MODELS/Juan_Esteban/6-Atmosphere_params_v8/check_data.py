@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from train_generate.data_class import DataClass
 
 path = "/girg/juagudeloo/MURAM_data/"
-filename = "137000"
+filename = "134000"
 
 d_class = DataClass(path, light_type = "Stokes_params")
 
