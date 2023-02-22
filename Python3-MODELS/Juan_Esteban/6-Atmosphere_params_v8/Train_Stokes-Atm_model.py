@@ -8,7 +8,7 @@ def main():
     ptm = path()
     tr_filename = []
     
-    for i in np.arange(80,131+1,3):
+    for i in np.arange(80,150+1,3):
         if i==98:
             None
         else:
