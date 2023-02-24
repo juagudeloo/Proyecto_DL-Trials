@@ -22,6 +22,7 @@ def main():
     
     start_time = time.time() #Time measured in seconds
     for fln in tr_filename:
+        print("is running")
         atm_model.train(fln, tr_s = 0.75, batch_size= 100, epochs=100)
         atm_model.plot_loss()
 
