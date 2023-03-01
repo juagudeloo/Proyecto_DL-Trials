@@ -123,7 +123,7 @@ class AtmTrainVisualMixin():
 
         #Inverse scaling application
         for i in range(self.channels):
-            predicted_values[:,:,i,:] = np.memmap.reshape(inverse_scaling(predicted_values[:,:,i,:], self.scaler_names[i]), (self.nx,self.nz,self.length))
+            predicted_values[:,:,:,i] = np.memmap.reshape(inverse_scaling(predicted_values[:,:,:,i], self.scaler_names[i]), (self.nx,self.nz,self.length))
         print(f"{filename} prediction done!")
 
         check_path_dirs = os.getcwd()+"/"
