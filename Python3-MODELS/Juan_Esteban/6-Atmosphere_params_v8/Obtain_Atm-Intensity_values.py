@@ -21,7 +21,7 @@ def main():
     
     for fln in pr_filename:
         light_model.predict_values(fln)
-        light_model.plot_predict()
+        light_model.plot_predict(fln)
 
 
 if __name__ == "__main__":

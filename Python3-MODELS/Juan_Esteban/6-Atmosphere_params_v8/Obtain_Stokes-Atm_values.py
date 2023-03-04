@@ -21,7 +21,7 @@ def main():
     
     for fln in pr_filename:
         atm_model.predict_values(fln)
-        atm_model.plot_predict()
+        atm_model.plot_predict(fln)
 
 
 if __name__ == "__main__":
