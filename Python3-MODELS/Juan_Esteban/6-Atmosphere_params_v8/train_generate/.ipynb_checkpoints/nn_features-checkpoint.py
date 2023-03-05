@@ -135,8 +135,7 @@ class AtmTrainVisualMixin():
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
-    def plot_predict(self, filename):
-        self.filename = filename
+    def plot_predict(self):
         ix = 200
         iz = 280
         height = 10
@@ -228,11 +227,12 @@ class LightTrainVisualMixin():
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
-    def plot_predict(self, filename):
+    def plot_predict(self):
         ix = 200
         iz = 280
         lam = 10
-        self.filename = filename
+        
+
         #Loading and plotting the predicted values vs the original ones
         dir_path = self.check_create_dirs("Predicted_values")
         predicted_values = np.load(dir_path + f"obtained_value-{self.filename}.npy")
