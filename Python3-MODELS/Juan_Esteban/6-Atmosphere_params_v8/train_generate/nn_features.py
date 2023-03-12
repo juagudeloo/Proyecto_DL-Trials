@@ -140,7 +140,7 @@ class AtmTrainVisualMixin():
         ix = 200
         iz = 280
         height = 10
-        fig, ax = plt.subplots(4,4,figsize=(50,7))
+        fig, ax = plt.subplots(2,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
         original_atm = self.charge_atm_params(self.filename)
@@ -152,6 +152,7 @@ class AtmTrainVisualMixin():
         
         #Checking the path of directories is created
         dir_path = self.check_create_dirs("Images")
+        print(dir_path)
 
         #Loading and plotting the predicted values vs the original ones
 
