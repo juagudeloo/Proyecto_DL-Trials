@@ -7,6 +7,7 @@ def main():
     ptm = path()
     atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     fln = "175000"
+    #charging
     atm_model.charge_atm_params(fln)
     orig_atm = np.load(f"/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/atm_NN_model/Predicted_values/Stokes_params/obtained_value-{fln}.npy")
     for i in range(self.channels):
