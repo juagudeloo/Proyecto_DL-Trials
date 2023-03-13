@@ -135,11 +135,8 @@ class AtmTrainVisualMixin():
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
-    def plot_predict(self, filename):
+    def plot_predict(self, filename, ix = 200, iz = 280, height = 10):
         self.filename = filename
-        ix = 200
-        iz = 280
-        height = 10
         fig, ax = plt.subplots(2,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
@@ -161,8 +158,11 @@ class AtmTrainVisualMixin():
             ax[0,i].set_title(f"Atmosphere parameters height serie - title={self.title[i]} - ix={ix}, iy={iz}")
             ax[0,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
             ax[0,i].legend()
-            ax[1,i].plot(predicted_values[iz,:,height,i], "k")     
+            ax[1,i].plot(predicted_values[iz,:,height,i], "k", "Generated")     
+            ax[1,i].plot(original_atm[iz,:,height,i], "k", label = "Original")     
             ax[1,i].set_title(f"Atmosphere parameters spatial distribution- title={self.title[i]}")
+            ax[1,i].legend()
+
 
 
             fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
