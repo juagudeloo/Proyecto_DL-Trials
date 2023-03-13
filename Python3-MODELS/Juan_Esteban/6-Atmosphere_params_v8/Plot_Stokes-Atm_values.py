@@ -9,5 +9,5 @@ def main():
     fln = "175000"
     atm_model.plot_predict(fln)
 
-if __name___ == "__main__":
+if __name__ == "__main__":
     main()
