@@ -80,8 +80,13 @@ class AtmTrainVisualMixin():
         self.plot_title = "Atmosphere parameters"
         self.nn_model_type = "atm_NN_model"
         self.length = 256-self.lb
-        self.scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
-        self.title = ['Magnetic Field','Velocity','Density','Temperature']
+        if self.light_type == "Intensity":
+            self.light_scaler_name = "iout"
+        if self.light_type == "Stokes params":
+            self.light_scaler_name = "stokes"
+        self.atm_scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
+        self.atm_title = ['Magnetic Field','Velocity','Density','Temperature']
+        self.light_title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = len(self.scaler_names)
         self.output_ravel_shape = self.length*self.channels
         self.in_ls = (300, 4)
@@ -135,7 +140,7 @@ class AtmTrainVisualMixin():
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
-    def plot_predict(self, filename, ix = 200, iz = 280, height = 10):
+    def plot_predict(self, filename, ix = 200, iz = 280, height = 10, ilam = 20):
         self.filename = filename
         fig, ax = plt.subplots(2,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
@@ -143,8 +148,11 @@ class AtmTrainVisualMixin():
         original_atm = self.charge_atm_params(self.filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
         for i in range(self.channels):
-            original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.scaler_names[i]), (self.nx,self.nz,self.length))
-        print(f"{self.filename} prediction done!")
+            original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.atm_scaler_names[i]), (self.nx,self.nz,self.length))
+        #Stokes params
+        if self.light_type == "Stokes parameters":
+            original_stokes = self.charge_stokes_params(self.filename)
+            original_stokes = np.memmap.reshape(inverse_scaling(original_stokes, self.light_scaler_name), (self.nx,self.nz,self.nlam,4))
 
         
         #Checking the path of directories is created
@@ -154,15 +162,15 @@ class AtmTrainVisualMixin():
         #Loading and plotting the predicted values vs the original ones
 
         for i in range(self.channels):
-            ax[0,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-            ax[0,i].set_title(f"Atmosphere parameters height serie - title={self.title[i]} - ix={ix}, iy={iz}")
-            ax[0,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
+            ax[0,i].plot(original_stokes[iz,:,ilam,i], "r", label = "Generated")     
+            ax[0,i].plot(original_atm[iz,:,ilam,i], "k", label = "Original")     
+            ax[0,i].set_title(f"Stokes parameters spatial distribution -iz = {iz}, wavelength = {ilam}- title={self.light_title[i]}")
             ax[0,i].legend()
-            ax[1,i].plot(predicted_values[iz,:,height,i], "r", label = "Generated")     
-            ax[1,i].plot(original_atm[iz,:,height,i], "k", label = "Original")     
-            ax[1,i].set_title(f"Atmosphere parameters spatial distribution- title={self.title[i]}")
+            ax[1,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
+            ax[1,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iy={iz}")
+            ax[1,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
             ax[1,i].legend()
-
+            
 
 
             fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
@@ -254,7 +262,7 @@ class LightTrainVisualMixin():
         #Stokes params
         if self.light_type == "Stokes parameters":
             original_stokes = self.charge_stokes_params(self.filename)
-            original_stokes = np.memmap.reshape(inverse_scaling(original_stokes, self.scaler_name), (self.nx,self.nz,self.length))
+            original_stokes = np.memmap.reshape(inverse_scaling(original_stokes, self.scaler_name), (self.nx,self.nz,self.length,self.channels))
             print(f"{self.filename} prediction done!")
             fig, ax = plt.subplots(4,4,figsize=(50,7))
 
