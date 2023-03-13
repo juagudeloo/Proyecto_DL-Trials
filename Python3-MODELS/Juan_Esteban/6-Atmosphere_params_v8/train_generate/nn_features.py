@@ -150,7 +150,7 @@ class AtmTrainVisualMixin():
         for i in range(self.channels):
             original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.atm_scaler_names[i]), (self.nx,self.nz,self.length))
         #Stokes params
-        if self.light_type == "Stokes parameters":
+        if self.light_type == "Stokes params":
             original_stokes = self.charge_stokes_params(self.filename)
             original_stokes = np.memmap.reshape(inverse_scaling(original_stokes, self.light_scaler_name), (self.nx,self.nz,self.nlam,4))
 
