@@ -162,8 +162,7 @@ class AtmTrainVisualMixin():
         #Loading and plotting the predicted values vs the original ones
 
         for i in range(self.channels):
-            ax[0,i].plot(original_stokes[iz,:,ilam,i], "r", label = "Generated")     
-            ax[0,i].plot(original_atm[iz,:,ilam,i], "k", label = "Original")     
+            ax[0,i].plot(original_stokes[iz,:,ilam,i], "r", label = "Generated")      
             ax[0,i].set_title(f"Stokes parameters spatial distribution -iz = {iz}, wavelength = {ilam}- title={self.light_title[i]}")
             ax[0,i].legend()
             ax[1,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
