@@ -68,7 +68,8 @@ def main():
     height = 180
     fig, ax = plt.subplots(figsize=(7,7))
     ax.imshow(opt_depth[IX,height,IZ])
-    plt.savefig("optical_depth_slice.pdf")
+    fig.savefig("optical_depth_slice.pdf")
+    np.save(f"optical_depth_{filename}.npy", opt_depth)
 
 class KappaClass():
     def __init__(self, ptm, nx = 480, ny = 256, nz = 480):
