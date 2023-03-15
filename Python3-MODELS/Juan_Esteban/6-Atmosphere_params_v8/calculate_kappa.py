@@ -4,7 +4,7 @@ import pandas as pd
 from scipy.interpolate import LinearNDInterpolator
 from path import path
 from train_generate.data_class import DataClass
-from scipy.integrate import trapezoid
+from scipy.integrate import simps
 
 
 def main():
@@ -58,7 +58,7 @@ def main():
                     opt_depth[ix,iy,iz] = kappa_cube[ix,iy,iz]
                     print(kappa_cube[ix,iy,iz])
                 else:
-                    opt_depth[ix,iy,iz] = simpson(kappa_cube[ix,:iy,iz], Y[:iy])
+                    opt_depth[ix,iy,iz] = simps(kappa_cube[ix,:iy,iz], Y[:iy])
                     print(trapezoid(kappa_cube[ix,:iy,iz], Y[:iy]))
 
     IX = 100
