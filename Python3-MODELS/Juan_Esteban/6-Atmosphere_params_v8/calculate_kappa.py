@@ -59,8 +59,9 @@ def main():
                     opt_depth[ix,iy,iz] = kappa_cube[ix,iy,iz]
                     print(kappa_cube[ix,iy,iz])
                 else:
-                    opt_depth[ix,iy,iz] = simps(kappa_cube[ix,:iy,iz], Y[:iy])
-                    print(trapezoid(kappa_cube[ix,:iy,iz], Y[:iy]))
+                    a = simps(kappa_cube[ix,:iy,iz], Y[:iy])
+                    opt_depth[ix,iy,iz] = a
+                    print(a)
 
     IX = 100
     IZ = 100
