@@ -37,6 +37,7 @@ def main():
     kappa = kappa_df[2].to_numpy()
     f = LinearNDInterpolator(TP_points, kappa)
 
+    filename = "175000"
     kappa_C = KappaClass(ptm)
     kappa_C.charge_TP(filename)
     
