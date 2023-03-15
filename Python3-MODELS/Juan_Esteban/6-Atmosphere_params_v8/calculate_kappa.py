@@ -57,7 +57,6 @@ def main():
             for iy in range(kappa_C.ny):
                 if iy == 0:
                     opt_depth[ix,iy,iz] = kappa_cube[ix,iy,iz]
-                    print(kappa_cube[ix,iy,iz])
                 else:
                     a = simps(kappa_cube[ix,:iy,iz], Y[:iy])
                     opt_depth[ix,iy,iz] = a
