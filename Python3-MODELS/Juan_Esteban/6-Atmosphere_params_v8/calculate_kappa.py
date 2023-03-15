@@ -61,7 +61,6 @@ def main():
                 else:
                     a = simps(kappa_cube[ix,:iy,iz], Y[:iy])
                     opt_depth[ix,iy,iz] = a
-                    print(a)
 
     IX = 100
     IZ = 100
