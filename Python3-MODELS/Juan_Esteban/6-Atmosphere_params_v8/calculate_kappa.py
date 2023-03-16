@@ -60,6 +60,7 @@ def main():
                 else:
                     a = simps(kappa_cube[ix,:iy,iz], Y[:iy])
                     opt_depth[ix,iy,iz] = a
+    np.save(f"optical_depth_{filename}.npy", opt_depth)
 
     IX = 100
     IZ = 100
@@ -68,7 +69,7 @@ def main():
     ax[0].imshow(opt_depth[:,height,:])
     ax[1].plot(opt_depth[IX,:,IZ])
     fig.savefig("optical_depth_slice.pdf")
-    np.save(f"optical_depth_{filename}.npy", opt_depth)
+    
 
 class KappaClass():
     def __init__(self, ptm, nx = 480, ny = 256, nz = 480):
