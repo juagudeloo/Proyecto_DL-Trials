@@ -64,8 +64,9 @@ def main():
     IX = 100
     IZ = 100
     height = 180
-    fig, ax = plt.subplots(figsize=(7,7))
-    ax.imshow(opt_depth[IX,height,IZ])
+    fig, ax = plt.subplots(1,2,figsize=(7,7))
+    ax[0].imshow(opt_depth[:,height,:])
+    ax[1].plot(opt_depth[IX,:,IZ])
     fig.savefig("optical_depth_slice.pdf")
     np.save(f"optical_depth_{filename}.npy", opt_depth)
 
