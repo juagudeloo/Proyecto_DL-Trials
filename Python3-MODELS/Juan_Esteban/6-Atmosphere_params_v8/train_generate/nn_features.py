@@ -169,8 +169,8 @@ class AtmTrainVisualMixin():
             ax[1,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iy={iz}")
             ax[1,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
             ax[1,i].legend()
-            ax[2,i].imshow(range(self.length), predicted_values[:,iz,:,i], label="Predicted curve")
-            ax[2,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iy={iz}")
+            ax[2,i].imshow(predicted_values[:,iz,:,i], label="Predicted curve")
+            ax[2,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - iz={iz}")
             
 
 
