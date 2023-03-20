@@ -6,8 +6,9 @@ from train_generate.data_class import inverse_scaling
 def main():
     ptm = path()
     atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
-    fln = "175000"
-    atm_model.plot_predict(fln)
+    for num in np.arange(175,201,2):
+    	fln = str(num)+"000"
+    	atm_model.plot_predict(fln)
 
 if __name__ == "__main__":
     main()
