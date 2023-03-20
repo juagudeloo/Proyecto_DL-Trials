@@ -142,7 +142,7 @@ class AtmTrainVisualMixin():
         return predicted_values
     def plot_predict(self, filename, ix = 200, iz = 280, height = 10, ilam = 20):
         self.filename = filename
-        fig, ax = plt.subplots(2,4,figsize=(50,7))
+        fig, ax = plt.subplots(3,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
         original_atm = self.charge_atm_params(self.filename)
@@ -169,6 +169,8 @@ class AtmTrainVisualMixin():
             ax[1,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iy={iz}")
             ax[1,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
             ax[1,i].legend()
+            ax[2,i].imshow(range(self.length), predicted_values[:,iz,:,i], label="Predicted curve")
+            ax[2,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iy={iz}")
             
 
 
