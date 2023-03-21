@@ -163,7 +163,7 @@ class AtmTrainVisualMixin():
         #Loading and plotting the predicted values vs the original ones
 
         for i in range(self.channels):
-            ax[i].plot(original_stokes[ix,iz,ilam,i], "r", label = "Generated")      
+            ax[i].plot(original_stokes[:,iz,ilam,i], "r", label = "Generated")      
             ax[i].set_title(f"Stokes parameters spatial distribution -iz = {iz}, wavelength = {ilam}- title={self.light_title[i]}")
             ax[i].legend()
             ax[i].xaxis.set_major_locator(mticker.MultipleLocator(50))
@@ -198,8 +198,6 @@ class AtmTrainVisualMixin():
                 ax[j,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iz={iz}")
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
-            
-
 
         fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
         print(f"{self.filename} prediction plotted\n")
