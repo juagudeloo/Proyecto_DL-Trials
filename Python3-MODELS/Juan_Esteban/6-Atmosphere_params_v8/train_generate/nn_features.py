@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 from train_generate.data_class import inverse_scaling
 import os
 
@@ -140,9 +141,9 @@ class AtmTrainVisualMixin():
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
-    def plot_predict(self, filename, ix = 200, iz = 280, height = 10, ilam = 20):
+    def plot_predict_initial(self, filename, ix = 200, iz = 280, height = 10, ilam = 20):
         self.filename = filename
-        fig, ax = plt.subplots(3,4,figsize=(50,7))
+        fig, ax = plt.subplots(1,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
         original_atm = self.charge_atm_params(self.filename)
@@ -162,15 +163,43 @@ class AtmTrainVisualMixin():
         #Loading and plotting the predicted values vs the original ones
 
         for i in range(self.channels):
-            ax[0,i].plot(original_stokes[iz,:,ilam,i], "r", label = "Generated")      
-            ax[0,i].set_title(f"Stokes parameters spatial distribution -iz = {iz}, wavelength = {ilam}- title={self.light_title[i]}")
-            ax[0,i].legend()
-            ax[1,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-            ax[1,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iy={iz}")
-            ax[1,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
-            ax[1,i].legend()
-            ax[2,i].imshow(predicted_values[:,iz,:,i], label="Predicted curve")
-            ax[2,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - iz={iz}")
+            ax[i].plot(original_stokes[ix,iz,ilam,i], "r", label = "Generated")      
+            ax[i].set_title(f"Stokes parameters spatial distribution -iz = {iz}, wavelength = {ilam}- title={self.light_title[i]}")
+            ax[i].legend()
+            ax[i].xaxis.set_major_locator(mticker.MultipleLocator(50))
+            ax[i].xaxis.set_minor_locator(mticker.MultipleLocator(10))
+            
+
+
+            fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
+        print(f"{self.filename} prediction plotted\n")
+    def plot_predict_specific(self, filename, xz_coords):
+        """
+        xz_coords: coordinates per filename to plot
+        """
+        self.filename = filename
+        N_plots = np.shape(xz_coords)[0]
+        fig, ax = plt.subplots(N_plots,4,figsize=(50,7))
+        predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
+        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
+        original_atm = self.charge_atm_params(self.filename)
+        original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
+        for i in range(self.channels):
+            original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.atm_scaler_names[i]), (self.nx,self.nz,self.length))
+        
+        #Checking the path of directories is created
+        dir_path = self.check_create_dirs("Images")
+        print(dir_path)
+
+        #Loading and plotting the predicted values vs the original ones
+        for j in range(N_plots):
+            for i in range(self.channels):
+                ix = xz_coords[j][0]
+                iz = xz_coords[j][1]
+                ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
+                ax[j,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iz={iz}")
+                ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
+                ax[j,i].legend()
             
 
 
