@@ -168,10 +168,8 @@ class AtmTrainVisualMixin():
             ax[i].legend()
             ax[i].xaxis.set_major_locator(mticker.MultipleLocator(50))
             ax[i].xaxis.set_minor_locator(mticker.MultipleLocator(10))
-            
 
-
-            fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
+        fig.savefig(dir_path + f"Stokes_parameter-{self.filename}.png")
         print(f"{self.filename} prediction plotted\n")
     def plot_predict_specific(self, filename, xz_coords):
         """
@@ -203,7 +201,7 @@ class AtmTrainVisualMixin():
             
 
 
-            fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
+        fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
         print(f"{self.filename} prediction plotted\n")
 
 ################################################################################################################
