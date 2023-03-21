@@ -177,7 +177,7 @@ class AtmTrainVisualMixin():
         """
         self.filename = filename
         N_plots = np.shape(xz_coords)[0]
-        fig, ax = plt.subplots(N_plots,4,figsize=(50,7))
+        fig, ax = plt.subplots(N_plots,4,figsize=(50,10*N_plots))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
         original_atm = self.charge_atm_params(self.filename)
