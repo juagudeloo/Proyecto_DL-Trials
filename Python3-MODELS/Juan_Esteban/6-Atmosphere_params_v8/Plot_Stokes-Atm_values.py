@@ -26,11 +26,11 @@ def main():
     for fln in filenames:
         ## Plot for checking the stokes parameters spatial distribution for a given value of ix or iz
 
-    	atm_model.plot_predict_initial(fln)
+    	#atm_model.plot_predict_initial(fln)
 
         ## Plot the atmosphere params for given ix and iz values
 
-        #atm_model.plot_predict_specific(fln, xz_coords[fln])
+        atm_model.plot_predict_specific(fln, xz_coords[fln])
 
 if __name__ == "__main__":
     main()
