@@ -10,7 +10,7 @@ def main():
     xz_coords = {}
     for num in np.arange(175,201,2):
         fln = str(num)+"000"
-        filenames.add(fln)
+        filenames.append(fln)
         xz_coords[fln] = []
 
 
