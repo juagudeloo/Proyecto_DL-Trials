@@ -13,6 +13,15 @@ def main():
         filenames.append(fln)
         xz_coords[fln] = []
 
+    iz = 280
+    xz_coords["175000"] = np.array([[48,iz],
+                                     [220,iz],
+                                     [250,iz],
+                                     [340,iz]])
+    xz_coords["177000"] = np.array([[30,iz],
+                                     [120,iz],
+                                     [252,iz],
+                                     [300,iz]])
 
     for fln in filenames:
         ## Plot for checking the stokes parameters spatial distribution for a given value of ix or iz
