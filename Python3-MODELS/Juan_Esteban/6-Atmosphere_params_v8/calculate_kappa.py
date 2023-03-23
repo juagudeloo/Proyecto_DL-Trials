@@ -56,10 +56,11 @@ def main():
         for iz in range(kappa_C.nz):
             for iy in range(kappa_C.ny):
                 if iy == 0:
-                    opt_depth[ix,iy,iz] = kappa_cube[ix,iy,iz]
+                    opt_depth[ix,kappa_C.ny,iz] = kappa_cube[ix,kappa_C.ny,iz]
                 else:
-                    a = simps(kappa_cube[ix,:iy,iz], Y[:iy])
-                    opt_depth[ix,iy,iz] = a
+                    a = simps(kappa_cube[ix,kappa_C.ny-iy:,iz], Y[kappa_C.ny-iy:])
+                    # Base 10 logarithm of the original optical depth
+                    opt_depth[ix,iy,iz] = np.log10(a)
     np.save(f"optical_depth_{filename}.npy", opt_depth)
 
     IX = 100
