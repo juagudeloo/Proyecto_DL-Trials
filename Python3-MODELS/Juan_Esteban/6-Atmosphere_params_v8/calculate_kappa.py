@@ -58,6 +58,8 @@ def main():
                 if iy == 0:
                     opt_depth[ix,kappa_C.ny,iz] = kappa_cube[ix,kappa_C.ny,iz]
                 else:
+                    print(len(kappa_cube[ix,kappa_C.ny-iy:,iz]))
+                    print(len(Y[kappa_C.ny-iy:]))
                     a = simps(kappa_cube[ix,kappa_C.ny-iy:,iz], Y[kappa_C.ny-iy:])
                     # Base 10 logarithm of the original optical depth
                     opt_depth[ix,iy,iz] = np.log10(a)
