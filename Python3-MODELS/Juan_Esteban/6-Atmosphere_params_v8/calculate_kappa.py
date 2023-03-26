@@ -47,7 +47,7 @@ def main():
     kappa_cube = f(T_muram, P_muram)
 
     # Array for y distance in meters values
-    Y = np.arange(0,256*10+10,10.)
+    Y = np.arange(0,256*10,10.)
 
     opt_depth = np.zeros((kappa_C.nx,kappa_C.ny,kappa_C.nz))
 
@@ -58,7 +58,7 @@ def main():
                 if iy == 0:
                     opt_depth[ix,kappa_C.ny-1,iz] = kappa_cube[ix,kappa_C.ny-1,iz]
                 else:
-                    print(len(kappa_cube[ix,kappa_C.ny-iy:,iz]))
+                    print(len(kappa_cube[ix,kappa_C.ny-1-iy:,iz]))
                     print(len(Y[kappa_C.ny-1-iy:]))
                     a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz], Y[kappa_C.ny-1-iy:])
                     # Base 10 logarithm of the original optical depth
