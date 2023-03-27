@@ -62,7 +62,7 @@ def main():
                     print(len(Y[kappa_C.ny-1-iy:]))
                     a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz], Y[kappa_C.ny-1-iy:])
                     # Base 10 logarithm of the original optical depth
-                    opt_depth[ix,iy,iz] = np.log10(a)
+                    opt_depth[ix,kappa_C.ny-1-iy,iz] = np.log10(a)
     np.save(f"optical_depth_{filename}.npy", opt_depth)
 
     IX = 100
@@ -70,7 +70,7 @@ def main():
     height = 180
     fig, ax = plt.subplots(1,2,figsize=(7,7))
     ax[0].imshow(opt_depth[:,height,:])
-    ax[1].plot(opt_depth[IX,:,IZ])
+    ax[1].plot(Y, opt_depth[IX,:,IZ])
     fig.savefig("optical_depth_slice.pdf")
     
 
