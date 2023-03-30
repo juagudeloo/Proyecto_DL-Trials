@@ -59,7 +59,7 @@ def main():
             for iy in range(kappa_C.ny):
                 #The first value of the top 
                 if iy == 0:
-                    opt_depth[ix,kappa_C.ny-1,iz] = 1e-2
+                    opt_depth[ix,kappa_C.ny-1,iz] = np.log10(kappa_cube[ix,kappa_C.ny-1:,iz])
                 else:
                     print(len(kappa_cube[ix,kappa_C.ny-1-iy:,iz]))
                     print(len(Y[kappa_C.ny-1-iy:]))
