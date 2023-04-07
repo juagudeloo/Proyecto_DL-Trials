@@ -46,6 +46,7 @@ def main():
 
     #Obtaining the corresponding inteporlated values of the MURAM snapshot
     kappa_cube = f(T_muram, P_muram)
+    #Kappa is originally normalized by density. Here we denormalize it.
     kappa_cube = np.multiply(kappa_cube, kappa_C.mrho)
 
     # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
