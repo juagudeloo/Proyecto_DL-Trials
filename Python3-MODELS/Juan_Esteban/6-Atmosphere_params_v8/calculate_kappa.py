@@ -92,8 +92,9 @@ class KappaClass():
         #Charging temperature data
         self.EOS = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
         self.EOS = np.memmap.reshape(self.EOS, (2,self.nx,self.ny,self.nz), order="A")
-        
         self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
+
+        self.mrho = np.memmap.reshape(self.mrho, (self.nx,self.ny,self.nz))
         self.mtpr = self.EOS[0,:,:,:] 
         self.mprs = self.EOS[1,:,:,:]
 
