@@ -44,7 +44,7 @@ def main():
     T_muram = np.log10(kappa_C.mtpr[:,:,:])
     P_muram = np.log10(kappa_C.mprs[:,:,:])
 
-    #Obtaining the corresponding inteporlated values of the MURAM snapshot
+    #Obtaining the corresponding inteporlated values of the MURAM snapshot.
     kappa_cube = f(T_muram, P_muram)
     #Kappa is originally normalized by density. Here we denormalize it.
     kappa_cube = np.multiply(kappa_cube, kappa_C.mrho)
@@ -65,7 +65,7 @@ def main():
                 else:
                     print(len(kappa_cube[ix,kappa_C.ny-1-iy:,iz]))
                     print(len(Y[kappa_C.ny-1-iy:]))
-                    a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz]*, x = None, dx = 10)
+                    a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz], x = None, dx = 10)
                     # Base 10 logarithm of the original optical depth
                     opt_depth[ix,kappa_C.ny-1-iy,iz] = np.log10(a)
     np.save(f"optical_depth_{filename}.npy", opt_depth)
