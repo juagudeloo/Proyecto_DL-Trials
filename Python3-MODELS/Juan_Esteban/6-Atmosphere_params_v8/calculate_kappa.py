@@ -46,8 +46,9 @@ def main():
 
     #Obtaining the corresponding inteporlated values of the MURAM snapshot
     kappa_cube = f(T_muram, P_muram)
+    kappa_cube = np.multiply(kappa_cube, kappa_C.mrho)
 
-    # Array for y distance in meters values (from 0 to 2560 in dy = 10 km steps)
+    # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
     Y = np.arange(0,256*10,10.)
 
     #Creation of the array to store the optical depth values
@@ -63,7 +64,7 @@ def main():
                 else:
                     print(len(kappa_cube[ix,kappa_C.ny-1-iy:,iz]))
                     print(len(Y[kappa_C.ny-1-iy:]))
-                    a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz], x = None, dx = 10)
+                    a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz]*, x = None, dx = 10)
                     # Base 10 logarithm of the original optical depth
                     opt_depth[ix,kappa_C.ny-1-iy,iz] = np.log10(a)
     np.save(f"optical_depth_{filename}.npy", opt_depth)
@@ -91,8 +92,10 @@ class KappaClass():
         self.EOS = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
         self.EOS = np.memmap.reshape(self.EOS, (2,self.nx,self.ny,self.nz), order="A")
         
+        self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
         self.mtpr = self.EOS[0,:,:,:] 
         self.mprs = self.EOS[1,:,:,:]
+
         # n_eos -> 0: temperature ; 1: pressure
 
 if __name__ == "__main__":
