@@ -198,13 +198,14 @@ class AtmTrainVisualMixin():
         #Plotting the predicted values vs the original ones
         for j in range(N_plots):
             for i in range(self.channels):
-                jtitle =xz_titles[i]
+                jtitle =xz_titles[j]
                 ix = xz_coords[j][0]
                 iz = xz_coords[j][1]
                 ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-                ax[j,i].set_title(f"Atmosphere parameters - title={self.atm_title[i]} - ix={ix}, iz={iz} - {jtitle}")
+                ax[j,i].set_title(f"Atmosphere parameters - title={self.atm_title[i]} - ix={ix}, iz={iz} - {jtitle}", fontsize = 20)
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
+                ax[j,i].tick_params(axis = "both", labelsize = 16)
         print(f"""
         This is the path
         {dir_path}
