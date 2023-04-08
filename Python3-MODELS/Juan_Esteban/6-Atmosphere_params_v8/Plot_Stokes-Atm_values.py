@@ -4,7 +4,7 @@ from path import path_UIS
 from train_generate.data_class import inverse_scaling
 
 def main():
-    ptm = path()
+    ptm = path_UIS()
     atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     filenames = []
     xz_coords = {}
