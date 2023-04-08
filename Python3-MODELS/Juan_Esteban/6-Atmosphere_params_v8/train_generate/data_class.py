@@ -38,7 +38,8 @@ class DataClass():
         "Stokes params" -> The model predicts the Stokes parameters.
         create_scaler -> Set True by default. It determines wheter to create a scaler object or take an already created one.
         """
-        #size of the cubes of the data
+
+        self.nlam = 300 #this parameter is useful when managing the Stokes parameters #wavelenght interval - its from 6300 amstroengs in steps of 10 amstroengs
         self.ptm = ptm
         self.nx = nx
         self.ny = ny
@@ -162,7 +163,6 @@ class DataClass():
         self.filename = filename
         [int4f,intf,flf]=mpt.check_types()
         self.stk_filename = self.filename+"_0000_0000.prof"
-        self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
         self.profs = [] #It's for the reshaped data - better for visualization.
         self.profs_ravel = [] #its for the ravel data to make the splitting easier.
         #Charging the stokes profiles for the specific file
