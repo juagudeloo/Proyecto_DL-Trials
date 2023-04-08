@@ -8,7 +8,7 @@ def main():
     atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     filenames = []
     xz_coords = {}
-    xz_titles = []
+    xz_titles = {}
     for num in np.arange(175,201,2):
         fln = str(num)+"000"
         filenames.append(fln)
