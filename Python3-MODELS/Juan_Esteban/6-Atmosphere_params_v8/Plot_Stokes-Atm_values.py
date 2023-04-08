@@ -1,6 +1,6 @@
 from train_generate.nn_model import AtmObtainModel
 import numpy as np
-from path import path
+from path import path_UIS
 from train_generate.data_class import inverse_scaling
 
 def main():
