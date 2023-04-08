@@ -308,35 +308,6 @@ class DataClass():
         It is a hand made splitting.
         TR_S: relative ratio of the whole data selected to the training set.
         """
-
-        # Atmosphere params
-        self.charge_atm_params(filename)
-        atm_intergran = []
-        atm_gran = []
-        a_in = []
-        a_gran = []
-
-        for j in range(4):
-            a_in = []
-            a_gran = []
-            for i in range(self.ny-self.lb):
-                a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
-                a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
-            atm_intergran.append(a_in)
-            atm_gran.append(a_gran)
-        
-        atm_intergran = np.array(atm_intergran)
-        atm_gran = np.array(atm_gran)
-        
-        for i in range(2):
-            atm_intergran = np.moveaxis(atm_intergran,0,2-i)
-            atm_gran = np.moveaxis(atm_gran,0,2-i)
-            
-        self.tr_input = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
-        self.te_input = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
-        self.in_ls = np.shape(atm_intergran[0,:,:])
-        print(f"in_ls = {self.in_ls}")
-
         #Light information
 
         self.light_type = light_type
@@ -414,6 +385,36 @@ class DataClass():
 
             self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
             self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
+            
+        # Atmosphere params
+        self.charge_atm_params(filename)
+        atm_intergran = []
+        atm_gran = []
+        a_in = []
+        a_gran = []
+
+        for j in range(4):
+            a_in = []
+            a_gran = []
+            for i in range(self.ny-self.lb):
+                a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
+                a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
+            atm_intergran.append(a_in)
+            atm_gran.append(a_gran)
+        
+        atm_intergran = np.array(atm_intergran)
+        atm_gran = np.array(atm_gran)
+        
+        for i in range(2):
+            atm_intergran = np.moveaxis(atm_intergran,0,2-i)
+            atm_gran = np.moveaxis(atm_gran,0,2-i)
+            
+        self.tr_input = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
+        self.te_input = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
+        self.in_ls = np.shape(atm_intergran[0,:,:])
+        print(f"in_ls = {self.in_ls}")
+
+        
 
         return self.tr_input, self.tr_output, self.te_input, self.te_output
 
