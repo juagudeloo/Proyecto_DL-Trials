@@ -141,7 +141,11 @@ class AtmTrainVisualMixin():
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
-    def plot_predict_initial(self, filename, ix = 200, iz = 280, height = 10, ilam = 20):
+    def plot_predict_initial(self, filename, ix = 200, iz = 280, height = 10, ilam = 20): 
+        """
+        This function makes an initial plot of the Stokes parameters to check where to to choose granular or intergranular zones where
+        to plot the magnitudes along.
+        """
         self.filename = filename
         fig, ax = plt.subplots(1,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
@@ -171,15 +175,17 @@ class AtmTrainVisualMixin():
 
         fig.savefig(dir_path + f"Stokes_parameter-{self.filename}.png")
         print(f"{self.filename} prediction plotted\n")
-    def plot_predict_specific(self, filename, xz_coords):
+    def plot_predict_specific(self, filename, xz_coords, xz_titles):
         """
         xz_coords: coordinates per filename to plot
         """
         self.filename = filename
         N_plots = np.shape(xz_coords)[0]
         fig, ax = plt.subplots(N_plots,4,figsize=(50,10*N_plots))
+        #Load the predicted values stored in their respective directory
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
+        #Charge the original parameters of the MURaM code
         original_atm = self.charge_atm_params(self.filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
         for i in range(self.channels):
@@ -189,13 +195,14 @@ class AtmTrainVisualMixin():
         dir_path = self.check_create_dirs("Images")
         print(dir_path)
 
-        #Loading and plotting the predicted values vs the original ones
+        #Plotting the predicted values vs the original ones
         for j in range(N_plots):
             for i in range(self.channels):
+                ititle =xz_titles[i]
                 ix = xz_coords[j][0]
                 iz = xz_coords[j][1]
                 ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-                ax[j,i].set_title(f"Atmosphere parameters height serie - title={self.atm_title[i]} - ix={ix}, iz={iz}")
+                ax[j,i].set_title(f"Atmosphere parameters - title={self.atm_title[i]} - ix={ix}, iz={iz} - {ititle}")
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
 
