@@ -196,9 +196,9 @@ class AtmTrainVisualMixin():
 
         #Plotting the predicted values vs the original ones
         N_plots = np.shape(xz_coords)[0]
-        fig, axs = plt.subplots(N_plots,4,figsize=(50,10*N_plots))
+        fig, axs = plt.subplots(N_plots,1,figsize=(50,10*N_plots))
         fig.suptitle("Atmosphere params", fontsize = 60, weight = "bold")
-        for i in range(2):
+        for i in range(N_plots):
             axs[i].set_xticks([])
             axs[i].set_yticks([])
         # add subfigure per subplot
