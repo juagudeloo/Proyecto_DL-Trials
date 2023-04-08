@@ -210,7 +210,7 @@ class AtmTrainVisualMixin():
         {dir_path}
         !!!!!!!!!!!!!!!!!!
         """)
-        fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
+        fig.savefig(dir_path + f"1Atmosphere_parameter-{self.filename}.png")
         print(f"{self.filename} prediction plotted\n")
 
 ################################################################################################################
