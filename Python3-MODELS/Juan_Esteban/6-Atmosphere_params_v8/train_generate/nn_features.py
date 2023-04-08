@@ -205,7 +205,11 @@ class AtmTrainVisualMixin():
                 ax[j,i].set_title(f"Atmosphere parameters - title={self.atm_title[i]} - ix={ix}, iz={iz} - {ititle}")
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
-
+        print(f"""
+        This is the path
+        {dir_path}
+        !!!!!!!!!!!!!!!!!!
+        """)
         fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
         print(f"{self.filename} prediction plotted\n")
 
