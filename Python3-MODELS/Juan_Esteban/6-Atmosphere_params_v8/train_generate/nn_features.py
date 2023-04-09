@@ -220,9 +220,9 @@ class AtmTrainVisualMixin():
 
         stokes_params = self.charge_stokes_params(self.filename)
         fig, ax = plt.subplots()
-        fig.suptitle("Location", fontsize = 60)
-        ax.imshow(stokes_params[:,:,0,0])
-        ax.scatter(xz_coords[:,0], xz_coords[:,1])
+        ax.title("Location", fontsize = 20)
+        ax.imshow(stokes_params[:,:,0,0], cmap = "gist_gray")
+        ax.scatter(xz_coords[:,0], xz_coords[:,1], color = "red")
 
         print(f"""
         This is the path
