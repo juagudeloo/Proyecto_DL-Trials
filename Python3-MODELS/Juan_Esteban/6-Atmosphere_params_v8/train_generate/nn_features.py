@@ -86,7 +86,7 @@ class AtmTrainVisualMixin():
         if self.light_type == "Stokes params":
             self.light_scaler_name = "stokes"
         self.atm_scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
-        self.atm_title = ['Magnetic','Velocity','Density','Temperature']
+        self.atm_title = [r'$B$',r'$v$',r'$rho$',r'$T$']
         self.light_title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = len(self.atm_scaler_names)
         self.output_ravel_shape = self.length*self.channels
