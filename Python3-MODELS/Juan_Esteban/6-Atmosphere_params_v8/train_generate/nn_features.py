@@ -205,10 +205,10 @@ class AtmTrainVisualMixin():
                 ix = xz_coords[j][0]
                 iz = xz_coords[j][1]
                 ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-                ax[j,i].set_title(f"{self.atm_title[i]} - ix={ix}, iz={iz} - {jtitle}", fontsize = 20)
+                ax[j,i].set_title(f"{self.atm_title[i]} - ix={ix}, iz={iz} - {jtitle}", fontsize = 30)
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
-                ax[j,i].tick_params(axis = "both", labelsize = 16)
+                ax[j,i].tick_params(axis = "both", labelsize = 20)
                 ax[j,i].ticklabel_format(axis = "y", style = "sci")
         print(f"""
         This is the path
