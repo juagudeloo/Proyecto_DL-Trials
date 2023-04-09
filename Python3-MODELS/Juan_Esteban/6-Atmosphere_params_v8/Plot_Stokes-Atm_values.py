@@ -15,10 +15,10 @@ def main():
         xz_coords[fln] = []
 
     iz = 280
-    xz_coords["175000"] = np.array([[48,iz],
+    xz_coords["175000"] = np.array([[84,iz],
                                      [220,iz],
                                      [250,iz],
-                                     [340,iz]])
+                                     [350,iz]])
     xz_titles["175000"] = ["intergranular",
                            "granular",
                            "intergranular",
