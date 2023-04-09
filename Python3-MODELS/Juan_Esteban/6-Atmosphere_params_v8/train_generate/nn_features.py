@@ -86,7 +86,7 @@ class AtmTrainVisualMixin():
         if self.light_type == "Stokes params":
             self.light_scaler_name = "stokes"
         self.atm_scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
-        self.atm_title = ['Magnetic Field','Velocity','Density','Temperature']
+        self.atm_title = ['Magnetic','Velocity','Density','Temperature']
         self.light_title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = len(self.atm_scaler_names)
         self.output_ravel_shape = self.length*self.channels
@@ -205,7 +205,7 @@ class AtmTrainVisualMixin():
                 ix = xz_coords[j][0]
                 iz = xz_coords[j][1]
                 ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-                ax[j,i].set_title(f"{self.atm_title[i]} - ix={ix}, iz={iz} - {jtitle}", fontsize = 30)
+                ax[j,i].set_title(f"{self.atm_title[i]}-({ix},{iz})-{jtitle}", fontsize = 30)
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
                 ax[j,i].tick_params(axis = "both", labelsize = 20)
