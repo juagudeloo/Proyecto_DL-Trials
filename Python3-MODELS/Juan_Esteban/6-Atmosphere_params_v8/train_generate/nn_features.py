@@ -196,25 +196,19 @@ class AtmTrainVisualMixin():
 
         #Plotting the predicted values vs the original ones
         N_plots = np.shape(xz_coords)[0]
-        fig, axs = plt.subplots(N_plots,1,figsize=(50,10*N_plots))
-        fig.suptitle("Atmosphere params", fontsize = 60, weight = "bold")
-        for i in range(N_plots):
-            axs[i].set_xticks([])
-            axs[i].set_yticks([])
-        # add subfigure per subplot
-        gridspec = axs[0].get_subplotspec().get_gridspec()
-        subfigs = [fig.add_subfigure(gs) for gs in gridspec]
+        fig, ax = plt.subplots(N_plots,4,figsize=(50,10*N_plots))
+        fig.suptitle("Atmosphere parameters", fontsize = 60)
+        
         for j in range(N_plots):
-            ix = xz_coords[j][0]
-            iz = xz_coords[j][1]
-            subfigs[i].suptitle(xz_titles[j]+f"ix={ix}, iz={iz}")
-            axs = subfigs[j].subplots(nrows = 1, ncols = self.channels)
             for i in range(self.channels):
-                axs[i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
-                axs[i].set_title(f"{self.atm_title[i]} ", fontsize = 20)
-                axs[i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
-                axs[i].legend()
-                axs[i].tick_params(axis = "both", labelsize = 16)
+                jtitle =xz_titles[j]
+                ix = xz_coords[j][0]
+                iz = xz_coords[j][1]
+                ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
+                ax[j,i].set_title(f"{self.atm_title[i]} - ix={ix}, iz={iz} - {jtitle}", fontsize = 20)
+                ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
+                ax[j,i].legend()
+                ax[j,i].tick_params(axis = "both", labelsize = 16)
         print(f"""
         This is the path
         {dir_path}
