@@ -217,6 +217,20 @@ class AtmTrainVisualMixin():
         !!!!!!!!!!!!!!!!!!
         """)
         fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
+
+        stokes_params = self.charge_stokes_params(self.filename)
+        fig, ax = plt.subplots()
+        fig.suptitle("Location", fontsize = 60)
+        ax.imshow(stokes_params[:,:,0,0])
+        ax.scatter(xz_coords[:,0], xz_coords[:,1])
+
+        print(f"""
+        This is the path
+        {dir_path}
+        !!!!!!!!!!!!!!!!!!
+        """)
+        fig.savefig(dir_path + f"location-{self.filename}.png")
+
         print(f"{self.filename} prediction plotted\n")
 
 ################################################################################################################
