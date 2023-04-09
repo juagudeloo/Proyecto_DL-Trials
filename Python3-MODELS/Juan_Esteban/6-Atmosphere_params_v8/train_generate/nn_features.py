@@ -217,7 +217,8 @@ class AtmTrainVisualMixin():
         !!!!!!!!!!!!!!!!!!
         """)
         fig.savefig(dir_path + f"Atmosphere_parameter-{self.filename}.png")
-
+        
+        #Location plot
         stokes_params = self.charge_stokes_params(self.filename)
         fig, ax = plt.subplots()
         ax.set_title(f"Location {self.filename}", fontsize = 20)
