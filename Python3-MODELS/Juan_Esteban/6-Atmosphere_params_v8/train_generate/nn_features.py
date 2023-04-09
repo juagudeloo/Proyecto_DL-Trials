@@ -210,6 +210,7 @@ class AtmTrainVisualMixin():
                 ax[j,i].legend()
                 ax[j,i].tick_params(axis = "both", labelsize = 20)
                 ax[j,i].ticklabel_format(axis = "y", style = "sci", scilimits = (-3,3))
+                ax[j,i].yaxis.get_offset_text().set_fontsize(24)
         print(f"""
         This is the path
         {dir_path}
