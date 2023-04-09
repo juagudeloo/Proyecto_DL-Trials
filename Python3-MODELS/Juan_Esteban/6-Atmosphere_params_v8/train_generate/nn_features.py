@@ -209,7 +209,7 @@ class AtmTrainVisualMixin():
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
                 ax[j,i].legend()
                 ax[j,i].tick_params(axis = "both", labelsize = 20)
-                ax[j,i].ticklabel_format(axis = "y", style = "sci")
+                ax[j,i].ticklabel_format(axis = "y", style = "sci", scilimits = (-3,3))
         print(f"""
         This is the path
         {dir_path}
