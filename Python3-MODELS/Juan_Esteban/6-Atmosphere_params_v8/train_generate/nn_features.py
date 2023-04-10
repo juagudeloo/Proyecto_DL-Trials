@@ -190,6 +190,9 @@ class AtmTrainVisualMixin():
         for i in range(self.channels):
             original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.atm_scaler_names[i]), (self.nx,self.nz,self.length))
         
+        #The values used in the original charge for the density where its log10 values, then here we invert that conversion.
+        original_atm[:,:,:,2] = np.power(10,original_atm[:,:,:,i] ) 
+
         #Checking the path of directories is created
         dir_path = self.check_create_dirs("Images")
         print(dir_path)
