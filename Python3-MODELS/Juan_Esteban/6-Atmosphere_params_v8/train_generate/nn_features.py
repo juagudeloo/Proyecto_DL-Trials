@@ -214,7 +214,7 @@ class AtmTrainVisualMixin():
                 ax[j,i].plot(range(self.length), predicted_values[ix,iz,:,i], label="Predicted curve")
                 ax[j,i].set_title(f"{self.atm_title[i]}-({ix},{iz})-{jtitle}", fontsize = 30)
                 ax[j,i].plot(range(self.length), original_atm[ix,iz,:,i], label="Original curve")
-                ax[j,i].legend()
+                ax[j,i].legend(fontsize = 20)
                 ax[j,i].tick_params(axis = "both", labelsize = 20)
                 ax[j,i].ticklabel_format(axis = "y", style = "sci", scilimits = (-3,3))
                 ax[j,i].yaxis.get_offset_text().set_fontsize(24)
