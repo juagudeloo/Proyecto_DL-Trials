@@ -36,39 +36,47 @@ def main():
     f = LinearNDInterpolator(TP_points, kappa)
     
     #Charging the values of Temperature and Pressure from a snapshot of the MURAM simulation
-    filename = "175000"
-    kappa_C = KappaClass(ptm)
-    kappa_C.charge_TP(filename)
-    
-    #finding the base 10 logarithm of the snapshot values
-    T_muram = np.log10(kappa_C.mtpr[:,:,:])
-    P_muram = np.log10(kappa_C.mprs[:,:,:])
+    filenames_list = []
+    for num in np.arange(52000,224000,1000):
+        if num<100:
+            fln = "0"+str(num)
+        else:
+            fln = str(num)
+        filenames_list.append(fln)
+        
+    for filename in filenames_list:
+        kappa_C = KappaClass(ptm)
+        kappa_C.charge_TP(filename)
+        
+        #finding the base 10 logarithm of the snapshot values
+        T_muram = np.log10(kappa_C.mtpr[:,:,:])
+        P_muram = np.log10(kappa_C.mprs[:,:,:])
 
-    #Obtaining the corresponding inteporlated values of the MURAM snapshot.
-    kappa_cube = f(T_muram, P_muram)
-    #Kappa is originally normalized by density. Here we denormalize it.
-    kappa_cube = np.multiply(kappa_cube, kappa_C.mrho)
+        #Obtaining the corresponding inteporlated values of the MURAM snapshot.
+        kappa_cube = f(T_muram, P_muram)
+        #Kappa is originally normalized by density. Here we denormalize it.
+        kappa_cube = np.multiply(kappa_cube, kappa_C.mrho)
 
-    # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
-    Y = np.arange(0,256*10,10.)
+        # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
+        Y = np.arange(0,256*10,10.)
 
-    #Creation of the array to store the optical depth values
-    opt_depth = np.zeros((kappa_C.nx,kappa_C.ny,kappa_C.nz))
+        #Creation of the array to store the optical depth values
+        opt_depth = np.zeros((kappa_C.nx,kappa_C.ny,kappa_C.nz))
 
-    #Calculating the optical depth with the kappa integral
-    for ix in range(kappa_C.nx):
-        for iz in range(kappa_C.nz):
-            for iy in range(kappa_C.ny):
-                #The first value of the top 
-                if iy == 0:
-                    opt_depth[ix,kappa_C.ny-1,iz] = np.log10(kappa_cube[ix,kappa_C.ny-1:,iz])
-                else:
-                    print(len(kappa_cube[ix,kappa_C.ny-1-iy:,iz]))
-                    print(len(Y[kappa_C.ny-1-iy:]))
-                    a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz], x = None, dx = 10)
-                    # Base 10 logarithm of the original optical depth
-                    opt_depth[ix,kappa_C.ny-1-iy,iz] = np.log10(a)
-    np.save(f"optical_depth_{filename}.npy", opt_depth)
+        #Calculating the optical depth with the kappa integral
+        for ix in range(kappa_C.nx):
+            for iz in range(kappa_C.nz):
+                for iy in range(kappa_C.ny):
+                    #The first value of the top 
+                    if iy == 0:
+                        opt_depth[ix,kappa_C.ny-1,iz] = np.log10(kappa_cube[ix,kappa_C.ny-1:,iz])
+                    else:
+                        print(len(kappa_cube[ix,kappa_C.ny-1-iy:,iz]))
+                        print(len(Y[kappa_C.ny-1-iy:]))
+                        a = simps(kappa_cube[ix,kappa_C.ny-1-iy:,iz], x = None, dx = 10)
+                        # Base 10 logarithm of the original optical depth
+                        opt_depth[ix,kappa_C.ny-1-iy,iz] = np.log10(a)
+        np.save(f"optical_depth_{filename}.npy", opt_depth)
 
     IX = 100
     IZ = 100
