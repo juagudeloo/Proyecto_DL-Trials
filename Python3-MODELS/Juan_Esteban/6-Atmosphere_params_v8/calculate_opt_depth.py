@@ -41,7 +41,7 @@ class OptDepthClass():
         self.mrho = np.memmap.reshape(self.mrho, (self.nx,self.ny,self.nz))
         self.mtpr = self.EOS[0,:,:,:] 
         self.mprs = self.EOS[1,:,:,:]
-    def kappa_interpolation(self, ptm):
+    def kappa_interpolation(self):
         kappa_df = pd.read_table(self.ptm+"kappa.0.dat", sep=" ", header=None, skipinitialspace=True).dropna(axis=1, how = "all")
         """
         The model used for this optical depth table is the the Rosseland opacity table
