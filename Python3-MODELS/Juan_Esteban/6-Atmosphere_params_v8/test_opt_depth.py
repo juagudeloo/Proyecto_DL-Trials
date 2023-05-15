@@ -16,7 +16,7 @@ def main():
     fln = "175000"
     ix = 24
     iz = 193
-    OD.specific_column_opt_depth(filename=fln,ix,iz)
+    OD.specific_column_opt_depth(filename=fln,ix=ix,iz=iz)
         
         
     
