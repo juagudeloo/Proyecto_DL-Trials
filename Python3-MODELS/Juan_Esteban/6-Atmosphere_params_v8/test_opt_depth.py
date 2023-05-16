@@ -120,7 +120,7 @@ class OptDepthClass():
                     if iy == 0:
                         opt_depth[self.ny-1] = np.log10(kappa_ixiz[self.ny-1:])
                     else:
-                        print(len(kappa_cube[self.ny-1-iy:]))
+                        print(len(kappa_ixiz[self.ny-1-iy:]))
                         a = simps(kappa_ixiz[self.ny-1-iy:], x = None, dx = 10)
                         # Base 10 logarithm of the original optical depth
                         opt_depth[self.ny-1-iy] = np.log10(a)+3 #We are summing value of three here to obtain the 
