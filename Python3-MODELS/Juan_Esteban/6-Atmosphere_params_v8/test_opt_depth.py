@@ -120,7 +120,6 @@ class OptDepthClass():
                         print(np.log10(kappa_ixiz[self.ny-1:]))
                         opt_depth[self.ny-1] = np.log10(kappa_ixiz[self.ny-1:])
                     else:
-                        print(len(kappa_ixiz[self.ny-1-iy:]))
                         a = simps(kappa_ixiz[self.ny-1-iy:], x = None, dx = 10)
                         print(a)
                         # Base 10 logarithm of the original optical depth
