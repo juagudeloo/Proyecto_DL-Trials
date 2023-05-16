@@ -112,19 +112,18 @@ class OptDepthClass():
         #Obtaining the corresponding inteporlated values of the MURAM snapshot.
         kappa_ixiz = self.kappa(T_muram, P_muram)
         opt_depth = np.zeros(np.shape(kappa_ixiz))
-        print(np.log10(kappa_ixiz[ix,:,iz]))
+        print(np.log10(kappa_ixiz[]))
         print("################################################################################################\n")
 
         for iy in range(self.ny):
                     #The first value of the top 
                     if iy == 0:
-                        opt_depth[ix,self.ny-1,iz] = np.log10(kappa_cube[ix,self.ny-1:,iz])
+                        opt_depth[ix,self.ny-1,iz] = np.log10(kappa_ixiz[self.ny-1:])
                     else:
-                        print(len(kappa_cube[ix,self.ny-1-iy:,iz]))
-                        print(len(Y[self.ny-1-iy:]))
-                        a = simps(kappa_cube[ix,self.ny-1-iy:,iz], x = None, dx = 10)
+                        print(len(kappa_cube[self.ny-1-iy:]))
+                        a = simps(kappa_ixiz[self.ny-1-iy:], x = None, dx = 10)
                         # Base 10 logarithm of the original optical depth
-                        opt_depth[ix,self.ny-1-iy,iz] = np.log10(a)+3 #We are summing value of three here to obtain the 
+                        opt_depth[self.ny-1-iy] = np.log10(a)+3 #We are summing value of three here to obtain the 
                                                                         #ideal magnitudes, however we need to solve how to 
                                                                         #obtain those magnitude values without doing it by hand
 
