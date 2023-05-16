@@ -112,7 +112,7 @@ class OptDepthClass():
         #Obtaining the corresponding inteporlated values of the MURAM snapshot.
         kappa_ixiz = self.kappa(T_muram, P_muram)
         opt_depth = np.zeros(np.shape(kappa_ixiz))
-        print(np.log10(kappa_ixiz[]))
+        print(np.log10(kappa_ixiz))
         print("################################################################################################\n")
 
         for iy in range(self.ny):
