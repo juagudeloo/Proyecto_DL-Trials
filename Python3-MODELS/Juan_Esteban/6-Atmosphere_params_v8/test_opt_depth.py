@@ -118,7 +118,7 @@ class OptDepthClass():
         for iy in range(self.ny):
                     #The first value of the top 
                     if iy == 0:
-                        opt_depth[ix,self.ny-1,iz] = np.log10(kappa_ixiz[self.ny-1:])
+                        opt_depth[self.ny-1] = np.log10(kappa_ixiz[self.ny-1:])
                     else:
                         print(len(kappa_cube[self.ny-1-iy:]))
                         a = simps(kappa_ixiz[self.ny-1-iy:], x = None, dx = 10)
