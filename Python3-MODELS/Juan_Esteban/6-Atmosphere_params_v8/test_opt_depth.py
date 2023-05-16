@@ -118,7 +118,7 @@ class OptDepthClass():
                     #The first value of the top 
                     if iy == 0:
                         print(np.log10(kappa_ixiz[self.ny-1:]))
-                        if np.log10(kappa_ixiz[self.ny-1:])[0] == NaN:
+                        if np.log10(kappa_ixiz[self.ny-1:])[0] == np.nan:
                             opt_depth[self.ny-1] = 1e-3
                         else:
                             opt_depth[self.ny-1] = np.log10(kappa_ixiz[self.ny-1:])
