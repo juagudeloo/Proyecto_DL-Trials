@@ -14,9 +14,9 @@ def main():
     #Charging the values of Temperature and Pressure from a snapshot of the MURAM simulation
     OD = OptDepthClass(ptm)
     fln = "175000"
-    OD.check_height_pixels(filename=fln)
+    OD.check_height_pixels(filename=fln, create = True)
     fln = "176000"
-    OD.check_height_pixels(filename=fln)
+    OD.check_height_pixels(filename=fln, create = False)
 
 
         
