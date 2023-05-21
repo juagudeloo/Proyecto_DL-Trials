@@ -14,9 +14,11 @@ def main():
     #Charging the values of Temperature and Pressure from a snapshot of the MURAM simulation
     OD = OptDepthClass(ptm)
     fln = "175000"
-    ix = 24
-    iz = 193
-    OD.opt_depth_calculation(filename=fln)
+    OD.check_height_pixels(filename=fln)
+    fln = "176000"
+    OD.check_height_pixels(filename=fln)
+
+
         
         
     
@@ -78,33 +80,29 @@ class OptDepthClass():
         kappa_cube = self.kappa(T_muram, P_muram)
         #Kappa is originally normalized by density. Here we denormalize it.
         kappa_cube = np.multiply(kappa_cube, self.mrho)
-        files_nan_heights = np.zeros(0)
-        print(np.argwhere(np.isnan(kappa_cube)).shape)
-        files_nan_heights = np.append(files_nan_heights, np.argwhere(np.isnan(kappa_cube))[:,1], axis = 0)
-        print(files_nan_heights.shape)
 
         # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
         #Y = np.arange(0,256*10,10.)
 
         #Creation of the array to store the optical depth values
-        #opt_depth = np.zeros((self.nx,self.ny,self.nz))
-#
-        ##Calculating the optical depth with the kappa integral
-        #for ix in range(self.nx):
-        #    for iz in range(self.nz):
-        #        for iy in range(self.ny):
-        #            #The first value of the top 
-        #            if iy == 0:
-        #                opt_depth[ix,self.ny-1,iz] = np.log10(kappa_cube[ix,self.ny-1:,iz])
-        #            else:
-        #                print(len(kappa_cube[ix,self.ny-1-iy:,iz]))
-        #                print(len(Y[self.ny-1-iy:]))
-        #                a = simps(kappa_cube[ix,self.ny-1-iy:,iz], x = None, dx = 10)
-        #                # Base 10 logarithm of the original optical depth
-        #                opt_depth[ix,self.ny-1-iy,iz] = np.log10(a)+3 #We are summing value of three here to obtain the 
-        #                                                                #ideal magnitudes, however we need to solve how to 
-        #                                                                #obtain those magnitude values without doing it by hand
-        #np.save(self.ptm+f"optical_depth_{filename}.npy", opt_depth)
+        opt_depth = np.zeros((self.nx,self.ny,self.nz))
+
+        #Calculating the optical depth with the kappa integral
+        for ix in range(self.nx):
+            for iz in range(self.nz):
+                for iy in range(self.ny):
+                    #The first value of the top 
+                    if iy == 0:
+                        opt_depth[ix,self.ny-1,iz] = np.log10(kappa_cube[ix,self.ny-1:,iz])
+                    else:
+                        print(len(kappa_cube[ix,self.ny-1-iy:,iz]))
+                        print(len(Y[self.ny-1-iy:]))
+                        a = simps(kappa_cube[ix,self.ny-1-iy:,iz], x = None, dx = 10)
+                        # Base 10 logarithm of the original optical depth
+                        opt_depth[ix,self.ny-1-iy,iz] = np.log10(a)+3 #We are summing value of three here to obtain the 
+                                                                        #ideal magnitudes, however we need to solve how to 
+                                                                        #obtain those magnitude values without doing it by hand
+        np.save(self.ptm+f"optical_depth_{filename}.npy", opt_depth)
     def specific_column_opt_depth(self, filename, ix, iz):
         self.charge_TP(filename)
         self.kappa_interpolation()
@@ -135,6 +133,31 @@ class OptDepthClass():
                                                                         #obtain those magnitude values without doing it by hand
 
         print(opt_depth)
+    def check_height_pixels(self, filename, create = False):
+        """
+        This functions check the height pixels where nan values are presented
+        """
+        self.charge_TP(filename)
+        self.kappa_interpolation()
+
+        #finding the base 10 logarithm of the snapshot values
+        T_muram = np.log10(self.mtpr[:,:,:])
+        P_muram = np.log10(self.mprs[:,:,:])
+
+        #Obtaining the corresponding inteporlated values of the MURAM snapshot.
+        kappa_cube = self.kappa(T_muram, P_muram)
+        #Kappa is originally normalized by density. Here we denormalize it.
+        kappa_cube = np.multiply(kappa_cube, self.mrho)
+
+        ptm_heights = "atm_NN_model/height_pixels/files_nan_heights.npy"
+        if create == True:
+            files_nan_heights = np.zeros(0)
+        if create == False:
+            files_nan_heights = np.load(ptm_heights)
+        print(np.argwhere(np.isnan(kappa_cube)).shape)
+        files_nan_heights = np.append(files_nan_heights, np.argwhere(np.isnan(kappa_cube))[:,1], axis = 0)
+        print(files_nan_heights.shape)
+        np.save(ptm_heights, files_nan_heights)
 
 
 if __name__ == "__main__":
