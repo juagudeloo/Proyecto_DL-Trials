@@ -81,6 +81,7 @@ class OptDepthClass():
         files_nan_heights = np.zeros(0)
         print(np.argwhere(np.isnan(kappa_cube)).shape)
         files_nan_heights = np.append(files_nan_heights, np.argwhere(np.isnan(kappa_cube))[:,1])
+        print(files_nan_heights.shape)
 
         # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
         #Y = np.arange(0,256*10,10.)
