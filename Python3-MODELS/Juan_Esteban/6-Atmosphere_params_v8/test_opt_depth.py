@@ -78,7 +78,9 @@ class OptDepthClass():
         kappa_cube = self.kappa(T_muram, P_muram)
         #Kappa is originally normalized by density. Here we denormalize it.
         kappa_cube = np.multiply(kappa_cube, self.mrho)
-        print(np.argwhere(np.isnan(kappa_cube)))
+        files_nan_heights = np.zeros(0)
+        print(np.argwhere(np.isnan(kappa_cube)).shape)
+        #files_nan_heights.append(files_nan_heights, )
 
         # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
         #Y = np.arange(0,256*10,10.)
