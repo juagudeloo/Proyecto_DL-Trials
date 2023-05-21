@@ -16,7 +16,7 @@ def main():
     fln = "175000"
     ix = 24
     iz = 193
-    OD.specific_column_opt_depth(filename=fln,ix=ix,iz=iz)
+    OD.opt_depth_calculation(filename=fln)
         
         
     
@@ -78,9 +78,10 @@ class OptDepthClass():
         kappa_cube = self.kappa(T_muram, P_muram)
         #Kappa is originally normalized by density. Here we denormalize it.
         kappa_cube = np.multiply(kappa_cube, self.mrho)
+        print(np.argwhere(np.isnan(kappa_cube)))
 
         # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
-        Y = np.arange(0,256*10,10.)
+        #Y = np.arange(0,256*10,10.)
 
         #Creation of the array to store the optical depth values
         opt_depth = np.zeros((self.nx,self.ny,self.nz))
