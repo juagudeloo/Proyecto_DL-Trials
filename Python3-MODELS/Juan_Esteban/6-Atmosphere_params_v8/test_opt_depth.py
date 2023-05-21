@@ -25,7 +25,10 @@ def main():
             create = True
         else:
             create = False
-        OD.check_height_pixels(filename=fln, create = create)
+        heights = OD.check_height_pixels(filename=fln, create = create)
+
+    print(np.min(heights))
+    
 
 
         
@@ -167,6 +170,7 @@ class OptDepthClass():
         files_nan_heights = np.append(files_nan_heights, np.argwhere(np.isnan(kappa_cube))[:,1], axis = 0)
         print(files_nan_heights.shape)
         np.save(ptm_heights, files_nan_heights)
+        return files_nan_heights
 
 
 if __name__ == "__main__":
