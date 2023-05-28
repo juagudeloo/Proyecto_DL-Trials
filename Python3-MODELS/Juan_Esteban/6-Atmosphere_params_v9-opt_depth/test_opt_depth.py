@@ -14,20 +14,20 @@ def main():
     #Charging the values of Temperature and Pressure from a snapshot of the MURAM simulation
     OD = OptDepthClass(ptm)
     count = 0
+    fln = "175000"
+    OD.check_TPrho_values(fln)
 
-    for i in np.arange(53*1000, (223+1)*1000, 1000):
-        count += 1
-        if i < 100*1000:
-            fln = "0"+str(i)
-        else:
-            fln = str(i)
-        if count == 1:
-            create = True
-        else:
-            create = False
-        heights = OD.check_height_pixels(filename=fln, create = create)
-
-    print(np.min(heights))
+    #for i in np.arange(53*1000, (223+1)*1000, 1000):
+    #    count += 1
+    #    if i < 100*1000:
+    #        fln = "0"+str(i)
+    #    else:
+    #        fln = str(i)
+    #    if count == 1:
+    #        create = True
+    #    else:
+    #        create = False
+    #    heights = OD.check_height_pixels(filename=fln, create = create)
     
 
 
@@ -42,7 +42,7 @@ class OptDepthClass():
         self.nx = nx
         self.ny = ny
         self.nz = nz
-    def charge_TP(self, filename):
+    def charge_TPrho(self, filename):
         self.filename = filename
         print(f"reading EOS {self.filename}")
         #Charging temperature data
@@ -81,7 +81,7 @@ class OptDepthClass():
         #Training the linear interpolator
         self.kappa = LinearNDInterpolator(TP_points, k)
     def opt_depth_calculation(self, filename):
-        self.charge_TP(filename)
+        self.charge_TPrho(filename)
         self.kappa_interpolation()
 
         #finding the base 10 logarithm of the snapshot values
@@ -116,7 +116,7 @@ class OptDepthClass():
                                                                         #obtain those magnitude values without doing it by hand
         np.save(self.ptm+f"optical_depth_{filename}.npy", opt_depth)
     def specific_column_opt_depth(self, filename, ix, iz):
-        self.charge_TP(filename)
+        self.charge_TPrho(filename)
         self.kappa_interpolation()
         
         #finding the base 10 logarithm of the snapshot values
@@ -171,6 +171,12 @@ class OptDepthClass():
         print(files_nan_heights.shape)
         np.save(ptm_heights, files_nan_heights)
         return files_nan_heights
+    def check_TPrho_values(self, filename, create = False):
+        """
+        This functions check the values of temperature
+        """
+        self.charge_TPrho(filename)
+        print(np.argwhere(np.isnan(self.mrho)))
 
 
 if __name__ == "__main__":
