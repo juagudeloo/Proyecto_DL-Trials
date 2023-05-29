@@ -161,7 +161,7 @@ class OptDepthClass():
         T_muram = np.log10(self.mtpr[:,:,:])
         self.Tmin = 10**3.32
         self.Tmax = 10**5.30
-        T_muram[T_muram <= self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
+        T_muram[T_muram < self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
         P_muram = np.log10(self.mprs[:,:,:])
 
@@ -189,16 +189,6 @@ class OptDepthClass():
         P_muram = np.log10(self.mprs[:,:,:])
         print(np.argwhere((T_muram <= 3.32 ) | (T_muram >= 5.30)))
         print(np.argwhere((P_muram <= -2 ) | (P_muram >= 8)))
-    def change_T_values(self, filename):
-        self.charge_TPrho(filename)
-        self.Tmin = 10**3.32
-        self.Tmax = 10**5.30
-        self.Pmin = 10**-2
-        self.Pmax = 10**8
-        self.mtpr[self.mtpr <= self.Tmin] = self.Tmin
-        self.mtpr[self.mtpr >= self.Tmax] = self.Tmax
-        self.mprs[self.mprs <= self.Pmin] = self.Pmin
-        self.mprs[self.mprs >= self.Pmin]
 
 
 if __name__ == "__main__":
