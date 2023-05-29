@@ -154,7 +154,7 @@ class OptDepthClass():
         """
         This functions check the height pixels where nan values are presented
         """
-        self.charge_TP(filename)
+        self.charge_TPrho(filename)
         self.kappa_interpolation()
 
         #finding the base 10 logarithm of the snapshot values
