@@ -29,7 +29,7 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class DataClass():
-    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = False, 
+    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, lower_boundary = 150, create_scaler = False, 
     light_type = "Intensity"): 
         """
         lower_boundary -> indicates from where to take the data for training.
