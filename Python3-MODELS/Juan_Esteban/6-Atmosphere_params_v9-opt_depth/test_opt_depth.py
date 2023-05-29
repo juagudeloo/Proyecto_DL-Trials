@@ -14,20 +14,18 @@ def main():
     #Charging the values of Temperature and Pressure from a snapshot of the MURAM simulation
     OD = OptDepthClass(ptm)
     count = 0
-    fln = "175000"
-    OD.check_height_pixels(fln, create = True)
 
-    #for i in np.arange(53*1000, (223+1)*1000, 1000):
-    #    count += 1
-    #    if i < 100*1000:
-    #        fln = "0"+str(i)
-    #    else:
-    #        fln = str(i)
-    #    if count == 1:
-    #        create = True
-    #    else:
-    #        create = False
-    #    heights = OD.check_height_pixels(filename=fln, create = create)
+    for i in np.arange(53*1000, (223+1)*1000, 1000):
+        count += 1
+        if i < 100*1000:
+            fln = "0"+str(i)
+        else:
+            fln = str(i)
+        if count == 1:
+            create = True
+        else:
+            create = False
+        heights = OD.check_height_pixels(filename=fln, create = create)
     
 
 
