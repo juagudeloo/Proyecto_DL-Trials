@@ -176,7 +176,10 @@ class OptDepthClass():
         This functions check the values of temperature
         """
         self.charge_TPrho(filename)
-        print(np.argwhere(np.isnan(self.mrho)))
+        T_muram = np.log10(self.mtpr[:,:,:])
+        P_muram = np.log10(self.mprs[:,:,:])
+        print(np.argwhere((T_muram <= 3.32 ) or (T_muram >= 5.30)))
+        print(np.argwhere((P_muram <= -2 ) or (P_muram >= 8)))
 
 
 if __name__ == "__main__":
