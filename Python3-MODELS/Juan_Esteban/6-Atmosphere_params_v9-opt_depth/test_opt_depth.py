@@ -165,7 +165,10 @@ class OptDepthClass():
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
         T_muram[T_muram >= self.Tmax] = self.Tmax
         
+        
         P_muram = np.log10(self.mprs[:,:,:])
+        print(P_muram[P_muram <= self.Pmin])
+        print(P_muram[P_muram >= self.Pmax])
         
         #Obtaining the corresponding inteporlated values of the MURAM snapshot.
         kappa_cube = self.kappa(T_muram, P_muram)
