@@ -181,7 +181,7 @@ class OptDepthClass():
             files_nan_heights = np.zeros(0)
         if create == False:
             files_nan_heights = np.load(ptm_heights)
-        print(np.argwhere(np.isnan(kappa_cube)).shape)
+        print(np.argwhere(np.isnan(kappa_cube)))
         files_nan_heights = np.append(files_nan_heights, np.argwhere(np.isnan(kappa_cube))[:,1], axis = 0)
         print(files_nan_heights.shape)
         np.save(ptm_heights, files_nan_heights)
