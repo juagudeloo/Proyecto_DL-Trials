@@ -86,8 +86,8 @@ class OptDepthClass():
 
         #finding the base 10 logarithm of the snapshot values
         T_muram = np.log10(self.mtpr[:,:,:])
-        self.Tmin = 10**3.32
-        self.Tmax = 10**5.30
+        self.Tmin = 3.32
+        self.Tmax = 5.30
         T_muram[T_muram <= self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
         
@@ -161,16 +161,12 @@ class OptDepthClass():
         T_muram = np.log10(self.mtpr[:,:,:])
         self.Tmin = 3.32
         self.Tmax = 5.30
-        print("sí funciona")
-        print(T_muram[T_muram < self.Tmin])
-        T_muram[T_muram < self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
+        T_muram[T_muram <= self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
-        print(T_muram[T_muram < self.Tmin])
-        
-        T_muram[T_muram > self.Tmax] = self.Tmax
+        T_muram[T_muram >= self.Tmax] = self.Tmax
         
         P_muram = np.log10(self.mprs[:,:,:])
-
+        
         #Obtaining the corresponding inteporlated values of the MURAM snapshot.
         kappa_cube = self.kappa(T_muram, P_muram)
         #Kappa is originally normalized by density. Here we denormalize it.
