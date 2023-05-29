@@ -160,11 +160,13 @@ class OptDepthClass():
         #finding the base 10 logarithm of the snapshot values
         T_muram = np.log10(self.mtpr[:,:,:])
         self.Tmin = 3.32
-        self.Tmin_before = 3.33
-        self.Tmax = 5.25
-        self.Tmax_before = 5.29
+        self.Tmin_before = self.Tmin+0.0001
+        self.Tmax = 5.30
+        self.Tmax_before = self.Tmin-0.0001
         self.Pmin = -2.
+        self.Pmin_before = self.Pmin+0.0001
         self.Pmax = 8.
+        self.Pmax_before = self.Pmin-0.0001
         print(T_muram[T_muram <= self.Tmin])
         print(T_muram[T_muram >= self.Tmax])
         T_muram[T_muram <= self.Tmin] = self.Tmin_before #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
