@@ -161,6 +161,8 @@ class OptDepthClass():
         T_muram = np.log10(self.mtpr[:,:,:])
         self.Tmin = 3.32
         self.Tmax = 5.30
+        self.Pmin = -2.
+        self.Pmax = 8.
         T_muram[T_muram <= self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
         T_muram[T_muram >= self.Tmax] = self.Tmax
