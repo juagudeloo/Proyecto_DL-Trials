@@ -159,8 +159,8 @@ class OptDepthClass():
 
         #finding the base 10 logarithm of the snapshot values
         T_muram = np.log10(self.mtpr[:,:,:])
-        self.Tmin = 10**3.32
-        self.Tmax = 10**5.30
+        self.Tmin = 3.32
+        self.Tmax = 5.30
         print("sí funciona")
         print(T_muram[T_muram < self.Tmin])
         T_muram[T_muram < self.Tmin] = self.Tmin #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
@@ -181,7 +181,7 @@ class OptDepthClass():
             files_nan_heights = np.zeros(0)
         if create == False:
             files_nan_heights = np.load(ptm_heights)
-        print(np.argwhere(np.isnan(kappa_cube)))
+        print(np.argwhere(np.isnan(kappa_cube)).shape)
         files_nan_heights = np.append(files_nan_heights, np.argwhere(np.isnan(kappa_cube))[:,1], axis = 0)
         print(files_nan_heights.shape)
         np.save(ptm_heights, files_nan_heights)
