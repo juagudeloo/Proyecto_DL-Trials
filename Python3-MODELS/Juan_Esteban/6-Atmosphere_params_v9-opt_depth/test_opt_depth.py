@@ -27,7 +27,7 @@ def main():
             create = False
         heights = OD.check_height_pixels(filename=fln, create = create)
     
-
+    print(heights.shape)
 
         
         
