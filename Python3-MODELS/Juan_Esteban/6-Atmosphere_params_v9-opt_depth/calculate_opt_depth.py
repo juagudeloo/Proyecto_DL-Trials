@@ -74,7 +74,21 @@ class OptDepthClass():
 
         #finding the base 10 logarithm of the snapshot values
         T_muram = np.log10(self.mtpr[:,:,:])
+        self.Tmin = 3.32
+        self.Tmin_before = self.Tmin+0.0001
+        self.Tmax = 5.30
+        self.Tmax_before = self.Tmin-0.0001
+        self.Pmin = -2.
+        self.Pmin_before = self.Pmin+0.0001
+        self.Pmax = 8.
+        self.Pmax_before = self.Pmin-0.0001
+        T_muram[T_muram <= self.Tmin] = self.Tmin_before #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
+                                                    #this points of the atmosphere does not affect in the creation of the FeI lines creation.
+        T_muram[T_muram >= self.Tmax] = self.Tmax_before
         P_muram = np.log10(self.mprs[:,:,:])
+        P_muram[P_muram <= self.Tmin] = self.Pmin_before #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
+                                                    #this points of the atmosphere does not affect in the creation of the FeI lines creation.
+        P_muram[P_muram >= self.Tmax] = self.Pmax_before
 
         #Obtaining the corresponding inteporlated values of the MURAM snapshot.
         kappa_cube = self.kappa(T_muram, P_muram)
