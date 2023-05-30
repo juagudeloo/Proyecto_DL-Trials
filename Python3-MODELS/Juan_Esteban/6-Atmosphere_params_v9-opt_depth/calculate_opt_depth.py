@@ -118,7 +118,7 @@ class OptDepthClass():
                         opt_depth[ix,self.ny-1-iy,iz] = np.log10(a)+3 #We are summing value of three here to obtain the 
                                                                         #ideal magnitudes, however we need to solve how to 
                                                                         #obtain those magnitude values without doing it by hand
-        np.save(self.ptm+f"optical_depth_{filename}.npy", opt_depth)
+        np.save(f"optical_depth_{filename}.npy", opt_depth)
 
 
 if __name__ == "__main__":
