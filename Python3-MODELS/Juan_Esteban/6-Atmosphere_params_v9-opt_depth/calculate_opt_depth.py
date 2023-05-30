@@ -13,12 +13,14 @@ def main():
     
     #Charging the values of Temperature and Pressure from a snapshot of the MURAM simulation
     OD = OptDepthClass(ptm)
-    for num in np.arange(52000,224000,1000):
-        if num<100000:
-            fln = "0"+str(num)
-        else:
-            fln = str(num)
-        OD.opt_depth_calculation(filename=fln)
+    #for num in np.arange(52000,224000,1000):
+    #    if num<100000:
+    #        fln = "0"+str(num)
+    #    else:
+    #        fln = str(num)
+    #    OD.opt_depth_calculation(filename=fln)
+    fln = "175000"
+    OD.opt_depth_calculation(filename=fln)
         
         
     
