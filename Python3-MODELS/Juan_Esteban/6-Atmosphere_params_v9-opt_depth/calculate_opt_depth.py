@@ -96,29 +96,29 @@ class OptDepthClass():
         kappa_cube = self.kappa(T_muram, P_muram)
         #Kappa is originally normalized by density. Here we denormalize it.
         kappa_cube = np.multiply(kappa_cube, self.mrho)
-
-        # Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
-        Y = np.arange(0,256*10,10.)
-
-        #Creation of the array to store the optical depth values
-        opt_depth = np.zeros((self.nx,self.ny,self.nz))
-
-        #Calculating the optical depth with the kappa integral
-        for ix in range(self.nx):
-            for iz in range(self.nz):
-                for iy in range(self.ny):
-                    #The first value of the top 
-                    if iy == 0:
-                        opt_depth[ix,self.ny-1,iz] = np.log10(kappa_cube[ix,self.ny-1:,iz])
-                    else:
-                        print(len(kappa_cube[ix,self.ny-1-iy:,iz]))
-                        print(len(Y[self.ny-1-iy:]))
-                        a = simps(kappa_cube[ix,self.ny-1-iy:,iz], x = None, dx = 10)
-                        # Base 10 logarithm of the original optical depth
-                        opt_depth[ix,self.ny-1-iy,iz] = np.log10(a)+3 #We are summing value of three here to obtain the 
-                                                                        #ideal magnitudes, however we need to solve how to 
-                                                                        #obtain those magnitude values without doing it by hand
-        np.save(f"optical_depth_{filename}.npy", opt_depth)
+        print("nan positions in kappa cube")
+        print(np.argwhere(np.isnan(kappa_cube)))
+ 
+        ## Array for y distance in meters values (from 0 to 2560 in dy = 10 cm steps)
+        #Y = np.arange(0,256*10,10.)
+#
+        ##Creation of the array to store the optical depth values
+        #opt_depth = np.zeros((self.nx,self.ny,self.nz))
+#
+        ##Calculating the optical depth with the kappa integral
+        #for ix in range(self.nx):
+        #    for iz in range(self.nz):
+        #        for iy in range(self.ny):
+        #            #The first value of the top 
+        #            if iy == 0:
+        #                opt_depth[ix,self.ny-1,iz] = np.log10(kappa_cube[ix,self.ny-1:,iz])
+        #            else:
+        #                a = simps(kappa_cube[ix,self.ny-1-iy:,iz], x = None, dx = 10)
+        #                # Base 10 logarithm of the original optical depth
+        #                opt_depth[ix,self.ny-1-iy,iz] = np.log10(a)+3 #We are summing value of three here to obtain the 
+        #                                                                #ideal magnitudes, however we need to solve how to 
+        #                                                                #obtain those magnitude values without doing it by hand
+        #np.save(f"optical_depth_{filename}.npy", opt_depth)
 
 
 if __name__ == "__main__":
