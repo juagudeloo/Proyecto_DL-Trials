@@ -288,12 +288,12 @@ class LightTrainVisualMixin():
         self.filename = filename
         self.charge_atm_params(filename)
         predicted_values = self.model.predict(np.memmap.reshape(self.atm_params, (self.nx*self.nz, 256-self.lb, 4)))
-        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.channels, self.length))
+        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length, self.channels))
         #Inverse scaling application
         if self.light_type == "Intensity":
             predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz))
         if self.light_type == "Stokes params":
-            predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length))
+            predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length, self.channels))
         print(f"{filename} prediction done!")
 
         #Checking the path of directories is created
