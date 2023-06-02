@@ -88,9 +88,9 @@ class OptDepthClass():
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
         T_muram[T_muram >= self.Tmax] = self.Tmax_before
         P_muram = np.log10(self.mprs[:,:,:])
-        P_muram[P_muram <= self.Tmin] = self.Pmin_before #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
+        P_muram[P_muram <= self.Pmin] = self.Pmin_before #we bound the upper values to fit inside the domain of the atmosphere model and this is possible because 
                                                     #this points of the atmosphere does not affect in the creation of the FeI lines creation.
-        P_muram[P_muram >= self.Tmax] = self.Pmax_before
+        P_muram[P_muram >= self.Pmax] = self.Pmax_before
 
         #Obtaining the corresponding inteporlated values of the MURAM snapshot.
         kappa_cube = self.kappa(T_muram, P_muram)
