@@ -1,9 +1,9 @@
 from train_generate.nn_model import LightObtainModel
 import numpy as np
-from path import path
+from path import path_UIS
 
 def main():
-    ptm = path()
+    ptm = path_UIS()
     light_model = LightObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
 
     #Model training
