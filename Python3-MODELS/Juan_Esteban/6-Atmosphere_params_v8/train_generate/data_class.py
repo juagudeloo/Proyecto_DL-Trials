@@ -48,7 +48,7 @@ class DataClass():
         self.create_scaler = create_scaler
         self.light_type = light_type
         print("Starting the charging process!")
-    def charge_atm_params(self, filename):
+    def charge_atm_params(self, filename, scale = True):
         #path and filename specifications
         self.filename = filename
         #Arrays for saving the charged data for each filename
@@ -86,14 +86,16 @@ class DataClass():
         self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
-        print(type(self.mtpr))
         # n_eos -> 0: temperature ; 1: pressure
-        if self.create_scaler == True:
-            scaling(self.mtpr, "mtpr", self.create_scaler)
+        if scale == True:
+            print("scaling...")
+            if self.create_scaler == True:
+                scaling(self.mtpr, "mtpr", self.create_scaler)
+            else:
+                self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
+            self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         else:
-            self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
-        print(type(self.mtpr))
-        self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
+            None
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -104,11 +106,14 @@ class DataClass():
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion300
         self.mbyy=self.mbyy*coef
-        if self.create_scaler == True:
-            scaling(self.mbyy, "mbyy", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.mbyy, "mbyy", self.create_scaler)
+            else:
+                self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
+            self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         else:
-            self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
-        self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
+            None
         print(f"byy done {self.filename}")
         print('\n')
 
@@ -119,16 +124,19 @@ class DataClass():
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
         self.mrho = np.log10(self.mrho)
-        if self.create_scaler == True:
-            scaling(self.mrho, "mrho", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.mrho, "mrho", self.create_scaler)
+            else:
+                self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
+            self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
+            if self.create_scaler == True:
+                scaling(self.mvyy, "mvyy", self.create_scaler)
+            else:
+                self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
+            self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
         else:
-            self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
-        self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
-        if self.create_scaler == True:
-            scaling(self.mvyy, "mvyy", self.create_scaler)
-        else:
-            self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
-        self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
+            None
         print(f"rho and vyy done {self.filename}")
         print('\n')
         
@@ -141,21 +149,24 @@ class DataClass():
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
-    def charge_intensity(self,filename):
+    def charge_intensity(self,filename,scale = True):
         self.filename = filename
         self.iout = []
         print(f"reading IOUT {self.filename}")
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
-        if self.create_scaler == True:
-            scaling(self.iout, "iout", self.create_scaler) #scaled intensity
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.iout, "iout", self.create_scaler) #scaled intensity
+            else:
+                print("scaling...")
+                self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
+                self.iout = np.memmap.reshape(self.iout,(self.nx, self.nz))
         else:
-            print("scaling...")
-            self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
-            self.iout = np.memmap.reshape(self.iout,(self.nx, self.nz))
+            None
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
-    def charge_stokes_params(self, filename,  file_type = "nicole"):
+    def charge_stokes_params(self, filename,  file_type = "nicole", scale = True):
         import struct
         import re
         import sys
@@ -180,10 +191,13 @@ class DataClass():
         print("scaling...")
         self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
-        if self.create_scaler == True:
-            scaling(self.profs, "stokes", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.profs, "stokes", self.create_scaler)
+            else:
+                self.profs = scaling(self.profs, "stokes", self.create_scaler)
         else:
-            self.profs = scaling(self.profs, "stokes", self.create_scaler)
+            None
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
