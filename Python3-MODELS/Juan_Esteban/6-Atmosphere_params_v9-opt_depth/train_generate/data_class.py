@@ -48,79 +48,7 @@ class DataClass():
         self.create_scaler = create_scaler
         self.light_type = light_type
         print("Starting the charging process!")
-    def check_params_non_scaling(self, filename):
-        #path and filename specifications
-        self.filename = filename
-        #Arrays for saving the charged data for each filename
-        self.mtpr = []
-        self.mrho = []
-        self.mvyy = []
-        self.mbyy = []
-        #Arrays for saving the charged data for each filename and raveled
-        self.mvyy_ravel = []
-        self.mbyy_ravel = []
-        self.mtpr_ravel = []
-        self.mrho_ravel = []
-        coef = np.sqrt(4.0*np.pi) #for converting data to cgs units
-        #Function for raveling the nx and nz coordinates after the processing
-        def ravel_xz(array):
-            array_ravel = np.memmap.reshape(array,(self.nx, self.ny, self.nz))
-            array_ravel = np.moveaxis(array_ravel,1,2)
-            array_ravel = np.memmap.reshape(array_ravel,(self.nx*self.nz, self.ny))
-            return array_ravel
-            
-        ################################
-        # Charging the data into the code - every data is converted into a cube 
-        # of data so that it has the form of the dominium of the simulation
-        #
-        # The lines of the code for mvxx, mvyy, mbxx and mbyy are commented beacuse
-        # we are not interested in ploting this magnitudes for the image analysis 
-        # we are going to make
-        #
-        # The temperature is obtained from the data file related to the 
-        # equation of state (EOS)
-        ################################
-        print(f"reading EOS {self.filename}")
-        #Charging temperature data
-        self.mtpr = np.memmap(self.ptm+"eos."+self.filename,dtype=np.float32)
-        self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
-        # n_eos -> 0: temperature ; 1: pressure
-        n_eos = 0
-        self.mtpr = self.mtpr[n_eos,:,:,:] 
-        print(f"EOS done {self.filename}")
-        print('\n')
-
-        #Charging line of sight magnetic field components
-        print (f"reading byy {self.filename}")
-        self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
-        coef = np.sqrt(4.0*np.pi) #cgs units conversion300
-        self.mbyy=self.mbyy*coef
-        self.mbyy = np.memmap.reshape(self.mbyy, (self.nx,self.ny,self.nz), order="A")
-        print(f"byy done {self.filename}")
-        print('\n')
-
-        #Charging density values
-        print(f"reading rho and mvyy (dividing mvyy/mrho to obtain vyy) {self.filename}")
-        self.mrho = np.memmap(self.ptm+"result_0."+self.filename,dtype=np.float32)
-        self.mvyy = np.memmap(self.ptm+"result_2."+self.filename,dtype=np.float32)
-        self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
-        self.mvyy = np.memmap.reshape(self.mvyy, (self.nx,self.ny,self.nz), order="A")
-
-        self.mrho = np.log10(self.mrho)
-        self.mrho = np.memmap.reshape(self.mrho, (self.nx,self.ny,self.nz), order="A")
-        print(f"rho and vyy done {self.filename}")
-        print('\n')
-        
-        #Organizing the input data
-        print(self.mbyy.shape)
-        self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
-        self.atm_params = np.array(self.atm_params)
-        #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
-        self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
-        self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
-        return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
-    def charge_atm_params(self, filename):
+    def charge_atm_params(self, filename, scale = True):
         #path and filename specifications
         self.filename = filename
         #Arrays for saving the charged data for each filename
@@ -159,12 +87,15 @@ class DataClass():
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
         # n_eos -> 0: temperature ; 1: pressure
-        print("scaling...")
-        if self.create_scaler == True:
-            scaling(self.mtpr, "mtpr", self.create_scaler)
+        if scale == True:
+            print("scaling...")
+            if self.create_scaler == True:
+                scaling(self.mtpr, "mtpr", self.create_scaler)
+            else:
+                self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
+            self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         else:
-            self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
-        self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
+            self.mtpr = np.memmap.reshape(self.mtpr, (self.nx*self.ny,self.nz), order="A")
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -175,12 +106,14 @@ class DataClass():
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion300
         self.mbyy=self.mbyy*coef
-        print("scaling...")
-        if self.create_scaler == True:
-            scaling(self.mbyy, "mbyy", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.mbyy, "mbyy", self.create_scaler)
+            else:
+                self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
+            self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         else:
-            self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
-        self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
+            self.mbyy = np.memmap.reshape(self.mbyy, (self.nx*self.ny,self.nz), order="A")
         print(f"byy done {self.filename}")
         print('\n')
 
@@ -191,17 +124,20 @@ class DataClass():
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
         self.mrho = np.log10(self.mrho)
-        print("scaling...")
-        if self.create_scaler == True:
-            scaling(self.mrho, "mrho", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.mrho, "mrho", self.create_scaler)
+            else:
+                self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
+            self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
+            if self.create_scaler == True:
+                scaling(self.mvyy, "mvyy", self.create_scaler)
+            else:
+                self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
+            self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
         else:
-            self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
-        self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
-        if self.create_scaler == True:
-            scaling(self.mvyy, "mvyy", self.create_scaler)
-        else:
-            self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
-        self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
+            self.mvyy = np.memmap.reshape(self.mvyy, (self.nx*self.ny,self.nz), order="A")
+            self.mrho = np.memmap.reshape(self.mrho, (self.nx*self.ny,self.nz), order="A")
         print(f"rho and vyy done {self.filename}")
         print('\n')
         
