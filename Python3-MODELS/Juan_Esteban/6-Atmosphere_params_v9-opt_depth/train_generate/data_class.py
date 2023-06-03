@@ -161,9 +161,7 @@ class DataClass():
             else:
                 print("scaling...")
                 self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
-                self.iout = np.memmap.reshape(self.iout,(self.nx, self.nz))
-        else:
-            None
+        self.iout = np.memmap.reshape(self.iout,(self.nx, self.nz))
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
