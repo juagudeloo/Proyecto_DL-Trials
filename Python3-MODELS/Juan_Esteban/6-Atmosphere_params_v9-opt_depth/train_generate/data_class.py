@@ -93,9 +93,7 @@ class DataClass():
                 scaling(self.mtpr, "mtpr", self.create_scaler)
             else:
                 self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
-            self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
-        else:
-            self.mtpr = np.memmap.reshape(self.mtpr, (self.nx*self.ny,self.nz), order="A")
+        self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -111,9 +109,7 @@ class DataClass():
                 scaling(self.mbyy, "mbyy", self.create_scaler)
             else:
                 self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
-            self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
-        else:
-            self.mbyy = np.memmap.reshape(self.mbyy, (self.nx*self.ny,self.nz), order="A")
+        self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
 
@@ -129,22 +125,25 @@ class DataClass():
                 scaling(self.mrho, "mrho", self.create_scaler)
             else:
                 self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
-            self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
             if self.create_scaler == True:
                 scaling(self.mvyy, "mvyy", self.create_scaler)
             else:
                 self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
-            self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
-        else:
-            self.mvyy = np.memmap.reshape(self.mvyy, (self.nx*self.ny,self.nz), order="A")
-            self.mrho = np.memmap.reshape(self.mrho, (self.nx*self.ny,self.nz), order="A")
+        self.mrho = ravel_xz(self.mrho)[:,self.lb:]
+        self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
+
         print(f"rho and vyy done {self.filename}")
         print('\n')
         
-        #Organizing the input data
         print(self.mbyy.shape)
+        print(self.mvyy.shape)
+        print(self.mrho.shape)
+        print(self.mtpr.shape)
+        #Organizing the input data
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
+        print("shape of atmosphere params")
+        print(self.atm_params.shape)
         #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
