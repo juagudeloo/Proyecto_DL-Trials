@@ -29,8 +29,6 @@ def main():
     #################################
 
     #R^2 for intergranular zones
-    []
-    for i 
     print("Magnetic Field R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,0], pred_atm[intergran_mask,:,1]))
     print("Velocity LOS R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,1], pred_atm[intergran_mask,:,1]))
     print("Density LOS R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,2], pred_atm[intergran_mask,:,2]))
