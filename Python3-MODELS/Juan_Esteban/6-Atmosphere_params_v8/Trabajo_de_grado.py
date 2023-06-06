@@ -27,7 +27,7 @@ def main():
     #################################
     #PHYSICAL MAGNITUDES
     #################################
-    print("PHYSICAL MAGNITUDES")
+    print("\n#############PHYSICAL MAGNITUDES#############")
     
     phys_mags_tit = ["Magnetic Field LOS", "Velocity LOS", "Density", "Temperature"]
     #R^2 for intergranular zones
@@ -48,7 +48,7 @@ def main():
     #################################
     #STOKES
     #################################
-    print("STOKES")
+    print("\n############# STOKES #############")
 
     stokes_tit = ["I", "U", "Q", "V"]
     #R^2 for intergranular zones
