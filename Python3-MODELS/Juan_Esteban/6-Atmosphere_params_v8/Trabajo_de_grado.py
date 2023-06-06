@@ -38,7 +38,10 @@ def main():
         print(phys_mags_tit[i], r2_score(muram_data.atm_params[gran_mask,:,i], pred_atm[gran_mask,:,i]))
 
     #R^2 for all the data
+    
     for i in range(4):
+        print(muram_data.atm_params[:,:,:,i].shape)
+        print(pred_atm[:,:,:,i].shape)
         print(phys_mags_tit[i], r2_score(muram_data.atm_params[:,:,:,i], pred_atm[:,:,:,i]))
 
     #################################
