@@ -43,8 +43,6 @@ def main():
     #R^2 for all the data
     print("\nR^2 for all the data")
     for i in range(4):
-        print(muram_data.atm_params[:,:,:,i].shape)
-        print(pred_atm[:,:,:,i].shape)
         print(phys_mags_tit[i], r2_score(np.ravel(muram_data.atm_params[:,:,:,i]), np.ravel(pred_atm[:,:,:,i])))
 
     #################################
