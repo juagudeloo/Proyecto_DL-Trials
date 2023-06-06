@@ -6,7 +6,7 @@ from sklearn.metrics import r2_score
 
 def main():
     ptm = path_UIS()
-    muram_data = DataClass(ptm)
+    muram_data = DataClass(ptm, lower_boundary=180)
     filename = "175000"
 
     muram_data.charge_atm_params(filename, scale = False)
