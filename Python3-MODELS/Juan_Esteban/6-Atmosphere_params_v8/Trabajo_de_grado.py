@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from train_generate.data_class import DataClass
-from path import path_LOCAL
+from path import path_UIS
 from sklearn.metrics import r2_score
 
 def main():
-    ptm = path_LOCAL()
+    ptm = path_UIS()
     muram_data = DataClass(ptm)
     filename = "175000"
 
@@ -29,6 +29,8 @@ def main():
     #################################
 
     #R^2 for intergranular zones
+    []
+    for i 
     print("Magnetic Field R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,0], pred_atm[intergran_mask,:,1]))
     print("Velocity LOS R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,1], pred_atm[intergran_mask,:,1]))
     print("Density LOS R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,2], pred_atm[intergran_mask,:,2]))
