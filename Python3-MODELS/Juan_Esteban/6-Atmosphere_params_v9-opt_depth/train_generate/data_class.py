@@ -134,16 +134,11 @@ class DataClass():
 
         print(f"rho and vyy done {self.filename}")
         print('\n')
-        
-        print(self.mbyy.shape)
-        print(self.mvyy.shape)
-        print(self.mrho.shape)
-        print(self.mtpr.shape)
+
         #Organizing the input data
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
-        print("shape of atmosphere params")
-        print(self.atm_params.shape)
+        
         #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
