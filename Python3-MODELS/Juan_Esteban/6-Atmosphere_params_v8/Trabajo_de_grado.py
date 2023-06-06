@@ -28,24 +28,35 @@ def main():
     #PHYSICAL MAGNITUDES
     #################################
 
-    phys_mags = ["Magnetic Field", "Velocity LOS", "Density LOS", "Temperature"]
+    phys_mags_tit = ["Magnetic Field LOS", "Velocity LOS", "Density", "Temperature"]
     #R^2 for intergranular zones
     for i in range(4):
-        print(phys_mags[i], r2_score(muram_data.atm_params[intergran_mask,:,i], pred_atm[intergran_mask,:,i]))
+        print(phys_mags_tit[i], r2_score(muram_data.atm_params[intergran_mask,:,i], pred_atm[intergran_mask,:,i]))
 
     #R^2 for granular zones
     for i in range(4):
-        print(phys_mags[i], r2_score(muram_data.atm_params[gran_mask,:,i], pred_atm[gran_mask,:,i]))
+        print(phys_mags_tit[i], r2_score(muram_data.atm_params[gran_mask,:,i], pred_atm[gran_mask,:,i]))
 
     #R^2 for all the data
     for i in range(4):
-        print(phys_mags[i], r2_score(muram_data.atm_params[:,:,:,i], pred_atm[:,:,:,i]))
+        print(phys_mags_tit[i], r2_score(muram_data.atm_params[:,:,:,i], pred_atm[:,:,:,i]))
 
     #################################
     #STOKES
     #################################
-    
 
+    stokes_tit = ["I", "U", "Q", "V"]
+    #R^2 for intergranular zones
+    for i in range(4):
+        print(stokes_tit[i], r2_score(muram_data.profs[intergran_mask,:,i], pred_stokes[intergran_mask,:,i]))
+
+    #R^2 for granular zones
+    for i in range(4):
+        print(stokes_tit[i], r2_score(muram_data.profs[gran_mask,:,i], pred_stokes[gran_mask,:,i]))
+
+    #R^2 for all the data
+    for i in range(4):
+        print(stokes_tit[i], r2_score(muram_data.profs[:,:,:,i], pred_stokes[:,:,:,i]))
     
 
     #ix = 90
