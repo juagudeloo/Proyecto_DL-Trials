@@ -33,10 +33,13 @@ def main():
     for i in range(4):
         print(phys_mags[i], r2_score(muram_data.atm_params[intergran_mask,:,i], pred_atm[intergran_mask,:,i]))
 
-    
     #R^2 for granular zones
+    for i in range(4):
+        print(phys_mags[i], r2_score(muram_data.atm_params[gran_mask,:,i], pred_atm[gran_mask,:,i]))
 
     #R^2 for all the data
+    for i in range(4):
+        print(phys_mags[i], r2_score(muram_data.atm_params[:,:,:,i], pred_atm[:,:,:,i]))
 
     #################################
     #STOKES
