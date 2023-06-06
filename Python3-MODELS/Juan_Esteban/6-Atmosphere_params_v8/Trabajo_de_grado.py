@@ -27,18 +27,18 @@ def main():
     #################################
     #PHYSICAL MAGNITUDES
     #################################
-    print("\n#############PHYSICAL MAGNITUDES#############")
+    print("\n############# PHYSICAL MAGNITUDES #############")
     
     phys_mags_tit = ["Magnetic Field LOS", "Velocity LOS", "Density", "Temperature"]
     #R^2 for intergranular zones
     print("\nR^2 for intergranular zones")
     for i in range(4):
-        print(phys_mags_tit[i], r2_score(muram_data.atm_params[intergran_mask,:,i], pred_atm[intergran_mask,:,i]))
+        print(phys_mags_tit[i], r2_score(np.ravel(muram_data.atm_params[intergran_mask,:,i]), np.ravel(pred_atm[intergran_mask,:,i])))
 
     #R^2 for granular zones
     print("\nR^2 for granular zones")
     for i in range(4):
-        print(phys_mags_tit[i], r2_score(muram_data.atm_params[gran_mask,:,i], pred_atm[gran_mask,:,i]))
+        print(phys_mags_tit[i], r2_score(np.ravel(muram_data.atm_params[gran_mask,:,i]), np.ravel(pred_atm[gran_mask,:,i])))
 
     #R^2 for all the data
     print("\nR^2 for all the data")
@@ -54,12 +54,12 @@ def main():
     #R^2 for intergranular zones
     print("\nR^2 for intergranular zones")
     for i in range(4):
-        print(stokes_tit[i], r2_score(muram_data.profs[intergran_mask,:,i], pred_stokes[intergran_mask,:,i]))
+        print(stokes_tit[i], r2_score(np.ravel(muram_data.profs[intergran_mask,:,i]), np.ravel(pred_stokes[intergran_mask,:,i])))
 
     #R^2 for granular zones
     print("\nR^2 for granular zones")
     for i in range(4):
-        print(stokes_tit[i], r2_score(muram_data.profs[gran_mask,:,i], pred_stokes[gran_mask,:,i]))
+        print(stokes_tit[i], r2_score(np.ravel(muram_data.profs[gran_mask,:,i]), np.ravel(pred_stokes[gran_mask,:,i])))
 
     #R^2 for all the data
     print("\nR^2 for all the data")
