@@ -28,11 +28,11 @@ def main():
     #PHYSICAL MAGNITUDES
     #################################
 
+    phys_mags = ["Magnetic Field", "Velocity LOS", "Density LOS", "Temperature"]
     #R^2 for intergranular zones
-    print("Magnetic Field R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,0], pred_atm[intergran_mask,:,1]))
-    print("Velocity LOS R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,1], pred_atm[intergran_mask,:,1]))
-    print("Density LOS R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,2], pred_atm[intergran_mask,:,2]))
-    print("Temperature R^2: ", r2_score(muram_data.atm_params[intergran_mask,:,3], pred_atm[intergran_mask,:,3]))
+    for i in range(4):
+        print(phys_mags[i], r2_score(muram_data.atm_params[intergran_mask,:,i], pred_atm[intergran_mask,:,i]))
+
     
     #R^2 for granular zones
 
