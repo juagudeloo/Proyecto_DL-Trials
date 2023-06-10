@@ -179,7 +179,7 @@ class OptDepthClass():
         T_muram = np.log10(self.mtpr[:,:,:])
         P_muram = np.log10(self.mprs[:,:,:])
         print(np.argwhere((T_muram <= 3.32 ) | (T_muram >= 5.30)))
-        print(np.argwhere((P_muram <= -2 ) | (P_muram >= 8)))
+        print(np.argwhere((P_muram <= -2 ) |(P_muram >= 8)))
 
 
 if __name__ == "__main__":
