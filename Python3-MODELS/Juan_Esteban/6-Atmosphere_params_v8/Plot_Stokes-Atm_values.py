@@ -77,7 +77,7 @@ def plot_atm(ix, iz, origin, obtained, I_reference, ptm = "tdg_images/Atm_params
     cm = 1/2.54  # centimeters in inches
 
     #Intensity reference points for granular and intergranular zones
-    fig, ax = plt.subplots((5*cm,5*cm))
+    fig, ax = plt.subplots(1,4,figsize = (5*cm,5*cm))
     ax.imshow(I_reference)
     fig.save(ptm+"tdg_stokes.pdf")
 
