@@ -29,7 +29,7 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class DataClass():
-    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, lower_boundary = 180, create_scaler = False, 
+    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, lower_boundary = 150, create_scaler = False, 
     light_type = "Intensity"): 
         """
         lower_boundary -> indicates from where to take the data for training.
@@ -38,7 +38,8 @@ class DataClass():
         "Stokes params" -> The model predicts the Stokes parameters.
         create_scaler -> Set True by default. It determines wheter to create a scaler object or take an already created one.
         """
-        #size of the cubes of the data
+
+        self.nlam = 300 #this parameter is useful when managing the Stokes parameters #wavelenght interval - its from 6300 amstroengs in steps of 10 amstroengs
         self.ptm = ptm
         self.nx = nx
         self.ny = ny
@@ -47,7 +48,7 @@ class DataClass():
         self.create_scaler = create_scaler
         self.light_type = light_type
         print("Starting the charging process!")
-    def charge_atm_params(self, filename):
+    def charge_atm_params(self, filename, scale = True):
         #path and filename specifications
         self.filename = filename
         #Arrays for saving the charged data for each filename
@@ -85,13 +86,13 @@ class DataClass():
         self.mtpr = np.memmap.reshape(self.mtpr, (2,self.nx,self.ny,self.nz), order="A")
         n_eos = 0
         self.mtpr = self.mtpr[n_eos,:,:,:] 
-        print(type(self.mtpr))
         # n_eos -> 0: temperature ; 1: pressure
-        if self.create_scaler == True:
-            scaling(self.mtpr, "mtpr", self.create_scaler)
-        else:
-            self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
-        print(type(self.mtpr))
+        if scale == True:
+            print("scaling...")
+            if self.create_scaler == True:
+                scaling(self.mtpr, "mtpr", self.create_scaler)
+            else:
+                self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
         self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
@@ -103,10 +104,11 @@ class DataClass():
         self.mbyy = np.memmap(self.ptm+"result_6."+self.filename,dtype=np.float32)
         coef = np.sqrt(4.0*np.pi) #cgs units conversion300
         self.mbyy=self.mbyy*coef
-        if self.create_scaler == True:
-            scaling(self.mbyy, "mbyy", self.create_scaler)
-        else:
-            self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.mbyy, "mbyy", self.create_scaler)
+            else:
+                self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
         self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
@@ -118,43 +120,46 @@ class DataClass():
         self.mvyy = self.mvyy/self.mrho #obtaining the velocity from the momentum values
         
         self.mrho = np.log10(self.mrho)
-        if self.create_scaler == True:
-            scaling(self.mrho, "mrho", self.create_scaler)
-        else:
-            self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
-        self.mrho = ravel_xz(self.mrho)[:,self.lb:] #we just want the upper half of the parameter values
-        if self.create_scaler == True:
-            scaling(self.mvyy, "mvyy", self.create_scaler)
-        else:
-            self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.mrho, "mrho", self.create_scaler)
+            else:
+                self.mrho = scaling(self.mrho, "mrho", self.create_scaler)
+            if self.create_scaler == True:
+                scaling(self.mvyy, "mvyy", self.create_scaler)
+            else:
+                self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
+        self.mrho = ravel_xz(self.mrho)[:,self.lb:]
         self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
+
         print(f"rho and vyy done {self.filename}")
         print('\n')
-        
+
         #Organizing the input data
-        print(self.mbyy.shape)
         self.atm_params = [self.mbyy, self.mvyy, self.mrho, self.mtpr]
         self.atm_params = np.array(self.atm_params)
+        
         #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
-    def charge_intensity(self,filename):
+    def charge_intensity(self,filename,scale = True):
         self.filename = filename
         self.iout = []
         print(f"reading IOUT {self.filename}")
         self.iout = np.memmap(self.ptm+"iout."+self.filename,dtype=np.float32)
-        if self.create_scaler == True:
-            scaling(self.iout, "iout", self.create_scaler) #scaled intensity
-        else:
-            print("scaling...")
-            self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
-            self.iout = np.memmap.reshape(self.iout,(self.nx, self.nz))
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.iout, "iout", self.create_scaler) #scaled intensity
+            else:
+                print("scaling...")
+                self.iout = scaling(self.iout, "iout", self.create_scaler) #scaled intensity
+        self.iout = np.memmap.reshape(self.iout,(self.nx, self.nz))
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
-    def charge_stokes_params(self, filename,  file_type = "nicole"):
+    def charge_stokes_params(self, filename,  file_type = "nicole", scale = True):
         import struct
         import re
         import sys
@@ -162,7 +167,6 @@ class DataClass():
         self.filename = filename
         [int4f,intf,flf]=mpt.check_types()
         self.stk_filename = self.filename+"_0000_0000.prof"
-        self.nlam = 300 #wavelenght interval - its from 6300 amstroengs-
         self.profs = [] #It's for the reshaped data - better for visualization.
         self.profs_ravel = [] #its for the ravel data to make the splitting easier.
         #Charging the stokes profiles for the specific file
@@ -180,10 +184,13 @@ class DataClass():
         print("scaling...")
         self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
-        if self.create_scaler == True:
-            scaling(self.profs, "stokes", self.create_scaler)
+        if scale == True:
+            if self.create_scaler == True:
+                scaling(self.profs, "stokes", self.create_scaler)
+            else:
+                self.profs = scaling(self.profs, "stokes", self.create_scaler)
         else:
-            self.profs = scaling(self.profs, "stokes", self.create_scaler)
+            None
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
@@ -308,35 +315,6 @@ class DataClass():
         It is a hand made splitting.
         TR_S: relative ratio of the whole data selected to the training set.
         """
-
-        # Atmosphere params
-        self.charge_atm_params(filename)
-        atm_intergran = []
-        atm_gran = []
-        a_in = []
-        a_gran = []
-
-        for j in range(4):
-            a_in = []
-            a_gran = []
-            for i in range(self.ny-self.lb):
-                a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
-                a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
-            atm_intergran.append(a_in)
-            atm_gran.append(a_gran)
-        
-        atm_intergran = np.array(atm_intergran)
-        atm_gran = np.array(atm_gran)
-        
-        for i in range(2):
-            atm_intergran = np.moveaxis(atm_intergran,0,2-i)
-            atm_gran = np.moveaxis(atm_gran,0,2-i)
-            
-        self.tr_input = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
-        self.te_input = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
-        self.in_ls = np.shape(atm_intergran[0,:,:])
-        print(f"in_ls = {self.in_ls}")
-
         #Light information
 
         self.light_type = light_type
@@ -414,6 +392,36 @@ class DataClass():
 
             self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
             self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
+            
+        # Atmosphere params
+        self.charge_atm_params(filename)
+        atm_intergran = []
+        atm_gran = []
+        a_in = []
+        a_gran = []
+
+        for j in range(4):
+            a_in = []
+            a_gran = []
+            for i in range(self.ny-self.lb):
+                a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
+                a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
+            atm_intergran.append(a_in)
+            atm_gran.append(a_gran)
+        
+        atm_intergran = np.array(atm_intergran)
+        atm_gran = np.array(atm_gran)
+        
+        for i in range(2):
+            atm_intergran = np.moveaxis(atm_intergran,0,2-i)
+            atm_gran = np.moveaxis(atm_gran,0,2-i)
+            
+        self.tr_input = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
+        self.te_input = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
+        self.in_ls = np.shape(atm_intergran[0,:,:])
+        print(f"in_ls = {self.in_ls}")
+
+        
 
         return self.tr_input, self.tr_output, self.te_input, self.te_output
 
