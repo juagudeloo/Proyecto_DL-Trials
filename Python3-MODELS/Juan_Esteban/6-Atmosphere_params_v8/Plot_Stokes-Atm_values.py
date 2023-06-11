@@ -52,7 +52,7 @@ def plot_stokes(ix:list, iz:list, origin, obtained, ilam = 0, ptm = "tdg_images/
     #Intensity reference points for granular and intergranular zones
     fig, ax = plt.subplots(figsize = (5*cm,5*cm))
     ax.imshow(origin[:,:,ilam,0])
-    fig.save(ptm+"tdg_stokes.pdf")
+    fig.savefig(ptm+"tdg_stokes.pdf")
 
     #Stokes plot
     titles = ["granular", "intergranular"]
@@ -70,7 +70,7 @@ def plot_stokes(ix:list, iz:list, origin, obtained, ilam = 0, ptm = "tdg_images/
             ax[j,i].set_xlabel(x_label)
         
 
-    fig.save(ptm+"tdg_stokes.pdf")
+    fig.savefig(ptm+"tdg_stokes.pdf")
     
 def plot_atm(ix, iz, origin, obtained, I_reference, ptm = "tdg_images/Atm_params"):
 
@@ -79,7 +79,7 @@ def plot_atm(ix, iz, origin, obtained, I_reference, ptm = "tdg_images/Atm_params
     #Intensity reference points for granular and intergranular zones
     fig, ax = plt.subplots(figsize = (5*cm,5*cm))
     ax.imshow(I_reference)
-    fig.save(ptm+"tdg_stokes.pdf")
+    fig.savefig(ptm+"tdg_stokes.pdf")
 
     fig, ax = plt.subplots(2,4, figsize = (22*cm,5*cm))
     for i in range(4):
@@ -103,7 +103,7 @@ def plot_atm(ix, iz, origin, obtained, I_reference, ptm = "tdg_images/Atm_params
             ax[j,i].set_ylabel(y_labels[i])
             ax[j,i].set_xlabel(x_label)
     
-    fig.save(ptm+"tdg_stokes.pdf")
+    fig.savefig(ptm+"tdg_stokes.pdf")
     
 
 
