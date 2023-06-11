@@ -60,7 +60,7 @@ def plot_stokes(ix:list, iz:list, origin, obtained, ilam = 0, ptm = "tdg_images/
     x_label = "wavelength, "+r"$\lambda\,[\AA]$"
     lam = np.arange(6300, 6300+10*300, 10)
 
-    fig, ax = plt.subplots(1,4, figsize = (22*cm,5*cm))
+    fig, ax = plt.subplots(2,4,figsize = (22*cm,5*cm))
     for j in range(2):
         for i in range(4):
             ax[j,i].plot(lam, origin[ix[j],iz[j],:,i])
@@ -81,7 +81,7 @@ def plot_atm(ix, iz, origin, obtained, I_reference, ptm = "tdg_images/Atm_params
     ax.imshow(I_reference)
     fig.save(ptm+"tdg_stokes.pdf")
 
-    fig, ax = plt.subplots(1,4, figsize = (22*cm,5*cm))
+    fig, ax = plt.subplots(2,4, figsize = (22*cm,5*cm))
     for i in range(4):
         ax[0,i].plot(origin[ix[0],iz[0],:,i])
         ax[0,i].plot(obtained[ix[0],iz[0],:,i])
