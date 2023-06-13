@@ -1,4 +1,4 @@
-from path import path_LOCAL
+from path import path_UIS
 from train_generate.data_class import DataClass
 import matplotlib.pyplot as plt 
 import numpy as np
