@@ -181,11 +181,12 @@ class DataClass():
                 #the dimensional indexes are disposed as ix*self.nz+iy.
                 ##############################################################################
                 self.profs.append(p_prof)  
-        print("scaling...")
+        
         self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
         if scale == True:
             if self.create_scaler == True:
+                print("scaling...")
                 scaling(self.profs, "stokes", self.create_scaler)
             else:
                 self.profs = scaling(self.profs, "stokes", self.create_scaler)
@@ -210,8 +211,8 @@ class DataClass():
             self.charge_intensity(filename)
             # Creating the masks for the granular and intergranular zones
             threshold = (np.max(self.iout)-np.min(self.iout))/2.5 + np.min(self.iout)
-            intergran_mask = np.ma.masked_where(self.iout > threshold, self.iout).mask
-            gran_mask = np.ma.masked_where(self.iout <= threshold, self.iout).mask
+            gran_mask = np.ma.masked_where(self.iout > threshold, self.iout).mask
+            intergran_mask = np.ma.masked_where(self.iout <= threshold, self.iout).mask
             len_intergran = len(np.ma.masked_where(self.iout > threshold, self.iout).compressed())
             len_gran = len(np.ma.masked_where(self.iout <= threshold, self.iout).compressed())
             # Applying the masks over the intensity data
@@ -236,8 +237,8 @@ class DataClass():
         if self.light_type == "Stokes params":
             self.charge_stokes_params(filename)
             threshold = (np.max(self.profs[:,:,0,0])-np.min(self.profs[:,:,0,0]))/2.5 + np.min(self.profs[:,:,0,0])
-            intergran_mask = np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).mask
-            gran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
+            gran_mask = np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).mask
+            intergran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
             len_intergran = len(np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).compressed())
             len_gran = len(np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).compressed())
             # Stokes profiles
@@ -324,8 +325,8 @@ class DataClass():
             self.charge_intensity(filename)
             # Creating the masks for the granular and intergranular zones
             threshold = (np.max(self.iout)-np.min(self.iout))/2.5 + np.min(self.iout)
-            intergran_mask = np.ma.masked_where(self.iout > threshold, self.iout).mask
-            gran_mask = np.ma.masked_where(self.iout <= threshold, self.iout).mask
+            gran_mask = np.ma.masked_where(self.iout > threshold, self.iout).mask
+            intergran_mask = np.ma.masked_where(self.iout <= threshold, self.iout).mask
             len_intergran = len(np.ma.masked_where(self.iout > threshold, self.iout).compressed())
             len_gran = len(np.ma.masked_where(self.iout <= threshold, self.iout).compressed())
             # Applying the masks over the intensity data
@@ -349,8 +350,8 @@ class DataClass():
         if self.light_type == "Stokes params":
             self.charge_stokes_params(filename)
             threshold = (np.max(self.profs[:,:,0,0])-np.min(self.profs[:,:,0,0]))/2.5 + np.min(self.profs[:,:,0,0])
-            intergran_mask = np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).mask
-            gran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
+            gran_mask = np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).mask
+            intergran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
             len_intergran = len(np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).compressed())
             len_gran = len(np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).compressed())
             self.charge_stokes_params(filename)
