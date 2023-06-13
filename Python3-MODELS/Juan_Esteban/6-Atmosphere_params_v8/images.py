@@ -8,13 +8,13 @@ def main():
     muram = DataClass(ptm)
 
     filename = "087000"
-    stokes_87 = muram.charge_stokes_params(filename, scale = False)
+    stokes_87 = muram.charge_stokes_params(filename, scale = False)[:,:,0,0]
     threshold_87 = (np.max(stokes_87)-np.min(stokes_87))/2.5 + np.min(stokes_87)
     gran_mask_87 = np.ma.masked_where(stokes_87 > threshold_87, stokes_87).mask
     intergran_mask_87 = np.ma.masked_where(stokes_87 <= threshold_87, stokes_87).mask
 
     filename = "175000"
-    stokes_175 = muram.charge_stokes_params(filename, scale = False)
+    stokes_175 = muram.charge_stokes_params(filename, scale = False)[:,:,0,0]
     threshold_175 = (np.max(stokes_175)-np.min(stokes_175))/2.5 + np.min(stokes_175)
     gran_mask_175 = np.ma.masked_where(stokes_175 > threshold_175, stokes_175).mask
     intergran_mask_175 = np.ma.masked_where(stokes_175 <= threshold_175, stokes_175).mask
