@@ -20,11 +20,11 @@ def main():
     intergran_mask_175 = np.ma.masked_where(stokes_175 <= threshold_175, stokes_175).mask
 
     fig, ax = plt.subplots(1,2,figsize = (12,5))
-    ax[0].imshow(stokes_87[:,:,0,0])
+    ax[0].imshow(stokes_87)
     ax[0].imshow(gran_mask_87, alpha = 0.6)
     ax[0].imshow(intergran_mask_87, alpha = 0.6)
     
-    ax[1].imshow(stokes_175[:,:,0,0])
+    ax[1].imshow(stokes_175)
     ax[1].imshow(gran_mask_175, alpha = 0.6)
     ax[1].imshow(intergran_mask_175, alpha = 0.6)
 
