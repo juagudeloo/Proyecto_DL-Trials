@@ -21,12 +21,14 @@ def main():
 
     fig, ax = plt.subplots(1,2,figsize = (12,5))
     ax[0].imshow(stokes_87)
-    ax[0].imshow(gran_mask_87, alpha = 0.6)
-    ax[0].imshow(intergran_mask_87, alpha = 0.6)
+    ax[0].imshow(gran_mask_87, alpha = 0.6, label = "granular")
+    ax[0].imshow(intergran_mask_87, alpha = 0.6, label = "intergranular")
+    ax[0].legend()
     
     ax[1].imshow(stokes_175)
-    ax[1].imshow(gran_mask_175, alpha = 0.6)
-    ax[1].imshow(intergran_mask_175, alpha = 0.6)
+    ax[1].imshow(gran_mask_175, alpha = 0.6, label = "granular")
+    ax[1].imshow(intergran_mask_175, alpha = 0.6, label = "intergranular")
+    ax[1].legend()
 
     fig.savefig("int_gran_zones.pdf")
 
