@@ -19,16 +19,18 @@ def main():
     gran_mask_175 = np.ma.masked_where(stokes_175 > threshold_175, stokes_175).mask
     intergran_mask_175 = np.ma.masked_where(stokes_175 <= threshold_175, stokes_175).mask
 
-    fig, ax = plt.subplots(1,2,figsize = (12,5))
-    ax[0].imshow(stokes_87)
-    ax[0].imshow(gran_mask_87, alpha = 0.6, label = "granular")
-    ax[0].imshow(intergran_mask_87, alpha = 0.6, label = "intergranular")
-    ax[0].legend()
+    fig, ax = plt.subplots(2,2,figsize = (12,5))
+    ax[0,0].imshow(stokes_87)
+    ax[0,0].imshow(gran_mask_87, alpha = 0.6, label = "granular")
+    ax[0,0].imshow(intergran_mask_87, alpha = 0.6, label = "intergranular")
+    ax[0,0].legend()
+    ax[1,0]..imshow(stokes_87)
     
-    ax[1].imshow(stokes_175)
-    ax[1].imshow(gran_mask_175, alpha = 0.6, label = "granular")
-    ax[1].imshow(intergran_mask_175, alpha = 0.6, label = "intergranular")
-    ax[1].legend()
+    ax[0,1].imshow(stokes_175)
+    ax[0,1].imshow(gran_mask_175, alpha = 0.6, label = "granular")
+    ax[0,1].imshow(intergran_mask_175, alpha = 0.6, label = "intergranular")
+    ax[0,1].legend()
+    ax[1,1].imshow(stokes_175)
 
     fig.savefig("int_gran_zones.pdf")
 
