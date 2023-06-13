@@ -28,7 +28,6 @@ def main():
     ax[0,1].imshow(stokes_175)
     ax[0,1].imshow(gran_mask_175, alpha = 0.6)
     ax[0,1].imshow(intergran_mask_175, alpha = 0.6)
-    ax[0,1].legend()
     ax[1,1].imshow(stokes_175)
 
     fig.savefig("int_gran_zones.pdf")
