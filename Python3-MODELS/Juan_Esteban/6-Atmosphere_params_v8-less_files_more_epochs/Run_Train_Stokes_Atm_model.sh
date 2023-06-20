@@ -18,9 +18,11 @@ pip3 install pandas
 
 ## Insert code, and run your programs here (use 'srun').
 
+count = 0
 for i in {53..60..3}
 do
-python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/Train_Stokes-Atm_model.py $i
+python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/test.py $i $count
+count = 1
 done
 
 python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/6-Atmosphere_params_v8/Obtain_Stokes-Atm_model.py
