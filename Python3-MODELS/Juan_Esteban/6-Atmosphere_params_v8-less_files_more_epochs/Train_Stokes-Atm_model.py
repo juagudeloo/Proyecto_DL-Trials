@@ -7,7 +7,6 @@ import sys
 def main():
     #Intensity specifications
     ptm = path()
-    tr_filename = []
     
     ifl = int(sys.argv[1])
     if ifl < 100:
@@ -21,7 +20,7 @@ def main():
     start_time = time.time() #Time measured in seconds
     
     print("is running")
-    stokes_model.train(fln, tr_s = 0.75, batch_size= 10000, epochs=10)
+    stokes_model.train(fln, tr_s = 0.75, batch_size= 10000, epochs=40)
     stokes_model.plot_loss()
 
     with open(f"{stokes_model.nn_model_type}/training/training_time.txt", "w") as f:
