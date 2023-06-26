@@ -51,7 +51,7 @@ class NN_ModelCompileMixin():
     def plot_loss(self):
         fig,ax = plt.subplots(figsize = (10,7))
         print(self.history.history)
-        loss = self.history.history['loss']
+        loss = np.array(self.history.history['loss'])
         epochs = range(len(loss))
         print(loss)
         ax.plot(epochs, loss)
@@ -189,7 +189,7 @@ class LightTrainVisualMixin():
         self.channels = 4
         self.output_ravel_shape = self.length*self.channels
         self.in_ls = (256-self.lb, 4)
-    def train(self,filename, tr_s=0.75, batchs_size=2, epochs=8):
+    def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):
         """
         tr_s: training size percentage
         """
@@ -207,6 +207,8 @@ class LightTrainVisualMixin():
         cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                         save_weights_only=True,
                                                         verbose=1)
+        self.batch_size = batch_size
+        self.epochs = epochs
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=1, callbacks=[cp_callback])
         self.model.evaluate(self.te_input, self.te_output)
     def predict_values(self, filename):
