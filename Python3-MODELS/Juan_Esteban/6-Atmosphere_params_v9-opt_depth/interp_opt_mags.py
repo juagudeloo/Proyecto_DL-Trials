@@ -14,8 +14,8 @@ def main():
     filename = "175000"
     opt_depth = np.load("optical_depth_"+filename+".npy")
     print(opt_depth[ix,:,iz].shape)
-    muram.charge_atm_params(filename)
-    print(muram.atm_params[ix,:,iz,0].shape)
+    muram.charge_atm_params(filename, scale = False)
+    print(muram.atm_params[ix,iz,:,0].shape)
 #
     #mags = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
     #opt_mags_interp = {}
