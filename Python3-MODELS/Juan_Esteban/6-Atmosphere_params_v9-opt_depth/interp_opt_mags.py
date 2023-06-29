@@ -33,7 +33,7 @@ def main():
     for i in range(4):
         im = ax[i].imshow(opt_mags[i])
         ax[i].set_title(mags_names[i])
-        fig.colorbar(im, ax = ax[i], location = "left", orientation = "vertical")
+        fig.colorbar(im, ax = ax[i])
 
     fig.savefig("optical_depth_mapping-"+filename+".pdf")
 
