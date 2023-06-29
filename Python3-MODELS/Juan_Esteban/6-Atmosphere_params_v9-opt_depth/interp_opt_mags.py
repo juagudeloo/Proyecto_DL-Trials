@@ -27,7 +27,7 @@ def main():
         ax[i].plot(opt_grid, opt_mags_interp[mags[i]](opt_grid))
         ax[i].set_title(mags[i])
 
-    fig.savefig("optical_depth_mapping"+filename+".pdf")
+    fig.savefig("optical_depth_mapping-"+filename+".pdf")
 
 
 
