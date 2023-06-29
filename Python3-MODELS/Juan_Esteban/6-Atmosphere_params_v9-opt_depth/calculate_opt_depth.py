@@ -119,7 +119,7 @@ class OptDepthClass():
                                                                         #obtain those magnitude values without doing it by hand
         print("nan positions in opt_depth cube")
         print(np.argwhere(np.isnan(kappa_cube)))
-        np.save(f"optical_depth_{filename}.npy", opt_depth)
+        np.save(self.ptm+f"optical_depth_{filename}.npy", opt_depth)
 
 
 if __name__ == "__main__":
