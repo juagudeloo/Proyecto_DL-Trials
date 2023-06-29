@@ -31,8 +31,9 @@ def main():
 
     fig, ax = plt.subplots(1,4,figsize=(30,9))
     for i in range(4):
-        ax[i].imshow(opt_mags[i])
+        im = ax[i].imshow(opt_mags[i])
         ax[i].set_title(mags_names[i])
+        fig.colorbar(im, cax = ax[i], location = "left", orientation = "vertical")
 
     fig.savefig("optical_depth_mapping-"+filename+".pdf")
 
