@@ -55,6 +55,7 @@ class NN_ModelCompileMixin():
         epochs = range(len(loss))
         print(loss)
         ax.plot(epochs, loss)
+        ax.set_yscale("log")
         ax.set_title(self.plot_title)
         ax.set_xlim((epochs[0], epochs[-1]))
         ax.set_ylabel("Loss")
@@ -65,6 +66,7 @@ class NN_ModelCompileMixin():
 
         #Saving the plot figure
         fig.savefig(dir_path + f"loss_plot-{self.filename}.png")
+        np.save(dir_path+"loss-"+self.filename+".npy")
         print(f"{self.filename} loss plotted!")
 
     #Load the weights for the NN model if they are already created
