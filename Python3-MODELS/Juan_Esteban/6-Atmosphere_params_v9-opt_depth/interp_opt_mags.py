@@ -8,24 +8,31 @@ def main():
     ptm = path_UIS()
     muram = DataClass(ptm, lower_boundary = 0)
 
-    ix = 200
-    iz = 200
-
     filename = "175000"
     opt_depth = np.load("optical_depth_"+filename+".npy")
     muram.charge_atm_params(filename, scale = False)
-
-    mags = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
-    opt_mags_interp = {}
-    for i in range(4):
-        opt_mags_interp[mags[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,iz,:,i])
     
-    opt_grid = np.arange(-2,5,1)
+
+
+    mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
+    opt_mags = [np.zeros((480,480)), #mbyy
+                np.zeros((480,480)), #mvyy
+                np.zeros((480,480)), #log(mrho)
+                np.zeros((480,480))] #mtpr
+
+    opt_mags_interp = {}
+    tau = 1 #value of optical depth for the remapping
+
+    for ix in range(480):
+        for iz in range(480):
+            for i in range(4):
+                opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,iz,:,i])
+                opt_mags[i][ix,iz] = opt_mags_interp[mags_names[i]](tau)
 
     fig, ax = plt.subplots(1,4,figsize=(7,7))
     for i in range(4):
-        ax[i].plot(opt_grid, opt_mags_interp[mags[i]](opt_grid))
-        ax[i].set_title(mags[i])
+        ax[i].imshow(opt_mags[i])
+        ax[i].set_title(mags_names[i])
 
     fig.savefig("optical_depth_mapping-"+filename+".pdf")
 
