@@ -29,7 +29,7 @@ def main():
                 opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,iz,:,i])
                 opt_mags[i][ix,iz] = opt_mags_interp[mags_names[i]](tau)
 
-    fig, ax = plt.subplots(1,4,figsize=(7,7))
+    fig, ax = plt.subplots(1,4,figsize=(30,9))
     for i in range(4):
         ax[i].imshow(opt_mags[i])
         ax[i].set_title(mags_names[i])
