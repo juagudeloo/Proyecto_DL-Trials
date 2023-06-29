@@ -25,8 +25,8 @@ def main():
 
     fig, ax = plt.subplots(1,4,figsize=(7,7))
     for i in range(4):
-    ax[i].plot(opt_grid, opt_mags_interp[mags[i]](opt_grid))
-    ax[i].set_title(mags[i])
+        ax[i].plot(opt_grid, opt_mags_interp[mags[i]](opt_grid))
+        ax[i].set_title(mags[i])
 
     fig.savefig("optical_depth_mapping"+filename+".pdf")
 
