@@ -16,20 +16,20 @@ def main():
     print(opt_depth[ix,:,iz].shape)
     muram.charge_atm_params(filename, scale = False)
     print(muram.atm_params[ix,iz,:,0].shape)
-#
-    #mags = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
-    #opt_mags_interp = {}
-    #for i in range(4):
-    #    opt_mags_interp[mags[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,:,iz,i])
-    #
-    #opt_grid = np.arange(-2,5,1)
-#
-    #fig, ax = plt.subplots(1,4,figsize=(7,7))
-    #for i in range(4):
-    #    ax[i].plot(opt_grid, opt_mags_interp[mags[i]](opt_grid))
-    #    ax[i].set_title(mags[i])
-#
-    #fig.savefig("optical_depth_mapping"+filename+".pdf")
+
+    mags = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
+    opt_mags_interp = {}
+    for i in range(4):
+        opt_mags_interp[mags[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,:,iz,i])
+    
+    opt_grid = np.arange(-2,5,1)
+
+    fig, ax = plt.subplots(1,4,figsize=(7,7))
+    for i in range(4):
+        ax[i].plot(opt_grid, opt_mags_interp[mags[i]](opt_grid))
+        ax[i].set_title(mags[i])
+
+    fig.savefig("optical_depth_mapping"+filename+".pdf")
 
 
 
