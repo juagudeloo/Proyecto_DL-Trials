@@ -19,7 +19,7 @@ def main():
     mags = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
     opt_mags_interp = {}
     for i in range(4):
-        opt_mags_interp[mags[i]] = interp_1d(opt_depth[ix,:,iz], muram.atm_params[ix,:,iz,i])
+        opt_mags_interp[mags[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,:,iz,i])
     
     opt_grid = np.arange(-2,5,1)
 
