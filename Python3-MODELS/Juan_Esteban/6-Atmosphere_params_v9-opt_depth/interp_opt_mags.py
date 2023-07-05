@@ -15,13 +15,30 @@ def main():
 
 
     mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
+    opt_mags_interp = {}
+
+    N = 50
+    tau = np.linspace(-5, 0.5, N)
+    opt_mags = [np.zeros(N), #mbyy
+                np.zeros(N), #mvyy
+                np.zeros(N), #log(mrho)
+                np.zeros(N)] #mtpr
+    for i in range(i):
+        opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,iz,:,i])
+        opt_mags[i][:] = opt_mags_interp[mags_names[i]](tau)
+    fig, ax = plt.subplots(figsize = (30,7))
+    for i in range(i):
+        ax[i].plot(tau, opt_mags[:])
+    fig.savefig("optical_depth_height_mapping-"+filename+".pdf")
+
+
     opt_mags = [np.zeros((480,480)), #mbyy
                 np.zeros((480,480)), #mvyy
                 np.zeros((480,480)), #log(mrho)
                 np.zeros((480,480))] #mtpr
 
-    opt_mags_interp = {}
-    tau = 1 #value of optical depth for the remapping
+    
+    tau = 0 #value of optical depth for the remapping
 
     for ix in range(480):
         for iz in range(480):
@@ -35,7 +52,10 @@ def main():
         ax[i].set_title(mags_names[i])
         fig.colorbar(im, ax = ax[i])
 
-    fig.savefig("optical_depth_mapping-"+filename+".pdf")
+    fig.savefig("optical_depth_2D_mapping-"+filename+".pdf")
+
+    
+
 
 
 
