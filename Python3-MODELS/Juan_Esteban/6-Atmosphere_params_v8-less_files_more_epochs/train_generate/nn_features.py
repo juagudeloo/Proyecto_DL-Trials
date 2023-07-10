@@ -63,10 +63,10 @@ class NN_ModelCompileMixin():
 
         #Creation of the images directory
         dir_path = self.check_create_dirs("Images")
-
+        loss_path = self.check_create_dirs("Loss")
         #Saving the plot figure
         fig.savefig(dir_path + f"loss_plot-{self.filename}.png")
-        np.save(dir_path+"loss-"+self.filename+".npy")
+        np.save(loss_path+"loss-"+self.filename+".npy", loss)
         print(f"{self.filename} loss plotted!")
 
     #Load the weights for the NN model if they are already created
