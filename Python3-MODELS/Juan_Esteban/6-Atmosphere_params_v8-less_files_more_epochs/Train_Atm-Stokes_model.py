@@ -21,6 +21,7 @@ def main():
     print("is running")
     atm_model.train(fln, tr_s = 0.75, batch_size= 10000, epochs=40)
     atm_model.plot_loss()
+    print(atm_model.model.summary())
 
     with open(f"{atm_model.nn_model_type}/training/training_time.txt", "w") as f:
         f.write(f"{(time.time()-start_time)*(1/3600)} hours")

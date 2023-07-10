@@ -22,6 +22,7 @@ def main():
     print("is running")
     stokes_model.train(fln, tr_s = 0.75, batch_size= 10000, epochs=40)
     stokes_model.plot_loss()
+    print(stokes_model.model.summary)
 
     with open(f"{stokes_model.nn_model_type}/training/training_time.txt", "w") as f:
         f.write(f"{(time.time()-start_time)*(1/3600)} hours")

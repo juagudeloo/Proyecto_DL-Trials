@@ -18,10 +18,12 @@ def main():
         else:
             a = str(i)+"000"
             pr_filename.append(a)
+    print(light_model.model.summary())
     
     for fln in pr_filename:
         light_model.predict_values(fln)
         light_model.plot_predict(fln)
+    
 
 
 if __name__ == "__main__":
