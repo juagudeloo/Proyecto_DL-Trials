@@ -23,6 +23,7 @@ def main():
                 np.zeros(N), #mvyy
                 np.zeros(N), #log(mrho)
                 np.zeros(N)] #mtpr
+    ix, iz = 200,200
     for i in range(4):
         opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], muram.atm_params[ix,iz,:,i])
         opt_mags[i][:] = opt_mags_interp[mags_names[i]](tau)
