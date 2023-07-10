@@ -29,7 +29,8 @@ def main():
         opt_mags[i][:] = opt_mags_interp[mags_names[i]](tau)
     fig, ax = plt.subplots(figsize = (30,7))
     for i in range(4):
-        ax[i].plot(tau, opt_mags[:])
+        ax[i].plot(tau, opt_mags[i][:])
+        ax[i].set_title(mags_names[i])
     fig.savefig("optical_depth_height_mapping-"+filename+".pdf")
 
 
