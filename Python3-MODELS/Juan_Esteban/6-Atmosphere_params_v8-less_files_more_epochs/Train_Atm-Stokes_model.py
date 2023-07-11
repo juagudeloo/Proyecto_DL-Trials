@@ -14,7 +14,7 @@ def main():
     else:
         fln = str(ifl)+"000"
 
-    atm_model = LightObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
+    atm_model = LightObtainModel(ptm = ptm, light_type="Stokes params", lower_boundary = 150, create_scaler=False)
     atm_model.compile_model(learning_rate=0.001)
     
     start_time = time.time() #Time measured in seconds
