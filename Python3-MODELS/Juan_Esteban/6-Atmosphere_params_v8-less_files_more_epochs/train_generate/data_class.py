@@ -1,6 +1,7 @@
 import numpy as np
 import train_generate.model_prof_tools as mpt
 import pandas as pd
+from boundaries import low_boundary, top_boundary
 
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler=None):
@@ -29,10 +30,11 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class DataClass():
-    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, low_boundary = 150, top_boundary = 220, create_scaler = False, 
+    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, low_boundary = low_boundary(), top_boundary = top_boundary(), create_scaler = False, 
     light_type = "Intensity"): 
         """
-        lower_boundary -> indicates from where to take the data for training.
+        top_boundary -> indicates from where to take the data for training from top.
+        low_boundary -> indicates from where to take the data for training from bottom.
         light_type options:
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.

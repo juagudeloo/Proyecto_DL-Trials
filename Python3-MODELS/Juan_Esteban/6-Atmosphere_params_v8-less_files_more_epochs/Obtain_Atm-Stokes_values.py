@@ -1,10 +1,10 @@
 from train_generate.nn_model import LightObtainModel
 import numpy as np
-from path import path, low_boundary
+from path import path, low_boundary, top_boundary
 
 def main():
     ptm = path()
-    light_model = LightObtainModel(ptm = ptm, light_type="Stokes params", low_boundary=low_boundary(), top_boundary = top_boundary(), create_scaler=False)
+    light_model = LightObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
 
     #Model training
     light_model.compile_model()

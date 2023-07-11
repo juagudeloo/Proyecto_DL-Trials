@@ -78,6 +78,9 @@ class NN_ModelCompileMixin():
 ################################################################################################################
 
 class AtmTrainVisualMixin():
+    """
+    This generates the atmosphere parameters output from an input of Stokes parameters
+    """
     def __init__(self):
         self.plot_title = "Atmosphere parameters"
         self.nn_model_type = "atm_NN_model"
@@ -85,7 +88,10 @@ class AtmTrainVisualMixin():
         self.scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
         self.title = ['Magnetic Field','Velocity','Density','Temperature']
         self.channels = len(self.scaler_names)
+
+        self.in_ls = (self.nlam, 4)
         self.output_ravel_shape = self.length*self.channels
+
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):
         """
         tr_s: training size percentage
@@ -176,6 +182,9 @@ class AtmTrainVisualMixin():
 
 
 class LightTrainVisualMixin():
+    """
+    This generates the Stokes parameters output from an input of Atm parameters
+    """
     def __init__(self):
 
         self.nn_model_type = "light_NN_model"
@@ -188,7 +197,10 @@ class LightTrainVisualMixin():
             self.plot_title = "Stokes parameters"
         self.title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = 4
+
+        self.in_ls = (self.tb-self.lb, 4)
         self.output_ravel_shape = self.length*self.channels
+        
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):
         """
         tr_s: training size percentage
