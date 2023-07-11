@@ -1,7 +1,7 @@
 import numpy as np
 from train_generate.nn_model import AtmObtainModel
 import time
-from path import path, lower_boundary
+from path import path, low_boundary, top_boundary
 import sys
 
 def main():
@@ -14,7 +14,7 @@ def main():
     else:
         fln = str(ifl)+"000"
     
-    stokes_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", lower_boundary = lower_boundary(), create_scaler=False)
+    stokes_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", low_boundary = low_boundary(), top_boundary = top_boundary(), create_scaler=False)
     stokes_model.compile_model(learning_rate=0.001)
     
     start_time = time.time() #Time measured in seconds

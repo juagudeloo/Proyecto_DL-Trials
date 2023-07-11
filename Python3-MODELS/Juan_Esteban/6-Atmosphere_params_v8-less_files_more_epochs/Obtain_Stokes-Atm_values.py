@@ -1,11 +1,11 @@
 from train_generate.nn_model import AtmObtainModel
 import numpy as np
-from path import path, lower_boundary
+from path import path, low_boundary, top_boundary
 
 
 def main():
     ptm = path()
-    atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", lower_boundary= 150, create_scaler=False)
+    atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", low_boundary= low_boundary(), top_boundary = top_boundary(), create_scaler=False)
 
     #Model training
     atm_model.compile_model()
