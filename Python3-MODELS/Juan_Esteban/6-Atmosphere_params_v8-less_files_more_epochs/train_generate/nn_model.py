@@ -1,6 +1,6 @@
 from train_generate.nn_features import AtmTrainVisualMixin, LightTrainVisualMixin, NN_ModelCompileMixin
 from train_generate.data_class import DataClass
-from boundaries import low_boundary, top_boundary
+from train_generate.boundaries import low_boundary, top_boundary
 
 ################################################################################################################
 # DEFINITIVE CLASSES

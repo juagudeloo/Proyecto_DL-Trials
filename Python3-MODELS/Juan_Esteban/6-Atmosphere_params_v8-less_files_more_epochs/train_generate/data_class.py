@@ -1,7 +1,7 @@
 import numpy as np
 import train_generate.model_prof_tools as mpt
 import pandas as pd
-from boundaries import low_boundary, top_boundary
+from train_generate.boundaries import low_boundary, top_boundary
 
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler=None):
