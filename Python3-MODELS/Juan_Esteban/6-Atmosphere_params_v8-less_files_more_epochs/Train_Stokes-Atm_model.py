@@ -1,7 +1,7 @@
 import numpy as np
 from train_generate.nn_model import AtmObtainModel
 import time
-from path import path, low_boundary, top_boundary
+from path import path
 import sys
 
 def main():
