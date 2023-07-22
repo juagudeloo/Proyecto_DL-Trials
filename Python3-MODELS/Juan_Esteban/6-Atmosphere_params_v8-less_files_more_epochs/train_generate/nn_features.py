@@ -235,27 +235,20 @@ class LightTrainVisualMixin():
             predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length, self.channels))
         print(f"{filename} prediction done!")
 
-        
+        #Checking the path of directories is created
+        dir_path = self.check_create_dirs("Predicted _Values")
 
         #Saving the predicted values
-        if self.light_type == "Intensity":
-            #Checking the path of directories is created
-            dir_path = self.check_create_dirs("Predicted_values/Intensity")
-        if self.light_type == "Stokes params":
-            dir_path = self.check_create_dirs("Predicted_values/Stokes params")
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
     def plot_predict(self):
         ix = 200
         iz = 280
         lam = 10
+        
 
         #Loading and plotting the predicted values vs the original ones
-        if self.light_type == "Intensity":
-            #Checking the path of directories is created+
-            dir_path = self.check_create_dirs("Predicted_values/Intensity")
-        if self.light_type == "Stokes params":
-            dir_path = self.check_create_dirs("Predicted_values/Stokes params")
+        dir_path = self.check_create_dirs("Predicted_values")
         predicted_values = np.load(dir_path + f"obtained_value-{self.filename}.npy")
         
         #Checking the path of directories is created
