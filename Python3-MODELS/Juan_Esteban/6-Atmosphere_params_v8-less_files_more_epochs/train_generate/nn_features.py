@@ -125,6 +125,7 @@ class AtmTrainVisualMixin():
         if self.light_type == "Stokes params":
             self.charge_stokes_params(filename)
             print(f"{self.filename} predicting...")
+            print((np.memmap.reshape(self.profs, (self.nx*self.nz, self.nlam, 4)).shape))
             predicted_values = self.model.predict(np.memmap.reshape(self.profs, (self.nx*self.nz, self.nlam, 4)))
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length, self.channels))
 
@@ -227,7 +228,6 @@ class LightTrainVisualMixin():
         self.filename = filename
         self.charge_atm_params(filename)
         predicted_values = self.model.predict(np.memmap.reshape(self.atm_params, (self.nx*self.nz, self.tb-self.lb, 4)))
-        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.channels, self.length))
         #Inverse scaling application
         if self.light_type == "Intensity":
             predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz))
@@ -235,20 +235,27 @@ class LightTrainVisualMixin():
             predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length, self.channels))
         print(f"{filename} prediction done!")
 
-        #Checking the path of directories is created
-        dir_path = self.check_create_dirs("Predicted Values")
+        
 
         #Saving the predicted values
+        if self.light_type == "Intensity":
+            #Checking the path of directories is created
+            dir_path = self.check_create_dirs("Predicted_values/Intensity")
+        if self.light_type == "Stokes params":
+            dir_path = self.check_create_dirs("Predicted_values/Stokes params")
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
         return predicted_values
     def plot_predict(self):
         ix = 200
         iz = 280
         lam = 10
-        
 
         #Loading and plotting the predicted values vs the original ones
-        dir_path = self.check_create_dirs("Predicted_values")
+        if self.light_type == "Intensity":
+            #Checking the path of directories is created+
+            dir_path = self.check_create_dirs("Predicted_values/Intensity")
+        if self.light_type == "Stokes params":
+            dir_path = self.check_create_dirs("Predicted_values/Stokes params")
         predicted_values = np.load(dir_path + f"obtained_value-{self.filename}.npy")
         
         #Checking the path of directories is created
