@@ -236,7 +236,7 @@ class LightTrainVisualMixin():
         print(f"{filename} prediction done!")
 
         #Checking the path of directories is created
-        dir_path = self.check_create_dirs("Predicted _Values")
+        dir_path = self.check_create_dirs("Predicted_values")
 
         #Saving the predicted values
         np.save(dir_path+f"obtained_value-{filename}.npy", predicted_values)
