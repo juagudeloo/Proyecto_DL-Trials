@@ -126,7 +126,7 @@ class AtmTrainVisualMixin():
             self.charge_stokes_params(filename)
             print(f"{self.filename} predicting...")
             predicted_values = self.model.predict(np.memmap.reshape(self.profs, (self.nx*self.nz, self.nlam, 4)))
-        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.channels, self.length))
+        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length, self.channels))
 
         #Inverse scaling application
         for i in range(self.channels):
@@ -148,7 +148,7 @@ class AtmTrainVisualMixin():
         height = 10
         fig, ax = plt.subplots(4,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{self.filename}.npy")
-        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
+        predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length, self.channels))
         original_atm = self.charge_atm_params(self.filename)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
         for i in range(self.channels):
@@ -232,7 +232,7 @@ class LightTrainVisualMixin():
         if self.light_type == "Intensity":
             predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz))
         if self.light_type == "Stokes params":
-            predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length))
+            predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length, self.channels))
         print(f"{filename} prediction done!")
 
         #Checking the path of directories is created
