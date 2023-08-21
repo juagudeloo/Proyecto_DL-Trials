@@ -1,10 +1,10 @@
 from train_generate.nn_model import AtmObtainModel
 import numpy as np
-from path import path, low_boundary, top_boundary
+from path import path_UIS
 
 
 def main():
-    ptm = path()
+    ptm = path_UIS()
     atm_model = AtmObtainModel(ptm = ptm, opt_len = 5, light_type="Stokes params", create_scaler=False)
 
     #Model training
