@@ -311,6 +311,11 @@ class DataClass():
         self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
         self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
 
+
+        print(self.tr_output.shape) 
+        print(self.te_output.shape) 
+        print(self.tr_output.shape)
+        print(self.te_output.shape)
         return self.tr_input, self.tr_output, self.te_input, self.te_output
     def split_data_light_output(self, filename, light_type, TR_S):
         """
