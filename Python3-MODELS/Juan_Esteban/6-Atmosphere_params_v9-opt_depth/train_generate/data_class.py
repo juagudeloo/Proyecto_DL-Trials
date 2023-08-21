@@ -1,6 +1,7 @@
 import numpy as np
 import train_generate.model_prof_tools as mpt
 import pandas as pd
+from boundaries import low_boundary, top_boundary
 
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler=None):
@@ -29,10 +30,11 @@ def inverse_scaling(array, scaler_file_name):
 #Here we import the class of nn_model.py to add to it the charging of the data, 
 #the scaling of the input and the de-scaling of the output
 class DataClass():
-    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, lower_boundary = 150, create_scaler = False, 
+    def __init__(self, ptm, nx = 480, ny = 256, nz = 480, low_boundary = low_boundary(), top_boundary = top_boundary(), create_scaler = False, 
     light_type = "Intensity"): 
         """
-        lower_boundary -> indicates from where to take the data for training.
+        top_boundary -> indicates from where to take the data for training from top.
+        low_boundary -> indicates from where to take the data for training from bottom.
         light_type options:
         "Intensity" -> The model predicts intensity.
         "Stokes params" -> The model predicts the Stokes parameters.
@@ -44,7 +46,8 @@ class DataClass():
         self.nx = nx
         self.ny = ny
         self.nz = nz
-        self.lb = lower_boundary
+        self.tb = top_boundary
+        self.lb = low_boundary
         self.create_scaler = create_scaler
         self.light_type = light_type
         print("Starting the charging process!")
@@ -93,7 +96,7 @@ class DataClass():
                 scaling(self.mtpr, "mtpr", self.create_scaler)
             else:
                 self.mtpr = scaling(self.mtpr, "mtpr", self.create_scaler)
-        self.mtpr = ravel_xz(self.mtpr)[:,self.lb:] #we just want the upper half of the parameter values
+        self.mtpr = ravel_xz(self.mtpr)[:,self.lb:self.tb] #we just want the upper half of the parameter values
         print(f"EOS done {self.filename}")
         print('\n')
         
@@ -109,7 +112,7 @@ class DataClass():
                 scaling(self.mbyy, "mbyy", self.create_scaler)
             else:
                 self.mbyy = scaling(self.mbyy, "mbyy", self.create_scaler)
-        self.mbyy = ravel_xz(self.mbyy)[:,self.lb:] #we just want the upper half of the parameter values
+        self.mbyy = ravel_xz(self.mbyy)[:,self.lb:self.tb] #we just want the upper half of the parameter values
         print(f"byy done {self.filename}")
         print('\n')
 
@@ -129,8 +132,8 @@ class DataClass():
                 scaling(self.mvyy, "mvyy", self.create_scaler)
             else:
                 self.mvyy = scaling(self.mvyy, "mvyy", self.create_scaler)
-        self.mrho = ravel_xz(self.mrho)[:,self.lb:]
-        self.mvyy = ravel_xz(self.mvyy)[:,self.lb:] #we just want the upper half of the parameter values
+        self.mrho = ravel_xz(self.mrho)[:,self.lb:self.tb]
+        self.mvyy = ravel_xz(self.mvyy)[:,self.lb:self.tb] #we just want the upper half of the parameter values
 
         print(f"rho and vyy done {self.filename}")
         print('\n')
@@ -142,8 +145,8 @@ class DataClass():
         #because the data is ravel, the atm_params has originally the shape (4, nx*nz, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,0,1) #(nx*nz, 4, 256-lb)
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
-        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
-        return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (256-self.lb), 4))
+        self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (self.tb-self.lb), 4))
+        return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (self.tb-self.lb), 4))
     def charge_intensity(self,filename,scale = True):
         self.filename = filename
         self.iout = []
@@ -289,7 +292,7 @@ class DataClass():
         for j in range(4):
             a_in = []
             a_gran = []
-            for i in range(self.ny-self.lb):
+            for i in range(self.tb-self.lb):
                 a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
                 a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
             atm_intergran.append(a_in)
@@ -403,7 +406,7 @@ class DataClass():
         for j in range(4):
             a_in = []
             a_gran = []
-            for i in range(self.ny-self.lb):
+            for i in range(self.tb-self.lb):
                 a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
                 a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
             atm_intergran.append(a_in)

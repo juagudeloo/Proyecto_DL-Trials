@@ -78,15 +78,20 @@ class NN_ModelCompileMixin():
 ################################################################################################################
 
 class AtmTrainVisualMixin():
+    """
+    This generates the atmosphere parameters output from an input of Stokes parameters
+    """
     def __init__(self):
         self.plot_title = "Atmosphere parameters"
         self.nn_model_type = "atm_NN_model"
-        self.length = 256-self.lb
+        self.length = self.tb-self.lb
         self.scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
         self.title = ['Magnetic Field','Velocity','Density','Temperature']
         self.channels = len(self.scaler_names)
+
+        self.in_ls = (self.nlam, 4)
         self.output_ravel_shape = self.length*self.channels
-        self.in_ls = (300, 4)
+
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):
         """
         tr_s: training size percentage
@@ -108,7 +113,7 @@ class AtmTrainVisualMixin():
         self.batch_size = batch_size
         self.epochs = epochs
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=0, callbacks=[cp_callback])
-        self.model.evaluate(self.te_input, self.te_output)
+        self.model.evaluate(self.te_input, self.te_output, verbose=0)
     def predict_values(self, filename):
 
         #Charging and reshaping the light values
@@ -177,6 +182,9 @@ class AtmTrainVisualMixin():
 
 
 class LightTrainVisualMixin():
+    """
+    This generates the Stokes parameters output from an input of Atm parameters
+    """
     def __init__(self):
 
         self.nn_model_type = "light_NN_model"
@@ -189,8 +197,10 @@ class LightTrainVisualMixin():
             self.plot_title = "Stokes parameters"
         self.title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = 4
+
+        self.in_ls = (self.tb-self.lb, 4)
         self.output_ravel_shape = self.length*self.channels
-        self.in_ls = (256-self.lb, 4)
+        
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):
         """
         tr_s: training size percentage
@@ -216,7 +226,7 @@ class LightTrainVisualMixin():
     def predict_values(self, filename):
         self.filename = filename
         self.charge_atm_params(filename)
-        predicted_values = self.model.predict(np.memmap.reshape(self.atm_params, (self.nx*self.nz, 256-self.lb, 4)))
+        predicted_values = self.model.predict(np.memmap.reshape(self.atm_params, (self.nx*self.nz, self.tb-self.lb, 4)))
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.channels, self.length))
         #Inverse scaling application
         if self.light_type == "Intensity":
