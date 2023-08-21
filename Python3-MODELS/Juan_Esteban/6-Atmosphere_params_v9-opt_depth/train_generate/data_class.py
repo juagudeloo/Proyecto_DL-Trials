@@ -308,6 +308,11 @@ class DataClass():
         self.tr_output = np.concatenate((atm_intergran[idx[:TR_delim],:,:], atm_gran[index_select,:,:][idx[:TR_delim],:,:]))
         self.te_output = np.concatenate((atm_intergran[idx[TR_delim:],:,:], atm_gran[index_select,:,:][idx[TR_delim:],:,:]))
 
+        print(self.tr_output.shape) 
+        print(self.te_output.shape) 
+        print(self.tr_output.shape)
+        print(self.te_output.shape)
+
         self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
         self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
 
