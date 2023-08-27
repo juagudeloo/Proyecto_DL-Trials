@@ -150,6 +150,11 @@ class DataClass():
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (self.tb-self.lb), 4))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (self.tb-self.lb), 4))
     def remmap_opt_depth(self, filename):
+        """
+        ==============================================================================================================
+        Remapping the atmosphere params from physical height to optical depth
+        ==============================================================================================================
+        """
         self.filename = filename
         self.charge_atm_params(filename)
         opt_depth = np.load(self.ptm+"optical_depth_"+filename+".npy")
