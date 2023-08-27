@@ -1,5 +1,5 @@
 def low_boundary():
-    return 150
+    return 0
 
 def top_boundary():
-    return 250
+    return 0
