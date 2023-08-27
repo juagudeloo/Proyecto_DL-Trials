@@ -162,6 +162,8 @@ class DataClass():
         for ix in range(self.nx):
             for iz in range(self.nz):
                 for i in range(4):
+                    print(np.min(opt_depth[ix,self.lb:self.tb,iz]))
+                    print(np.max(opt_depth[ix,self.lb:self.tb,iz]))
                     opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,self.lb:self.tb,iz], self.atm_params[ix,iz,:,i])
                     opt_mags[ix,iz,:,i] = opt_mags_interp[mags_names[i]](tau)
         print(opt_mags.shape)
