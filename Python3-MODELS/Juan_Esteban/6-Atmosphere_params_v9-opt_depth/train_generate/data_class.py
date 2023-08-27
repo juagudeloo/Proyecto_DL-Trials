@@ -156,7 +156,7 @@ class DataClass():
         mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
         opt_mags_interp = {}
         N = 50
-        tau = np.linspace(-3, 0.5, N)
+        tau = np.linspace(-3, 0, N)
         opt_mags = np.zeros((self.nx, self.ny, N, 4))#mbyy, #mvyy, #log(mrho), #mtpr
         ix, iz = 200,200
         for ix in range(self.nx):
