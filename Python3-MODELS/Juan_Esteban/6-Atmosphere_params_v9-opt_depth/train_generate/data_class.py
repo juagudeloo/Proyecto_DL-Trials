@@ -160,15 +160,14 @@ class DataClass():
         opt_depth = np.load(self.ptm+"optical_depth_"+filename+".npy")
         mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
         opt_mags_interp = {}
-        N = 50
-        tau = np.linspace(-3, 0, N)
+
+        N = 50 #number of optical depth points
+        tau = np.linspace(-3, 1, N)
         opt_mags = np.zeros((self.nx, self.nz, N, 4))#mbyy, #mvyy, #log(mrho), #mtpr
         ix, iz = 200,200
         for ix in range(self.nx):
             for iz in range(self.nz):
                 for i in range(4):
-                    print(np.min(opt_depth[ix,self.lb:self.tb,iz]))
-                    print(np.max(opt_depth[ix,self.lb:self.tb,iz]))
                     opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,self.lb:self.tb,iz], self.atm_params[ix,iz,:,i])
                     opt_mags[ix,iz,:,i] = opt_mags_interp[mags_names[i]](tau)
         print(opt_mags.shape)
