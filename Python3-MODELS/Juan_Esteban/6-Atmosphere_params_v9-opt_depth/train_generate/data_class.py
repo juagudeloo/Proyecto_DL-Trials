@@ -163,7 +163,7 @@ class DataClass():
             for iz in range(self.nz):
                 for i in range(4):
                     print("opt_depth length:", opt_depth[ix,:,iz].shape)
-                    print("atm_paramas length:", self.atm_params[ix,iz,:,i.shape])
+                    print("atm_paramas length:", self.atm_params[ix,iz,:,i].shape)
                     opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], self.atm_params[ix,iz,:,i])
                     opt_mags[ix,iz,:,i] = opt_mags_interp[mags_names[i]](tau)
         print(opt_mags.shape)
