@@ -89,7 +89,7 @@ class AtmTrainVisualMixin():
         self.title = ['Magnetic Field','Velocity','Density','Temperature']
         self.channels = len(self.scaler_names)
 
-        self.in_ls = (self.nlam, 4)
+        self.in_ls = (self.opt_len, 4)
         self.output_ravel_shape = self.length*self.channels
 
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):
@@ -198,7 +198,7 @@ class LightTrainVisualMixin():
         self.title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = 4
 
-        self.in_ls = (self.tb-self.lb, 4)
+        self.in_ls = (self.opt_len, 4)
         self.output_ravel_shape = self.length*self.channels
         
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):

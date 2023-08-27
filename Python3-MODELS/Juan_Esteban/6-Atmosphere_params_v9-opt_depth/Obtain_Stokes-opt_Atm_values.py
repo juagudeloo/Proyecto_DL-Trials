@@ -11,7 +11,8 @@ def main():
     TR_S = 0.8
     filename = "080000"
     light_type="Stokes params"
-    atm_model.split_data_atm_output(filename, light_type, TR_S)
+    #atm_model.split_data_atm_output(filename, light_type, TR_S)
+    atm_model.remmap_opt_depth(filename)
     #atm_model.load_weights(f"{atm_model.nn_model_type}/training/{atm_model.light_type}/cp.ckpt")
     ##Model predicting
     #pr_filename = []

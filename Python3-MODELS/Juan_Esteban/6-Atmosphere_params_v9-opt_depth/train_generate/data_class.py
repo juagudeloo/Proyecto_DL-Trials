@@ -1,7 +1,9 @@
 import numpy as np
 import train_generate.model_prof_tools as mpt
 import pandas as pd
+from scipy.interpolate import interp1d
 from train_generate.boundaries import low_boundary, top_boundary
+
 
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler=None):
@@ -147,6 +149,23 @@ class DataClass():
         self.atm_params = np.moveaxis(self.atm_params,1,2) #(nx*nz, 256-lb, 4)
         self.atm_params = np.memmap.reshape(self.atm_params, (self.nx, self.nz, (self.tb-self.lb), 4))
         return np.memmap.reshape(self.atm_params, (self.nx, self.nz, (self.tb-self.lb), 4))
+    def remmap_opt_depth(self, filename):
+        self.filename = filename
+        self.charge_atm_params(filename)
+        opt_depth = np.load(self.ptm+"optical_depth_"+filename+".npy")
+        mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
+        opt_mags_interp = {}
+        N = 50
+        tau = np.linspace(-5, 0.5, N)
+        opt_mags = np.zeros((self.nx, self.ny, N, 4))#mbyy, #mvyy, #log(mrho), #mtpr
+        ix, iz = 200,200
+        for ix in range(self.nx):
+            for iz in range(self.nz):
+                for i in range(4):
+                    opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], self.atm_params[ix,iz,:,i])
+                    opt_mags[ix,iz,:,i] = opt_mags_interp[mags_names[i]](tau)
+        print(opt_mags.shape)
+        
     def charge_intensity(self,filename,scale = True):
         self.filename = filename
         self.iout = []
