@@ -7,9 +7,7 @@ def main():
     muram = DataClass(ptm=ptm)
 
     for i in np.arange(100000, 223000, 1000):
-            fln = "0"+str(i)
-        else:
-            fln = str(i)
+        fln = str(i)
         muram.resave_stokes_params(fln)
 
 if __name__ == "__main__":
