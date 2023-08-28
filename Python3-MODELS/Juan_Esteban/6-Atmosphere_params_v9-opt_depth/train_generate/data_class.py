@@ -257,7 +257,7 @@ class DataClass():
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
         self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
-        np.save(self.ptm+filename+"_prof.npy")
+        np.save(self.ptm+filename+"_prof.npy", self.profs)
         print(f"Stokes params numpy saved! {self.filename}")
     def split_data_atm_output(self, filename, light_type, TR_S):
         """
