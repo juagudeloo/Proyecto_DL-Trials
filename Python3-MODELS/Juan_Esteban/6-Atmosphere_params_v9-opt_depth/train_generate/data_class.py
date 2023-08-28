@@ -161,16 +161,17 @@ class DataClass():
         mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
         opt_mags_interp = {}
 
-        N = 50 #number of optical depth points
-        tau = np.linspace(-3, 1, N)
-        opt_mags = np.zeros((self.nx, self.nz, N, 4))#mbyy, #mvyy, #log(mrho), #mtpr
+        self.opt_len = 50 #number of optical depth points
+        tau = np.linspace(-3, 1, self.opt_len)
+        opt_mags = np.zeros((self.nx, self.nz, self.opt_len, 4))#mbyy, #mvyy, #log(mrho), #mtpr
         ix, iz = 200,200
         for ix in range(self.nx):
             for iz in range(self.nz):
                 for i in range(4):
                     opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,self.lb:self.tb,iz], self.atm_params[ix,iz,:,i])
                     opt_mags[ix,iz,:,i] = opt_mags_interp[mags_names[i]](tau)
-        print(opt_mags.shape)
+
+        self.atm_params = opt_mags
         
     def charge_intensity(self,filename,scale = True):
         self.filename = filename
@@ -225,6 +226,39 @@ class DataClass():
         self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
         print(f"Stokes params done! {self.filename}")
         return self.profs
+    def resave_stokes_params(self, filename,  file_type = "nicole"):
+        """
+        ========================================================================================================
+        Resaving the stokes parameters from the previous type of files to numpy
+        ========================================================================================================
+        """
+        import struct
+        import re
+        import sys
+        global idl, irec, f # Save values between calls
+        self.filename = filename
+        [int4f,intf,flf]=mpt.check_types()
+        self.stk_filename = self.filename+"_0000_0000.prof"
+        self.profs = [] #It's for the reshaped data - better for visualization.
+        self.profs_ravel = [] #its for the ravel data to make the splitting easier.
+        #Charging the stokes profiles for the specific file
+        print(f"reading Stokes params {self.stk_filename}")
+        N_profs = 4
+        for ix in range(self.nx):
+            for iy in range(self.nz):
+                p_prof = mpt.read_prof(self.ptm+self.stk_filename, file_type,  self.nx, self.nz, self.nlam, iy, ix)
+                p_prof = np.memmap.reshape(np.array(p_prof), (self.nlam, N_profs))
+                ##############################################################################
+                #self.profs_ravel is going to safe all the data in a one dimensional array where
+                #the dimensional indexes are disposed as ix*self.nz+iy.
+                ##############################################################################
+                self.profs.append(p_prof)  
+        self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
+        #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
+        #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
+        self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
+        np.save(self.ptm+filename+"_prof.npy")
+        print(f"Stokes params numpy saved! {self.filename}")
     def split_data_atm_output(self, filename, light_type, TR_S):
         """
         Splits the data into a test set and a training set.
@@ -308,7 +342,7 @@ class DataClass():
 
 
         # Atmosphere params
-        self.charge_atm_params(filename)
+        self.remmap_opt_depth(filename)
         atm_intergran = []
         atm_gran = []
         a_in = []
@@ -317,7 +351,7 @@ class DataClass():
         for j in range(4):
             a_in = []
             a_gran = []
-            for i in range(self.tb-self.lb):
+            for i in range(self.opt_len):
                 a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
                 a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
             atm_intergran.append(a_in)
@@ -431,8 +465,8 @@ class DataClass():
             self.tr_output = np.memmap.reshape(self.tr_output, (np.shape(self.tr_output)[0], np.shape(self.tr_output)[1]*np.shape(self.tr_output)[2]), order = "A")
             self.te_output = np.memmap.reshape(self.te_output, (np.shape(self.te_output)[0], np.shape(self.te_output)[1]*np.shape(self.te_output)[2]), order = "A")
             
-        # Atmosphere params
-        self.charge_atm_params(filename)
+        # Atmosphere params with optical depth
+        self.remmap_opt_depth(filename)
         atm_intergran = []
         atm_gran = []
         a_in = []
@@ -441,7 +475,7 @@ class DataClass():
         for j in range(4):
             a_in = []
             a_gran = []
-            for i in range(self.tb-self.lb):
+            for i in range(self.opt_len):
                 a_in.append(np.ma.array(self.atm_params[:,:,i,j], mask = intergran_mask).compressed())
                 a_gran.append(np.ma.array(self.atm_params[:,:,i,j], mask = gran_mask).compressed())
             atm_intergran.append(a_in)
