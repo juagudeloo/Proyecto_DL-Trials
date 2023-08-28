@@ -6,7 +6,7 @@ def main():
     ptm = path_UIS()
     muram = DataClass(ptm=ptm)
 
-    for i in np.arange(97000, 223000, 1000):
+    for i in np.arange(98000, 223000, 1000):
         if 1 < 100000:
             fln = "0"+str(i)
         else:
