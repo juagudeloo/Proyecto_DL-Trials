@@ -84,12 +84,12 @@ class AtmTrainVisualMixin():
     def __init__(self):
         self.plot_title = "Atmosphere parameters"
         self.nn_model_type = "atm_NN_model"
-        self.length = self.tb-self.lb
+        self.length = self.opt_len #atmosphere length
         self.scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
         self.title = ['Magnetic Field','Velocity','Density','Temperature']
         self.channels = len(self.scaler_names)
 
-        self.in_ls = (self.opt_len, 4)
+        self.in_ls = (self.nlam, 4)
         self.output_ravel_shape = self.length*self.channels
 
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):

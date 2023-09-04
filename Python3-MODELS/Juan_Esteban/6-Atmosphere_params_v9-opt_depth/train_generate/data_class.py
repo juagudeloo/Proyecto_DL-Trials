@@ -172,6 +172,7 @@ class DataClass():
                     opt_mags[ix,iz,:,i] = opt_mags_interp[mags_names[i]](tau)
 
         self.atm_params = opt_mags
+        return self.atm_params
         
     def charge_intensity(self,filename,scale = True):
         self.filename = filename
