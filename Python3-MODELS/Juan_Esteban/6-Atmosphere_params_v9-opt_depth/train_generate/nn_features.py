@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from train_generate.data_class import inverse_scaling
 import os
+from opt_depth_params import opt_len_val
 
 
 
@@ -84,7 +85,7 @@ class AtmTrainVisualMixin():
     def __init__(self):
         self.plot_title = "Atmosphere parameters"
         self.nn_model_type = "atm_NN_model"
-        self.length = self.opt_len #atmosphere length
+        self.length = opt_len_val() #atmosphere length
         self.scaler_names = ["mbyy", "mvyy", "mrho", "mtpr"]
         self.title = ['Magnetic Field','Velocity','Density','Temperature']
         self.channels = len(self.scaler_names)
@@ -198,7 +199,7 @@ class LightTrainVisualMixin():
         self.title = ['I stokes','Q stokes','U stokes','V stokes']
         self.channels = 4
 
-        self.in_ls = (self.opt_len, 4)
+        self.in_ls = (opt_len_val(), 4)
         self.output_ravel_shape = self.length*self.channels
         
     def train(self,filename, tr_s=0.75, batch_size=2, epochs=8):

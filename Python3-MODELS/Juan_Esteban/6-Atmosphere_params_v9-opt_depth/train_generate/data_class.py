@@ -3,7 +3,7 @@ import train_generate.model_prof_tools as mpt
 import pandas as pd
 from scipy.interpolate import interp1d
 from train_generate.boundaries import low_boundary, top_boundary
-
+from opt_depth_params import opt_len_val
 
 #This is the scaling function
 def scaling(array, scaler_file_name, create_scaler=None):
@@ -161,7 +161,7 @@ class DataClass():
         mags_names = ["By_opt", "Vy_opt", "log_rho_opt", "T_opt"]
         opt_mags_interp = {}
 
-        self.opt_len = 50 #number of optical depth points
+        self.opt_len = opt_len_val() #number of optical depth points
         tau = np.linspace(-3, 1, self.opt_len)
         opt_mags = np.zeros((self.nx, self.nz, self.opt_len, 4))#mbyy, #mvyy, #log(mrho), #mtpr
         ix, iz = 200,200
