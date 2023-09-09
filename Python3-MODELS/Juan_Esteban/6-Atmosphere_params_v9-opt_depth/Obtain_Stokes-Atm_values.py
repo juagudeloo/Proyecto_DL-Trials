@@ -1,6 +1,7 @@
 from train_generate.nn_model import AtmObtainModel
 import numpy as np
-from path import path
+from path import path, low_boundary, top_boundary
+
 
 def main():
     ptm = path()
@@ -19,6 +20,7 @@ def main():
             a = str(i)+"000"
             pr_filename.append(a)
     
+    print(atm_model.model.summary())
     for fln in pr_filename:
         atm_model.predict_values(fln)
         atm_model.plot_predict(fln)

@@ -1,9 +1,9 @@
 from train_generate.nn_model import LightObtainModel
 import numpy as np
-from path import path
+from path import path_UIS
 
 def main():
-    ptm = path()
+    ptm = path_UIS()
     light_model = LightObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
 
     #Model training
@@ -18,10 +18,12 @@ def main():
         else:
             a = str(i)+"000"
             pr_filename.append(a)
+    print(light_model.model.summary())
     
     for fln in pr_filename:
         light_model.predict_values(fln)
         light_model.plot_predict(fln)
+    
 
 
 if __name__ == "__main__":
