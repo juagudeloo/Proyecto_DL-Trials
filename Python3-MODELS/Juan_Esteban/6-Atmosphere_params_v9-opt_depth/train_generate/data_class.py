@@ -228,8 +228,8 @@ class DataClass():
         print(f"Stokes params done! {self.filename}")
         return self.profs
     def charge_stokes_params(self, filename, scale = True):
-        print("path:", self.ptm+filename+"_prof.npy", dtype=np.float32)
-        self.profs = np.memmap(self.ptm+filename+"_prof.npy")
+        print("path:", self.ptm+filename+"_prof.npy")
+        self.profs = np.memmap(self.ptm+filename+"_prof.npy", dtype=np.float32)
         print("stokes shape:", self.profs.shape)
         print("scaling...")
         self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
