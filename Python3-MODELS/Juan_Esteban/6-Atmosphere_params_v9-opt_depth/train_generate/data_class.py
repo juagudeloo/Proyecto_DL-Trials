@@ -189,7 +189,7 @@ class DataClass():
         print(f"IOUT done {self.filename}")   
         print('\n') 
         return self.iout
-    def old_file_charge_stokes_params(self, filename,  file_type = "nicole", scale = True):
+    def charge_stokes_params(self, filename,  file_type = "nicole", scale = True):
         import struct
         import re
         import sys
@@ -227,29 +227,33 @@ class DataClass():
         self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
         print(f"Stokes params done! {self.filename}")
         return self.profs
-    def charge_stokes_params(self, filename, scale = True):
-        print("path:", self.ptm+filename+"_prof.npy")
-        self.profs = np.memmap(self.ptm+filename+"_prof.npy", dtype=np.float32)
-        print("stokes shape:", self.profs.shape)
-        print("scaling...")
-        self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
-        #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
-        if scale == True:
-            if self.create_scaler == True:
-                scaling(self.profs, "stokes", self.create_scaler)
-            else:
-                self.profs = scaling(self.profs, "stokes", self.create_scaler)
-        else:
-            None
-        #for i in range(N_profs):
-        #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
-        #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
-        N_profs = 4
-        self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
-        print("stokes shape:", self.profs.shape)
-        print(f"Stokes params done! {self.filename}")
-        return self.profs
+    #def charge_stokes_params(self, filename, scale = True):
+    #    print("path:", self.ptm+filename+"_prof.npy")
+    #    self.profs = np.memmap(self.ptm+filename+"_prof.npy", dtype=np.float32)
+    #    print("stokes shape:", self.profs.shape)
+    #    print("scaling...")
+    #    self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
+    #    #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
+    #    if scale == True:
+    #        if self.create_scaler == True:
+    #            scaling(self.profs, "stokes", self.create_scaler)
+    #        else:
+    #            self.profs = scaling(self.profs, "stokes", self.create_scaler)
+    #    else:
+    #        None
+    #    #for i in range(N_profs):
+    #    #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
+    #    #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
+    #    N_profs = 4
+    #    self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
+    #    print("stokes shape:", self.profs.shape)
+    #    print(f"Stokes params done! {self.filename}")
+    #    return self.profs
     def resave_stokes_params(self, filename,  file_type = "nicole"):
+
+        ## !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # It is resaving the stokes parameters with the incorrect shape
+        ## !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         """
         ========================================================================================================
         Resaving the stokes parameters from the previous type of files to numpy
