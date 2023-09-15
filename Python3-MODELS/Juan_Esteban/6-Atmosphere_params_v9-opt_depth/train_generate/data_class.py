@@ -228,7 +228,8 @@ class DataClass():
         print(f"Stokes params done! {self.filename}")
         return self.profs
     def charge_stokes_params(self, filename, scale = True):
-        self.profs = np.memmap(self.ptm+filename+"_prof.npy", self.profs)
+        self.profs = np.load(self.ptm+filename+"_prof.npy", self.profs)
+        print("stokes shape:", self.profs.shape)
         print("scaling...")
         self.profs = np.array(self.profs) #this step is done so that the array has the same shape as the ouputs referring to the four type of data it has
         #We scale all the stokes parameters under the same scaler because all of them belong to the same whole Intensity physical phenomenon
