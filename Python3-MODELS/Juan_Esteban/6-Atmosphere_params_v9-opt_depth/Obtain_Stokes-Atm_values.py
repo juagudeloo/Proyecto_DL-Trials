@@ -6,7 +6,7 @@ from path import path_UIS
 def main():
     ptm = path_UIS()
     atm_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
-    fln = "175000"
+    fln = "150000"
     atm_model.charge_stokes_params(fln, scale = True)
     print("shape after class:", atm_model.profs.shape)
     ##Model training
