@@ -242,7 +242,9 @@ class DataClass():
         #for i in range(N_profs):
         #    self.profs[:,i,:] = np.memmap.reshape(self.profs[:,i,:],(self.nx*self.nz, self.nlam))
         #Here we are flattening the whole values of the four stokes parameters into a single axis to set them as a one array ouput to the nn model
+        N_profs = 4
         self.profs = np.memmap.reshape(self.profs,(self.nx, self.nz, self.nlam, N_profs))
+        print("stokes shape:", self.profs.shape)
         print(f"Stokes params done! {self.filename}")
         return self.profs
     def resave_stokes_params(self, filename,  file_type = "nicole"):
