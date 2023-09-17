@@ -235,7 +235,7 @@ class LightTrainVisualMixin():
         if self.light_type == "Intensity":
             predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz))
         if self.light_type == "Stokes params":
-            predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,self.length))
+            predicted_values = np.memmap.reshape(inverse_scaling(predicted_values, self.scaler_name), (self.nx,self.nz,4,self.length))
         print(f"{filename} prediction done!")
 
         #Checking the path of directories is created
