@@ -128,6 +128,8 @@ class AtmTrainVisualMixin():
             print(f"{self.filename} predicting...")
             predicted_values = self.model.predict(np.memmap.reshape(self.profs, (self.nx*self.nz, self.nlam, 4)))
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.channels, self.length))
+        predicted_values = np.moveaxis(predicted_values,2,3)
+
 
         #Inverse scaling application
         for i in range(self.channels):
