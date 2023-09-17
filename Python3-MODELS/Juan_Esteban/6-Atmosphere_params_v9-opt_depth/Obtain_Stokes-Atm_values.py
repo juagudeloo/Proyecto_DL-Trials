@@ -23,7 +23,7 @@ def main():
     print(atm_model.model.summary())
     for fln in pr_filename:
         atm_model.predict_values(fln)
-        atm_model.plot_predict(fln)
+    #    atm_model.plot_predict(fln)
 
 
 if __name__ == "__main__":
