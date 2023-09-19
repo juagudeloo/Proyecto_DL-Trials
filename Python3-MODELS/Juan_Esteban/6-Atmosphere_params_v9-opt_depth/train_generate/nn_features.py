@@ -152,6 +152,7 @@ class AtmTrainVisualMixin():
         fig, ax = plt.subplots(4,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{plot_file}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
+        print(np.argwhere(np.isnan(predicted_values)))
         original_atm = self.remmap_opt_depth(plot_file)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
         print("original data array shape:",original_atm.shape)
