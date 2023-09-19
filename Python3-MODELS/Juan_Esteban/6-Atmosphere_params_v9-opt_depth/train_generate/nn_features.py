@@ -152,7 +152,7 @@ class AtmTrainVisualMixin():
         fig, ax = plt.subplots(4,4,figsize=(50,7))
         predicted_values = np.load(f"{self.nn_model_type}/Predicted_values/{self.light_type}/obtained_value-{plot_file}.npy")
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
-        original_atm = self.charge_atm_params(plot_file)
+        original_atm = self.remmap_opt_depth(plot_file)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
         for i in range(self.channels):
             original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.scaler_names[i]), (self.nx,self.nz,self.length))
