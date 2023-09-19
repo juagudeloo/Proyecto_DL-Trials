@@ -154,7 +154,7 @@ class AtmTrainVisualMixin():
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.length,self.channels))
         original_atm = self.remmap_opt_depth(plot_file)
         original_atm = np.memmap.reshape(original_atm, (self.nx, self.nz, self.length,self.channels))
-        print(original_atm.shape)
+        print("original data array shape:",original_atm.shape)
         for i in range(self.channels):
             original_atm[:,:,:,i] = np.memmap.reshape(inverse_scaling(original_atm[:,:,:,i], self.scaler_names[i]), (self.nx,self.nz,self.length))
         
