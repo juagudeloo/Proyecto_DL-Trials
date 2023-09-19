@@ -219,7 +219,7 @@ class LightTrainVisualMixin():
         # Create a callback that saves the model's weights
         cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                         save_weights_only=True,
-                                                        verbose=1)
+                                                        verbose=0)
         self.batch_size = batch_size
         self.epochs = epochs
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=1, callbacks=[cp_callback])
@@ -227,7 +227,7 @@ class LightTrainVisualMixin():
     def predict_values(self, filename):
         self.filename = filename
         self.remmap_opt_depth(filename)
-        predicted_values = self.model.predict(np.memmap.reshape(self.atm_params, (self.nx*self.nz, self.tb-self.lb, 4)))
+        predicted_values = self.model.predict(np.memmap.reshape(self.atm_params, (self.nx*self.nz, self.length, 4)))
         predicted_values = np.memmap.reshape(predicted_values, (self.nx, self.nz, self.channels, self.length))
         #Inverse scaling application
         if self.light_type == "Intensity":
