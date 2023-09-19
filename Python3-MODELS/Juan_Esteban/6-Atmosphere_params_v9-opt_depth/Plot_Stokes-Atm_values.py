@@ -20,8 +20,9 @@ def main():
     #        a = str(i)+"000"
     #        pr_filename.append(a)
     fln = "175000"
-    for fln in pr_filename:
-        atm_model.plot_predict(fln)
+    atm_model.plot_predict(fln)
+    #for fln in pr_filename:
+    #    atm_model.plot_predict(fln)
 
 if __name__ == "__main__":
     main()
