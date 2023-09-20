@@ -452,7 +452,6 @@ class DataClass():
             gran_mask = np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).mask
             len_intergran = len(np.ma.masked_where(self.profs[:,:,0,0] > threshold, self.profs[:,:,0,0]).compressed())
             len_gran = len(np.ma.masked_where(self.profs[:,:,0,0] <= threshold, self.profs[:,:,0,0]).compressed())
-            self.charge_stokes_params(filename)
             # Stokes profiles
 
             profile_intergran = []

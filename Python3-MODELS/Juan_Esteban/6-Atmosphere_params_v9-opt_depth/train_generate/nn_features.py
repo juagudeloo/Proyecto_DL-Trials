@@ -224,6 +224,7 @@ class LightTrainVisualMixin():
                                                         verbose=0)
         self.batch_size = batch_size
         self.epochs = epochs
+        print("output shape:", self.tr_output.shape)
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=1, callbacks=[cp_callback])
         self.model.evaluate(self.te_input, self.te_output)
     def predict_values(self, filename):
