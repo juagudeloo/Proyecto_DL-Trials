@@ -8,17 +8,16 @@ def main():
     #Intensity specifications
     ptm = path_UIS()
     tr_filename = []
-    tr_filename.append("175000")
-    #for i in np.arange(80,150+1,7):
-    #    if i==98:
-    #        None
-    #    else:
-    #        if i<100:
-    #            a = "0"+str(i)+"000"
-    #            tr_filename.append(a)
-    #        else:
-    #            a = str(i)+"000"
-    #            tr_filename.append(a)
+    for i in np.arange(80,150+1,7):
+        if i==98:
+            None
+        else:
+            if i<100:
+                a = "0"+str(i)+"000"
+                tr_filename.append(a)
+            else:
+                a = str(i)+"000"
+                tr_filename.append(a)
 
     atm_model = LightObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     atm_model.compile_model(learning_rate=0.001)
