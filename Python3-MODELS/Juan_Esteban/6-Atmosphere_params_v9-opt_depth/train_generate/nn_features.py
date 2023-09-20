@@ -110,7 +110,7 @@ class AtmTrainVisualMixin():
         # Create a callback that saves the model's weights
         cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                         save_weights_only=True,
-                                                        verbose=1)
+                                                        verbose=0)
         self.batch_size = batch_size
         self.epochs = epochs
         self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=0, callbacks=[cp_callback])
@@ -225,7 +225,7 @@ class LightTrainVisualMixin():
         self.batch_size = batch_size
         self.epochs = epochs
         print("output shape:", self.tr_output.shape)
-        self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=1, callbacks=[cp_callback])
+        self.history = self.model.fit(self.tr_input, self.tr_output, epochs=self.epochs, batch_size=self.batch_size, verbose=0, callbacks=[cp_callback])
         self.model.evaluate(self.te_input, self.te_output)
     def predict_values(self, filename):
         self.filename = filename
