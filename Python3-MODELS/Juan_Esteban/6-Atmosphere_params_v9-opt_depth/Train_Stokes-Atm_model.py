@@ -10,11 +10,13 @@ def main():
     fln = str(sys.argv[1])
     print(f"######################## filename{fln}")
     
+    
     stokes_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     stokes_model.compile_model(learning_rate=0.001)
-    
+    stokes_model.load_weights(f"{stokes_model.nn_model_type}/training/{stokes_model.light_type}/cp.ckpt")
+
     start_time = time.time() #Time measured in seconds
-    stokes_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=40)
+    stokes_model.train(fln, tr_s = 0.75, batch_size= 1000, epochs=1)
     stokes_model.plot_loss()
 
     with open(f"{stokes_model.nn_model_type}/training/training_time_{fln}.txt", "w") as f:
