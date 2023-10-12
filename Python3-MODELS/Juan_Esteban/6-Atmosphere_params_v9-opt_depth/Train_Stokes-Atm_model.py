@@ -8,6 +8,7 @@ def main():
     #Intensity specifications
     ptm = path_UIS()
     fln = str(sys.argv[0])
+    print(fln)
     
     stokes_model = AtmObtainModel(ptm = ptm, light_type="Stokes params", create_scaler=False)
     stokes_model.compile_model(learning_rate=0.001)
