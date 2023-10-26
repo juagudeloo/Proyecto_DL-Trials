@@ -36,7 +36,12 @@ def main():
     
     profs = np.memmap.reshape(profs,(nx, nz, nlam, N_profs))
 
-    np.save("085000_prof.npy", profs)
+
+    profs_fln = filename+"_prof.npy"
+    np.save(profs_fln, profs)
+
+    new_profs = np.load(profs_fln)
+    print("max:", np.max(new_profs), "min:" np.min(new_profs))
 
     print(f"Stokes params done! {filename}")
 
