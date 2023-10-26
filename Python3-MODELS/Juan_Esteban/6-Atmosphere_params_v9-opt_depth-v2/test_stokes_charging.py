@@ -41,7 +41,7 @@ def main():
     np.save(profs_fln, profs)
 
     new_profs = np.load(profs_fln)
-    print("max:", np.max(new_profs), "min:" np.min(new_profs))
+    print("max:", np.max(new_profs), "min:", np.min(new_profs))
 
     print(f"Stokes params done! {filename}")
 
