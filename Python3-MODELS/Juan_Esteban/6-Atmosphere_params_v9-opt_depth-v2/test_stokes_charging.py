@@ -13,8 +13,8 @@ def main():
     #Charging the stokes profiles for the specific file
     print(f"reading Stokes params {stk_filename}")
 
-    nx = 480, 
-    ny = 256, 
+    nx = 480 
+    ny = 256 
     nz = 480
     file_type = "nicole"
     nlam = 300 
