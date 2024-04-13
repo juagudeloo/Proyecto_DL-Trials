@@ -25,7 +25,7 @@ def main():
             ############################################################
                 """)
         in_dir = ptm+"raw_MURAM_data/"
-        out_dir = ptm+"Numpy_MuRAM_data/"
+        out_dir = ptm+"Numpy_MURAM_data/"
         
         #TEMPERATURE
         print("Charging temperature data...")
