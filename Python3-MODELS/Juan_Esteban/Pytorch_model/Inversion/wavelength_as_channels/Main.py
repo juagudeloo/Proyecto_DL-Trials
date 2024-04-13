@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-import matplotlib.pyplot as plt
 import numpy as np
 from muram import MuRAM
 from nn_model import *
