@@ -43,10 +43,10 @@ def main():
 
         print(f"""
     Shape of the data
-            {tr_input = }
-            {test_input = }
-            {tr_output = }
-            {test_output = }
+            tr_input shape ={tr_input.size()}
+            test_input shape = {test_input.size()}
+            tr_output shape = {tr_output.size()}
+            test_output shape = {test_output.size()}
             """)
         
         #Train and test dataloader
