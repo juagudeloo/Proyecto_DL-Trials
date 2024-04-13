@@ -1,6 +1,7 @@
 import numpy as np
 
 def main():
+    #Function for converting every file to numpy binaries
     ptm = "/girg/juagudeloo/MURAM_data/"
     filenames = []
     for i in range(52,223+1):
