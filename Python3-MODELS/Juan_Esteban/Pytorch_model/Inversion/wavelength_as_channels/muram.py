@@ -5,7 +5,6 @@
 # Libraries
 #####################################################################################################################
 import numpy as np
-import matplotlib.pyplot as plt
 from skimage import filters
 from scipy.interpolate import interp1d
 from sklearn.model_selection import train_test_split
