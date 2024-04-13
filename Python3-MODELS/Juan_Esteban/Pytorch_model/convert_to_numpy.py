@@ -14,8 +14,6 @@ def main():
         except:
             continue
     
-    print(filenames)
-        
     nx = 480 
     ny = 256
     nz = 480
