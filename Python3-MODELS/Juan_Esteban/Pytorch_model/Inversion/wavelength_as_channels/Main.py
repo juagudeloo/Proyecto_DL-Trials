@@ -15,8 +15,8 @@ def main():
     pth_out = "Results/"
     training_files = ["085000", "090000", "095000", "100000", "105000", "110000"]
 
-    #Creation of the muram data processing object
-    muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
+    #Creating the model for training
+    model_0 = InvModel1(300,4*20,4096).float()
     #Model training hyperparams
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=0.1)
@@ -33,6 +33,8 @@ def main():
     test_acc_history = np.zeros((len(epochs),))
 
     for filename in training_files:
+        #Creation of the muram data processing object
+        muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
 
         tr_input, test_input, tr_output, test_output = muram.train_test_sets("Stokes")
 
@@ -76,9 +78,6 @@ def main():
         #Defining the agnostic device
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print("\nThe model will be runned in:", device)
-
-        #Creating the model for training
-        model_0 = InvModel1(300,4*20,4096).float()
 
         #Create model save path 
         MODEL_PATH = Path(pth_out+"model_weights/")
