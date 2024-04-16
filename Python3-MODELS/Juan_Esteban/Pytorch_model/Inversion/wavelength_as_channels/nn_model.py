@@ -4,7 +4,7 @@ import torch
 class InvModel1(nn.Module):
     def __init__(self, in_shape, out_shape, hidden_units):
         super().__init__()
-        padding = "valid"
+        padding = 'valid'
         self.simple_conv = nn.Sequential(nn.Conv1d(in_channels=in_shape, out_channels=512, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
         nn.Conv1d(in_channels=512, out_channels=256, kernel_size = 2, stride=1, padding=padding),
