@@ -11,7 +11,7 @@ from timeit import default_timer as timer
 
 
 def main():
-    ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data"
+    ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
     pth_out = "Results/"
     training_files = ["085000", "090000", "095000", "100000", "105000", "110000"]
 
