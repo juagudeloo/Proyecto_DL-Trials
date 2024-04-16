@@ -62,12 +62,12 @@ def main():
         train_dataloader = DataLoader(train_data,
             batch_size=BATCH_SIZE, # how many samples per batch? 
             shuffle=True # shuffle data every epoch?
-        ).to(device)
+        )
 
         test_dataloader = DataLoader(test_data,
             batch_size=BATCH_SIZE,
             shuffle=False # don't necessarily have to shuffle the testing data
-        ).to(device)
+        )
 
         print(f"Length of train dataloader: {len(train_dataloader)} batches of {BATCH_SIZE}")
         print(f"Length of test dataloader: {len(test_dataloader)} batches of {BATCH_SIZE}")
