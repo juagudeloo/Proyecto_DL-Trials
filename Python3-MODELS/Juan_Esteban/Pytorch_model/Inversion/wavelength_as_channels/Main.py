@@ -51,8 +51,8 @@ def main():
             """)
         
         #Train and test dataloader
-        train_data = TensorDataset(tr_input, tr_output).to(device)
-        test_data = TensorDataset(test_input, test_output).to(device)
+        train_data = TensorDataset(tr_input.to(device), tr_output.to(device))
+        test_data = TensorDataset(test_input.to(device), test_output.to(device))
 
         BATCH_SIZE = 32
 
