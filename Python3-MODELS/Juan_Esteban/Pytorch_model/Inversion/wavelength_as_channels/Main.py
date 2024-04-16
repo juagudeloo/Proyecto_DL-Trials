@@ -17,6 +17,9 @@ def main():
 
     #Creating the model for training
     model_0 = InvModel1(300,4*20,4096).float()
+    #Defining the agnostic device
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print("\nThe model will be runned in:", device)
     #Model training hyperparams
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=0.1)
@@ -75,9 +78,7 @@ def main():
     train output batch shape: {train_labels_batch.shape}
             """ )
         
-        #Defining the agnostic device
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        print("\nThe model will be runned in:", device)
+        
 
         #Create model save path 
         MODEL_PATH = Path(pth_out+"model_weights/")
