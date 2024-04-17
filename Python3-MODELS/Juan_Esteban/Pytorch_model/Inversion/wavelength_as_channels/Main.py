@@ -21,6 +21,7 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("\nThe model will be runned in:", device)
     #Model training hyperparams
+    model_0.to(device)
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=0.1)
     epochs = 40
