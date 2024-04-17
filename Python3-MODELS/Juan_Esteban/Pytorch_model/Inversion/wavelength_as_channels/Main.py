@@ -58,7 +58,7 @@ def main():
         train_data = TensorDataset(tr_input.to(device), tr_output.to(device))
         test_data = TensorDataset(test_input.to(device), test_output.to(device))
 
-        BATCH_SIZE = 32
+        BATCH_SIZE = 80
 
         train_dataloader = DataLoader(train_data,
             batch_size=BATCH_SIZE, # how many samples per batch? 
@@ -139,7 +139,8 @@ def main():
                     test_loss += loss_fn(test_pred, y) # accumulatively add up the loss per epoch
 
                     # 3. Calculate accuracy (preds need to be same as y_true)
-                    test_acc += accuracy_fn(y_true=y, y_pred=test_pred.argmax(dim=1))
+                    print(y.shape, test_pred.shape)
+                    test_acc += accuracy_fn(y_true=y.argmax(dim=1), y_pred=test_pred.argmax(dim=1))
                 
                 # Calculations on test metrics need to happen inside torch.inference_mode()
                 # Divide total test loss by length of test dataloader (per batch)
