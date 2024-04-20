@@ -5,7 +5,7 @@ from torch import nn
 from pathlib import Path
 
 from muram import MuRAM
-from inv_model_py import InvModel1
+from nn_model import InvModel1
 
 def main():
     # Setup device agnostic code
@@ -17,10 +17,18 @@ def main():
     filename = "130000"
     
     #Create model save path 
-MODEL_PATH = Path(pth_out)
-MODEL_PATH.mkdir(parents=True, exist_ok=True)
-MODEL_NAME = "inversion1.pth"
-MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+    MODEL_PATH = Path(pth_out)
+    MODEL_PATH.mkdir(parents=True, exist_ok=True)
+    MODEL_NAME = "inversion1.pth"
+    MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
+    ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
+    pth_out = "Results/"
+    loaded_model1 = InvModel1(300,4*20,4096).float().to(device)
+    loaded_model1.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+
+    muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
+    atm_quant, stokes = muram.charge_quantities()
 
 
 if __name__ == "__main__":
