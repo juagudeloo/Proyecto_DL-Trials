@@ -38,7 +38,7 @@ def main():
     stokes = torch.reshape(stokes,(stokes_s[0]*stokes_s[1], stokes_s[2], stokes_s[3]))
 
     generated_atm = loaded_model1.float()(stokes.float())
-    generated_atm = generated_atm.numpy()
+    generated_atm = generated_atm.to("cpu").numpy()
     generated_atm = np.reshape(generated_atm, (muram.nx, muram.nz, 20, 4))
     np.save(pth_out+"generated_atm_"+filename+".npy")
 
