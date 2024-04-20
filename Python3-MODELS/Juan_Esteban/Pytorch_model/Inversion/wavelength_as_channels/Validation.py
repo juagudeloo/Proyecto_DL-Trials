@@ -34,7 +34,7 @@ def main():
     print(f"Tensors stored in: {device}")
 
     atm_quant = torch.from_numpy(atm_quant).to(device)
-    atm_quant = torch.moveaxis(atm_quant, (1,2))
+    atm_quant = torch.moveaxis(atm_quant, 1,2)
     atm_s = atm_quant.size()
     atm_quant = torch.reshape(atm_quant,(atm_s[0]*atm_s[1], atm_s[2], atm_s[3]))
     stokes = torch.from_numpy(stokes).to(device)
