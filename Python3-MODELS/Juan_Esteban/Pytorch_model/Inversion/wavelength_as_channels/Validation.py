@@ -27,7 +27,6 @@ def main():
 
     muram = MuRAM(ptm=ptm, pth_out=pth_out, filename=filename)
     atm_quant, stokes = muram.charge_quantities()
-    generated_atm = np.zeros_like(atm_quant)
 
     # Setup device agnostic code
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -38,7 +37,8 @@ def main():
     stokes_s = stokes.size()
     stokes = torch.reshape(stokes,(stokes_s[0]*stokes_s[1], stokes_s[2], stokes_s[3]))
 
-    print(atm_quant.size(), stokes.size())
+    generated_atm = loaded_model1(stokes)
+    print(generated_atm.size())
 
 
 if __name__ == "__main__":
