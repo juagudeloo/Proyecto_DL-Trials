@@ -40,10 +40,6 @@ def main():
     stokes = torch.from_numpy(stokes).to(device)
 
     print(atm_quant.size(), stokes.size())
-    
-    
-    for i in range(muram.nx):
-        for j in range(muram.nz):
 
 
 if __name__ == "__main__":
