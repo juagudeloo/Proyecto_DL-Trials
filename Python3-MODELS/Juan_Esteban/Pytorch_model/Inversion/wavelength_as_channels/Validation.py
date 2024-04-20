@@ -25,7 +25,7 @@ def main():
     loaded_model1 = InvModel1(300,4*20,4096).float().to(device)
     loaded_model1.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
 
-    muram = MuRAM(ptm=ptm, pth_out=pth_out)
+    muram = MuRAM(ptm=ptm, pth_out=pth_out, filename=filename)
     muram.charge_quantities()
 
 
