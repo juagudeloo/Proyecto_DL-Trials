@@ -16,7 +16,7 @@ def main():
     training_files = ["085000", "090000", "095000", "100000", "105000", "110000"]
 
     #Creating the model for training
-    model_0 = InvModel1(300,4*20,4096).float()
+    model_0 = InvModel1(4,4*20,4096).float()
     #Create model save path 
     MODEL_PATH = Path(pth_out+"model_weights/")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
@@ -46,7 +46,8 @@ def main():
         muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
 
         tr_input, test_input, tr_output, test_output = muram.train_test_sets("Stokes")
-
+        tr_input = torch.moveaxis(tr_input, 1,2)
+        test_input = torch.moveaxis(test_input, 1,2)
         #Testing wavelength as channels and the output as a fully connected layer
         tr_output = torch.reshape(tr_output, (tr_output.size()[0], tr_output.size()[1]*tr_output.size()[2]))
         test_output = torch.reshape(test_output, (test_output.size()[0], test_output.size()[1]*test_output.size()[2]))
@@ -136,7 +137,6 @@ def main():
                     test_loss += loss_fn(test_pred, y) # accumulatively add up the loss per epoch
 
                     # 3. Calculate accuracy (preds need to be same as y_true)
-                    print(y.shape, test_pred.shape)
                     test_acc += accuracy_fn(y_true=y.argmax(dim=1), y_pred=test_pred.argmax(dim=1))
                 
                 # Calculations on test metrics need to happen inside torch.inference_mode()
