@@ -5,7 +5,7 @@ from torch import nn
 from pathlib import Path
 
 from muram import MuRAM
-from inv_model_py import InvModel1
+from nn_model import InvModel1
 
 def main():
     # Setup device agnostic code
