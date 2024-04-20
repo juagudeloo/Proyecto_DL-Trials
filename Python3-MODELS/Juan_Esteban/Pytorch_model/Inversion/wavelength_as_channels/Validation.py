@@ -27,16 +27,23 @@ def main():
 
     muram = MuRAM(ptm=ptm, pth_out=pth_out, filename=filename)
     atm_quant, stokes = muram.charge_quantities()
+    generated_atm = np.zeros_like(atm_quant)
 
     # Setup device agnostic code
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Tensors stored in: {device}")
 
     atm_quant = torch.from_numpy(atm_quant).to(device)
+    atm_quant = torch.moveaxis(atm_quant, (1,2))
+    atm_s = atm_quant.size()
+    atm_quant = torch.reshape(atm_quant,(atm_s[0]*atm_s[1], atm_s[2], atm_s[3]))
     stokes = torch.from_numpy(stokes).to(device)
 
     print(atm_quant.size(), stokes.size())
     
+    
+    for i in range(muram.nx):
+        for j in range(muram.nz):
 
 
 if __name__ == "__main__":
