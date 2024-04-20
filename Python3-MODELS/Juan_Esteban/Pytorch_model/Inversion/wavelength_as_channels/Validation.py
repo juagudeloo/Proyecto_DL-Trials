@@ -37,7 +37,7 @@ def main():
     stokes_s = stokes.size()
     stokes = torch.reshape(stokes,(stokes_s[0]*stokes_s[1], stokes_s[2], stokes_s[3]))
 
-    generated_atm = loaded_model1(stokes)
+    generated_atm = loaded_model1.float()(stokes)
     print(generated_atm.size())
 
 
