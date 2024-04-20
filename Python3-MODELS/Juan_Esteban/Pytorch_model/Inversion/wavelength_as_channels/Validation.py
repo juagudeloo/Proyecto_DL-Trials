@@ -26,7 +26,17 @@ def main():
     loaded_model1.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
 
     muram = MuRAM(ptm=ptm, pth_out=pth_out, filename=filename)
-    muram.charge_quantities()
+    atm_quant, stokes = muram.charge_quantities()
+
+    # Setup device agnostic code
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Tensors stored in: {device}")
+
+    atm_quant = torch.from_numpy(atm_quant).to(device)
+    stokes = torch.from_numpy(stokes).to(device)
+
+    print(atm_quant.size(), stokes.size())
+    
 
 
 if __name__ == "__main__":
