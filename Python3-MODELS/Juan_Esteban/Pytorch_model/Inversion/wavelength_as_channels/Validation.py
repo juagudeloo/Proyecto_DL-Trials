@@ -41,7 +41,7 @@ def main():
         generated_atm = loaded_model1.float()(stokes.float())
     generated_atm = generated_atm.to("cpu").numpy()
     generated_atm = np.reshape(generated_atm, (muram.nx, muram.nz, 20, 4))
-    np.save(pth_out+"generated_atm_"+filename+".npy")
+    np.save(pth_out+"generated_atm_"+filename+".npy", generated_atm)
 
 
 if __name__ == "__main__":
