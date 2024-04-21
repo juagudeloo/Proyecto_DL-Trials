@@ -1,13 +1,15 @@
 import torch
 from torch import nn
 import numpy as np
-from muram import MuRAM
-from nn_model import *
 from pathlib import Path
 from tqdm import tqdm
 from torch.utils.data import TensorDataset, DataLoader
 from timeit import default_timer as timer 
+import os
 
+
+from muram import MuRAM
+from nn_model import *
 
 
 def main():
@@ -164,6 +166,14 @@ def main():
         print(f"Saving model to: {MODEL_SAVE_PATH}")
         torch.save(obj=model_0.state_dict(), # only saving the state_dict() only saves the models learned parameters
                 f=MODEL_SAVE_PATH)
+        
+    metrics_out = pth_out+"loss_metrics/"
+    if not os.path.exists(metrics_out):
+        os.mkdir(metrics_out)
+
+    np.save(metrics_out+"train_loss_history.npy", train_loss_history)
+    np.save(metrics_out+"test_loss_history.npy", test_loss_history)
+    np.save(metrics_out+"test_acc_history.npy", test_acc_history)
     
 
     
