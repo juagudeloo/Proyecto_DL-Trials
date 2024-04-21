@@ -18,7 +18,7 @@ class InvModel1(nn.Module):
         nn.MaxPool1d(kernel_size=2),
         nn.Flatten(),
         nn.Dropout(p=0.2, inplace=False),
-        nn.Linear(in_features = 77312, out_features = out_shape))
+        nn.Linear(in_features = 77824, out_features = out_shape))
     def forward(self, x):
         return self.simple_conv(x)
 
