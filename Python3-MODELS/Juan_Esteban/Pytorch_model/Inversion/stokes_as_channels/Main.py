@@ -31,7 +31,7 @@ def main():
     model_0.to(device)
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=0.1)
-    epochs = 100
+    epochs = 20
 
     #Training
 
