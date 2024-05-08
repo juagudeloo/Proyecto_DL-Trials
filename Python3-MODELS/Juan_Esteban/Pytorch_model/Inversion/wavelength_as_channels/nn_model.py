@@ -7,7 +7,7 @@ class InvModel1(nn.Module):
         padding = 1
         self.simple_conv = nn.Sequential(nn.Conv1d(in_channels=in_shape, out_channels=512, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
-        nn.Conv1d(in_channels=512, out_channels=256, kernel_size = 2, stride=1, padding=padding),
+        nn.Conv1d(in_channels=512, out_channels=512, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
         nn.Conv1d(in_channels=512, out_channels=512, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
