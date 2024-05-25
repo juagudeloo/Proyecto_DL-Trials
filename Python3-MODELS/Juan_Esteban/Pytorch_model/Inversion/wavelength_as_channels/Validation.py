@@ -36,9 +36,11 @@ def main():
     stokes = torch.from_numpy(stokes).to(device)
     stokes_s = stokes.size()
     stokes = torch.reshape(stokes,(stokes_s[0]*stokes_s[1], stokes_s[2], stokes_s[3]))
+    generated_atm = torch.zeros((stokes.size()[0],4*20))
     with torch.inference_mode():
         loaded_model1.eval()
-        generated_atm = loaded_model1.float()(stokes.float())
+        for pix in range(stokes.size()[0]):
+            generated_atm[pix] = loaded_model1.float()(stokes.float())
     generated_atm = generated_atm.to("cpu").numpy()
     generated_atm = np.reshape(generated_atm, (muram.nx, muram.nz, 20, 4))
     np.save(pth_out+"generated_atm_"+filename+".npy", generated_atm)

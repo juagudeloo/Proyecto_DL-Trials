@@ -6,6 +6,8 @@ from tqdm import tqdm
 from torch.utils.data import TensorDataset, DataLoader
 from timeit import default_timer as timer 
 import os
+import datetime
+import time
 
 
 from muram import MuRAM
@@ -15,23 +17,27 @@ from nn_model import *
 def main():
     ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
     pth_out = "Results/"
-    training_files = ["085000", "090000", "095000", "100000", "105000", "110000"]
+    training_files = ["085000", "090000", "095000", 
+    #"100000", "105000", "110000"
+    ]
 
     #Creating the model for training
     model_0 = InvModel1(300,4*20,4096).float()
-    #Create model save path 
-    MODEL_PATH = Path(pth_out+"model_weights/")
-    MODEL_PATH.mkdir(parents=True, exist_ok=True)
-    MODEL_NAME = "inversion1.pth"
-    MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
     #Defining the agnostic device
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("\nThe model will be runned in:", device)
     #Model training hyperparams
     model_0.to(device)
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
-    optimizer = torch.optim.Adam(params=model_0.parameters(), lr=0.1)
-    epochs = 100
+    lr = 1e-4
+    optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
+    epochs = 10
+    #Create model save path
+    MODEL_PATH = Path(pth_out+"model_weights/")
+    MODEL_PATH.mkdir(parents=True, exist_ok=True)
+    MODEL_NAME = "inversion_wave_chan_"+str(epochs)+"E"+str(lr)+"lr"+".pth"
+    MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
 
     #Training
 
@@ -42,7 +48,8 @@ def main():
     train_loss_history = np.zeros((epochs,))
     test_loss_history = np.zeros((epochs,))
     test_acc_history = np.zeros((epochs,))
-
+    	
+    start = time.time()
     for filename in training_files:
         #Creation of the muram data processing object
         muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
@@ -138,7 +145,6 @@ def main():
                     test_loss += loss_fn(test_pred, y) # accumulatively add up the loss per epoch
 
                     # 3. Calculate accuracy (preds need to be same as y_true)
-                    print(y.shape, test_pred.shape)
                     test_acc += accuracy_fn(y_true=y.argmax(dim=1), y_pred=test_pred.argmax(dim=1))
                 
                 # Calculations on test metrics need to happen inside torch.inference_mode()
@@ -170,7 +176,11 @@ def main():
     metrics_out = pth_out+"loss_metrics/"
     if not os.path.exists(metrics_out):
         os.mkdir(metrics_out)
-
+	
+    runtime = time.time()-star
+    with open(metrics_out+"runtime.txt", "wb") as f:
+	    f.write(str(datetime.timedelta(seconds=runtime)))
+	    	
     np.save(metrics_out+"train_loss_history.npy", train_loss_history)
     np.save(metrics_out+"test_loss_history.npy", test_loss_history)
     np.save(metrics_out+"test_acc_history.npy", test_acc_history)
