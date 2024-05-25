@@ -84,7 +84,7 @@ def main():
         )
 
         print(f"Length of train dataloader: {len(train_dataloader)} batches of {BATCH_SIZE}")
-        print(f"Length of test dataloader: {len(test_dataloader)} batches of {BATCH_SIZE}")
+        print(f"Length of test dataloader: {le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n(test_dataloader)} batches of {BATCH_SIZE}")
         train_features_batch, train_labels_batch = next(iter(train_dataloader))
         print(f"""
     Shape of each batch input and output:
@@ -176,9 +176,9 @@ def main():
     if not os.path.exists(metrics_out):
         os.mkdir(metrics_out)
 	
-    np.save(metrics_out+"train_loss_history.npy", train_loss_history)
-    np.save(metrics_out+"test_loss_history.npy", test_loss_history)
-    np.save(metrics_out+"test_acc_history.npy", test_acc_history)
+    np.save(metrics_out+"train_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", train_loss_history)
+    np.save(metrics_out+"test_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", test_loss_history)
+    np.save(metrics_out+"test_acc_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", test_acc_history)
     runtime = time.time()-start
     with open(metrics_out+"runtime.txt", "wb") as f:
 	    f.write(str(datetime.timedelta(seconds=runtime)))
