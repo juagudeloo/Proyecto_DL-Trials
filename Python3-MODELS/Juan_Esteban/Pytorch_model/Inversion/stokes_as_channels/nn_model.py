@@ -5,20 +5,15 @@ class InvModel1(nn.Module):
     def __init__(self, in_shape, out_shape, hidden_units):
         super().__init__()
         padding = 1
-        self.simple_conv = nn.Sequential(nn.Conv1d(in_channels=in_shape, out_channels=512, kernel_size = 2, stride=1, padding=padding),
+        self.simple_conv = nn.Sequential(nn.Conv1d(in_channels=in_shape, out_channels=8, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
-        nn.Conv1d(in_channels=512, out_channels=512, kernel_size = 2, stride=1, padding=padding),
+        nn.Conv1d(in_channels=8, out_channels=16, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
-        nn.Conv1d(in_channels=512, out_channels=512, kernel_size = 2, stride=1, padding=padding),
+        nn.Conv1d(in_channels=16, out_channels=64, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
-        nn.Conv1d(in_channels=512, out_channels=512, kernel_size = 2, stride=1, padding=padding),
-        nn.ReLU(),
-        nn.Conv1d(in_channels=512, out_channels=512, kernel_size = 2, stride=1, padding=padding),
-        nn.ReLU(),
-        nn.MaxPool1d(kernel_size=2),
         nn.Flatten(),
-        nn.Dropout(p=0.2, inplace=False),
-        nn.Linear(in_features = 77824, out_features = out_shape))
+        nn.Dropout(p=0.5, inplace=False),
+        nn.Linear(in_features = 19392, out_features = out_shape))
     def forward(self, x):
         return self.simple_conv(x)
 
