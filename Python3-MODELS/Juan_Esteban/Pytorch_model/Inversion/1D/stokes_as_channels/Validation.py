@@ -17,6 +17,7 @@ def main():
     atm_quant, stokes = muram.charge_quantities()
     atm_quant = np.moveaxis(atm_quant, 1,2)
     stokes = np.reshape(stokes, (480*480,300,4))
+    stokes = np.moveaxis(stokes, (1,2))
 
     # Setup device agnostic code
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -33,7 +34,7 @@ def main():
     MODEL_NAME = "inversion_wave_chan_"+nn_params+".pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
-    loaded_model1 = InvModel1(300,4*20,4096).float().to(device)
+    loaded_model1 = InvModel1(4,4*20,4096).float().to(device)
     loaded_model1.load_state_dict(torch.load(f=MODEL_SAVE_PATH, map_location=device))
 
     # Setup device agnostic code
