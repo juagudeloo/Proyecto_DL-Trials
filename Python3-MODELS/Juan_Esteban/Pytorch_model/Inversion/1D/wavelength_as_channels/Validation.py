@@ -23,7 +23,7 @@ def main():
     print(f"Using device: {device}")
 
     #Create model save path 
-    MODEL_PATH = Path(pth_out)
+    MODEL_PATH = Path(pth_out+"model_weights")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
     nn_params = "10E0.0001lr"
     MODEL_NAME = "inversion_wave_chan_"+nn_params+".pth"
