@@ -26,7 +26,7 @@ def main():
     MODEL_PATH = Path(pth_out+"model_weights")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
     nn_params = "10E0.0001lr"
-    MODEL_NAME = "inversion_wave_chan_"+nn_params+".pth"
+    MODEL_NAME = "inversion_"+nn_params+".pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
     loaded_model1 = InvModel1(300,4*20,4096).float().to(device)
