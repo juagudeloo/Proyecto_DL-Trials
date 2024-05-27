@@ -23,10 +23,6 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Using device: {device}")
 
-    ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
-    pth_out = "/kaggle/input/wavelength-channels-inversion/"
-    filename = "130000"
-
     #Create model save path 
     MODEL_PATH = Path(pth_out)
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
