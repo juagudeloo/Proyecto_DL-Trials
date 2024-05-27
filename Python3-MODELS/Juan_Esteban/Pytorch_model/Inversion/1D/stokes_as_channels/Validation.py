@@ -26,7 +26,7 @@ def main():
     #Create model save path 
     MODEL_PATH = Path(pth_out+"model_weights")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
-    nn_params = "10E0.0001lr"
+    nn_params = "10E_0.0001lr"
     MODEL_NAME = "inversion_"+nn_params+".pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
