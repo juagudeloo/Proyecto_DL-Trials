@@ -17,7 +17,7 @@ def main():
     atm_quant, stokes = muram.charge_quantities()
     atm_quant = np.moveaxis(atm_quant, 1,2)
     stokes = np.reshape(stokes, (480*480,300,4))
-    stokes = np.moveaxis(stokes, (1,2))
+    stokes = np.moveaxis(stokes, 1,2)
 
     # Setup device agnostic code
     device = "cuda" if torch.cuda.is_available() else "cpu"
