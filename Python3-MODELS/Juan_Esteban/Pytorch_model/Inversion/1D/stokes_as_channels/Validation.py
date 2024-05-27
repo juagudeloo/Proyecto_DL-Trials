@@ -13,7 +13,7 @@ def main():
     pth_out = "Results/"
     filename = "130000"
 
-    muram = MuRAM(ptm = ptm, filename = filename)
+    muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
     atm_quant, stokes = muram.charge_quantities()
     atm_quant = np.moveaxis(atm_quant, 1,2)
     stokes = np.reshape(stokes, (480*480,300,4))
