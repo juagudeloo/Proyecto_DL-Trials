@@ -11,6 +11,12 @@ class InvModel1(nn.Module):
         nn.ReLU(),
         nn.Conv1d(in_channels=16, out_channels=64, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
+        nn.Conv1d(in_channels=64, out_channels=128, kernel_size = 2, stride=1, padding=padding),
+        nn.ReLU(),
+        nn.Conv1d(in_channels=128, out_channels=256, kernel_size = 2, stride=1, padding=padding),
+        nn.ReLU(),
+        nn.Conv1d(in_channels=256, out_channels=512, kernel_size = 2, stride=1, padding=padding),
+        nn.ReLU(),
         nn.Flatten(),
         nn.Dropout(p=0.5, inplace=False),
         nn.Linear(in_features = 19392, out_features = out_shape))
