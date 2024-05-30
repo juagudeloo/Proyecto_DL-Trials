@@ -40,9 +40,13 @@ def main():
     MODEL_NAME = "inversion_"+f"{epochs}E_"+f"{lr}lr.pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
     #Training
-    pth_out = f"{epochs}E_"+f"{lr}lr"
+    results_out = "Results/"
+    if not os.path.exists(results_out):
+        os.mkdir(results_out)
+    pth_out = results_out+f"{epochs}E_"+f"{lr}lr"
     if not os.path.exists(pth_out):
         os.mkdir(pth_out)
+
     # Set the seed and start the timer
     torch.manual_seed(42) #seed for the random weights of the model
     train_time_start_on_cpu = timer()
