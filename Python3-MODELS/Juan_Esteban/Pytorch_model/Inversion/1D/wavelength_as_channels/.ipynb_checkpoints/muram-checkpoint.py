@@ -24,6 +24,7 @@ class MuRAM():
         pth_out (str): Path for output data.
         """
         self.ptm = ptm
+        self.pth_out = pth_out
         self.filename = filename
         self.nlam = 300 #this parameter is useful when managing the Stokes parameters #wavelenght interval - its from 6300 amstroengs in steps of 10 amstroengs
         self.nx = 480
@@ -114,7 +115,7 @@ class MuRAM():
             print("Applying optical depth stratification...")
             opt_depth = np.load(self.ptm+"optical_depth_"+self.filename+".npy")
             #optical depth points
-            tau_out = self.ptm+"OpticalStratification/"+"array_of_tau_"+self.filename+f"_{opt_len}_depth_points.npy"
+            tau_out = self.pth_out+"array_of_tau_"+self.filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(tau_out):
                 tau = np.linspace(-3, 1, opt_len)
                 np.save(tau_out, tau)
@@ -122,7 +123,7 @@ class MuRAM():
             #optical stratification
             opt_mags_interp = {}
             opt_mags = np.zeros((self.nx, opt_len, self.nz, atm_quant.shape[-1]))
-            opt_mags_out =self.ptm+"OpticalStratification/"+"optical_stratified_atm_"+self.filename+f"_{opt_len}_depth_points.npy"
+            opt_mags_out =self.pth_out+"optical_stratified_atm_"+self.filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(opt_mags_out):
                 for ix in tqdm(range(self.nx)):
                         for iz in range(self.nz):
