@@ -56,6 +56,7 @@ def main():
     test_acc_history = np.zeros((epochs,))
     	
     start = time.time()
+    ifl = 0
     for filename in training_files:
         #Creation of the muram data processing object
         muram = MuRAM(ptm = ptm, filename = filename)
@@ -135,7 +136,7 @@ def main():
 
             # Divide total train loss by length of train dataloader (average loss per batch per epoch)
             train_loss /= len(train_dataloader)
-            train_loss_history[epoch] = train_loss
+            train_loss_history[ifl*epochs+epoch] = train_loss
 
             
             ### Testing
@@ -156,12 +157,12 @@ def main():
                 # Calculations on test metrics need to happen inside torch.inference_mode()
                 # Divide total test loss by length of test dataloader (per batch)
                 test_loss /= len(test_dataloader)
-                test_loss_history[epoch] = test_loss
+                test_loss_history[ifl*epochs+epoch] = test_loss
 
 
                 # Divide total accuracy by length of test dataloader (per batch)
                 test_acc /= len(test_dataloader)
-                test_acc_history[epoch] = test_acc
+                test_acc_history[ifl*epochs+epoch] = test_acc
 
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
@@ -178,6 +179,8 @@ def main():
         print(f"Saving model to: {MODEL_SAVE_PATH}")
         torch.save(obj=model_0.state_dict(), # only saving the state_dict() only saves the models learned parameters
                 f=MODEL_SAVE_PATH)
+        
+        ifl += 1
         
     metrics_out = pth_out+"loss_metrics/"
     if not os.path.exists(metrics_out):

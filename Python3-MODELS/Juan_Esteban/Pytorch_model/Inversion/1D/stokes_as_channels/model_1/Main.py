@@ -56,6 +56,7 @@ def main():
     test_acc_history = np.zeros((epochs*len(training_files),))
 
     start = time.time()
+    ifl = 0
     for filename in training_files:
         #Creation of the muram data processing object
         muram = MuRAM(ptm = ptm, filename = filename)
@@ -75,7 +76,7 @@ def main():
             test_output shape = {test_output.size()}
             """)
         
-        #Train and test dataloader
+        ifl*epochs+#Train and test dataloader
         train_data = TensorDataset(tr_input.to(device), tr_output.to(device))
         test_data = TensorDataset(test_input.to(device), test_output.to(device))
 
@@ -136,7 +137,7 @@ def main():
 
             # Divide total train loss by length of train dataloader (average loss per batch per epoch)
             train_loss /= len(train_dataloader)
-            train_loss_history[epoch] = train_loss
+            train_loss_history[ifl*epochs+epoch] = train_loss
 
             
             ### Testing
@@ -157,12 +158,12 @@ def main():
                 # Calculations on test metrics need to happen inside torch.inference_mode()
                 # Divide total test loss by length of test dataloader (per batch)
                 test_loss /= len(test_dataloader)
-                test_loss_history[epoch] = test_loss
+                test_loss_history[ifl*epochs+epoch] = test_loss
 
 
                 # Divide total accuracy by length of test dataloader (per batch)
                 test_acc /= len(test_dataloader)
-                test_acc_history[epoch] = test_acc
+                test_acc_history[ifl*epochs+epoch] = test_acc
 
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
@@ -172,6 +173,8 @@ def main():
         total_train_time_model_0 = print_train_time(start=train_time_start_on_cpu, 
                                                 end=train_time_end_on_cpu,
                                                 device=str(next(model_0.parameters()).device))
+
+        ifl += 1
 
 
 
