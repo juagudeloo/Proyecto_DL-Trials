@@ -57,7 +57,7 @@ def main():
     start = time.time()
     for filename in training_files:
         #Creation of the muram data processing object
-        muram = MuRAM(ptm = ptm, pth_out = pth_out, filename = filename)
+        muram = MuRAM(ptm = ptm, filename = filename)
 
         tr_input, test_input, tr_output, test_output = muram.train_test_sets("Stokes")
         tr_input = torch.moveaxis(tr_input, 1,2)
