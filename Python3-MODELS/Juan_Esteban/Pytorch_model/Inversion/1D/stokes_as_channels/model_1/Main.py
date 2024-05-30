@@ -180,9 +180,9 @@ def main():
     if not os.path.exists(metrics_out):
         os.mkdir(metrics_out)
 	
-    np.save(metrics_out+"train_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", train_loss_history)
-    np.save(metrics_out+"test_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", test_loss_history)
-    np.save(metrics_out+"test_acc_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", test_acc_history)
+    np.save(metrics_out+"train_loss_history"+str(epochs)+"E_"+str(lr)+"lr"+".npy", train_loss_history)
+    np.save(metrics_out+"test_loss_history"+str(epochs)+"E_"+str(lr)+"lr"+".npy", test_loss_history)
+    np.save(metrics_out+"test_acc_history"+str(epochs)+"E_"+str(lr)+"lr"+".npy", test_acc_history)
     runtime = time.time()-start
     with open(metrics_out+"runtime.txt", "w") as f:
 	    f.write(str(datetime.timedelta(seconds=runtime)))
