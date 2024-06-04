@@ -11,6 +11,8 @@ from sklearn.model_selection import train_test_split
 import torch
 import os
 from tqdm import tqdm 
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 #####################################################################################################################
 # Data class

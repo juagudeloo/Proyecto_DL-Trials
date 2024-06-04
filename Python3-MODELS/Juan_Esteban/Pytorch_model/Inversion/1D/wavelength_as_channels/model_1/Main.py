@@ -31,11 +31,11 @@ def main():
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     lr = 1e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
-    epochs = 10
+    epochs = 2
     #Create model save path
     MODEL_PATH = Path(pth_out+"model_weights/")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
-    MODEL_NAME = "inversion_wave_chan_"+str(epochs)+"E"+str(lr)+"lr"+".pth"
+    MODEL_NAME = "inversion_"+str(epochs)+"E"+str(lr)+"lr"+".pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
 
@@ -57,6 +57,26 @@ def main():
     	
     start = time.time()
     ifl = 0
+    
+    #Validation dataset
+    val_muram = MuRAM(ptm = ptm, filename = "130000")
+    val_atm_quant, val_stokes = val_muram.charge_quantities()
+    val_atm_quant_tensor = torch.from_numpy(val_atm_quant).to(device)
+    val_atm_quant_tensor = torch.reshape(val_atm_quant_tensor, (480*480,20,4))
+    stokes_tensor = torch.from_numpy(val_stokes).to(device)
+    # stokes = torch.reshape(stokes,(stokes_s[0]*stokes_s[1], stokes_s[2], stokes_s[3]))
+    BATCH_SIZE = 80
+
+    validation_data = TensorDataset(stokes_tensor, val_atm_quant_tensor)
+    validation_dataloader = DataLoader(validation_data,
+            batch_size=BATCH_SIZE,
+            shuffle=False # don't necessarily have to shuffle the testing data
+        )
+
+    #Validation lists
+    val_atm_list = []
+    epochs_to_plot = []
+    
     for filename in training_files:
         #Creation of the muram data processing object
         muram = MuRAM(ptm = ptm, filename = filename)
@@ -89,7 +109,7 @@ def main():
         test_dataloader = DataLoader(test_data,
             batch_size=BATCH_SIZE,
             shuffle=False # don't necessarily have to shuffle the testing data
-        )
+        )    
 
         print(f"Length of train dataloader: {len(train_dataloader)} batches of {BATCH_SIZE}")
         print(f"Length of test dataloader: {len(test_dataloader)} batches of {BATCH_SIZE}")
@@ -167,6 +187,27 @@ def main():
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
+            if epoch % 1 == 0:
+                print("\nValidation plot...")
+                #validation plot
+                validated_atm = torch.zeros((480*480,80))
+                with torch.inference_mode():
+                    i = 0
+                    for X, y in validation_dataloader:
+                        # 1. Forward pass
+                        valid_pred = model_0.double()(X.double())
+                        validated_atm[i*80:(i+1)*80] = valid_pred
+                        i += 1
+                    val_atm_list.append(np.reshape(validated_atm, (muram.nx, muram.nz, 20, 4)))
+                    epochs_to_plot.append(filename+f" epoch {epoch}")
+                    
+                print("Validation done!")
+        
+        #Making an animation of the correlation plots of the validation set.
+        titles = ["T", "rho", "By", "vy"]
+        validation_visual(val_atm_list, val_atm_quant, epochs_to_plot, pth_out, titles)
+                
+
         # Calculate training time      
         train_time_end_on_cpu = timer()
         total_train_time_model_0 = print_train_time(start=train_time_start_on_cpu, 
@@ -181,6 +222,12 @@ def main():
                 f=MODEL_SAVE_PATH)
         
         ifl += 1
+        
+        
+        
+        
+            
+        
         
     metrics_out = pth_out+"loss_metrics/"
     if not os.path.exists(metrics_out):
