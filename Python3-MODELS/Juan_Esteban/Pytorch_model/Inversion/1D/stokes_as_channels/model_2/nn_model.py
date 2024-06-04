@@ -2,7 +2,7 @@ from torch import nn
 import torch
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+import numpy as np
 
 class InvModel1(nn.Module):
     def __init__(self, in_shape, out_shape, hidden_units):

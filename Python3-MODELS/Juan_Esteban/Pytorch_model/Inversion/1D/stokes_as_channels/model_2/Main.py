@@ -8,10 +8,10 @@ from timeit import default_timer as timer
 import os
 import datetime
 import time
+import sys 
 
-os.chdir("../")
+sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/stokes_as_channels")
 from muram import MuRAM
-os.chdir("model_2")
 from nn_model import *
 
 
@@ -33,6 +33,13 @@ def main():
     lr = 1e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
     epochs = 10
+    results_out = "Results/"
+    if not os.path.exists(results_out):
+        os.mkdir(results_out)
+    pth_out = results_out+f"{epochs}E_"+f"{lr}lr"
+    if not os.path.exists(pth_out):
+        os.mkdir(pth_out)
+    
     #Create model save path 
     MODEL_PATH = Path(pth_out+"model_weights/")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/wavelength_as_channels/model_1/Main.py", line 13, in <module>
+    from muram import MuRAM
+ModuleNotFoundError: No module named 'muram'

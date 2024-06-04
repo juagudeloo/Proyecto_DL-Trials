@@ -20,10 +20,9 @@ import matplotlib.animation as animation
 
 class MuRAM():
     #To rescale all the data e are going to use a max values of the order of the general maximum value of the data, and 
-    def __init__(self, ptm:str, pth_out:str, filename:str):
+    def __init__(self, ptm:str, filename:str):
         """
         ptm (str): Path for MURAM data.
-        pth_out (str): Path for output data.
         """
         self.ptm = ptm
         self.filename = filename
@@ -116,6 +115,9 @@ class MuRAM():
             print("Applying optical depth stratification...")
             opt_depth = np.load(self.ptm+"optical_depth_"+self.filename+".npy")
             #optical depth points
+            optical_dir = self.ptm+"OpticalStratification/"
+	    if not os.path.exists(optical_dir):
+		os.mkdir(optical_dir)
             tau_out = self.ptm+"OpticalStratification/"+"array_of_tau_"+self.filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(tau_out):
                 tau = np.linspace(-3, 1, opt_len)
@@ -124,7 +126,7 @@ class MuRAM():
             #optical stratification
             opt_mags_interp = {}
             opt_mags = np.zeros((self.nx, opt_len, self.nz, atm_quant.shape[-1]))
-            opt_mags_out =self.ptm+"OpticalStratification/"+"optical_stratified_atm_"+self.filename+f"_{opt_len}_depth_points.npy"
+            opt_mags_out =optical_dir+"optical_stratified_atm_"+self.filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(opt_mags_out):
                 for ix in tqdm(range(self.nx)):
                         for iz in range(self.nz):
@@ -248,7 +250,7 @@ class MuRAM():
         else:
             print("Done! Returning the granular and intergraular zones quantities.")
             return atm_quant_gran, atm_quant_inter, stokes_gran, stokes_inter
-       
+        
     def train_test_sets(self, name_of_input, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
         atm_quant, stokes = self.granular_intergranular(gran_inter_zones = gran_inter_zones, scale = scale, opt_depth_stratif = opt_depth_stratif, opt_len = opt_len, vertical_comp = vertical_comp)
         print("splitting...")
