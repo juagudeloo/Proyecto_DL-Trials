@@ -116,8 +116,8 @@ class MuRAM():
             opt_depth = np.load(self.ptm+"optical_depth_"+self.filename+".npy")
             #optical depth points
             optical_dir = self.ptm+"OpticalStratification/"
-	    if not os.path.exists(optical_dir):
-		os.mkdir(optical_dir)
+	        if not os.path.exists(optical_dir):
+		        os.mkdir(optical_dir)
             tau_out = self.ptm+"OpticalStratification/"+"array_of_tau_"+self.filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(tau_out):
                 tau = np.linspace(-3, 1, opt_len)

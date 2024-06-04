@@ -9,9 +9,8 @@ import os
 import datetime
 import time
 
-os.chdir("../")
+sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/module")
 from muram import MuRAM
-os.chdir("model_1")
 from nn_model import *
 
 
