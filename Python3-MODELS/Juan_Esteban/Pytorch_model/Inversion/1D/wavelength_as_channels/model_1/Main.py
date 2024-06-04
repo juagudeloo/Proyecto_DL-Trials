@@ -31,6 +31,14 @@ def main():
     lr = 1e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
     epochs = 2
+    
+    #Training
+    results_out = "Results/"
+    if not os.path.exists(results_out):
+        os.mkdir(results_out)
+    pth_out = results_out+f"{epochs}E_"+f"{lr}lr/"
+    if not os.path.exists(pth_out):
+        os.mkdir(pth_out)
     #Create model save path
     MODEL_PATH = Path(pth_out+"model_weights/")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
@@ -38,13 +46,7 @@ def main():
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
 
-    #Training
-    results_out = "Results/"
-    if not os.path.exists(results_out):
-        os.mkdir(results_out)
-    pth_out = results_out+f"{epochs}E_"+f"{lr}lr"
-    if not os.path.exists(pth_out):
-        os.mkdir(pth_out)
+    
 
     # Set the seed and start the timer
     torch.manual_seed(42) #seed for the random weights of the model
