@@ -1,5 +1,8 @@
 from torch import nn
 import torch
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
 
 class InvModel1(nn.Module):
     def __init__(self, in_shape, out_shape, hidden_units):
@@ -50,3 +53,34 @@ def print_train_time(start: float, end: float, device: torch.device = None):
     total_time = end - start
     print(f"Train time on {device}: {total_time:.3f} seconds")
     return total_time
+
+def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to_plot:list, images_out:str, titles:list):
+    """
+    Function for making the correlation plots.
+    ------------------------------------------------
+    ref_quant_list (list): list of the generated params for the specified epochs.
+    generated_quant (np.ndarray): reference cube atmosphere params.
+    epochs_to_plot (list): list with the name of the filename along with the epoch of training.
+    images_out (str): path to save the animation.
+    title (list): list of the titles corresponding to the plotted magnitudes.
+    """
+    N_plots = generated_quant.shape[-1]
+    heights_index = [11, 8, 5, 2]
+    N_heights = len(heights_index)
+    def animate(ni):
+        tau = np.linspace(-3, 1,20)
+        ref_quant = ref_quant_list[ni]
+        for i in range(4):
+            for j in range(N_plots):
+                ax[i,j].scatter(generated_quant[:,:,heights_index[j],i], 
+                                ref_quant[:,:,heights_index[j],i],
+                                s=5, c="darkviolet")
+                ax[i,j].set_title(f"{titles[j]} - OD={tau[heights_index[i]]} - E={epochs_to_plot[ni]}")
+                ax[i,j].set_xlabel("generated")
+                ax[i,j].set_ylabel("reference")
+            
+    fig, ax = plt.subplots(N_heights, N_plots, figsize=(4*N_plots, 4*N_heights),layout='constrained')
+    fig.tight_layout()
+    frames = len(epochs_to_plot)
+    animator = animation.FuncAnimation(fig, animate, frames=frames)
+    animator.save(images_out+"visualization.mp4")

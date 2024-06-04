@@ -248,7 +248,7 @@ class MuRAM():
         else:
             print("Done! Returning the granular and intergraular zones quantities.")
             return atm_quant_gran, atm_quant_inter, stokes_gran, stokes_inter
-        
+       
     def train_test_sets(self, name_of_input, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
         atm_quant, stokes = self.granular_intergranular(gran_inter_zones = gran_inter_zones, scale = scale, opt_depth_stratif = opt_depth_stratif, opt_len = opt_len, vertical_comp = vertical_comp)
         print("splitting...")

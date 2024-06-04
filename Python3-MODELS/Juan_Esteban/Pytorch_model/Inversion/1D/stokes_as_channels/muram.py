@@ -11,6 +11,8 @@ from sklearn.model_selection import train_test_split
 import torch
 import os
 from tqdm import tqdm 
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 #####################################################################################################################
 # Data class
@@ -18,7 +20,7 @@ from tqdm import tqdm
 
 class MuRAM():
     #To rescale all the data e are going to use a max values of the order of the general maximum value of the data, and 
-    def __init__(self, ptm:str, filename:str):
+    def __init__(self, ptm:str, pth_out:str, filename:str):
         """
         ptm (str): Path for MURAM data.
         pth_out (str): Path for output data.
