@@ -73,7 +73,7 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
         for i in range(4):
             for j in range(N_plots):
                 print(generated_quant.shape, ref_quant.shape)
-                ax[i,j].scatter(generated_quant[:,:,heights_index[j],i].flatten(), 
+                ax[i,j].scatter(generated_quant[:,heights_index[j],:,i].flatten(), 
                                 ref_quant[:,:,heights_index[j],i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
                 ax[i,j].set_title(f"{titles[j]} - OD={tau[heights_index[i]]} - E={epochs_to_plot[ni]}")
