@@ -79,7 +79,7 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
                 ax[i,j].set_xlabel("generated")
                 ax[i,j].set_ylabel("reference")
             
-    fig, ax = plt.subplots(N_heights, N_plots, figsize=(4*N_plots, 4*N_heights),layout='constrained')
+    fig, ax = plt.subplots(N_heights, N_plots, figsize=(4*N_plots, 4*N_heights))
     fig.tight_layout()
     frames = len(epochs_to_plot)
     animator = animation.FuncAnimation(fig, animate, frames=frames)
