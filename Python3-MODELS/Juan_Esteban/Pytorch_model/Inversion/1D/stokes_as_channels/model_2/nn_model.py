@@ -76,7 +76,7 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
                 ax[i,j].scatter(generated_quant[:,heights_index[j],:,i].flatten(), 
                                 ref_quant[:,:,heights_index[j],i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
-                ax[i,j].set_title(f"{titles[j]} - OD={tau[heights_index[i]]:.2f} - E={epochs_to_plot[ni]}")
+                ax[i,j].set_title(f"{titles[j]} - OD={tau[heights_index[i]]:.2f} - {epochs_to_plot[ni]}")
                 ax[i,j].set_xlabel("generated")
                 ax[i,j].set_ylabel("reference")
         fig.tight_layout()
