@@ -72,6 +72,7 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
         ref_quant = ref_quant_list[ni]
         for i in range(4):
             for j in range(N_plots):
+                print(generated_quant.shape, ref_quant.shape)
                 ax[i,j].scatter(generated_quant[:,:,heights_index[j],i].flatten(), 
                                 ref_quant[:,:,heights_index[j],i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
