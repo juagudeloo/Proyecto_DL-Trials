@@ -53,9 +53,9 @@ def main():
     torch.manual_seed(42) #seed for the random weights of the model
     train_time_start_on_cpu = timer()
 
-    train_loss_history = np.zeros((epochs,))
-    test_loss_history = np.zeros((epochs,))
-    test_acc_history = np.zeros((epochs,))
+    train_loss_history = np.zeros((epochs*len(training_files),))
+    test_loss_history = np.zeros((epochs*len(training_files),))
+    test_acc_history = np.zeros((epochs*len(training_files),))
     	
     start = time.time()
     ifl = 0
