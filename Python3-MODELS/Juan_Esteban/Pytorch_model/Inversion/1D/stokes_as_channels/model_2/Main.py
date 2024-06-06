@@ -18,7 +18,7 @@ from nn_model import *
 def main():
     ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
     training_files = ["085000", "090000", "095000", 
-    #"100000", "105000", "110000"
+    "100000", "105000", "110000"
     ]
 
     #Creating the model for training
@@ -32,7 +32,7 @@ def main():
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     lr = 1e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
-    epochs = 1
+    epochs = 20
     results_out = "Results/"
     if not os.path.exists(results_out):
         os.mkdir(results_out)
@@ -190,19 +190,19 @@ def main():
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-            #if epoch % 1 == 0:
-            print("\nValidation plot...")
-            #validation plot
-            validated_atm = torch.zeros((480*480,80))
-            with torch.inference_mode():
-                i = 0
-                for X, y in validation_dataloader:
-                    # 1. Forward pass
-                    valid_pred = model_0.double()(X.double())
-                    validated_atm[i*80:(i+1)*80] = valid_pred
-                    i += 1
-                val_atm_list.append(np.reshape(validated_atm, (muram.nx, muram.nz, 20, 4)))
-                epochs_to_plot.append(filename+f" epoch {epoch}")
+            if epoch % 3 == 0:
+                print("\nValidation plot...")
+                #validation plot
+                validated_atm = torch.zeros((480*480,80))
+                with torch.inference_mode():
+                    i = 0
+                    for X, y in validation_dataloader:
+                        # 1. Forward pass
+                        valid_pred = model_0.double()(X.double())
+                        validated_atm[i*80:(i+1)*80] = valid_pred
+                        i += 1
+                    val_atm_list.append(np.reshape(validated_atm, (muram.nx, muram.nz, 20, 4)))
+                    epochs_to_plot.append(filename+f" epoch {epoch}")
                 
             print("Validation done!")
     
