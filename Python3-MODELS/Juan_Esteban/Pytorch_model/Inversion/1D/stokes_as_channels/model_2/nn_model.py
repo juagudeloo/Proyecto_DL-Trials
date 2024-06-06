@@ -72,14 +72,23 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
         ref_quant = ref_quant_list[ni]
         for i in range(4):
             for j in range(N_plots):
-                print(generated_quant.shape, ref_quant.shape)
                 ax[i,j].scatter(generated_quant[:,heights_index[j],:,i].flatten(), 
                                 ref_quant[:,:,heights_index[j],i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
+                max_value = np.max(np.array([np.max(generated_quant[:,heights_index[j],:,i].flatten()),
+                                             np.max(ref_quant[:,:,heights_index[j],i].flatten())]))
+                max_x = np.max(generated_quant[:,heights_index[j],:,i].flatten())
+                max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
+                min_x = np.min(generated_quant[:,heights_index[j],:,i].flatten())
+                min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
+                ax[i,j].plot(np.linspace(0,max_value),np.linspace(0,max_value),"k")
                 ax[i,j].set_title(f"{titles[j]} - OD={tau[heights_index[i]]:.2f} - {epochs_to_plot[ni]}")
                 ax[i,j].set_xlabel("generated")
                 ax[i,j].set_ylabel("reference")
+                ax[i,j].set_ylim(min_y, max_y)
+                ax[i,j].set_xlim(min_x, max_x)
         fig.tight_layout()
+                
             
     fig, ax = plt.subplots(N_heights, N_plots, figsize=(4*N_plots, 4*N_heights))
     frames = len(epochs_to_plot)
