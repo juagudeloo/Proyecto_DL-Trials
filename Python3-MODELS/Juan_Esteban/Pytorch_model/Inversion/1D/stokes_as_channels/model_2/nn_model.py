@@ -76,10 +76,12 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
                 ax[i,j].scatter(generated_quant[:,heights_index[j],:,i].flatten(), 
                                 ref_quant[:,:,heights_index[j],i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
+                print(type(np.max(ref_quant[:,:,heights_index[j],i].flatten())), np.max(ref_quant[:,:,heights_index[j],i].flatten()))
                 max_value = np.max(np.array([np.max(generated_quant[:,heights_index[j],:,i].flatten()),
                                              np.max(ref_quant[:,:,heights_index[j],i].flatten())]))
                 min_value = np.min(np.array([np.min(generated_quant[:,heights_index[j],:,i].flatten()),
                                              np.min(ref_quant[:,:,heights_index[j],i].flatten())]))
+                
                 max_x = np.max(generated_quant[:,heights_index[j],:,i].flatten())
                 max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
                 min_x = np.min(generated_quant[:,heights_index[j],:,i].flatten())
