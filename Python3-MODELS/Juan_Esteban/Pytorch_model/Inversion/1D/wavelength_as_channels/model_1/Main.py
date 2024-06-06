@@ -8,6 +8,7 @@ from timeit import default_timer as timer
 import os
 import datetime
 import time
+import sys
 
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/module")
 from muram import MuRAM
@@ -16,8 +17,8 @@ from nn_model import *
 
 def main():
     ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
-    training_files = ["085000", "090000", "095000", 
-    "100000", "105000", "110000"
+    training_files = ["085000", "090000", 
+    #"095000", "100000", "105000", "110000"
     ]
 
     #Creating the model for training
@@ -30,7 +31,7 @@ def main():
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     lr = 1e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
-    epochs = 15
+    epochs = 1
     
     #Training
     results_out = "Results/"
@@ -188,7 +189,7 @@ def main():
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-            if epoch % 3 == 0:
+            if epoch % 1 == 0:
                 print("\nValidation plot...")
                 #validation plot
                 validated_atm = torch.zeros((480*480,80))
