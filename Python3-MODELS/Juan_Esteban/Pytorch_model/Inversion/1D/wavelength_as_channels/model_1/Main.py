@@ -31,7 +31,7 @@ def main():
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     lr = 1e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
-    epochs = 1
+    epochs = 3
     
     #Training
     results_out = "Results/"
@@ -190,7 +190,7 @@ def main():
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-            if epoch % 1 == 0:
+            if (epoch % 2 == 0) or (epoch == epochs):
                 print("\nValidation plot...")
                 #validation plot
                 validated_atm = torch.zeros((480*480,80))
