@@ -3,6 +3,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from scipy.stats import pearsonr
 
 class InvModel1(nn.Module):
     def __init__(self, in_shape, out_shape, hidden_units):
@@ -81,8 +82,9 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
                 max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
                 min_x = np.min(generated_quant[:,heights_index[j],:,i].flatten())
                 min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
+                pearson = pearsonr(generated_quant[:,heights_index[j],:,i].flatten(), ref_quant[:,:,heights_index[j],i].flatten())
                 ax[i,j].plot(np.linspace(min_value,max_value),np.linspace(min_value,max_value),"k")
-                ax[i,j].set_title(f"{titles[j]} - OD={tau[heights_index[i]]:.2f} - {epochs_to_plot[ni]}")
+                ax[i,j].set_title(f"{titles[j]} OD_{tau[heights_index[i]]:.2f} {epochs_to_plot[ni]} p_{pearson:.2f}")
                 ax[i,j].set_xlabel("generated")
                 ax[i,j].set_ylabel("reference")
                 ax[i,j].set_ylim(min_y, max_y)
@@ -91,7 +93,7 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
                 
                 
             
-    fig, ax = plt.subplots(N_heights, N_plots, figsize=(4*N_plots, 4*N_heights))
+    fig, ax = plt.subplots(N_heights, N_plots, figsize=(5*N_plots, 5*N_heights))
     frames = len(epochs_to_plot)
     animator = animation.FuncAnimation(fig, animate, frames=frames)
     animator.save(images_out+"visualization.mp4")
