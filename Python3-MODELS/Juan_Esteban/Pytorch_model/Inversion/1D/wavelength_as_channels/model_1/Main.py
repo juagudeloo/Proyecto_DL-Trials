@@ -66,9 +66,10 @@ def main():
     val_atm_quant_tensor = torch.from_numpy(val_atm_quant).to(device)
     val_atm_quant_tensor = torch.reshape(val_atm_quant_tensor, (480*480,20,4))
     stokes_tensor = torch.from_numpy(val_stokes).to(device)
+    stokes_tensor = torch.reshape(stokes_tensor, (480,480,stokes_tensor.size()[2],stokes_tensor.size()[3]))
     # stokes = torch.reshape(stokes,(stokes_s[0]*stokes_s[1], stokes_s[2], stokes_s[3]))
     BATCH_SIZE = 80
-
+    print(stokes_tensor.size(), val_atm_quant_tensor.size())
     validation_data = TensorDataset(stokes_tensor, val_atm_quant_tensor)
     validation_dataloader = DataLoader(validation_data,
             batch_size=BATCH_SIZE,
