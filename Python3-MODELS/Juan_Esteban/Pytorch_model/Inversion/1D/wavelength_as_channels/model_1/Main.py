@@ -190,7 +190,7 @@ def main():
             ## Print out what's happening
             print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-            if (epoch % 2 == 0) or (epoch == epochs):
+            if (epoch % 3 == 0) or (epoch == epochs-1):
                 print("\nValidation plot...")
                 #validation plot
                 validated_atm = torch.zeros((480*480,80))
@@ -202,7 +202,7 @@ def main():
                         validated_atm[i*80:(i+1)*80] = valid_pred
                         i += 1
                     val_atm_list.append(np.reshape(validated_atm, (muram.nx, muram.nz, 20, 4)))
-                    epochs_to_plot.append(filename+f" epoch {epoch}")
+                    epochs_to_plot.append(filename+f" epoch {epoch+1}")
                     
                 print("Validation done!")
         
