@@ -69,6 +69,8 @@ def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to
     def animate(ni):
         tau = np.linspace(-3, 1,20)
         ref_quant = ref_quant_list[ni]
+        print(type(ref_quant), type(generated_quant), ref_quant.shape, generated_quant.shape)
+        
         for i in range(4):
             for j in range(N_plots):
                 ax[i,j].scatter(generated_quant[:,heights_index[j],:,i].flatten(), 
