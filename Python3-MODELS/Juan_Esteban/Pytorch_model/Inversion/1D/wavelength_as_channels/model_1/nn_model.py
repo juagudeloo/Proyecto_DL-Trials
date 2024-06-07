@@ -53,38 +53,37 @@ def print_train_time(start: float, end: float, device: torch.device = None):
     print(f"Train time on {device}: {total_time:.3f} seconds")
     return total_time
 
-def validation_visual(ref_quant_list:list, generated_quant:np.ndarray, epochs_to_plot:list, images_out:str, titles:list):
+def validation_visual(generated_quant_list:list, ref_quant:np.ndarray, epochs_to_plot:list, images_out:str, titles:list):
     """
     Function for making the correlation plots.
     ------------------------------------------------
-    ref_quant_list (list): list of the generated params for the specified epochs.
-    generated_quant (np.ndarray): reference cube atmosphere params.
+    gen_quant_list (list): list of the generated params for the specified epochs.
+    ref_quant (np.ndarray): reference cube atmosphere params.
     epochs_to_plot (list): list with the name of the filename along with the epoch of training.
     images_out (str): path to save the animation.
     title (list): list of the titles corresponding to the plotted magnitudes.
     """
-    N_plots = generated_quant.shape[-1]
+    N_plots = ref_quant.shape[-1]
     heights_index = [11, 8, 5, 2]
     N_heights = len(heights_index)
     def animate(ni):
         tau = np.linspace(-3, 1,20)
-        ref_quant = ref_quant_list[ni]
-        print(type(ref_quant), type(generated_quant), ref_quant.shape, generated_quant.shape)
-        
+        gen_quant = generated_quant_list[ni]
+
         for i in range(4):
             for j in range(N_plots):
-                ax[i,j].scatter(generated_quant[:,heights_index[j],:,i].flatten(), 
-                                ref_quant[:,:,heights_index[j],i].flatten(),
+                ax[i,j].scatter(gen_quant[:,:,heights_index[j],i].flatten(),
+                                ref_quant[:,heights_index[j],:,i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
-                max_value = np.max(np.array([np.max(generated_quant[:,heights_index[j],:,i].flatten()),
-                                             np.max(ref_quant[:,:,heights_index[j],i].flatten())]))
-                min_value = np.min(np.array([np.min(generated_quant[:,heights_index[j],:,i].flatten()),
-                                             np.min(ref_quant[:,:,heights_index[j],i].flatten())]))
-                max_x = np.max(generated_quant[:,heights_index[j],:,i].flatten())
-                max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
-                min_x = np.min(generated_quant[:,heights_index[j],:,i].flatten())
-                min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
-                pearson = pearsonr(generated_quant[:,heights_index[j],:,i].flatten(), ref_quant[:,:,heights_index[j],i].flatten())
+                max_value = np.max(np.array([np.max(ref_quant[:,heights_index[j],:,i].flatten()),
+                                             np.max(gen_quant[:,:,heights_index[j],i].flatten())]))
+                min_value = np.min(np.array([np.min(ref_quant[:,heights_index[j],:,i].flatten()),
+                                             np.min(gen_quant[:,:,heights_index[j],i].flatten())]))
+                max_x = np.max(ref_quant[:,heights_index[j],:,i].flatten())
+                max_y = np.max(gen_quant[:,:,heights_index[j],i].flatten())
+                min_x = np.min(ref_quant[:,heights_index[j],:,i].flatten())
+                min_y = np.min(gen_quant[:,:,heights_index[j],i].flatten())
+                pearson = pearsonr(gen_quant[:,:,heights_index[j],i].flatten(), ref_quant[:,heights_index[j],:,i].flatten())
                 ax[i,j].plot(np.linspace(min_value,max_value),np.linspace(min_value,max_value),"k")
                 ax[i,j].set_title(f"{titles[j]} OD_{tau[heights_index[i]]:.2f} {epochs_to_plot[ni]} p_{pearson:.2f}")
                 ax[i,j].set_xlabel("generated")
