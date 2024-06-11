@@ -201,7 +201,8 @@ def main():
                         valid_pred = model_0.double()(X.double())
                         validated_atm[i*80:(i+1)*80] = valid_pred
                         i += 1
-                    val_atm_list.append(np.reshape(validated_atm, (muram.nx, muram.nz, 20, 4)))
+                    validated_atm = np.reshape(validated_atm.numpy, (muram.nx, muram.nz, 20, 4))
+                    val_atm_list.append(validated_atm)
                     epochs_to_plot.append(filename+f" epoch {epoch+1}")
                 
             print("Validation done!")
