@@ -202,7 +202,7 @@ def main():
                         validated_atm[i*80:(i+1)*80] = valid_pred
                         i += 1
                     validated_atm = torch.reshape(validated_atm, (muram.nx, muram.nz, 20, 4))
-                    validated_atm = validated_atm.to("cpu").numpy
+                    validated_atm = validated_atm.to("cpu").numpy()
                     print(np.max(validated_atm))
                     val_atm_list.append(validated_atm)
                     epochs_to_plot.append(filename+f" epoch {epoch+1}")
