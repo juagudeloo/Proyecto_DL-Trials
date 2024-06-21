@@ -92,7 +92,7 @@ def validation_visual(generated_quant_list:list, ref_quant:np.ndarray, epochs_to
                 ax[i,j].set_xlim(min_x, max_x)
         fig.tight_layout()
         fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
-        fig.text(-0.02, 0, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
+        fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
                 
                 
             
