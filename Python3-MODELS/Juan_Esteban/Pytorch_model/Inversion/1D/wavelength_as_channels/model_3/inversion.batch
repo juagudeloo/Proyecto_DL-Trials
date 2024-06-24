@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH -o inversion%j.out
 #SBATCH -e inversion%j.err
-#SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/wavelength_as_channels/model_2/
+#SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/wavelength_as_channels/model_3/
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=juagudeloo@unal.edu.co
 #SBATCH --partition=normal
@@ -24,5 +24,5 @@ echo "Soy un JOB GPU"
 echo "Corri en la maquina: "$host
 echo "Corri el: "$date
 
-python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/wavelength_as_channels/model_2/Main.py 
+python3 /girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/wavelength_as_channels/model_3/Main.py 
 
