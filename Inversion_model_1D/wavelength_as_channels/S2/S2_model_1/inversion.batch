@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#SBATCH --job-name=inv_wavlen
+#SBATCH --ntasks-per-node=1
+#SBATCH -o inversion%j.out
+#SBATCH -e inversion%j.err
+#SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/S2/S2_model_1/
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=juagudeloo@unal.edu.co
+#SBATCH --partition=normal
+#SBATCH --time=7-00:00:00
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+#SBATCH -p Viz
+
+nvidia-smi
+
+. /girg/juagudeloo/env_juanes/bin/activate
+
+sleep 60
+host=`/bin/hostname`
+date=`/bin/date`
+echo "Soy un JOB GPU"
+echo "Corri en la maquina: "$host
+echo "Corri el: "$date
+
+python3 /girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/S2/S2_model_1/Main.py 
+
