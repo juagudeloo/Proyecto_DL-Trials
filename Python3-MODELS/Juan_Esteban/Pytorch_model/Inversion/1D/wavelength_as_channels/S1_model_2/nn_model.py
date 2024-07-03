@@ -15,8 +15,6 @@ class InvModel1(nn.Module):
         nn.ReLU(),
         nn.Conv1d(in_channels=1200, out_channels=2400, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
-        #nn.Conv1d(in_channels=2400, out_channels=4800, kernel_size = 2, stride=1, padding=padding),
-        #nn.ReLU(),
         nn.Flatten(),
         nn.Dropout(p=0.5, inplace=False),
         nn.Linear(in_features = 16800, out_features = out_shape))
