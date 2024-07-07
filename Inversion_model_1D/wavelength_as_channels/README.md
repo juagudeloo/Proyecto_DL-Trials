@@ -1,1 +1,1 @@
-layers: change number of convolutional layers.
+Complete wavelength resolution.
