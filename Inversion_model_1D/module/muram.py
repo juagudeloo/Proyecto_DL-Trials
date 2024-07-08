@@ -298,8 +298,8 @@ class MuRAM():
             all_atm_quant.append(atm_quant)
             all_stokes.append(stokes)
 
-        all_atm_quant = np.concatanate(all_atm_quant, axis=0)
-        all_stokes = np.concatanate(all_stokes, axis=0)
+        all_atm_quant = np.concatenate(all_atm_quant, axis=0)
+        all_stokes = np.concatenate(all_stokes, axis=0)
         print(all_atm_quant.shape, all_stokes.shape)
         print("splitting...")
         in_train, in_test, out_train, out_test = train_test_split(all_stokes, all_atm_quant, test_size=0.33, random_state=42)
