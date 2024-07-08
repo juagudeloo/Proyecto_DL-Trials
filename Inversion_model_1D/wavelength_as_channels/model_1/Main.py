@@ -141,7 +141,7 @@ def main():
 
         # Divide total train loss by length of train dataloader (average loss per batch per epoch)
         train_loss /= len(train_dataloader)
-        train_loss_history[epochs+epoch] = train_loss
+        train_loss_history[epoch] = train_loss
 
         
         ### Testing
@@ -162,32 +162,31 @@ def main():
             # Calculations on test metrics need to happen inside torch.inference_mode()
             # Divide total test loss by length of test dataloader (per batch)
             test_loss /= len(test_dataloader)
-            test_loss_history[epochs+epoch] = test_loss
+            test_loss_history[epoch] = test_loss
 
 
             # Divide total accuracy by length of test dataloader (per batch)
             test_acc /= len(test_dataloader)
-            test_acc_history[epochs+epoch] = test_acc
+            test_acc_history[epoch] = test_acc
 
         ## Print out what's happening
         print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-        if (epoch % 2 == 0) or (epoch == epochs-1):
-            print("\nValidation plot...")
-            #validation plot
-            validated_atm = torch.zeros((480*480,80))
-            with torch.inference_mode():
-                i = 0
-                for X, y in validation_dataloader:
-                    # 1. Forward pass
-                    valid_pred = model_0.double()(X.double())
-                    validated_atm[i*80:(i+1)*80] = valid_pred
-                    i += 1
-                validated_atm = torch.reshape(validated_atm, (muram.nx, muram.nz, 20, 4))
-                validated_atm = validated_atm.to("cpu").numpy()
-                print(np.max(validated_atm))
-                val_atm_list.append(validated_atm)
-                epochs_to_plot.append(f"epoch {epoch+1}")
+        print("\nValidation plot...")
+        #validation plot
+        validated_atm = torch.zeros((480*480,80))
+        with torch.inference_mode():
+            i = 0
+            for X, y in validation_dataloader:
+                # 1. Forward pass
+                valid_pred = model_0.double()(X.double())
+                validated_atm[i*80:(i+1)*80] = valid_pred
+                i += 1
+            validated_atm = torch.reshape(validated_atm, (muram.nx, muram.nz, 20, 4))
+            validated_atm = validated_atm.to("cpu").numpy()
+            print(np.max(validated_atm))
+            val_atm_list.append(validated_atm)
+            epochs_to_plot.append(f"epoch {epoch+1}")
                 
             print("Validation done!")
         
