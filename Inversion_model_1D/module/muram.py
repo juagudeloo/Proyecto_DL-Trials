@@ -211,27 +211,27 @@ class MuRAM():
 
             print(f"""
             MAX VALUES:
-            {np.max(mtpr) = }
-            {np.max(mbxx) = }
-            {np.max(mbyy) = }
-            {np.max(mbzz) = }
-            {np.max(mrho) = }
-            {np.max(mvxx) = }
-            {np.max(mvyy) = }
-            {np.max(mvzz) = }
-                  """)
+            mtpr max = {np.max(mtpr)}
+            mbxx max = {np.max(mbxx)}
+            mbyy max = {np.max(mbyy)}
+            mbzz max = {np.max(mbzz)}
+            mrho max = {np.max(mrho)}
+            mvxx max = {np.max(mvxx)}
+            mvyy max = {np.max(mvyy)}
+            mvzz max = {np.max(mvzz)}
+                """)
 
             print(f"""
             MIN VALUES:
-            {np.min(mtpr) = }
-            {np.min(mbxx) = }
-            {np.min(mbyy) = }
-            {np.min(mbzz) = }
-            {np.min(mrho) = }
-            {np.min(mvxx) = }
-            {np.min(mvyy) = }
-            {np.min(mvzz) = }
-                  """)
+            mtpr min = {np.min(mtpr)}
+            mbxx min = {np.min(mbxx)}
+            mbyy min = {np.min(mbyy)}
+            mbzz min = {np.min(mbzz)}
+            mrho min = {np.min(mrho)}
+            mvxx min = {np.min(mvxx)}
+            mvyy min = {np.min(mvyy)}
+            mvzz min = {np.min(mvzz)}
+                """)
 
         print(f"""
         ######################## 
