@@ -9,9 +9,8 @@ class InvModel1(nn.Module):
     def __init__(self, in_shape, out_shape, hidden_units):
         super().__init__()
         padding = 1
-        self.simple_conv = nn.Sequential(nn.Conv1d(in_channels=in_shape, out_channels=600, kernel_size = 2, stride=1, padding=padding),
-        nn.ReLU(),
-        nn.Conv1d(in_channels=600, out_channels=1200, kernel_size = 2, stride=1, padding=padding),
+        self.simple_conv = nn.Sequential(
+        nn.Conv1d(in_channels=in_shape, out_channels=72, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
         nn.Flatten(),
         nn.Dropout(p=0.5, inplace=False),
@@ -75,10 +74,10 @@ def validation_visual(generated_quant_list:list, ref_quant:np.ndarray, epochs_to
                                              np.max(gen_quant[:,:,heights_index[j],i].flatten())]))
                 min_value = np.min(np.array([np.min(ref_quant[:,heights_index[j],:,i].flatten()),
                                              np.min(gen_quant[:,:,heights_index[j],i].flatten())]))
-                max_x = np.max(ref_quant[:,heights_index[j],:,i].flatten())
-                max_y = np.max(gen_quant[:,:,heights_index[j],i].flatten())
-                min_x = np.min(ref_quant[:,heights_index[j],:,i].flatten())
-                min_y = np.min(gen_quant[:,:,heights_index[j],i].flatten())
+                max_x = np.max(gen_quant[:,heights_index[j],:,i].flatten())
+                max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
+                min_x = np.min(gen_quant[:,heights_index[j],:,i].flatten())
+                min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
                 pearson = pearsonr(gen_quant[:,:,heights_index[j],i].flatten(), ref_quant[:,heights_index[j],:,i].flatten())[0]
                 ax[i,j].plot(np.linspace(min_value,max_value),np.linspace(min_value,max_value),"k")
                 ax[i,j].set_title(f"{titles[j]} OD_{tau[heights_index[i]]:.2f} {epochs_to_plot[ni]} p_{pearson:.2f}")

@@ -5,12 +5,20 @@
 # Libraries
 #####################################################################################################################
 import numpy as np
+
 from skimage import filters
+
 from scipy.interpolate import interp1d
+
 from sklearn.model_selection import train_test_split
+
 import torch
+from torch.utils.data import TensorDataset
+
 import os
+
 from tqdm import tqdm 
+
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
@@ -20,17 +28,14 @@ import matplotlib.animation as animation
 
 class MuRAM():
     #To rescale all the data e are going to use a max values of the order of the general maximum value of the data, and 
-    def __init__(self, ptm:str, filename:str):
-        """
-        ptm (str): Path for MURAM data.
-        """
+    def __init__(self, ptm:str, filenames:list[str]):
         self.ptm = ptm
-        self.filename = filename
+        self.filenames = filenames
         self.nlam = 300 #this parameter is useful when managing the Stokes parameters #wavelenght interval - its from 6300 amstroengs in steps of 10 amstroengs
         self.nx = 480
-        self.ny = 256
+        self.ny = 256 #height axis
         self.nz = 480
-    def charge_quantities(self, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
+    def charge_quantities(self, filename, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
         """
         Function for charging both atmosphere physical quantities and the Stokes parameters
         scale: Boolean. Decides wether or not to scale the data. Default is True.
@@ -45,17 +50,17 @@ class MuRAM():
 
         print(f"""
         ######################## 
-        Reading {self.filename} MuRAM data...
+        Reading {filename} MuRAM data...
         ######################## 
               """)
 
         print("Charging temperature ...")
-        mtpr = np.load(self.ptm+"mtpr_"+self.filename+".npy").flatten()
+        mtpr = np.load(self.ptm+"mtpr_"+filename+".npy").flatten()
 
         print("Charging magnetic field vector...")
-        mbxx = np.load(self.ptm+"mbxx_"+self.filename+".npy")
-        mbyy = np.load(self.ptm+"mbyy_"+self.filename+".npy")
-        mbzz = np.load(self.ptm+"mbzz_"+self.filename+".npy")
+        mbxx = np.load(self.ptm+"mbxx_"+filename+".npy")
+        mbyy = np.load(self.ptm+"mbyy_"+filename+".npy")
+        mbzz = np.load(self.ptm+"mbzz_"+filename+".npy")
 
         coef = np.sqrt(4.0*np.pi) #cgs units conversion300
 
@@ -64,12 +69,12 @@ class MuRAM():
         mbzz=mbzz*coef
 
         print("Charging density...")
-        mrho = np.load(self.ptm+"mrho_"+self.filename+".npy")
+        mrho = np.load(self.ptm+"mrho_"+filename+".npy")
 
         print("Charge velocity...")
-        mvxx = np.load(self.ptm+"mvxx_"+self.filename+".npy")
-        mvyy = np.load(self.ptm+"mvyy_"+self.filename+".npy")
-        mvzz = np.load(self.ptm+"mvzz_"+self.filename+".npy")
+        mvxx = np.load(self.ptm+"mvxx_"+filename+".npy")
+        mvyy = np.load(self.ptm+"mvyy_"+filename+".npy")
+        mvzz = np.load(self.ptm+"mvzz_"+filename+".npy")
 
         mvxx = mvxx/mrho
         mvyy = mvyy/mrho
@@ -109,25 +114,20 @@ class MuRAM():
         atm_quant = np.memmap.reshape(atm_quant, (self.nx, self.ny, self.nz, atm_quant.shape[1]))
 
         print("Charging Stokes vectors...")
-        stokes = np.load(self.ptm+self.filename+"_prof.npy")
+        stokes = np.load(self.ptm+filename+"_prof.npy")
         
         if opt_depth_stratif:
             print("Applying optical depth stratification...")
-            opt_depth = np.load(self.ptm+"optical_depth_"+self.filename+".npy")
+            opt_depth = np.load(self.ptm+"optical_depth_"+filename+".npy")
             #optical depth points
-            optical_dir = self.ptm+"OpticalStratification/"
-            if not os.path.exists(optical_dir):
-                os.mkdir(optical_dir)
-                
-            tau_out = self.ptm+"OpticalStratification/"+"array_of_tau_"+self.filename+f"_{opt_len}_depth_points.npy"
-            if not os.path.exists(tau_out):
-                tau = np.linspace(-3, 1, opt_len)
-                np.save(tau_out, tau)
+            tau_out = "self.ptm+array_of_tau_"+filename+f"_{opt_len}_depth_points.npy"
+            tau = np.linspace(-3, 1, opt_len)
+            np.save(tau_out, tau)
 
             #optical stratification
             opt_mags_interp = {}
             opt_mags = np.zeros((self.nx, opt_len, self.nz, atm_quant.shape[-1]))
-            opt_mags_out =optical_dir+"optical_stratified_atm_"+self.filename+f"_{opt_len}_depth_points.npy"
+            opt_mags_out ="self.ptm+optical_stratified_atm_"+filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(opt_mags_out):
                 for ix in tqdm(range(self.nx)):
                         for iz in range(self.nz):
@@ -157,53 +157,90 @@ class MuRAM():
 
             self.stokes_maxmin["V"] = [1e14, -1e14]
             stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
+            
+        
 
 
 
-        print(f""" STOKES:
-        I_max = {np.max(stokes[:,:,:,0])}
-        Q_max = {np.max(stokes[:,:,:,1])}
-        U_max = {np.max(stokes[:,:,:,2])}
-        V_max = {np.max(stokes[:,:,:,3])}
-        I_min = {np.min(stokes[:,:,:,0])}
-        Q_min = {np.min(stokes[:,:,:,1])}
-        U_min = {np.min(stokes[:,:,:,2])}
-        V_min = {np.min(stokes[:,:,:,3])}
-        """)
+        #Resampling to less spectral points using a gaussian kernel
+        N_kernel_points = 13 # number of points of the kernel.
+        def gauss(n=N_kernel_points,sigma=1):
+            r = range(-int(n/2),int(n/2)+1)
+            return np.array([1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-float(x)**2/(2*sigma**2)) for x in r])
+        g = gauss()
 
-        print(f"""
-        MAX VALUES:
-        mtpr max = {np.max(mtpr)}
-        mbxx max = {np.max(mbxx)}
-        mbyy max = {np.max(mbyy)}
-        mbzz max = {np.max(mbzz)}
-        mrho max = {np.max(mrho)}
-        mvxx max = {np.max(mvxx)}
-        mvyy max = {np.max(mvyy)}
-        mvzz max = {np.max(mvzz)}
-              """)
 
-        print(f"""
-        MIN VALUES:
-        mtpr min = {np.min(mtpr)}
-        mbxx min = {np.min(mbxx)}
-        mbyy min = {np.min(mbyy)}
-        mbzz min = {np.min(mbzz)}
-        mrho min = {np.min(mrho)}
-        mvxx min = {np.min(mvxx)}
-        mvyy min = {np.min(mvyy)}
-        mvzz min = {np.min(mvzz)}
-              """)
+        new_points = 36
+        new_wl = np.linspace(0,288,36, dtype=np.int64)
+        new_wl = np.add(new_wl, 6)
+        new_stokes = np.zeros((self.nx, self.nz, new_points, stokes.shape[-1]))
 
+        for s in range(len(self.stokes_maxmin)):
+            for ix in tqdm(range(self.nx)):
+                for iz in range(self.nz):
+                    spectrum = stokes[ix,iz,:,s]
+                    resampled_spectrum = np.zeros(new_points)
+                    i = 0
+                    for center_wl in new_wl:
+                        low_limit = center_wl-6
+                        upper_limit = center_wl+7
+
+                        if center_wl == 6:
+                            shorten_spect = spectrum[0:13]
+                        elif center_wl == 294:
+                            shorten_spect = spectrum[-14:-1]
+                        else:
+                            shorten_spect = spectrum[low_limit:upper_limit]
+
+                        resampled_spectrum[i] = np.sum(np.multiply(shorten_spect,g))
+                        i += 1
+                    new_stokes[ix,iz,:,s] = resampled_spectrum
+
+        verbose = 0
+        if verbose:
+            print(f""" STOKES:
+            I_max = {np.max(stokes[:,:,:,0])}
+            Q_max = {np.max(stokes[:,:,:,1])}
+            U_max = {np.max(stokes[:,:,:,2])}
+            V_max = {np.max(stokes[:,:,:,3])}
+            I_min = {np.min(stokes[:,:,:,0])}
+            Q_min = {np.min(stokes[:,:,:,1])}
+            U_min = {np.min(stokes[:,:,:,2])}
+            V_min = {np.min(stokes[:,:,:,3])}
+            """)
+
+            print(f"""
+            MAX VALUES:
+            {np.max(mtpr) = }
+            {np.max(mbxx) = }
+            {np.max(mbyy) = }
+            {np.max(mbzz) = }
+            {np.max(mrho) = }
+            {np.max(mvxx) = }
+            {np.max(mvyy) = }
+            {np.max(mvzz) = }
+                  """)
+
+            print(f"""
+            MIN VALUES:
+            {np.min(mtpr) = }
+            {np.min(mbxx) = }
+            {np.min(mbyy) = }
+            {np.min(mbzz) = }
+            {np.min(mrho) = }
+            {np.min(mvxx) = }
+            {np.min(mvyy) = }
+            {np.min(mvzz) = }
+                  """)
 
         print(f"""
         ######################## 
-        {self.filename} MuRAM data charged...
+        {filename} MuRAM data charged...
         ######################## 
               """)
 
-        return atm_quant, stokes
-    def granular_intergranular(self, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
+        return atm_quant, new_stokes
+    def granular_intergranular(self, filename, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
         """
         Function for leveraging the granular and intergranular zones pixels.
         ====================================================================
@@ -211,7 +248,7 @@ class MuRAM():
         Default is False for training.
         """
         #Charging the physicial magnitudes and the stokes parameters
-        atm_quant, stokes = self.charge_quantities(scale = scale, opt_depth_stratif = opt_depth_stratif, opt_len = opt_len, vertical_comp = vertical_comp)
+        atm_quant, stokes = self.charge_quantities(filename, scale = scale, opt_depth_stratif = opt_depth_stratif, opt_len = opt_len, vertical_comp = vertical_comp)
         # Originally the MURAM code takes y as the vertical axis. However, here we are changing it and leaving it as x,y,z with z the vertical axis.
         atm_quant = np.moveaxis(atm_quant,1,2) #480,480,256
         
@@ -252,17 +289,21 @@ class MuRAM():
             print("Done! Returning the granular and intergraular zones quantities.")
             return atm_quant_gran, atm_quant_inter, stokes_gran, stokes_inter
         
-    def train_test_sets(self, name_of_input, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
-        atm_quant, stokes = self.granular_intergranular(gran_inter_zones = gran_inter_zones, scale = scale, opt_depth_stratif = opt_depth_stratif, opt_len = opt_len, vertical_comp = vertical_comp)
+    def train_test_sets(self, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
+        all_atm_quant = []
+        all_stokes = []
+
+        for fln in self.filenames:
+            atm_quant, stokes = self.granular_intergranular(fln)
+            all_atm_quant.append(atm_quant)
+            all_stokes.append(stokes)
+
+        all_atm_quant = np.concatanate(all_atm_quant, axis=0)
+        all_stokes = np.concatanate(all_stokes, axis=0)
+        print(all_atm_quant.shape, all_stokes.shape)
         print("splitting...")
-        random_seed = 42
-        if name_of_input == "Stokes":
-            in_train, in_test, out_train, out_test = train_test_split(stokes, atm_quant, test_size=0.33, random_state=random_seed)
-        elif name_of_input == "Atm":
-            in_train, in_test, out_train, out_test = train_test_split(stokes, atm_quant, test_size=0.33, random_state=random_seed)
-        else:
-            raise ValueError("Not possible input")
-            
+        in_train, in_test, out_train, out_test = train_test_split(all_stokes, all_atm_quant, test_size=0.33, random_state=42)
+
         # Setup device agnostic code
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Tensors stored in: {device}")
@@ -272,4 +313,17 @@ class MuRAM():
         out_train = torch.from_numpy(out_train).to(device)
         out_test = torch.from_numpy(out_test).to(device)
 
-        return in_train, in_test, out_train, out_test
+        out_train = torch.reshape(out_train, (out_train.size()[0], out_train.size()[1]*out_train.size()[2]))
+        out_test = torch.reshape(out_test, (out_test.size()[0], out_test.size()[1]*out_test.size()[2]))
+        print(f"""
+        Shape of the data
+                tr_input shape ={in_train.size()}
+                test_input shape = {in_test.size()}
+                tr_output shape = {out_train.size()}
+                test_output shape = {out_test.size()}
+                    """)
+        #Train and test dataloader
+        train_dataset = TensorDataset(in_train.to(device), out_train.to(device))
+        test_dataset = TensorDataset(in_test.to(device), out_test.to(device))
+
+        return train_dataset, test_dataset

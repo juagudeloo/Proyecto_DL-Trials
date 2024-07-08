@@ -21,7 +21,7 @@ def main():
     ]
 
     #Creating the model for training
-    model_0 = InvModel1(300,4*20,4096).float()
+    model_0 = InvModel1(36,4*20,4096).float()
     #Defining the agnostic device
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("\nThe model will be runned in:", device)
@@ -83,24 +83,8 @@ def main():
         #Creation of the muram data processing object
         muram = MuRAM(ptm = ptm, filename = filename)
 
-        tr_input, test_input, tr_output, test_output = muram.train_test_sets("Stokes")
-
-        #Testing wavelength as channels and the output as a fully connected layer
-        tr_output = torch.reshape(tr_output, (tr_output.size()[0], tr_output.size()[1]*tr_output.size()[2]))
-        test_output = torch.reshape(test_output, (test_output.size()[0], test_output.size()[1]*test_output.size()[2]))
-
-        print(f"""
-    Shape of the data
-            tr_input shape ={tr_input.size()}
-            test_input shape = {test_input.size()}
-            tr_output shape = {tr_output.size()}
-            test_output shape = {test_output.size()}
-            """)
+        train_data, test_data= muram.train_test_sets()
         
-        #Train and test dataloader
-        train_data = TensorDataset(tr_input.to(device), tr_output.to(device))
-        test_data = TensorDataset(test_input.to(device), test_output.to(device))
-
         BATCH_SIZE = 80
 
         train_dataloader = DataLoader(train_data,
