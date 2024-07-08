@@ -120,14 +120,14 @@ class MuRAM():
             print("Applying optical depth stratification...")
             opt_depth = np.load(self.ptm+"optical_depth_"+filename+".npy")
             #optical depth points
-            tau_out = "self.ptm+array_of_tau_"+filename+f"_{opt_len}_depth_points.npy"
+            tau_out = self.ptm+"array_of_tau_"+filename+f"_{opt_len}_depth_points.npy"
             tau = np.linspace(-3, 1, opt_len)
             np.save(tau_out, tau)
 
             #optical stratification
             opt_mags_interp = {}
             opt_mags = np.zeros((self.nx, opt_len, self.nz, atm_quant.shape[-1]))
-            opt_mags_out ="self.ptm+optical_stratified_atm_"+filename+f"_{opt_len}_depth_points.npy"
+            opt_mags_out =self.ptm+"optical_stratified_atm_"+filename+f"_{opt_len}_depth_points.npy"
             if not os.path.exists(opt_mags_out):
                 for ix in tqdm(range(self.nx)):
                         for iz in range(self.nz):
