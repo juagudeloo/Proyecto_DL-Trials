@@ -172,7 +172,7 @@ def main():
         ## Print out what's happening
         print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-        if (epoch % 3 == 0) or (epoch == epochs-1):
+        if (epoch % 2 == 0) or (epoch == epochs-1):
             print("\nValidation plot...")
             #validation plot
             validated_atm = torch.zeros((480*480,80))
