@@ -11,7 +11,7 @@ import datetime
 import time
 import sys
 
-sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Python3-MODELS/Juan_Esteban/Pytorch_model/Inversion/1D/module")
+sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
 from muram import MuRAM
 from nn_model import *
 
