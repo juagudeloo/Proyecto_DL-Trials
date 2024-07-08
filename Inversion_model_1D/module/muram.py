@@ -28,7 +28,7 @@ import matplotlib.animation as animation
 
 class MuRAM():
     #To rescale all the data e are going to use a max values of the order of the general maximum value of the data, and 
-    def __init__(self, ptm:str, filenames:list[str]):
+    def __init__(self, ptm:str, filenames:list):
         self.ptm = ptm
         self.filenames = filenames
         self.nlam = 300 #this parameter is useful when managing the Stokes parameters #wavelenght interval - its from 6300 amstroengs in steps of 10 amstroengs
