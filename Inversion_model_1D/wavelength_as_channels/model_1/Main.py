@@ -60,7 +60,7 @@ def main():
     start = time.time()
     
     #Validation dataset
-    val_muram = MuRAM(ptm = ptm, filename = [''])
+    val_muram = MuRAM(ptm = ptm, filenames = [''])
     val_atm_quant, val_stokes = val_muram.charge_quantities(filename = "130000")
     val_atm_quant_tensor = torch.from_numpy(val_atm_quant).to(device)
     val_atm_quant_tensor = torch.reshape(val_atm_quant_tensor, (480*480,20,4))
