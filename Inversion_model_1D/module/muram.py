@@ -163,38 +163,45 @@ class MuRAM():
 
 
         #Resampling to less spectral points using a gaussian kernel
-        N_kernel_points = 13 # number of points of the kernel.
-        def gauss(n=N_kernel_points,sigma=1):
-            r = range(-int(n/2),int(n/2)+1)
-            return np.array([1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-float(x)**2/(2*sigma**2)) for x in r])
-        g = gauss()
 
 
         new_points = 36
-        new_wl = np.linspace(0,288,36, dtype=np.int64)
-        new_wl = np.add(new_wl, 6)
-        new_stokes = np.zeros((self.nx, self.nz, new_points, stokes.shape[-1]))
+        new_stokes_out = "self.ptm+resampled_stokes_"+f"{new_points}_wl_points.npy"
+        if not os.path.exists(new_stokes_out):
+            N_kernel_points = 13 # number of points of the kernel.
+            def gauss(n=N_kernel_points,sigma=1):
+                r = range(-int(n/2),int(n/2)+1)
+                return np.array([1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-float(x)**2/(2*sigma**2)) for x in r])
+            g = gauss()
 
-        for s in range(len(self.stokes_maxmin)):
-            for ix in tqdm(range(self.nx)):
-                for iz in range(self.nz):
-                    spectrum = stokes[ix,iz,:,s]
-                    resampled_spectrum = np.zeros(new_points)
-                    i = 0
-                    for center_wl in new_wl:
-                        low_limit = center_wl-6
-                        upper_limit = center_wl+7
+            new_wl = np.linspace(0,288,36, dtype=np.int64)
+            new_wl = np.add(new_wl, 6)
+            new_stokes = np.zeros((self.nx, self.nz, new_points, stokes.shape[-1]))
 
-                        if center_wl == 6:
-                            shorten_spect = spectrum[0:13]
-                        elif center_wl == 294:
-                            shorten_spect = spectrum[-14:-1]
-                        else:
-                            shorten_spect = spectrum[low_limit:upper_limit]
+            for s in range(len(self.stokes_maxmin)):
+                for ix in tqdm(range(self.nx)):
+                    for iz in range(self.nz):
+                        spectrum = stokes[ix,iz,:,s]
+                        resampled_spectrum = np.zeros(new_points)
+                        i = 0
+                        for center_wl in new_wl:
+                            low_limit = center_wl-6
+                            upper_limit = center_wl+7
 
-                        resampled_spectrum[i] = np.sum(np.multiply(shorten_spect,g))
-                        i += 1
-                    new_stokes[ix,iz,:,s] = resampled_spectrum
+                            if center_wl == 6:
+                                shorten_spect = spectrum[0:13]
+                            elif center_wl == 294:
+                                shorten_spect = spectrum[-14:-1]
+                            else:
+                                shorten_spect = spectrum[low_limit:upper_limit]
+
+                            resampled_spectrum[i] = np.sum(np.multiply(shorten_spect,g))
+                            i += 1
+                        new_stokes[ix,iz,:,s] = resampled_spectrum
+            np.save(new_stokes_out, new_stokes)
+        else:
+            new_stokes = np.load(new_stokes_out)
+
 
         verbose = 0
         if verbose:
