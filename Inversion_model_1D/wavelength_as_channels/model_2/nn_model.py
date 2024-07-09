@@ -70,16 +70,12 @@ def validation_visual(generated_quant_list:list, ref_quant:np.ndarray, epochs_to
                 ax[i,j].scatter(gen_quant[:,:,heights_index[j],i].flatten(),
                                 ref_quant[:,heights_index[j],:,i].flatten(),
                                 s=5, c="darkviolet", alpha=0.1)
-                max_value = np.max(np.array([np.max(ref_quant[:,heights_index[j],:,i].flatten()),
-                                             np.max(gen_quant[:,:,heights_index[j],i].flatten())]))
-                min_value = np.min(np.array([np.min(ref_quant[:,heights_index[j],:,i].flatten()),
-                                             np.min(gen_quant[:,:,heights_index[j],i].flatten())]))
                 max_x = np.max(gen_quant[:,heights_index[j],:,i].flatten())
                 max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
                 min_x = np.min(gen_quant[:,heights_index[j],:,i].flatten())
                 min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
                 pearson = pearsonr(gen_quant[:,:,heights_index[j],i].flatten(), ref_quant[:,heights_index[j],:,i].flatten())[0]
-                ax[i,j].plot(np.linspace(min_value,max_value),np.linspace(min_value,max_value),"k")
+                ax[i,j].plot(np.linspace(min_x,max_x),np.linspace(min_y,max_y),"k")
                 ax[i,j].set_title(f"{titles[j]} OD_{tau[heights_index[i]]:.2f} {epochs_to_plot[ni]} p_{pearson:.2f}")
                 ax[i,j].set_xlabel("generated")
                 ax[i,j].set_ylabel("reference")
