@@ -1,3 +1,3 @@
 Reduced resolution.
 
-layers: changing the number of layers to check the best results.
+kernel_s: changing the size of the kernel to use in the convolutional layer.
