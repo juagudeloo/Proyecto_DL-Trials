@@ -166,7 +166,7 @@ class MuRAM():
 
 
         new_points = 36
-        new_stokes_out = "self.ptm+resampled_stokes_"+f"{new_points}_wl_points.npy"
+        new_stokes_out = self.ptm+"resampled_stokes_"+f"{new_points}_wl_points.npy"
         if not os.path.exists(new_stokes_out):
             N_kernel_points = 13 # number of points of the kernel.
             def gauss(n=N_kernel_points,sigma=1):
