@@ -62,6 +62,7 @@ def validation_visual(generated_quant_list:list, ref_quant:np.ndarray, epochs_to
     heights_index = [11, 8, 5, 2]
     N_heights = len(heights_index)
     def animate(ni):
+        ax.clear()
         tau = np.linspace(-3, 1,20)
         gen_quant = generated_quant_list[ni]
 
