@@ -14,7 +14,7 @@ class InvModel1(nn.Module):
         nn.ReLU(),
         nn.Flatten(),
         nn.Dropout(p=0.5, inplace=False),
-        nn.Linear(in_features = 360, out_features = out_shape))
+        nn.Linear(in_features = 216, out_features = out_shape))
     def forward(self, x):
         return self.simple_conv(x)
 
