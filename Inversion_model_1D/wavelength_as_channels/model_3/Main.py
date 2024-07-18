@@ -76,10 +76,6 @@ def main():
             shuffle=False # don't necessarily have to shuffle the testing data
         )
 
-    #Validation lists
-    val_atm_list = []
-    epochs_to_plot = []
-    
     #Creation of the muram data processing object
     muram = MuRAM(ptm = ptm, filenames = training_files)
 
