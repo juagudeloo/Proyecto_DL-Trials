@@ -85,4 +85,4 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
     fig.tight_layout()
     fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
     fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
-    fig.savefig(images_out+f"visualization_{epoch_to_plot}.pdf")
+    fig.savefig(images_out+f"visualization_{epoch_to_plot}.png")
