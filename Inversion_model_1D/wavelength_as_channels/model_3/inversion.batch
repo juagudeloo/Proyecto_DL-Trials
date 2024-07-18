@@ -6,7 +6,6 @@
 #SBATCH -e inversion%j.err
 #SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_3
 #SBATCH --mail-type=ALL
-#SBATCH --mail-type=END
 #SBATCH --mail-user=juagudeloo@unal.edu.co
 #SBATCH --partition=normal
 #SBATCH --time=7-00:00:00
