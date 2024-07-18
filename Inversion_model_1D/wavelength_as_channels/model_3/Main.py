@@ -19,7 +19,7 @@ from nn_model import *
 def main():
     ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
     training_files = ["085000", 
-    #"090000","095000", "100000", "105000", "110000"
+    "090000","095000", "100000", "105000", "110000"
     ]
 
     #Creating the model for training
@@ -195,6 +195,7 @@ def main():
         total_train_time_model_0 = print_train_time(start=train_time_start_on_cpu, 
                                                 end=train_time_end_on_cpu,
                                                 device=str(next(model_0.parameters()).device))
+    
 
 
 
