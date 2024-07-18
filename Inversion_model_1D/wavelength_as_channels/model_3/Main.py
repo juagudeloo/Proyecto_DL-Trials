@@ -32,7 +32,7 @@ def main():
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     lr = 5e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
-    epochs = 20
+    epochs = 12
     
     #Training
     results_out = "Results/"
