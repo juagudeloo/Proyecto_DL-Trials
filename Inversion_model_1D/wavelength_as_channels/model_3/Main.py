@@ -185,16 +185,13 @@ def main():
                 i += 1
             validated_atm = torch.reshape(validated_atm, (muram.nx, muram.nz, 20, 4))
             validated_atm = validated_atm.to("cpu").numpy()
-            print(np.max(validated_atm))
-            val_atm_list.append(validated_atm)
-            epochs_to_plot.append(f"epoch {epoch+1}")
                 
             print("Validation done!")
         
-        #Making an animation of the correlation plots of the validation set.
+        #Making a plot of the correlation plots of the validation set.
         titles = ["T", "rho", "By", "vy"]
         
-        validation_visual(val_atm_list, val_atm_quant, epochs_to_plot, pth_out, titles)
+        validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", images_out=pth_out, titles=titles)
                 
 
         # Calculate training time      
