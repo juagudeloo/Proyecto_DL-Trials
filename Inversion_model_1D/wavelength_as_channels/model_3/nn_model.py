@@ -79,8 +79,8 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
             min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
 
             pearson = pearsonr(generated_quant[:,:,heights_index[j],i].flatten(), ref_quant[:,heights_index[j],:,i].flatten())[0]
-            ax[i,j].plot(np.linspace(min_x,max_x),
-                         np.linspace(min_y,max_y),
+            ax[i,j].plot(generated_quant[:,heights_index[j],:,i],
+                         generated_quant[:,heights_index[j],:,i],
                          "k")
             ax[i,j].set_title(f"{titles[j]} OD_{tau[heights_index[i]]:.2f} {epoch_to_plot} p_{pearson:.2f}")
             ax[i,j].set_xlabel("generated")
