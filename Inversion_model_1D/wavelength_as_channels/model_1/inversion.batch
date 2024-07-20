@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH -o inversion%j.out
 #SBATCH -e inversion%j.err
-#SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_2
+#SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-type=END
 #SBATCH --mail-user=juagudeloo@unal.edu.co
@@ -25,5 +25,5 @@ echo "Soy un JOB GPU"
 echo "Corri en la maquina: "$host
 echo "Corri el: "$date
 
-python3 /girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_2/Main.py 
+python3 /girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_1/Main.py 
 
