@@ -18,7 +18,8 @@ from nn_model import *
 
 def main():
     ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
-    training_files = ["085000", "090000","095000", "100000", "105000", "110000"
+    training_files = ["085000", 
+    "090000","095000", "100000", "105000", "110000"
     ]
 
     #Creating the model for training
@@ -31,7 +32,7 @@ def main():
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
     lr = 5e-4
     optimizer = torch.optim.Adam(params=model_0.parameters(), lr=lr)
-    epochs = 20
+    epochs = 12
     
     #Training
     results_out = "Results/"
@@ -75,10 +76,6 @@ def main():
             shuffle=False # don't necessarily have to shuffle the testing data
         )
 
-    #Validation lists
-    val_atm_list = []
-    epochs_to_plot = []
-    
     #Creation of the muram data processing object
     muram = MuRAM(ptm = ptm, filenames = training_files)
 
@@ -184,16 +181,13 @@ def main():
                 i += 1
             validated_atm = torch.reshape(validated_atm, (muram.nx, muram.nz, 20, 4))
             validated_atm = validated_atm.to("cpu").numpy()
-            print(np.max(validated_atm))
-            val_atm_list.append(validated_atm)
-            epochs_to_plot.append(f"epoch {epoch+1}")
                 
             print("Validation done!")
         
-        #Making an animation of the correlation plots of the validation set.
+        #Making a plot of the correlation plots of the validation set.
         titles = ["T", "rho", "By", "vy"]
         
-        validation_visual(val_atm_list, val_atm_quant, epochs_to_plot, pth_out, titles)
+        validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", images_out=pth_out, titles=titles)
                 
 
         # Calculate training time      
@@ -201,6 +195,7 @@ def main():
         total_train_time_model_0 = print_train_time(start=train_time_start_on_cpu, 
                                                 end=train_time_end_on_cpu,
                                                 device=str(next(model_0.parameters()).device))
+    
 
 
 
