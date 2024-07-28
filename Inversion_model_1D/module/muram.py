@@ -245,7 +245,7 @@ class MuRAM():
         {filename} MuRAM data charged...
         ######################## 
               """)
-
+        print(atm_quant.shape)
         return atm_quant, new_stokes
     def granular_intergranular(self, filename, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
         """
