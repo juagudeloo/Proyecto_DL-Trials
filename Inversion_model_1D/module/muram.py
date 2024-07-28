@@ -108,8 +108,8 @@ class MuRAM():
             mags_names = ["T", "rho", "By", "vy"]
             atm_quant = np.array([mtpr, mrho, mbyy, mvyy])
         else:
-            mags_names = ["T", "rho", "Bx", "By", "Bz", "vx", "vy", "vz"]
-            atm_quant = np.array([mtpr, mrho, mbxx, mbyy, mbzz, mvxx, mvyy, mvzz])
+            mags_names = ["T", "rho", "Bx", "By", "Bz", "vy"]
+            atm_quant = np.array([mtpr, mrho, mbxx, mbyy, mbzz, mvyy])
         atm_quant = np.moveaxis(atm_quant, 0,1)
         atm_quant = np.memmap.reshape(atm_quant, (self.nx, self.ny, self.nz, atm_quant.shape[1]))
 
@@ -301,7 +301,7 @@ class MuRAM():
         all_stokes = []
 
         for fln in self.filenames:
-            atm_quant, stokes = self.granular_intergranular(fln)
+            atm_quant, stokes = self.granular_intergranular(fln, gran_inter_zones, scale, opt_depth_stratif, opt_len, vertical_comp)
             all_atm_quant.append(atm_quant)
             all_stokes.append(stokes)
 
