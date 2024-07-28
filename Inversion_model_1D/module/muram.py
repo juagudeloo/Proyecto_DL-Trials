@@ -111,10 +111,11 @@ class MuRAM():
         else:
             mags_names = ["T", "rho", "Bx", "By", "Bz", "vy"]
             atm_quant = np.array([mtpr, mrho, mbxx, mbyy, mbzz, mvyy])
-            print(f"vertical_comp = {vertical_comp}")
         atm_quant = np.moveaxis(atm_quant, 0,1)
         print("atm_quant shape = ", atm_quant.shape)
+        
         atm_quant = np.memmap.reshape(atm_quant, (self.nx, self.ny, self.nz, atm_quant.shape[1]))
+        print("atm_quant shape = ", atm_quant.shape)
 
         print("Charging Stokes vectors...")
         stokes = np.load(self.ptm+filename+"_prof.npy")
@@ -130,7 +131,7 @@ class MuRAM():
             #optical stratification
             opt_mags_interp = {}
             opt_mags = np.zeros((self.nx, opt_len, self.nz, atm_quant.shape[-1]))
-            opt_mags_out =self.ptm+"optical_stratified_atm_"+filename+f"_{opt_len}_depth_points.npy"
+            opt_mags_out =self.ptm+"optical_stratified_atm_"+filename+f"_{opt_len}_depth_points_{atm_quant.shape[-1]}_components.npy"
             if not os.path.exists(opt_mags_out):
                 for ix in tqdm(range(self.nx)):
                         for iz in range(self.nz):
