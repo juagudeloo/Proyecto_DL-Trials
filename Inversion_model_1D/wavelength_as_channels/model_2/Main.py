@@ -23,7 +23,7 @@ def main():
     ]
 
     #Creating the model for training
-    model = InvModel1(36,4*20,4096).float()
+    model = InvModel1(36,6*20,4096).float()
 
     #Defining the agnostic device
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -216,9 +216,9 @@ def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz
         for X, y in validation_dataloader:
             # 1. Forward pass
             valid_pred = model.double()(X.double())
-            validated_atm[i*80:(i+1)*80] = valid_pred
+            validated_atm[i*120:(i+1)*120] = valid_pred
             i += 1
-        validated_atm = torch.reshape(validated_atm, (nx, nz, 20, 4))
+        validated_atm = torch.reshape(validated_atm, (nx, nz, 20, 6))
         validated_atm = validated_atm.to("cpu").numpy()
             
         print("Validation done!")

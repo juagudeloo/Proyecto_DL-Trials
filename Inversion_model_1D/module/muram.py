@@ -112,10 +112,8 @@ class MuRAM():
             mags_names = ["T", "rho", "Bx", "By", "Bz", "vy"]
             atm_quant = np.array([mtpr, mrho, mbxx, mbyy, mbzz, mvyy])
         atm_quant = np.moveaxis(atm_quant, 0,1)
-        print("atm_quant shape = ", atm_quant.shape)
         
         atm_quant = np.memmap.reshape(atm_quant, (self.nx, self.ny, self.nz, atm_quant.shape[1]))
-        print("atm_quant shape = ", atm_quant.shape)
 
         print("Charging Stokes vectors...")
         stokes = np.load(self.ptm+filename+"_prof.npy")
@@ -249,7 +247,6 @@ class MuRAM():
         {filename} MuRAM data charged...
         ######################## 
               """)
-        print(atm_quant.shape)
         return atm_quant, new_stokes
     def granular_intergranular(self, filename, gran_inter_zones = False, scale = True, opt_depth_stratif = True, opt_len = 20, vertical_comp = True):
         """
