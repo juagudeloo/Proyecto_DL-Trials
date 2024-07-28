@@ -104,6 +104,7 @@ class MuRAM():
         """
         Narray of the atmosphere quantities...
         """
+        print(f"{vertical_comp = }")
         if vertical_comp:
             mags_names = ["T", "rho", "By", "vy"]
             atm_quant = np.array([mtpr, mrho, mbyy, mvyy])
