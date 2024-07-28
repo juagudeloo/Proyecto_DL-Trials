@@ -127,7 +127,8 @@ def main():
         print("\nValidation plot...")
         #validation plot
         validation_step(pth_out, model, validation_dataloader, val_atm_quant, muram.nx, muram.nz, epoch)
-        print("\nplotted...")True
+        print("\nplotted...")
+        
 
         # Calculate training time      
         train_time_end_on_cpu = timer()
