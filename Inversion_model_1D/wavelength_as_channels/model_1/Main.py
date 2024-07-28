@@ -23,7 +23,7 @@ def main():
     ]
 
     #Creating the model for training
-    model = InvModel1(36,4*20,4096).float()
+    model = InvModel1(36,6*20,4096).float()
 
     #Defining the agnostic device
     device = "cuda" if torch.cuda.is_available() else "cpu"
