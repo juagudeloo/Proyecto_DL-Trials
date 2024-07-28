@@ -209,7 +209,7 @@ def test_step(model, test_dataloader, loss_fn):
     return test_loss, test_acc
 
 def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz, epoch):
-    validated_atm = torch.zeros((480*480,80))
+    validated_atm = torch.zeros((480*480,120))
     with torch.inference_mode():
         i = 0
         for X, y in validation_dataloader:
