@@ -1,3 +1,3 @@
-Reduced resolution.
+Reduced resolution and three components of magnetic field.
 
-kernel_s: changing the size of the kernel to use in the convolutional layer.
+augmenting the number of layers
