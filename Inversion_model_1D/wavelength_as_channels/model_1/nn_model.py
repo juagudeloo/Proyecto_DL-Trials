@@ -63,8 +63,11 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
     N_heights = len(heights_index)            
     
 
-    fig, ax = plt.subplots(N_heights, N_plots, figsize=(5*N_plots, 5*N_heights))
+    fig, ax = plt.subplots(N_heights, N_plots, figsize=(4*N_plots, 4*N_heights))
     tau = np.linspace(-3, 1,20)
+    
+    print("generated_quant.shape", generated_quant.shape)
+    print("ref_quant.shape", ref_quant.shape)
 
     for i in range(4):
         for j in range(N_plots):
