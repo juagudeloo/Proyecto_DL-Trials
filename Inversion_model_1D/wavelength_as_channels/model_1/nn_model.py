@@ -71,7 +71,7 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
 
     for it in range(N_heights):
         for iatm in range(N_plots):
-            ax[it,j].scatter(generated_quant[:,:,heights_index[it],iatm].flatten(),
+            ax[it,iatm].scatter(generated_quant[:,:,heights_index[it],iatm].flatten(),
                             ref_quant[:,heights_index[it],:,iatm].flatten(),
                             s=5, c="darkviolet", alpha=0.1)
             
@@ -82,14 +82,14 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
             min_y = np.min(ref_quant[:,:,heights_index[it],iatm].flatten())
 
             pearson = pearsonr(generated_quant[:,:,heights_index[it],iatm].flatten(), ref_quant[:,heights_index[it],:,iatm].flatten())[0]
-            ax[it,j].plot(generated_quant[:,heights_index[it],:,iatm],
+            ax[it,iatm].plot(generated_quant[:,heights_index[it],:,iatm],
                          generated_quant[:,heights_index[it],:,iatm],
                          "k")
-            ax[it,j].set_title(f"{titles[j]} OD_{tau[heights_index[it]]:.2f} {epoch_to_plot} p_{pearson:.2f}")
-            ax[it,j].set_xlabel("generated")
-            ax[it,j].set_ylabel("reference")
-            ax[it,j].set_ylim(min_y, max_y)
-            ax[it,j].set_xlim(min_x, max_x)
+            ax[it,iatm].set_title(f"{titles[iatm]} OD_{tau[heights_index[it]]:.2f} {epoch_to_plot} p_{pearson:.2f}")
+            ax[it,iatm].set_xlabel("generated")
+            ax[it,iatm].set_ylabel("reference")
+            ax[it,iatm].set_ylim(min_y, max_y)
+            ax[it,iatm].set_xlim(min_x, max_x)
     fig.tight_layout()
     fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
     fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
