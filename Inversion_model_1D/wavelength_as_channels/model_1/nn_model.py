@@ -69,27 +69,27 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
     print("generated_quant.shape", generated_quant.shape)
     print("ref_quant.shape", ref_quant.shape)
 
-    for i in range(4):
-        for j in range(N_plots):
-            ax[i,j].scatter(generated_quant[:,:,heights_index[j],i].flatten(),
-                            ref_quant[:,heights_index[j],:,i].flatten(),
+    for it in range(N_heights):
+        for iatm in range(N_plots):
+            ax[it,j].scatter(generated_quant[:,:,heights_index[it],iatm].flatten(),
+                            ref_quant[:,heights_index[it],:,iatm].flatten(),
                             s=5, c="darkviolet", alpha=0.1)
             
-            max_x = np.max(generated_quant[:,heights_index[j],:,i].flatten())
-            min_x = np.min(generated_quant[:,heights_index[j],:,i].flatten())
+            max_x = np.max(generated_quant[:,heights_index[it],:,iatm].flatten())
+            min_x = np.min(generated_quant[:,heights_index[it],:,iatm].flatten())
 
-            max_y = np.max(ref_quant[:,:,heights_index[j],i].flatten())
-            min_y = np.min(ref_quant[:,:,heights_index[j],i].flatten())
+            max_y = np.max(ref_quant[:,:,heights_index[it],iatm].flatten())
+            min_y = np.min(ref_quant[:,:,heights_index[it],iatm].flatten())
 
-            pearson = pearsonr(generated_quant[:,:,heights_index[j],i].flatten(), ref_quant[:,heights_index[j],:,i].flatten())[0]
-            ax[i,j].plot(generated_quant[:,heights_index[j],:,i],
-                         generated_quant[:,heights_index[j],:,i],
+            pearson = pearsonr(generated_quant[:,:,heights_index[it],iatm].flatten(), ref_quant[:,heights_index[it],:,iatm].flatten())[0]
+            ax[it,j].plot(generated_quant[:,heights_index[it],:,iatm],
+                         generated_quant[:,heights_index[it],:,iatm],
                          "k")
-            ax[i,j].set_title(f"{titles[j]} OD_{tau[heights_index[i]]:.2f} {epoch_to_plot} p_{pearson:.2f}")
-            ax[i,j].set_xlabel("generated")
-            ax[i,j].set_ylabel("reference")
-            ax[i,j].set_ylim(min_y, max_y)
-            ax[i,j].set_xlim(min_x, max_x)
+            ax[it,j].set_title(f"{titles[j]} OD_{tau[heights_index[it]]:.2f} {epoch_to_plot} p_{pearson:.2f}")
+            ax[it,j].set_xlabel("generated")
+            ax[it,j].set_ylabel("reference")
+            ax[it,j].set_ylim(min_y, max_y)
+            ax[it,j].set_xlim(min_x, max_x)
     fig.tight_layout()
     fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
     fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
