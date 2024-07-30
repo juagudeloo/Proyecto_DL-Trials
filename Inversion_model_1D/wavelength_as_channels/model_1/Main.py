@@ -128,7 +128,7 @@ def main():
 
         print("\nValidation plot...")
         #validation plot
-        validation_step(pth_out, model, validation_dataloader, val_atm_quant, muram.nx, muram.nz, epoch, vertical_comp=)
+        validation_step(pth_out, model, validation_dataloader, val_atm_quant, muram.nx, muram.nz, epoch, vertical_comp)
         print("\nplotted...")
         
 
