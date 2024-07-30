@@ -85,6 +85,8 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
             ax[it,iatm].plot(generated_quant[:,heights_index[it],:,iatm],
                          generated_quant[:,heights_index[it],:,iatm],
                          "k")
+            print(titles)
+            print(heights_index)
             ax[it,iatm].set_title(f"{titles[iatm]} OD_{tau[heights_index[it]]:.2f} {epoch_to_plot} p_{pearson:.2f}")
             ax[it,iatm].set_xlabel("generated")
             ax[it,iatm].set_ylabel("reference")
