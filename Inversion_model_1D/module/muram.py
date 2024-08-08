@@ -67,6 +67,10 @@ class MuRAM():
         mbxx=mbxx*coef
         mbyy=mbyy*coef
         mbzz=mbzz*coef
+        
+        mbqq = np.sign(mbxx**2 - mbzz**2)*np.sqrt(mbxx**2 - mbzz**2)
+        mbuu = np.sign(mbxx*mbzz)*np.sqrt(mbxx*mbzz)
+        mbvv = mbyy
 
         print("Charging density...")
         mrho = np.load(self.ptm+"mrho_"+filename+".npy")
@@ -91,9 +95,9 @@ class MuRAM():
 
             mtpr = norm_func(mtpr, self.phys_maxmin["T"])
 
-            mbxx = norm_func(mbxx, self.phys_maxmin["B"])
-            mbyy = norm_func(mbyy, self.phys_maxmin["B"])
-            mbzz = norm_func(mbzz, self.phys_maxmin["B"])
+            mbqq = norm_func(mbqq, self.phys_maxmin["B"])
+            mbuu = norm_func(mbuu, self.phys_maxmin["B"])
+            mbvv = norm_func(mbvv, self.phys_maxmin["B"])
 
             mrho = norm_func(mrho, self.phys_maxmin["Rho"])
 
@@ -106,11 +110,12 @@ class MuRAM():
         """
         
         if vertical_comp:
-            mags_names = ["T", "rho", "By", "vy"]
-            atm_quant = np.array([mtpr, mrho, mbyy, mvyy])
+            mags_names = ["T", "rho", "Bv", "vy"]
+            atm_quant = np.array([mtpr, mrho, mbvv, mvyy])
         else:
-            mags_names = ["T", "rho", "Bx", "By", "Bz", "vy"]
-            atm_quant = np.array([mtpr, mrho, mbxx, mbyy, mbzz, mvyy])
+            
+            mags_names = ["T", "rho", "Bq", "Bu", "Bv", "vy"]
+            atm_quant = np.array([mtpr, mrho, mbqq, mbuu, mbvv, mvyy])
         atm_quant = np.moveaxis(atm_quant, 0,1)
         
         atm_quant = np.memmap.reshape(atm_quant, (self.nx, self.ny, self.nz, atm_quant.shape[1]))
@@ -159,11 +164,7 @@ class MuRAM():
 
             self.stokes_maxmin["V"] = [1e14, -1e14]
             stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
-            
         
-
-
-
         #Resampling to less spectral points using a gaussian kernel
 
 
