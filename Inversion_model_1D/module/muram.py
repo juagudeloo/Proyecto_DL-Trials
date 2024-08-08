@@ -134,7 +134,7 @@ class MuRAM():
             #optical stratification
             opt_mags_interp = {}
             opt_mags = np.zeros((self.nx, opt_len, self.nz, atm_quant.shape[-1]))
-            opt_mags_out =self.ptm+"optical_stratified_atm_"+filename+f"_{opt_len}_depth_points_{atm_quant.shape[-1]}_components.npy"
+            opt_mags_out =self.ptm+"optical_stratified_atm_modified_mbvuq_"+filename+f"_{opt_len}_depth_points_{atm_quant.shape[-1]}_components.npy"
             if not os.path.exists(opt_mags_out):
                 for ix in tqdm(range(self.nx)):
                         for iz in range(self.nz):
@@ -207,41 +207,41 @@ class MuRAM():
 
 
         verbose = 0
-        if verbose:
-            print(f""" STOKES:
-            I_max = {np.max(stokes[:,:,:,0])}
-            Q_max = {np.max(stokes[:,:,:,1])}
-            U_max = {np.max(stokes[:,:,:,2])}
-            V_max = {np.max(stokes[:,:,:,3])}
-            I_min = {np.min(stokes[:,:,:,0])}
-            Q_min = {np.min(stokes[:,:,:,1])}
-            U_min = {np.min(stokes[:,:,:,2])}
-            V_min = {np.min(stokes[:,:,:,3])}
-            """)
-
-            print(f"""
-            MAX VALUES:
-            mtpr max = {np.max(mtpr)}
-            mbxx max = {np.max(mbxx)}
-            mbyy max = {np.max(mbyy)}
-            mbzz max = {np.max(mbzz)}
-            mrho max = {np.max(mrho)}
-            mvxx max = {np.max(mvxx)}
-            mvyy max = {np.max(mvyy)}
-            mvzz max = {np.max(mvzz)}
-                """)
-
-            print(f"""
-            MIN VALUES:
-            mtpr min = {np.min(mtpr)}
-            mbxx min = {np.min(mbxx)}
-            mbyy min = {np.min(mbyy)}
-            mbzz min = {np.min(mbzz)}
-            mrho min = {np.min(mrho)}
-            mvxx min = {np.min(mvxx)}
-            mvyy min = {np.min(mvyy)}
-            mvzz min = {np.min(mvzz)}
-                """)
+        #if verbose:
+        #    print(f""" STOKES:
+        #    I_max = {np.max(stokes[:,:,:,0])}
+        #    Q_max = {np.max(stokes[:,:,:,1])}
+        #    U_max = {np.max(stokes[:,:,:,2])}
+        #    V_max = {np.max(stokes[:,:,:,3])}
+        #    I_min = {np.min(stokes[:,:,:,0])}
+        #    Q_min = {np.min(stokes[:,:,:,1])}
+        #    U_min = {np.min(stokes[:,:,:,2])}
+        #    V_min = {np.min(stokes[:,:,:,3])}
+        #    """)
+#
+        #    print(f"""
+        #    MAX VALUES:
+        #    mtpr max = {np.max(mtpr)}
+        #    mbxx max = {np.max(mbxx)}
+        #    mbyy max = {np.max(mbyy)}
+        #    mbzz max = {np.max(mbzz)}
+        #    mrho max = {np.max(mrho)}
+        #    mvxx max = {np.max(mvxx)}
+        #    mvyy max = {np.max(mvyy)}
+        #    mvzz max = {np.max(mvzz)}
+        #        """)
+#
+        #    print(f"""
+        #    MIN VALUES:
+        #    mtpr min = {np.min(mtpr)}
+        #    mbxx min = {np.min(mbxx)}
+        #    mbyy min = {np.min(mbyy)}
+        #    mbzz min = {np.min(mbzz)}
+        #    mrho min = {np.min(mrho)}
+        #    mvxx min = {np.min(mvxx)}
+        #    mvyy min = {np.min(mvyy)}
+        #    mvzz min = {np.min(mvzz)}
+        #        """)
 
         print(f"""
         ######################## 
