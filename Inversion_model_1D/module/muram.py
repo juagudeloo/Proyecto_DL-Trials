@@ -68,8 +68,8 @@ class MuRAM():
         mbyy=mbyy*coef
         mbzz=mbzz*coef
         
-        mbqq = np.sign(mbxx**2 - mbzz**2)*np.sqrt(mbxx**2 - mbzz**2)
-        mbuu = np.sign(mbxx*mbzz)*np.sqrt(mbxx*mbzz)
+        mbqq = np.sign(mbxx**2 - mbzz**2)*np.sqrt(np.abs(mbxx**2 - mbzz**2))
+        mbuu = np.sign(mbxx*mbzz)*np.sqrt(np.abs(mbxx*mbzz))
         mbvv = mbyy
 
         print("Charging density...")
