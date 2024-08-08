@@ -232,6 +232,6 @@ def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz
         titles = ["T", "rho", "Bqq", "Buu", "Bvv", "vy"]
     
     validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", images_out=pth_out, titles=titles)
-
+#valid
 if __name__ == "__main__":
     main()
