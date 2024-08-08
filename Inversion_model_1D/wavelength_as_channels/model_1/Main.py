@@ -33,7 +33,7 @@ def main():
     vertical_comp = False # Whether to use or not just the LOS components.
     model.to(device)
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
-    lr = 5e-4
+    lr = 5e-5
     optimizer = torch.optim.Adam(params=model.parameters(), lr=lr)
     epochs = 12
     
@@ -229,7 +229,7 @@ def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz
     if vertical_comp:
         titles = ["T", "rho", "By", "vy"]
     else:
-        titles = ["T", "rho", "Bx", "By", "Bz", "vy"]
+        titles = ["T", "rho", "Bqq", "Buu", "Bvv", "vy"]
     
     validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", images_out=pth_out, titles=titles)
 

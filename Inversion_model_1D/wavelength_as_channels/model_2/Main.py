@@ -30,9 +30,10 @@ def main():
     print("\nThe model will be runned in:", device)
 
     #Model training hyperparams
+    vertical_comp = False # Whether to use or not just the LOS components.
     model.to(device)
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
-    lr = 5e-4
+    lr = 5e-5
     optimizer = torch.optim.Adam(params=model.parameters(), lr=lr)
     epochs = 12
     
@@ -60,8 +61,9 @@ def main():
     start = time.time()
     
     #Validation dataset
+    
     val_muram = MuRAM(ptm = ptm, filenames = [''])
-    val_atm_quant, val_stokes = val_muram.charge_quantities(filename = "130000", vertical_comp = False)
+    val_atm_quant, val_stokes = val_muram.charge_quantities(filename = "130000", vertical_comp = vertical_comp)
     val_atm_quant_tensor = torch.from_numpy(val_atm_quant).to(device)
     val_atm_quant_tensor = torch.reshape(val_atm_quant_tensor, (480*480,20,6))
     stokes_tensor = torch.from_numpy(val_stokes).to(device)
@@ -78,7 +80,7 @@ def main():
     #Creation of the muram data processing object
     muram = MuRAM(ptm = ptm, filenames = training_files)
 
-    train_data, test_data= muram.train_test_sets(vertical_comp = False)
+    train_data, test_data= muram.train_test_sets(vertical_comp = vertical_comp)
 
     BATCH_SIZE = 80
 
@@ -126,7 +128,7 @@ def main():
 
         print("\nValidation plot...")
         #validation plot
-        validation_step(pth_out, model, validation_dataloader, val_atm_quant, muram.nx, muram.nz, epoch)
+        validation_step(pth_out, model, validation_dataloader, val_atm_quant, muram.nx, muram.nz, epoch, vertical_comp)
         print("\nplotted...")
         
 
@@ -209,14 +211,14 @@ def test_step(model, test_dataloader, loss_fn):
     
     return test_loss, test_acc
 
-def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz, epoch):
-    validated_atm = torch.zeros((480*480,80))
+def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz, epoch, vertical_comp):
+    validated_atm = torch.zeros((480*480,120))
     with torch.inference_mode():
         i = 0
         for X, y in validation_dataloader:
             # 1. Forward pass
             valid_pred = model.double()(X.double())
-            validated_atm[i*120:(i+1)*120] = valid_pred
+            validated_atm[i*80:(i+1)*80] = valid_pred
             i += 1
         validated_atm = torch.reshape(validated_atm, (nx, nz, 20, 6))
         validated_atm = validated_atm.to("cpu").numpy()
@@ -224,7 +226,10 @@ def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz
         print("Validation done!")
     
     #Making a plot of the correlation plots of the validation set.
-    titles = ["T", "rho", "By", "vy"]
+    if vertical_comp:
+        titles = ["T", "rho", "By", "vy"]
+    else:
+        titles = ["T", "rho", "Bqq", "Buu", "Bvv", "vy"]
     
     validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", images_out=pth_out, titles=titles)
 
