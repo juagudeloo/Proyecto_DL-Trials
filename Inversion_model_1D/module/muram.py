@@ -107,7 +107,7 @@ class MuRAM():
         
         if vertical_comp:
             mags_names = ["T", "rho", "Bv", "vy"]
-            atm_quant = np.array([mtpr, mrho, mbvv, mvyy])
+            atm_quant = np.array([mtpr, mrho, mbyy, mvyy])
         else:
             mags_names = ["T", "rho", "Bx", "By", "Bz", "vy"]
             atm_quant = np.array([mtpr, mrho, mbxx, mbyy, mbzz, mvyy])
