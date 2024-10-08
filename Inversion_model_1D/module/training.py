@@ -23,7 +23,7 @@ def train_model(model: nn.Module,
                 pth_out: str,
                 epochs: int, 
                 lr: float, 
-                BATCH_SIZE: int,
+                batch_size: int,
                 loss_fn: nn.Module, 
                 optimizer: torch.optim.Optimizer,
                 vertical_comp: bool,
@@ -50,9 +50,9 @@ def train_model(model: nn.Module,
     start = time.time()
     
     #Data loaders
-    train_dataloader, test_dataloader, nx, nz  = train_test_dl(device, ptm, training_files, vertical_comp, BATCH_SIZE)
+    train_dataloader, test_dataloader, nx, nz  = train_test_dl(device, ptm, training_files, vertical_comp, batch_size)
     
-    validation_dataloader, val_atm_quant = validation_dl(device, ptm, training_files, vertical_comp, BATCH_SIZE)
+    validation_dataloader, val_atm_quant = validation_dl(device, ptm, training_files, vertical_comp, batch_size)
     
     #############################################################################
     # TRAINING
