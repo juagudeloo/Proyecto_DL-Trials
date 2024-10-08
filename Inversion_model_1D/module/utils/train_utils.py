@@ -5,6 +5,7 @@ from pathlib import Path
 import datetime
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 import torch
 from torch.utils.data import TensorDataset, DataLoader

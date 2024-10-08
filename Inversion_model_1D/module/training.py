@@ -10,6 +10,7 @@ from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 from tqdm import tqdm
 
