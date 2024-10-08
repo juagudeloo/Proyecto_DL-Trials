@@ -11,7 +11,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 import numpy as np
 
-import tqdm
+from tqdm import tqdm
 
 #Own modules
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
