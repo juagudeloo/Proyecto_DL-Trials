@@ -28,7 +28,7 @@ def create_model_save_path(epochs: int, lr: float, results_out: str = "Results/"
     
     return MODEL_SAVE_PATH
 
-def train_test_dl(device: str, ptm: str, training_files: list, vertical_comp: bool, epochs: str, batch_size: int):
+def train_test_dl(ptm: str, training_files: list, vertical_comp: bool, batch_size: int):
     # Set the seed and start the timer
     torch.manual_seed(42) #seed for the random weights of the model
 

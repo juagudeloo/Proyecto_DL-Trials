@@ -50,7 +50,7 @@ def train_model(model: nn.Module,
     start = time.time()
     
     #Data loaders
-    train_dataloader, test_dataloader, nx, nz  = train_test_dl(device, ptm, training_files, vertical_comp, batch_size)
+    train_dataloader, test_dataloader, nx, nz  = train_test_dl(ptm, training_files, vertical_comp, batch_size)
     
     validation_dataloader, val_atm_quant = validation_dl(device, ptm, training_files, vertical_comp, batch_size)
     
