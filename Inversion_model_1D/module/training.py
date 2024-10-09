@@ -10,7 +10,6 @@ from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 from tqdm import tqdm
 
@@ -18,22 +17,31 @@ from tqdm import tqdm
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
 from utils.train_utils  import *
 
-def train_model(model: nn.Module, 
-                training_files: list,
+
+def train_model(
                 ptm: str,
-                pth_out: str,
-                epochs: int, 
-                lr: float, 
+                model: nn.Module,
                 batch_size: int,
-                loss_fn: nn.Module, 
-                optimizer: torch.optim.Optimizer,
-                vertical_comp: bool,
+                vertical_comp: bool
                 ) -> None:
     
     """
     Function to train the model.
     -----------------------------
     """
+    
+    
+    #Path to the data
+    pth_out = "Results/"
+    training_files = ["085000", 
+    "090000","095000", "100000", "105000", "110000"
+    ]
+
+    #Model training hyperparams
+    loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
+    lr = 5e-5
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=lr)
+    epochs = 12
     
     #Defining the agnostic device
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -98,9 +106,16 @@ def train_model(model: nn.Module,
     if not os.path.exists(metrics_out):
         os.mkdir(metrics_out)
         
-    np.save(metrics_out+"train_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", train_loss_history)
-    np.save(metrics_out+"test_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", test_loss_history)
-    np.save(metrics_out+"test_acc_history"+str(epochs)+"E"+str(lr)+"lr"+".npy", test_acc_history)
+    train_loss_history_path = metrics_out+"train_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy"
+    test_loss_history_path = metrics_out+"test_loss_history"+str(epochs)+"E"+str(lr)+"lr"+".npy"
+    test_acc_history_path = metrics_out+"test_acc_history"+str(epochs)+"E"+str(lr)+"lr"+".npy"
+    
+    np.save(train_loss_history_path, train_loss_history)
+    np.save(test_loss_history_path, test_loss_history)
+    np.save(test_acc_history_path, test_acc_history)
+    
     runtime = time.time()-start
     with open(metrics_out+"runtime.txt", "w") as f:
 	    f.write(str(datetime.timedelta(seconds=runtime)))
+     
+    return train_loss_history_path, test_loss_history_path, test_acc_history_path
