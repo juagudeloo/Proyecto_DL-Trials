@@ -21,6 +21,8 @@ from utils.train_utils  import *
 def train_model(
                 ptm: str,
                 model: nn.Module,
+                lr: float,
+                epochs: int,
                 batch_size: int,
                 vertical_comp: bool
                 ) -> None:
@@ -39,9 +41,7 @@ def train_model(
 
     #Model training hyperparams
     loss_fn = nn.MSELoss() # this is also called "criterion"/"cost function" in some places
-    lr = 5e-5
     optimizer = torch.optim.Adam(params=model.parameters(), lr=lr)
-    epochs = 12
     
     #Defining the agnostic device
     device = "cuda" if torch.cuda.is_available() else "cpu"

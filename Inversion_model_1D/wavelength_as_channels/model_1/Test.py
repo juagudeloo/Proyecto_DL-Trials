@@ -22,14 +22,14 @@ def main():
     lr = 5e-5
     epochs = 12
     
-    MODEL_SAVE_PATH = create_model_save_path(epochs, lr)
-    
     filename = "175000"
     batch_size = 80
     vertical_comp = False
     
     test_model(ptm, 
                model, 
+               lr,
+               epochs,
                filename,
                batch_size,
                vertical_comp)

@@ -15,6 +15,7 @@ from torch.utils.data import TensorDataset, DataLoader
 #Own modules
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
 from utils.test_utils  import *
+from utils.train_utils import create_model_save_path
 
 images_out = "Results/Images/"
 
@@ -58,10 +59,19 @@ def plot_metrics(trl_path: str,
     
 def test_model(ptm:str, 
                model: nn.Module,
+               lr: float,
+               epochs: int,
                filename: str,
                batch_size: int,
                vertical_comp: bool
                ) -> None:
+    
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model.to(device)
+    
+    MODEL_SAVE_PATH = create_model_save_path(epochs, lr)
+    model.load_state_dict(torch.load(f=MODEL_SAVE_PATH, map_location=device))
+    
     
     # Load the data
     stokes, original_atm, generated_atm = generate_new_data(ptm,
