@@ -2,8 +2,8 @@
 
 #SBATCH --job-name=inv_wavlen
 #SBATCH --ntasks-per-node=1
-#SBATCH -o train_pr.out
-#SBATCH -e train_pr.err
+#SBATCH -o test_pr.out
+#SBATCH -e test_pr.err
 #SBATCH --chdir=/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-type=END
