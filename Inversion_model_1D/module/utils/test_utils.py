@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from scipy.stats import pearsonr
+from sklearn.metrics import mean_squared_error
 
 import torch
 from torch import nn
@@ -114,7 +115,7 @@ def generate_new_data(ptm: str,
     return stokes, atm_quant, generated_atm
 
 titles = [r"$T$", r"$\rho$", r"$B_{q}$", r"$B_{u}$", r"$B_{v}$", r"$v_{LOS}$"]
-
+tau = np.linspace(1,-3,20)
 images_out = "Results/Images/"
 
 def plot_pixel(filename:str,
@@ -129,7 +130,7 @@ def plot_pixel(filename:str,
     N_quantities = atm_quant.shape[-1]
     tau = np.linspace(1,-3,20)
     
-    fig, ax = plt.subplots(1,1+N_quantities,figsize = (4*(1+N_quantities),4*1), layout = "constrained")
+    fig, ax = plt.subplots(1,1+N_quantities,figsize = (4*(1+N_quantities),4*1))
     
     ax[0].imshow(stokes_for_plot[:,:,0,0])
     ax[0].scatter(ix,iy, c = "orange")
@@ -138,6 +139,7 @@ def plot_pixel(filename:str,
         ax[j].plot(tau, atm_quant[ix,iy,::-1,j], label = "original")
         ax[j].set_title(titles[j])
         ax[j].legend()
+    fig.tight_layout()
     
     if not os.path.exists(pixel_out):
         os.makedirs(pixel_out)
@@ -150,7 +152,7 @@ def plot_corr_diff_OD(filename: str,
     
     N_quantities = atm_quant.shape[-1]
     
-    fig, ax = plt.subplots(1,N_quantities,figsize = (N_quantities*5,1), layout='constrained')
+    fig, ax = plt.subplots(1,N_quantities,figsize = (N_quantities*5,1))
     for j in range(N_quantities):
         ax[j].scatter(atm_quant[:,:,iheight,j].flatten(), generated_atm[:,:,iheight,j].flatten(), s=5, alpha=0.1)
         max_value = np.max(np.array([np.max(generated_atm[:,:,iheight,j].flatten()),
@@ -164,9 +166,9 @@ def plot_corr_diff_OD(filename: str,
         pearson = pearsonr(generated_atm[:,:,iheight,j].flatten(),atm_quant[:,:,iheight,j].flatten())[0]
         ax[j].plot(np.linspace(min_value,max_value), np.linspace(min_value,max_value), "r--")
         ax[j].set_title(titles[j]+f" - OD = {np.linspace(-3,1,20)[iheight]:.2f} - pearson = {pearson:.2f}", fontsize=14)
-        ax[j].set_xlim(min_x, max_x)
+        ax[j].sconstrainedet_xlim(min_x, max_x)
         ax[j].set_ylim(min_y, max_y)
-
+    fig.tight_layout()
     fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
     fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
     
@@ -272,7 +274,7 @@ def all_depth_error(filename: str,
 
     def rrmse(y_actual, y_predicted):
         rms = mean_squared_error(y_actual, y_predicted, squared=False)
-        rel_root_mse = mean_squared_error(y_actual, y_predicted, squared=False)/np.abs(np.mean(y_actual))
+        rel_root_mse = rms/np.abs(np.mean(y_actual))
         return rel_root_mse
     
     for t in tqdm(range(len(tau))):
@@ -289,13 +291,13 @@ def all_depth_error(filename: str,
     N_atm = rrmse_atm_quant.shape[-1]
     bin_means = np.zeros((N_bins,))
 
-    fig, ax = plt.subplots(N_OD, N_atm, figsize = (4*N_atm, 4*N_OD), layout = "constrained")
+    fig, ax = plt.subplots(N_OD, N_atm, figsize = (4*N_atm, 4*N_OD))
     for t in range(len(tau)):
         for atm in range(rrmse_atm_quant.shape[-1]):
             for i_bin in range(N_bins):
                 bin_means[i_bin] = (Atm_bins[atm][t][i_bin] + Atm_bins[atm][t][i_bin+1])/2
-            min_xlim = re_scale_func(np.min(rrmse_atm_quant[:,:,atm]), atm_maxmin)
-            max_xlim = re_scale_func(np.max(rrmse_atm_quant[:,:,atm]), atm_maxmin)
+            min_xlim = np.min(rrmse_atm_quant[:,:,atm])
+            max_xlim = np.max(rrmse_atm_quant[:,:,atm])
             ax[t,atm].plot(bin_means, rmse_t[atm][t], color = "r")
     #         ax[t,atm].plot(np.linspace(min_xlim, max_xlim),np.zeros_like(np.linspace(min_xlim, max_xlim)), "--k")
             ax[t,atm].scatter(bin_means, rmse_t[atm][t], color = "r")
@@ -304,6 +306,7 @@ def all_depth_error(filename: str,
     #         ax[t,atm].set_xlim(min_xlim, max_xlim)
             ax[t,atm].set_title(titles[atm] + f" OD {tau[t]:0.2f}")
 
+    fig.tight_layout()
     fig.savefig("rrmse_dif_OD.png", transparent = False)
 
 
