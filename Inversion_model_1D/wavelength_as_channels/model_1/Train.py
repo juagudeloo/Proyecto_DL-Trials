@@ -20,9 +20,17 @@ def main():
     batch_size = 80
     vertical_comp = False
     
+    lr = 5e-5
+    epochs = 12
+    
+    #Creating the model for training
+    model = InvModel1(36,6*20,4096).float()
+    
     plot_metrics(
         *train_model(ptm, 
                      model, 
+                     lr,
+                     epochs,
                      batch_size,
                      vertical_comp)
         )
