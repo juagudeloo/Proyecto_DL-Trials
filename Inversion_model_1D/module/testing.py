@@ -43,7 +43,7 @@ def plot_metrics(trl_path: str,
     N_epochs = len(loss_metrics[0])
     epochs_line = np.arange(1,N_epochs+1,1)
     
-    fig, ax = plt.subplots(1,3,figsize=(3*4.5,1*3), layout = "constrained")
+    fig, ax = plt.subplots(1,3,figsize=(3*4.5,1*3))
 
     for i in range(N_metrics):
         ax[i].plot(epochs_line, loss_metrics[i])
@@ -55,6 +55,7 @@ def plot_metrics(trl_path: str,
     ax[2].set_ylim((80,100))
     
     metrics_img_out = images_out+"metrics/"
+    fig.tight_layout()
     fig.savefig(metrics_img_out)
     
 def test_model(ptm:str, 
