@@ -306,8 +306,13 @@ def all_depth_error(filename: str,
     #         ax[t,atm].set_xlim(min_xlim, max_xlim)
             ax[t,atm].set_title(titles[atm] + f" OD {tau[t]:0.2f}")
 
+
+    rmse_out = images_out + "rrmse/"
+    if not os.path.exists(rmse_out):
+        os.makedirs(rmse_out)
+
     fig.tight_layout()
-    fig.savefig("rrmse_dif_OD.png", transparent = False)
+    fig.savefig(rmse_out + filename + "_rrmse_dif_OD.png", transparent = False)
 
 
 
