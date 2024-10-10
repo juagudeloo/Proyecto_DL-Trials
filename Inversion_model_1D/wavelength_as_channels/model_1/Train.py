@@ -10,6 +10,7 @@ import sys
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
 from muram import MuRAM
 from training import train_model
+from testing import plot_metrics
 from nn_model import *
 
 
