@@ -63,26 +63,34 @@ def test_model(ptm:str,
                vertical_comp: bool
                ) -> None:
     
+    # Load the data
     stokes, original_atm, generated_atm = generate_new_data(ptm,
                                                     model,
                                                     filename,
                                                     batch_size,
                                                     vertical_comp)
-    
+    # Save pixel plots
     pixels = [[90,250],
               [100,115]]
     for pix in pixels:
-        plot_pixel(stokes, 
+        plot_pixel(filename,
+                   stokes, 
                    original_atm,
                    generated_atm, 
                    *pix)
     
+    # Save correlation plots
     heights = [1, 5, 10, 14]
     for iheight in heights:
-        plot_corr_diff_OD(original_atm, 
+        plot_corr_diff_OD(filename,
+                          original_atm, 
                           generated_atm, 
                           iheight)
     
+    # Save depth dependent error plots
+    all_depth_error(filename,
+                    original_atm,
+                    generated_atm)
     
     
     

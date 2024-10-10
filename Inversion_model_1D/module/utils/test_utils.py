@@ -1,3 +1,4 @@
+import os
 import sys
 
 import time
@@ -13,10 +14,13 @@ import torch
 from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 
+from tqdm import tqdm
 
 #Own modules
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
 from muram import MuRAM
+
+
 
 def generate_new_data(ptm: str, 
                       model: nn.Module,
@@ -111,10 +115,13 @@ def generate_new_data(ptm: str,
 
 titles = [r"$T$", r"$\rho$", r"$B_{q}$", r"$B_{u}$", r"$B_{v}$", r"$v_{LOS}$"]
 
-def plot_pixel(stokes,
-                atm_quant,
-                generated_atm, 
-                ix, iy):
+images_out = "Results/Images/"
+
+def plot_pixel(filename:str,
+               stokes: np.ndarray,
+                atm_quant: np.ndarray,
+                generated_atm: np.ndarray, 
+                ix: int, iy: int) -> None:
     
     pixel_out = "Results/Images/pixel/"
     
@@ -132,9 +139,12 @@ def plot_pixel(stokes,
         ax[j].set_title(titles[j])
         ax[j].legend()
     
-    fig.savefig(pixel_out+f"pixel_{ix}_{iy}.png")
+    if not os.path.exists(pixel_out):
+        os.makedirs(pixel_out)
+    fig.savefig(pixel_out+filename+f"pixel_{ix}_{iy}.png")
     
-def plot_corr_diff_OD(atm_quant: np.ndarray,
+def plot_corr_diff_OD(filename: str,
+                      atm_quant: np.ndarray,
                       generated_atm: np.ndarray,
                       iheight: int) -> None:
     
@@ -159,7 +169,147 @@ def plot_corr_diff_OD(atm_quant: np.ndarray,
 
     fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
     fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
-    plt.show()
     
-def all_depth_error():
-    pass
+    corr_out = images_out + "correlation/"
+    if not os.path.exists(corr_out):
+        os.makedirs(corr_out)
+    fig.savefig(corr_out+filename+"_"+str(iheight)+".png")
+    
+def all_depth_error(filename: str,
+                    atm_quant: np.ndarray,
+                    generated_atm: np.ndarray) -> None:
+    
+    rrmse_atm_quant = np.reshape(atm_quant, (480*480, 20, atm_quant.shape[-1]))
+    rrmse_generated_atm = np.reshape(generated_atm, (480*480, 20, generated_atm.shape[-1]))
+
+    N_bins = 12
+
+    t = 0
+    atm = 2
+    B_bins = np.linspace(np.min(rrmse_atm_quant[:,t,atm]), np.max(rrmse_atm_quant[:,t,atm]), N_bins+1)
+    
+    Bt_original = rrmse_atm_quant[:,t,atm]
+    Bt_generated = rrmse_generated_atm[:,t,atm]
+
+    min_idx = np.argwhere(Bt_original < B_bins[0+1])
+    Bt_original_binned = np.squeeze(Bt_original[min_idx])
+    Bt_generate_binned = np.squeeze(Bt_generated[min_idx])
+    max_idx = np.argwhere(Bt_original_binned > B_bins[0])
+    Bt_original_binned = np.squeeze(Bt_original_binned[max_idx])
+    Bt_generate_binned = np.squeeze(Bt_generate_binned[max_idx])
+    
+    Atm_bins = {0:{}, #T
+                1:{}, #rho
+                2:{}, #Bx
+                3:{}, #By
+                4:{}, #Bz
+                5:{}} #vy
+
+    for t in range(len(tau)):
+        for atm in range(rrmse_atm_quant.shape[-1]):
+            Atm_bins[atm][t] = np.linspace(np.min(rrmse_atm_quant[:,t,atm]), np.max(rrmse_atm_quant[:,t,atm]), N_bins+1)
+
+    binned_atm_data = {"original":{},
+                    "validation":{}}
+
+    binned_atm_data["original"] = {0:{}, #T
+                1:{}, #rho
+                2:{}, #Bx
+                3:{}, #By
+                4:{}, #Bz
+                5:{}} #vy
+
+    binned_atm_data["validation"] = {0:{}, #T
+                1:{}, #rho
+                2:{}, #Bx
+                3:{}, #By
+                4:{}, #Bz
+                5:{}} #vy
+
+
+    for t in range(len(tau)):
+        for atm in range(rrmse_atm_quant.shape[-1]):
+            binned_atm_data["original"][atm][t] = {}
+            binned_atm_data["validation"][atm][t] = {}
+            
+    for t in range(len(tau)):
+        for atm in range(rrmse_atm_quant.shape[-1]):      
+            for i_bin in range(N_bins):
+                binned_atm_data["original"][atm][t][i_bin] = []
+                binned_atm_data["validation"][atm][t][i_bin] = []
+
+    for i_bin in range(N_bins):
+        for t in range(len(tau)):
+            for atm in range(rrmse_atm_quant.shape[-1]):
+                atm_tau = rrmse_atm_quant[:,t,atm]
+                min_bin = Atm_bins[atm][t][i_bin]
+                max_bin = Atm_bins[atm][t][i_bin+1]
+                
+                max_idx = np.argwhere(atm_tau < max_bin)
+                max_idx = np.squeeze(max_idx)   
+                binned_atm_data["original"][atm][t][i_bin] = rrmse_atm_quant[max_idx,t,atm]
+                binned_atm_data["validation"][atm][t][i_bin] = rrmse_generated_atm[max_idx,t,atm]
+                
+                min_idx = np.argwhere(binned_atm_data["original"][atm][t][i_bin] > min_bin)
+                min_idx = np.squeeze(min_idx)   
+                binned_atm_data["original"][atm][t][i_bin] = binned_atm_data["original"][atm][t][i_bin][min_idx]
+                binned_atm_data["validation"][atm][t][i_bin] =  binned_atm_data["validation"][atm][t][i_bin][min_idx]
+                
+
+
+
+    rmse_t = {0:{}, #T
+                1:{}, #rho
+                2:{}, #Bx
+                3:{}, #By
+                4:{}, #Bz
+                5:{}} #vy
+    for t in range(len(tau)):
+        for atm in range(rrmse_atm_quant.shape[-1]):
+            rmse_t[atm][t] = np.zeros((N_bins,))
+            
+    
+
+    def rrmse(y_actual, y_predicted):
+        rms = mean_squared_error(y_actual, y_predicted, squared=False)
+        rel_root_mse = mean_squared_error(y_actual, y_predicted, squared=False)/np.abs(np.mean(y_actual))
+        return rel_root_mse
+    
+    for t in tqdm(range(len(tau))):
+        for atm in range(rrmse_atm_quant.shape[-1]):
+            for i_bin in range(N_bins):
+                try:
+                    original = binned_atm_data["original"][atm][t][i_bin]
+                    generated = binned_atm_data["validation"][atm][t][i_bin]
+                    rmse_t[atm][t][i_bin] = rrmse(original, generated)
+                except:
+                    rmse_t[atm][t][i_bin] = np.nan
+                    
+    N_OD = len(tau)
+    N_atm = rrmse_atm_quant.shape[-1]
+    bin_means = np.zeros((N_bins,))
+
+    fig, ax = plt.subplots(N_OD, N_atm, figsize = (4*N_atm, 4*N_OD), layout = "constrained")
+    for t in range(len(tau)):
+        for atm in range(rrmse_atm_quant.shape[-1]):
+            for i_bin in range(N_bins):
+                bin_means[i_bin] = (Atm_bins[atm][t][i_bin] + Atm_bins[atm][t][i_bin+1])/2
+            min_xlim = re_scale_func(np.min(rrmse_atm_quant[:,:,atm]), atm_maxmin)
+            max_xlim = re_scale_func(np.max(rrmse_atm_quant[:,:,atm]), atm_maxmin)
+            ax[t,atm].plot(bin_means, rmse_t[atm][t], color = "r")
+    #         ax[t,atm].plot(np.linspace(min_xlim, max_xlim),np.zeros_like(np.linspace(min_xlim, max_xlim)), "--k")
+            ax[t,atm].scatter(bin_means, rmse_t[atm][t], color = "r")
+            ax[t,atm].set_ylim(0,1)
+            ax[t,atm].ticklabel_format(scilimits = (-3,3))
+    #         ax[t,atm].set_xlim(min_xlim, max_xlim)
+            ax[t,atm].set_title(titles[atm] + f" OD {tau[t]:0.2f}")
+
+    fig.savefig("rrmse_dif_OD.png", transparent = False)
+
+
+
+
+
+
+
+

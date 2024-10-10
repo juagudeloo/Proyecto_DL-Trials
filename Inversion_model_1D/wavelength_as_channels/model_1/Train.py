@@ -27,11 +27,6 @@ def main():
                      vertical_comp)
         )
     
-    test_model(ptm, 
-               model, 
-               batch_size,
-               vertical_comp)
-    
     
     
     
