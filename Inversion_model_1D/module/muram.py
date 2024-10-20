@@ -84,27 +84,6 @@ class MuRAM():
         mvyy = mvyy/mrho
         mvzz = mvzz/mrho
         
-        if scale:
-            print("Scaling...")
-
-            self.phys_maxmin = {}
-            self.phys_maxmin["T"] = [1e4, 0]
-            self.phys_maxmin["B"] = [1e3, -1e3]
-            self.phys_maxmin["Rho"] = [1e-5, 1e-12]
-            self.phys_maxmin["V"] = [1e6, -1e6]
-
-            mtpr = norm_func(mtpr, self.phys_maxmin["T"])
-
-            mbqq = norm_func(mbqq, self.phys_maxmin["B"])
-            mbuu = norm_func(mbuu, self.phys_maxmin["B"])
-            mbvv = norm_func(mbvv, self.phys_maxmin["B"])
-
-            mrho = norm_func(mrho, self.phys_maxmin["Rho"])
-
-            mvxx = norm_func(mvxx, self.phys_maxmin["V"])
-            mvyy = norm_func(mvyy, self.phys_maxmin["V"])
-            mvzz = norm_func(mvzz, self.phys_maxmin["V"] )
-        
         """
         Narray of the atmosphere quantities...
         """
@@ -149,6 +128,25 @@ class MuRAM():
 
         if scale:
             print("Scaling...")
+            
+            self.phys_maxmin = {}
+            self.phys_maxmin["T"] = [1e4, 0]
+            self.phys_maxmin["B"] = [1e3, -1e3]
+            self.phys_maxmin["Rho"] = [1e-5, 1e-12]
+            self.phys_maxmin["V"] = [1e6, -1e6]
+
+            mtpr = norm_func(mtpr, self.phys_maxmin["T"])
+
+            mbqq = norm_func(mbqq, self.phys_maxmin["B"])
+            mbuu = norm_func(mbuu, self.phys_maxmin["B"])
+            mbvv = norm_func(mbvv, self.phys_maxmin["B"])
+
+            mrho = norm_func(mrho, self.phys_maxmin["Rho"])
+
+            mvxx = norm_func(mvxx, self.phys_maxmin["V"])
+            mvyy = norm_func(mvyy, self.phys_maxmin["V"])
+            mvzz = norm_func(mvzz, self.phys_maxmin["V"] )
+            
             self.stokes_maxmin = {}
             #Stokes I
             self.stokes_maxmin["I"] = [1e14, 0]
