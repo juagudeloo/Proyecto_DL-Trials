@@ -6,7 +6,7 @@ def main():
     quant_filenames = ["mtpr", "mrho", "mbxx", "mbyy", "mbzz", "mvxx", "mvyy", "mvzz"]
     step = 1000
     n_files = np.arange(80000, 200000+step, step)
-    n_filenames = n_filenames.copy().astype(str)
+    n_filenames = n_files.copy().astype(str)
     for i in range(len(n_files)):
         n_filenames[i] = "0"+n_filenames[i] if n_files[i] < 100000 else n_filenames[i]
     
