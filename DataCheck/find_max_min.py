@@ -41,7 +41,8 @@ def main():
     
     
     
-    df = pd.DataFrame()
+    df = pd.DataFrame(info_dict)
+    df.to_csv("max_min_values.csv")
     
     
 if __name__ == "__main__":
