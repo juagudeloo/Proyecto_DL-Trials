@@ -1,0 +1,44 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+def main():
+    quant_filenames = ["mtpr", "mrho", "mbxx", "mbyy", "mbzz", "mvxx", "mvyy", "mvzz"]
+    step = 1000
+    n_filenames = np.arange(80000, 200000+step, step).astype(str)
+    
+    info_dict = {"index": ["T", "Rho", "Bxx", "Byy", "Bzz", "Vxx", "Vyy", "Vzz"], 
+                 "max_mean": [], 
+                 "max_std": [], 
+                 "min_mean": [],
+                 "min_std": []
+                 }
+    
+    data_path = "../../MURAM_data/Numpy_MURAM_data/"
+    for quant in quant_filenames:
+        max_values = []
+        min_values = []
+        for n in n_filenames:
+            quant_npy = np.load(data_path+quant+"_"+n+".npy")
+            max_values.append(np.max(quant_npy))
+            min_values.append(np.min(quant_npy))
+        
+        max_mean = np.mean(max_values)
+        max_std = np.std(max_values)
+        min_mean = np.mean(min_values)
+        min_std = np.std(min_values)
+        
+        info_dict["max_mean"].append(max_mean)
+        info_dict["max_std"].append(max_std)
+        info_dict["min_mean"].append(min_mean)
+        info_dict["min_std"].append(min_std)
+        
+    
+    
+    
+    
+    df = pd.DataFrame()
+    
+    
+if __name__ == "__main__":
+    main()
