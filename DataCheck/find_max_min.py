@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 
 def main():
     quant_filenames = ["mtpr", "mrho", "mbxx", "mbyy", "mbzz", "mvxx", "mvyy", "mvzz"]
@@ -18,7 +19,7 @@ def main():
                  }
     
     data_path = "../../MURAM_data/Numpy_MURAM_data/"
-    for quant in quant_filenames:
+    for quant in tqdm(quant_filenames):
         max_values = []
         min_values = []
         for n in n_filenames:
