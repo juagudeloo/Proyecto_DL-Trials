@@ -21,8 +21,6 @@ from tqdm import tqdm
 sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
 from muram import MuRAM
 
-
-
 def generate_new_data(ptm: str, 
                       model: nn.Module,
                       filename: str, 
@@ -114,9 +112,14 @@ def generate_new_data(ptm: str,
         
     return stokes, atm_quant, generated_atm
 
+############################################################################################################
+# Images parameters
+############################################################################################################
 titles = [r"$T$", r"$\rho$", r"$B_{q}$", r"$B_{u}$", r"$B_{v}$", r"$v_{LOS}$"]
 tau = np.linspace(1,-3,20)
-images_out = "Results/Images/"
+pth_out = "Results/"
+images_out = pth_out + "Images/"
+############################################################################################################
 
 def plot_pixel(filename:str,
                stokes: np.ndarray,
@@ -124,7 +127,7 @@ def plot_pixel(filename:str,
                 generated_atm: np.ndarray, 
                 ix: int, iy: int) -> None:
     
-    pixel_out = "Results/Images/pixel/"
+    pixel_out = images_out+"pixel/"
     
     stokes_for_plot = np.reshape(stokes, (480,480,36,4))
     N_quantities = atm_quant.shape[-1]

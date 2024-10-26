@@ -172,9 +172,9 @@ def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz
     else:
         titles = ["T", "rho", "Bqq", "Buu", "Bvv", "vy"]
     
-    validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", images_out=pth_out, titles=titles)
+    validation_visual(validated_atm, val_atm_quant, epoch_to_plot=f"epoch {epoch+1}", pth_out=pth_out, titles=titles)
 
-def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:list, images_out:str, titles:list):
+def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:list, pth_out:str, titles:list):
     """
     Function for making the correlation plots.
     ------------------------------------------------
@@ -184,6 +184,11 @@ def validation_visual(generated_quant:list, ref_quant:np.ndarray, epoch_to_plot:
     images_out (str): path to save the animation.
     title (list): list of the titles corresponding to the plotted magnitudes.
     """
+    
+    images_out = pth_out+"validation/"
+    if not os.path.exists(images_out):
+        os.makedirs(images_out)
+    
     N_plots = ref_quant.shape[-1]
     heights_index = [11, 8, 5, 2]
     N_heights = len(heights_index)            
