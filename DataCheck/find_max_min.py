@@ -9,6 +9,7 @@ def main():
     n_files = np.arange(80000, 200000+step, step)
     n_filenames = n_files.copy().astype(str)
     for i in range(len(n_files)):
+        print(n_filenames[i])
         if n_filenames[i] == "98000":
             continue
         else:
