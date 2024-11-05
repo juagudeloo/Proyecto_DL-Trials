@@ -21,9 +21,12 @@ def main():
     
     data_path = "../../MURAM_data/Numpy_MURAM_data/"
     for quant in quant_filenames:
+        print(quant)
         max_values = []
         min_values = []
         for n in n_filenames:
+            if int(n) % 10000 == 0:
+                print(n)
             quant_npy = np.load(data_path+quant+"_"+n+".npy")
             max_values.append(np.max(quant_npy))
             min_values.append(np.min(quant_npy))
