@@ -117,7 +117,8 @@ def generate_new_data(ptm: str,
 ############################################################################################################
 titles = [r"$T$", r"$\rho$", r"$B_{q}$", r"$B_{u}$", r"$B_{v}$", r"$v_{LOS}$"]
 tau = np.linspace(1,-3,20)
-pth_out = "Results/"
+results_out = "Results/"
+pth_out = results_out + f"{epochs}E_"+f"{lr}lr/"
 images_out = pth_out + "Images/"
 ############################################################################################################
 

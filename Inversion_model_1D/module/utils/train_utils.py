@@ -29,7 +29,7 @@ def create_model_save_path(epochs: int, lr: float, results_out: str = "Results/"
     MODEL_NAME = "inversion_"+str(epochs)+"E"+str(lr)+"lr"+".pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
     
-    return MODEL_SAVE_PATH
+    return MODEL_SAVE_PATH, pth_out
 
 def train_test_dl(ptm: str, training_files: list, vertical_comp: bool, batch_size: int):
     # Set the seed and start the timer

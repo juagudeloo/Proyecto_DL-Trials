@@ -9,7 +9,10 @@ def main():
     n_files = np.arange(80000, 200000+step, step)
     n_filenames = n_files.copy().astype(str)
     for i in range(len(n_files)):
-        n_filenames[i] = "0"+n_filenames[i] if n_files[i] < 100000 else n_filenames[i]
+        if n_filenames[i] == "98000":
+            continue
+        else:
+            n_filenames[i] = "0"+n_filenames[i] if n_files[i] < 100000 else n_filenames[i]
     
     info_dict = {"index": ["T", "Rho", "Bxx", "Byy", "Bzz", "Vxx", "Vyy", "Vzz"], 
                  "max_mean": [], 

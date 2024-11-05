@@ -34,7 +34,6 @@ def train_model(
     
     
     #Path to the data
-    pth_out = "Results/"
     training_files = ["085000", 
     "090000","095000", "100000", "105000", "110000"
     ]
@@ -49,7 +48,7 @@ def train_model(
     print("\nThe model will be runned in:", device)
     
     # Create the model save path
-    MODEL_SAVE_PATH = create_model_save_path(epochs, lr)
+    MODEL_SAVE_PATH, pth_out = create_model_save_path(epochs, lr)
     #Charge the weights in case there have been some training before
     if MODEL_SAVE_PATH.exists():
         model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
@@ -116,6 +115,6 @@ def train_model(
     
     runtime = time.time()-start
     with open(metrics_out+"runtime.txt", "w") as f:
-	    f.write(str(datetime.timedelta(seconds=runtime)))
+        f.write(str(datetime.timedelta(seconds=runtime)))
      
     return train_loss_history_path, test_loss_history_path, test_acc_history_path
