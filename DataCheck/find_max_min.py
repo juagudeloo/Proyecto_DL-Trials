@@ -23,7 +23,7 @@ def main():
                  }
     
     data_path = "../../MURAM_data/Numpy_MURAM_data/"
-    for quant in tqdm(quant_filenames):
+    for quant in quant_filenames:
         max_values = []
         min_values = []
         for n in n_filenames:
