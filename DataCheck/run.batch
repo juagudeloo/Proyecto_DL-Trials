@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #SBATCH --job-name=min_max_scale_factors
-#SBATCH --ntasks-per-node=1
 #SBATCH -o train_pr.out
 #SBATCH -e train_pr.err
 #SBATCH --chdir=/scratchsan/observatorio/juagudeloo/PROYECTO_DL-TRIALS/DataCheck
