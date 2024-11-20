@@ -19,7 +19,7 @@ def main():
                  "min_std": []
                  }
     
-    data_path = "../../MURAM_data/Numpy_MURAM_data/"
+    data_path = "../../data/"
     for quant in quant_filenames:
         print(quant)
         max_values = []
