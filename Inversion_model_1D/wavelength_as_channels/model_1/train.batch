@@ -13,7 +13,6 @@
 #SBATCH --time=03:00:00
 #SBATCH --ntasks=16
 #SBATCH --mem=40G
-#SBATCH --gres=gpu:0
 #SBATCH -p boltzmann
 
 module load envs/anaconda3
