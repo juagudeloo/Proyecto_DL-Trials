@@ -25,11 +25,20 @@ def main():
         max_values = []
         min_values = []
         for n in n_filenames:
-            if int(n) % 10000 == 0:
-                print(n)
-            quant_npy = np.load(data_path+quant+"_"+n+".npy")
-            max_values.append(np.max(quant_npy))
-            min_values.append(np.min(quant_npy))
+            if quant in ["mvxx", "mvyy", "mvzz"]:
+                if int(n) % 10000 == 0:
+                    print(n)
+                quant_npy = np.load(data_path+quant+"_"+n+".npy")
+                mrho = np.load(data_path+"mrho"+"_"+n+".npy")
+                quant_npy = quant_npy/mrho
+                max_values.append(np.max(quant_npy))
+                min_values.append(np.min(quant_npy))
+            else:
+                if int(n) % 10000 == 0:
+                    print(n)
+                quant_npy = np.load(data_path+quant+"_"+n+".npy")
+                max_values.append(np.max(quant_npy))
+                min_values.append(np.min(quant_npy))
         
         max_mean = np.mean(max_values)
         max_std = np.std(max_values)
