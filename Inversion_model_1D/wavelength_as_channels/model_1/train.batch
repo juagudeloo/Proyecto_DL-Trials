@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=min_max_scale_factors
+#SBATCH --job-name=training
 #SBATCH --ntasks-per-node=1
 #SBATCH -o train_pr.out
 #SBATCH -e train_pr.err
@@ -25,5 +25,5 @@ echo "Soy un JOB GPU"
 echo "Corri en la maquina: "$host
 echo "Corri el: "$date
 
-python3 /scratchsan/observatorio/juagudeloo/Proyecto_DL-Trials/DataCheck/find_max_min.py
+python3 /scratchsan/observatorio/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/wavelength_as_channels/model_1/Train.py 
 
