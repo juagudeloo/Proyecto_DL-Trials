@@ -6,6 +6,8 @@
 #SBATCH --time=03:00:00
 #SBATCH --ntasks=16
 #SBATCH --mem=40G
+#SBATCH --mail-type=ALL
+#SBATCH --mail-type=END
 
 module load envs/anaconda3
 conda activate pytorch_jupyter
