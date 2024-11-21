@@ -1,27 +1,14 @@
 #!/bin/bash
 
-#SBATCH --job-name=min_max_scale_factors
-#SBATCH -o train_pr.out
-#SBATCH -e train_pr.err
-#SBATCH --chdir=/scratchsan/observatorio/juagudeloo/PROYECTO_DL-TRIALS/DataCheck
-#SBATCH --mail-type=ALL
-#SBATCH --mail-type=END
-#SBATCH --mail-user=juagudeloo@unal.edu.co
+#SBATCH --job-name=scale_facs
 #SBATCH -Mfisica
-#SBATCH --partition=cpu.cecc
+#SBATCH -pcpu.cecc
 #SBATCH --time=03:00:00
 #SBATCH --ntasks=16
 #SBATCH --mem=40G
 
 module load envs/anaconda3
 conda activate pytorch_jupyter
-
-sleep 60
-host=`/bin/hostname`
-date=`/bin/date`
-echo "Soy un JOB GPU"
-echo "Corri en la maquina: "$host
-echo "Corri el: "$date
 
 python3 /scratchsan/observatorio/juagudeloo/Proyecto_DL-Trials/DataCheck/find_max_min.py
 
