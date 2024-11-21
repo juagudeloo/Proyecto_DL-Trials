@@ -10,6 +10,8 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=juagudeloo@unal.edu.co
 
+ssh boltzmann
+
 module load envs/anaconda3
 conda activate pytorch_jupyter
 
