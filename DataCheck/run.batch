@@ -14,6 +14,7 @@ ssh boltzmann
 
 module load envs/anaconda3
 conda activate pytorch_jupyter
+conda install tqdm
 
 python3 /scratchsan/observatorio/juagudeloo/Proyecto_DL-Trials/DataCheck/find_max_min.py
 
