@@ -9,6 +9,8 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-type=END
 #SBATCH --mail-user=juagudeloo@unal.edu.co
+#SBATCH -o run.out
+#SBATCH -e run.err
 
 ssh boltzmann
 
