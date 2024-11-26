@@ -36,7 +36,7 @@ def train_model(
     
     #Path to the data
     training_files = ["085000", 
-    "090000","095000", "100000", "105000", "110000"
+    #"090000","095000", "100000", "105000", "110000"
     ]
 
     #Model training hyperparams
