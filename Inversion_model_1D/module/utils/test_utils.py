@@ -14,6 +14,7 @@ from sklearn.metrics import mean_squared_error
 import torch
 from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
+from scipy.interpolate import interp1d
 
 from tqdm import tqdm
 
@@ -26,6 +27,8 @@ def generate_new_data(ptm: str,
                       filename: str, 
                       batch_size: int,
                       vertical_comp: bool, 
+                      opt_depth_stratif: bool = False,
+                      opt_len: int = 20
                       ) -> None:
     """
     Function to generate new data.
@@ -80,6 +83,12 @@ def generate_new_data(ptm: str,
             i += 1
         generated_atm = np.reshape(generated_atm, (muram.nx, muram.nz, 20, atm_quant.shape[-1]))
         generated_atm = generated_atm.numpy()
+        
+    #Optical depth stratification for having the data mapped to optical depth
+    mags_names = ["T", "rho", "Bq", "Bu", "Bv", "vy"]
+    if opt_depth_stratif:
+            generated_atm = optical_depth_stratification(muram, generated_atm, filename, mags_names, opt_len)
+    
     end_time = time()
     runtime = datetime.timedelta(seconds= (end_time - start_time))
     print(f"The generation of data with {device} took {runtime}")
@@ -95,7 +104,7 @@ def generate_new_data(ptm: str,
         return scaled_val*(max_val - min_val) + min_val
 
 
-    N_quantities = atm_quant.shape[-1]
+    N_quantities = generated_atm.shape[-1]
 
     for iatm in range(N_quantities):
         if iatm == 0:
@@ -112,6 +121,30 @@ def generate_new_data(ptm: str,
         
     return stokes, atm_quant, generated_atm
 
+def optical_depth_stratification(data_model, generated_atm: np.ndarray, filename: str, mags_names: list, opt_len: int) -> np.ndarray:
+    print("Applying optical depth stratification..MuRAM.")
+    opt_depth = np.load(data_model.ptm+"optical_depth_"+filename+".npy")
+    #optical depth points
+    tau_out = data_model.ptm+"array_of_tau_"+filename+f"_{opt_len}_depth_points.npy"
+    tau = np.linspace(-3, 1, opt_len)
+    np.save(tau_out, tau)
+
+    #optical stratification
+    opt_mags_interp = {}
+    opt_mags = np.zeros((data_model.nx, opt_len, data_model.nz, generated_atm.shape[-1]))
+    opt_mags_out =data_model.ptm+"optical_stratified_atm_modified_mbvuq_"+filename+f"_{opt_len}_depth_points_{generated_atm.shape[-1]}_components.npy"
+    if not os.path.exists(opt_mags_out):
+        for ix in tqdm(range(data_model.nx)):
+                for iz in range(data_model.nz):
+                    for i in range(len(mags_names)):
+                        opt_mags_interp[mags_names[i]] = interp1d(opt_depth[ix,:,iz], generated_atm[ix,:,iz,i])
+                        opt_mags[ix,:,iz,i] = opt_mags_interp[mags_names[i]](tau)
+        np.save(opt_mags_out, opt_mags)
+    else:
+        opt_mags = np.load(opt_mags_out)
+    generated_atm = opt_mags
+    
+    return generated_atm
 ############################################################################################################
 # Images parameters
 ############################################################################################################

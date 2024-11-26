@@ -7,7 +7,7 @@ from tqdm import tqdm
 import time
 import sys
 
-sys.path.append("/girg/juagudeloo/Proyecto_DL-Trials/Inversion_model_1D/module")
+sys.path.append("../../module")
 from muram import MuRAM
 from training import train_model
 from testing import plot_metrics
@@ -16,8 +16,8 @@ from nn_model import *
 
 def main():
     #Creating the model for training
-    ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
-    model = InvModel1(36,6*20,4096).float()
+    ptm = "/scratchsan/observatorio/juagudeloo/data/"
+    model = InvModel1(36,6*256,4096).float()
     batch_size = 80
     vertical_comp = False
     
@@ -25,7 +25,7 @@ def main():
     epochs = 12
     
     #Creating the model for training
-    model = InvModel1(36,6*20,4096).float()
+    model = InvModel1(36,6*256,4096).float()
     
     plot_metrics(
         *train_model(ptm, 
@@ -33,7 +33,9 @@ def main():
                      lr,
                      epochs,
                      batch_size,
-                     vertical_comp)
+                     vertical_comp,
+                     optical_depth_stratif=False
+                     )
         )
     
     

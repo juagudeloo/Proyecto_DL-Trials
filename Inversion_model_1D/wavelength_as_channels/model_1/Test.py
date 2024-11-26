@@ -18,7 +18,7 @@ def main():
     #Creating the model for training
     ptm = "/girg/juagudeloo/MURAM_data/Numpy_MURAM_data/"
     #Creating the model for training
-    model = InvModel1(36,6*20,4096).float()
+    model = InvModel1(36,6*256,4096).float()
     lr = 5e-5
     epochs = 12
     
