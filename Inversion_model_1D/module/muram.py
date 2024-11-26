@@ -130,9 +130,9 @@ class MuRAM():
             print("Scaling...")
             
             self.phys_maxmin = {}
-            self.phys_maxmin["T"] = [1e4, 0]
-            self.phys_maxmin["B"] = [1e3, -1e3]
-            self.phys_maxmin["Rho"] = [1e-5, 1e-12]
+            self.phys_maxmin["T"] = [2e4, 0]
+            self.phys_maxmin["B"] = [3e3, -3e3]
+            self.phys_maxmin["Rho"] = [1e-5, 1e-10]
             self.phys_maxmin["V"] = [1e6, -1e6]
 
             mtpr = norm_func(mtpr, self.phys_maxmin["T"])
