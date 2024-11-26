@@ -34,7 +34,7 @@ def main():
                      epochs,
                      batch_size,
                      vertical_comp,
-                     optical_depth_stratif=False
+                     opt_depth_stratif=False
                      )
         )
     

@@ -24,7 +24,8 @@ def train_model(
                 lr: float,
                 epochs: int,
                 batch_size: int,
-                vertical_comp: bool
+                vertical_comp: bool,
+                opt_depth_stratif: bool
                 ) -> None:
     
     """
@@ -58,7 +59,7 @@ def train_model(
     start = time.time()
     
     #Data loaders
-    train_dataloader, test_dataloader, nx, nz  = train_test_dl(ptm, training_files, vertical_comp, batch_size)
+    train_dataloader, test_dataloader, nx, nz  = train_test_dl(ptm, training_files, vertical_comp, batch_size, opt_depth_stratif=opt_depth_stratif)
     
     validation_dataloader, val_atm_quant = validation_dl(device, ptm, vertical_comp, batch_size)
     

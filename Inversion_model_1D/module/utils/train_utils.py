@@ -31,14 +31,14 @@ def create_model_save_path(epochs: int, lr: float, results_out: str = "Results/"
     
     return MODEL_SAVE_PATH, pth_out
 
-def train_test_dl(ptm: str, training_files: list, vertical_comp: bool, batch_size: int):
+def train_test_dl(ptm: str, training_files: list, vertical_comp: bool, batch_size: int, opt_depth_stratif: bool):
     # Set the seed and start the timer
     torch.manual_seed(42) #seed for the random weights of the model
 
     #Creation of the muram data processing object
     muram = MuRAM(ptm = ptm, filenames = training_files)
 
-    train_data, test_data= muram.train_test_sets(vertical_comp = vertical_comp)
+    train_data, test_data= muram.train_test_sets(vertical_comp = vertical_comp, opt_depth_stratif=opt_depth_stratif)
 
     train_dataloader = DataLoader(train_data,
         batch_size=batch_size, # how many samples per batch? 
