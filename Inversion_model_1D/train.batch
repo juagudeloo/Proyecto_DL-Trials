@@ -1,6 +1,6 @@
 #!/bin/bash -l
 ## "%j" es el JobID, un numero asignado por el sistema a su proceso
-#SBATCH --job-name=scale_facs         #Nombre del Trabajo
+#SBATCH --job-name=train         #Nombre del Trabajo
 #SBATCH --cluster=cecc,fisica           #nombre de los cluster a donde envia a procesar
 #SBATCH --partition=gpu.cecc            #Particion a usar(puede ser: cpu.cecc o gpu.cecc)
 ##SBATCH --time=01:00:00       #Tiempo que usara los recursos(--time=DD-:HH:MM:SS)
@@ -20,6 +20,7 @@ module load envs/anaconda3
 conda activate /homes/observatorio/juagudeloo/.conda/envs/pytorch_jupyter
 
 cd $SCRATCH_DIR
+cd wavelength_as_channels/model_1/
 
- python3 ./find_max_min.py
+ python3 ./Train.py
 
