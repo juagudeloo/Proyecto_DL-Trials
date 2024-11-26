@@ -24,9 +24,6 @@ def main():
     lr = 5e-5
     epochs = 12
     
-    #Creating the model for training
-    model = InvModel1(36,6*256,4096).float()
-    
     plot_metrics(
         *train_model(ptm, 
                      model, 

@@ -61,7 +61,7 @@ def train_model(
     #Data loaders
     train_dataloader, test_dataloader, nx, nz  = train_test_dl(ptm, training_files, vertical_comp, batch_size, opt_depth_stratif=opt_depth_stratif)
     
-    validation_dataloader, val_atm_quant = validation_dl(device, ptm, vertical_comp, batch_size)
+    validation_dataloader, val_atm_quant = validation_dl(device, ptm, vertical_comp, batch_size, opt_depth_stratif=opt_depth_stratif)
     
     #############################################################################
     # TRAINING
