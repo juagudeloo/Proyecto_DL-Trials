@@ -57,7 +57,7 @@ def plot_metrics(trl_path: str,
     metrics_img_out = images_out+"metrics/"
     
     if not os.path.exists(metrics_img_out):
-        os.mkdir(metrics_img_out)
+        os.makedirs(metrics_img_out)
     fig.tight_layout()
     fig.savefig(metrics_img_out)
     
