@@ -92,7 +92,7 @@ def train_step(model, train_dataloader, loss_fn, optimizer, device):
         y_pred = model.double()(X.double())
 
         # 2. Calculate loss (per batch)
-        loss = loss_fn(y_pred, y)
+        loss = loss_fn(y_pred.double(), y.double())
         train_loss += loss # accumulatively add up the loss per epoch 
 
         # 3. Optimizer zero grad
