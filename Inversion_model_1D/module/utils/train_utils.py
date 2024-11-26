@@ -153,7 +153,7 @@ def accuracy_fn(y_true, y_pred):
     return acc
 
 def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz, epoch, vertical_comp):
-    validated_atm = torch.zeros((480*480,256*6))
+    validated_atm = torch.zeros((480*480,20*6))
     
     batch_size = 80
     with torch.inference_mode():
@@ -163,7 +163,7 @@ def validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz
             valid_pred = model.double()(X.double())
             validated_atm[i*batch_size:(i+1)*batch_size] = valid_pred
             i += 1
-        validated_atm = torch.reshape(validated_atm, (nx, nz, 256, 6))
+        validated_atm = torch.reshape(validated_atm, (nx, nz, 20, 6))
         validated_atm = validated_atm.to("cpu").numpy()
             
         print("Validation done!")

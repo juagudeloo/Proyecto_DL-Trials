@@ -17,7 +17,7 @@ from nn_model import *
 def main():
     #Creating the model for training
     ptm = "/scratchsan/observatorio/juagudeloo/data/"
-    model = InvModel1(36,6*256,4096).float()
+    model = InvModel1(36,6*20,4096).float()
     batch_size = 80
     vertical_comp = False
     
@@ -31,7 +31,7 @@ def main():
                      epochs,
                      batch_size,
                      vertical_comp,
-                     opt_depth_stratif=False
+                     opt_depth_stratif=True
                      )
         )
     
