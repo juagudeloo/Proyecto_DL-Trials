@@ -151,15 +151,17 @@ def optical_depth_stratification(data_model, generated_atm: np.ndarray, filename
 titles = [r"$T$", r"$\rho$", r"$B_{q}$", r"$B_{u}$", r"$B_{v}$", r"$v_{LOS}$"]
 tau = np.linspace(1,-3,20)
 results_out = "Results/"
-pth_out = results_out + f"{epochs}E_"+f"{lr}lr/"
-images_out = pth_out + "Images/"
 ############################################################################################################
 
 def plot_pixel(filename:str,
                stokes: np.ndarray,
                 atm_quant: np.ndarray,
                 generated_atm: np.ndarray, 
-                ix: int, iy: int) -> None:
+                ix: int, iy: int,
+                epochs: int,
+                lr: float) -> None:
+    pth_out = results_out + f"{epochs}E_"+f"{lr}lr/"
+    images_out = pth_out + "Images/"
     
     pixel_out = images_out+"pixel/"
     
@@ -185,7 +187,9 @@ def plot_pixel(filename:str,
 def plot_corr_diff_OD(filename: str,
                       atm_quant: np.ndarray,
                       generated_atm: np.ndarray,
-                      iheight: int) -> None:
+                      iheight: int,
+                      epochs: int,
+                      lr: float) -> None:
     
     N_quantities = atm_quant.shape[-1]
     
@@ -209,6 +213,8 @@ def plot_corr_diff_OD(filename: str,
     fig.text(0.5, -0.02, 'Generated', ha='center',fontsize=14)
     fig.text(-0.02, 0.5, 'Original', va='center', rotation='vertical',fontsize=14)
     
+    pth_out = results_out + f"{epochs}E_"+f"{lr}lr/"
+    images_out = pth_out + "Images/"
     corr_out = images_out + "correlation/"
     if not os.path.exists(corr_out):
         os.makedirs(corr_out)
@@ -216,7 +222,9 @@ def plot_corr_diff_OD(filename: str,
     
 def all_depth_error(filename: str,
                     atm_quant: np.ndarray,
-                    generated_atm: np.ndarray) -> None:
+                    generated_atm: np.ndarray,
+                    epochs: int,
+                    lr: float) -> None:
     
     rrmse_atm_quant = np.reshape(atm_quant, (480*480, 20, atm_quant.shape[-1]))
     rrmse_generated_atm = np.reshape(generated_atm, (480*480, 20, generated_atm.shape[-1]))
@@ -343,7 +351,8 @@ def all_depth_error(filename: str,
     #         ax[t,atm].set_xlim(min_xlim, max_xlim)
             ax[t,atm].set_title(titles[atm] + f" OD {tau[t]:0.2f}")
 
-
+    pth_out = results_out + f"{epochs}E_"+f"{lr}lr/"
+    images_out = pth_out + "Images/"
     rmse_out = images_out + "rrmse/"
     if not os.path.exists(rmse_out):
         os.makedirs(rmse_out)

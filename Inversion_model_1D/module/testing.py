@@ -91,7 +91,9 @@ def test_model(ptm:str,
                    stokes, 
                    original_atm,
                    generated_atm, 
-                   *pix)
+                   *pix,
+                   epochs = epochs,
+                   lr = lr)
     
     # Save correlation plots
     heights = [1, 5, 10, 14]
@@ -99,12 +101,16 @@ def test_model(ptm:str,
         plot_corr_diff_OD(filename,
                           original_atm, 
                           generated_atm, 
-                          iheight)
+                          iheight,
+                          epochs = epochs,
+                          lr = lr)
     
     # Save depth dependent error plots
     all_depth_error(filename,
                     original_atm,
-                    generated_atm)
+                    generated_atm,
+                    epochs = epochs,
+                    lr = lr)
     
     
     
