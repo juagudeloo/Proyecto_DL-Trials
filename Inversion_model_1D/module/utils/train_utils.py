@@ -68,7 +68,7 @@ def validation_dl(device: str, ptm: str, vertical_comp: bool, batch_size: int, o
     val_muram = MuRAM(ptm = ptm, filenames = [''])
     val_atm_quant, val_stokes = val_muram.charge_quantities(filename = "130000", vertical_comp = vertical_comp, opt_depth_stratif=opt_depth_stratif)
     val_atm_quant_tensor = torch.from_numpy(val_atm_quant).to(device)
-    val_atm_quant_tensor = torch.reshape(val_atm_quant_tensor, (480*480,20,6))
+    val_atm_quant_tensor = torch.reshape(val_atm_quant_tensor, (480*480,256,6))
     stokes_tensor = torch.from_numpy(val_stokes).to(device)
     stokes_tensor = torch.reshape(stokes_tensor, (480*480,stokes_tensor.size()[2],stokes_tensor.size()[3]))
 
