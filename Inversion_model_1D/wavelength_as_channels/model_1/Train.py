@@ -22,7 +22,7 @@ def main():
     vertical_comp = False
     
     lr = 5e-5
-    epochs = 2
+    epochs = 20
     
     plot_metrics(
         *train_model(ptm, 
