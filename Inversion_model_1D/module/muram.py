@@ -256,6 +256,12 @@ class MuRAM():
         """
         #Charging the physicial magnitudes and the stokes parameters
         atm_quant, stokes = self.charge_quantities(filename, scale = scale, opt_depth_stratif = opt_depth_stratif, opt_len = opt_len, vertical_comp = vertical_comp)
+        print(f"""
+              Granular and intergranular pre shape
+              
+                {atm_quant.shape}, {stokes.shape}
+              """)
+        
         # Originally the MURAM code takes y as the vertical axis. However, here we are changing it and leaving it as x,y,z with z the vertical axis.
         atm_quant = np.moveaxis(atm_quant,1,2) #480,480,256
         
