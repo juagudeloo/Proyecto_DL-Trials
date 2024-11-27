@@ -21,7 +21,7 @@ def main():
     batch_size = 80
     vertical_comp = False
     
-    lr = 5e-5
+    lr = 1e-1
     epochs = 20
     
     plot_metrics(
