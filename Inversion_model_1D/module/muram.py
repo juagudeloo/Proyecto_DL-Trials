@@ -318,14 +318,14 @@ class MuRAM():
         
         fig, ax = plt.subplots(2,6, figsize=(5*6,5))
         for i in range(6):
-            ax[0,i].plot(range(20), in_train[:,i])
-            ax[1,i].plot(range(20), out_train[:,i])
+            ax[0,i].plot(range(20), in_train[0,:,i])
+            ax[1,i].plot(range(20), in_test[0,:,i])
         plt.show()
         
         fig, ax = plt.subplots(2,6, figsize=(5*6,5))
-        for i in range(6):
-            ax[0,i].plot(range(36), in_test[:,i])
-            ax[1,i].plot(range(36), out_test[:,i])
+        for i in range(4):
+            ax[0,i].plot(range(36), out_train[0,:,i])
+            ax[1,i].plot(range(36), out_test[0,:,i])
         plt.show()
         
         in_train = torch.from_numpy(in_train).to(device)
