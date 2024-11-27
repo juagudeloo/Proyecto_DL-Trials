@@ -42,7 +42,12 @@ def train_test_dl(ptm: str, training_files: list, vertical_comp: bool, batch_siz
     muram = MuRAM(ptm = ptm, filenames = training_files)
 
     train_data, test_data= muram.train_test_sets(vertical_comp = vertical_comp, opt_depth_stratif=opt_depth_stratif)
-
+    fig, ax = plt.subplots(2,6, figsize=(5*6,5))
+    for i in range(6):
+        ax[0,i].imshow(train_data[0][0][:,:,i])
+        ax[1,i].imshow(test_data[0][0][:,:,i])
+    plt.show()
+    
     train_dataloader = DataLoader(train_data,
         batch_size=batch_size, # how many samples per batch? 
         shuffle=True # shuffle data every epoch?
