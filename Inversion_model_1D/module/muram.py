@@ -136,7 +136,7 @@ class MuRAM():
             #self.phys_maxmin["V"] = [1e6, -1e6]
             self.phys_maxmin["T"] = [2e5, 0]
             self.phys_maxmin["B"] = [3e4, -3e4]
-            #self.phys_maxmin["Rho"] = [1e-5, 1e-10]
+            self.phys_maxmin["Rho"] = [1, 1]
             self.phys_maxmin["V"] = [1e7, -1e7]
 
             mtpr = norm_func(mtpr, self.phys_maxmin["T"])
