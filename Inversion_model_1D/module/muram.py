@@ -90,7 +90,42 @@ class MuRAM():
 
         print("Charging Stokes vectors...")
         stokes = np.load(self.ptm+filename+"_prof.npy")
-        
+        verbose = 1
+        if verbose:
+            print(f""" STOKES:
+            I_max = {np.max(stokes[:,:,:,0])}
+            Q_max = {np.max(stokes[:,:,:,1])}
+            U_max = {np.max(stokes[:,:,:,2])}
+            V_max = {np.max(stokes[:,:,:,3])}
+            I_min = {np.min(stokes[:,:,:,0])}
+            Q_min = {np.min(stokes[:,:,:,1])}
+            U_min = {np.min(stokes[:,:,:,2])}
+            V_min = {np.min(stokes[:,:,:,3])}
+            """)
+
+            print(f"""
+            MAX VALUES:
+            mtpr max = {np.max(mtpr)}
+            mbxx max = {np.max(mbxx)}
+            mbyy max = {np.max(mbyy)}
+            mbzz max = {np.max(mbzz)}
+            mrho max = {np.max(mrho)}
+            mvxx max = {np.max(mvxx)}
+            mvyy max = {np.max(mvyy)}
+            mvzz max = {np.max(mvzz)}
+                """)
+
+            print(f"""
+            MIN VALUES:
+            mtpr min = {np.min(mtpr)}
+            mbxx min = {np.min(mbxx)}
+            mbyy min = {np.min(mbyy)}
+            mbzz min = {np.min(mbzz)}
+            mrho min = {np.min(mrho)}
+            mvxx min = {np.min(mvxx)}
+            mvyy min = {np.min(mvyy)}
+            mvzz min = {np.min(mvzz)}
+                """)
         if scale:
             print("Scaling...")
             
@@ -129,6 +164,43 @@ class MuRAM():
             stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
         
             print("scaling finished!")
+        
+        if verbose:
+            print(f""" STOKES:
+            I_max = {np.max(stokes[:,:,:,0])}
+            Q_max = {np.max(stokes[:,:,:,1])}
+            U_max = {np.max(stokes[:,:,:,2])}
+            V_max = {np.max(stokes[:,:,:,3])}
+            I_min = {np.min(stokes[:,:,:,0])}
+            Q_min = {np.min(stokes[:,:,:,1])}
+            U_min = {np.min(stokes[:,:,:,2])}
+            V_min = {np.min(stokes[:,:,:,3])}
+            """)
+
+            print(f"""
+            MAX VALUES:
+            mtpr max = {np.max(mtpr)}
+            mbxx max = {np.max(mbxx)}
+            mbyy max = {np.max(mbyy)}
+            mbzz max = {np.max(mbzz)}
+            mrho max = {np.max(mrho)}
+            mvxx max = {np.max(mvxx)}
+            mvyy max = {np.max(mvyy)}
+            mvzz max = {np.max(mvzz)}
+                """)
+
+            print(f"""
+            MIN VALUES:
+            mtpr min = {np.min(mtpr)}
+            mbxx min = {np.min(mbxx)}
+            mbyy min = {np.min(mbyy)}
+            mbzz min = {np.min(mbzz)}
+            mrho min = {np.min(mrho)}
+            mvxx min = {np.min(mvxx)}
+            mvyy min = {np.min(mvyy)}
+            mvzz min = {np.min(mvzz)}
+                """)
+        
         if vertical_comp:
             mags_names = ["T", "rho", "Bv", "vy"]
             atm_quant = np.array([mtpr, mrho, mbvv, mvyy])
@@ -204,41 +276,41 @@ class MuRAM():
 
 
         verbose = 0
-        #if verbose:
-        #    print(f""" STOKES:
-        #    I_max = {np.max(stokes[:,:,:,0])}
-        #    Q_max = {np.max(stokes[:,:,:,1])}
-        #    U_max = {np.max(stokes[:,:,:,2])}
-        #    V_max = {np.max(stokes[:,:,:,3])}
-        #    I_min = {np.min(stokes[:,:,:,0])}
-        #    Q_min = {np.min(stokes[:,:,:,1])}
-        #    U_min = {np.min(stokes[:,:,:,2])}
-        #    V_min = {np.min(stokes[:,:,:,3])}
-        #    """)
-#
-        #    print(f"""
-        #    MAX VALUES:
-        #    mtpr max = {np.max(mtpr)}
-        #    mbxx max = {np.max(mbxx)}
-        #    mbyy max = {np.max(mbyy)}
-        #    mbzz max = {np.max(mbzz)}
-        #    mrho max = {np.max(mrho)}
-        #    mvxx max = {np.max(mvxx)}
-        #    mvyy max = {np.max(mvyy)}
-        #    mvzz max = {np.max(mvzz)}
-        #        """)
-#
-        #    print(f"""
-        #    MIN VALUES:
-        #    mtpr min = {np.min(mtpr)}
-        #    mbxx min = {np.min(mbxx)}
-        #    mbyy min = {np.min(mbyy)}
-        #    mbzz min = {np.min(mbzz)}
-        #    mrho min = {np.min(mrho)}
-        #    mvxx min = {np.min(mvxx)}
-        #    mvyy min = {np.min(mvyy)}
-        #    mvzz min = {np.min(mvzz)}
-        #        """)
+        if verbose:
+            print(f""" STOKES:
+            I_max = {np.max(stokes[:,:,:,0])}
+            Q_max = {np.max(stokes[:,:,:,1])}
+            U_max = {np.max(stokes[:,:,:,2])}
+            V_max = {np.max(stokes[:,:,:,3])}
+            I_min = {np.min(stokes[:,:,:,0])}
+            Q_min = {np.min(stokes[:,:,:,1])}
+            U_min = {np.min(stokes[:,:,:,2])}
+            V_min = {np.min(stokes[:,:,:,3])}
+            """)
+
+            print(f"""
+            MAX VALUES:
+            mtpr max = {np.max(mtpr)}
+            mbxx max = {np.max(mbxx)}
+            mbyy max = {np.max(mbyy)}
+            mbzz max = {np.max(mbzz)}
+            mrho max = {np.max(mrho)}
+            mvxx max = {np.max(mvxx)}
+            mvyy max = {np.max(mvyy)}
+            mvzz max = {np.max(mvzz)}
+                """)
+
+            print(f"""
+            MIN VALUES:
+            mtpr min = {np.min(mtpr)}
+            mbxx min = {np.min(mbxx)}
+            mbyy min = {np.min(mbyy)}
+            mbzz min = {np.min(mbzz)}
+            mrho min = {np.min(mrho)}
+            mvxx min = {np.min(mvxx)}
+            mvyy min = {np.min(mvyy)}
+            mvzz min = {np.min(mvzz)}
+                """)
 
         print(f"""
         ######################## 
