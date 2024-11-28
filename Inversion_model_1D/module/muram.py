@@ -128,11 +128,11 @@ class MuRAM():
             self.stokes_maxmin["V"] = [1e14, -1e14]
             stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
         
+            print("scaling finished!")
         if vertical_comp:
             mags_names = ["T", "rho", "Bv", "vy"]
             atm_quant = np.array([mtpr, mrho, mbvv, mvyy])
         else:
-            
             mags_names = ["T", "rho", "Bq", "Bu", "Bv", "vy"]
             atm_quant = np.array([mtpr, mrho, mbqq, mbuu, mbvv, mvyy])
         atm_quant = np.moveaxis(atm_quant, 0,1)
