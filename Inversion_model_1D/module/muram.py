@@ -106,9 +106,9 @@ class MuRAM():
             print(f"""
             MAX VALUES:
             mtpr max = {np.max(mtpr)}
-            mbxx max = {np.max(mbxx)}
-            mbyy max = {np.max(mbyy)}
-            mbzz max = {np.max(mbzz)}
+            mbqq max = {np.max(mbqq)}
+            mbuu max = {np.max(mbuu)}
+            mbvv max = {np.max(mbvv)}
             mrho max = {np.max(mrho)}
             mvxx max = {np.max(mvxx)}
             mvyy max = {np.max(mvyy)}
@@ -118,14 +118,15 @@ class MuRAM():
             print(f"""
             MIN VALUES:
             mtpr min = {np.min(mtpr)}
-            mbxx min = {np.min(mbxx)}
-            mbyy min = {np.min(mbyy)}
-            mbzz min = {np.min(mbzz)}
+            mbqq min = {np.min(mbqq)}
+            mbuu min = {np.min(mbuu)}
+            mbvv min = {np.min(mbvv)}
             mrho min = {np.min(mrho)}
             mvxx min = {np.min(mvxx)}
             mvyy min = {np.min(mvyy)}
             mvzz min = {np.min(mvzz)}
                 """)
+        
         if scale:
             print("Scaling...")
             
