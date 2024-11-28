@@ -84,6 +84,13 @@ class MuRAM():
         mvyy = mvyy/mrho
         mvzz = mvzz/mrho
         
+        """
+        Narray of the atmosphere quantities...
+        """
+
+        print("Charging Stokes vectors...")
+        stokes = np.load(self.ptm+filename+"_prof.npy")
+        
         if scale:
             print("Scaling...")
             
@@ -121,11 +128,6 @@ class MuRAM():
             self.stokes_maxmin["V"] = [1e14, -1e14]
             stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
         
-        
-        """
-        Narray of the atmosphere quantities...
-        """
-        
         if vertical_comp:
             mags_names = ["T", "rho", "Bv", "vy"]
             atm_quant = np.array([mtpr, mrho, mbvv, mvyy])
@@ -136,10 +138,6 @@ class MuRAM():
         atm_quant = np.moveaxis(atm_quant, 0,1)
         
         atm_quant = np.memmap.reshape(atm_quant, (self.nx, self.ny, self.nz, atm_quant.shape[1]))
-
-        print("Charging Stokes vectors...")
-        stokes = np.load(self.ptm+filename+"_prof.npy")
-        
         if opt_depth_stratif:
             print("Applying optical depth stratification...")
             opt_depth = np.load(self.ptm+"optical_depth_"+filename+".npy")
