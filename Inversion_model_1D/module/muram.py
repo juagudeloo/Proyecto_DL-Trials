@@ -84,6 +84,44 @@ class MuRAM():
         mvyy = mvyy/mrho
         mvzz = mvzz/mrho
         
+        if scale:
+            print("Scaling...")
+            
+            self.phys_maxmin = {}
+            self.phys_maxmin["T"] = [2e4, 0]
+            self.phys_maxmin["B"] = [3e3, -3e3]
+            self.phys_maxmin["Rho"] = [1e-5, 1e-10]
+            self.phys_maxmin["V"] = [1e6, -1e6]
+
+            mtpr = norm_func(mtpr, self.phys_maxmin["T"])
+
+            mbqq = norm_func(mbqq, self.phys_maxmin["B"])
+            mbuu = norm_func(mbuu, self.phys_maxmin["B"])
+            mbvv = norm_func(mbvv, self.phys_maxmin["B"])
+
+            mrho = norm_func(mrho, self.phys_maxmin["Rho"])
+
+            mvxx = norm_func(mvxx, self.phys_maxmin["V"])
+            mvyy = norm_func(mvyy, self.phys_maxmin["V"])
+            mvzz = norm_func(mvzz, self.phys_maxmin["V"] )
+            
+            self.stokes_maxmin = {}
+            #Stokes I
+            self.stokes_maxmin["I"] = [1e14, 0]
+            stokes[:,:,:,0] = norm_func(stokes[:,:,:,0], self.stokes_maxmin["I"])
+
+            self.stokes_maxmin["Q"] = [1e14, -1e14]
+            stokes[:,:,:,1] = norm_func(stokes[:,:,:,1], self.stokes_maxmin["Q"])
+
+
+            self.stokes_maxmin["U"] = [1e14, -1e14]
+            stokes[:,:,:,2] = norm_func(stokes[:,:,:,2], self.stokes_maxmin["U"])
+
+
+            self.stokes_maxmin["V"] = [1e14, -1e14]
+            stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
+        
+        
         """
         Narray of the atmosphere quantities...
         """
@@ -126,47 +164,6 @@ class MuRAM():
             atm_quant = opt_mags
             print(opt_mags.shape)
 
-        if scale:
-            print("Scaling...")
-            
-            self.phys_maxmin = {}
-            #self.phys_maxmin["T"] = [2e4, 0]
-            #self.phys_maxmin["B"] = [3e3, -3e3]
-            #self.phys_maxmin["Rho"] = [1e-5, 1e-10]
-            #self.phys_maxmin["V"] = [1e6, -1e6]
-            self.phys_maxmin["T"] = [2e5, 0]
-            self.phys_maxmin["B"] = [3e4, -3e4]
-            self.phys_maxmin["Rho"] = [1, 1]
-            self.phys_maxmin["V"] = [1e7, -1e7]
-
-            mtpr = norm_func(mtpr, self.phys_maxmin["T"])
-
-            mbqq = norm_func(mbqq, self.phys_maxmin["B"])
-            mbuu = norm_func(mbuu, self.phys_maxmin["B"])
-            mbvv = norm_func(mbvv, self.phys_maxmin["B"])
-
-            mrho = norm_func(mrho, self.phys_maxmin["Rho"])
-
-            mvxx = norm_func(mvxx, self.phys_maxmin["V"])
-            mvyy = norm_func(mvyy, self.phys_maxmin["V"])
-            mvzz = norm_func(mvzz, self.phys_maxmin["V"] )
-            
-            self.stokes_maxmin = {}
-            #Stokes I
-            self.stokes_maxmin["I"] = [1e14, 0]
-            stokes[:,:,:,0] = norm_func(stokes[:,:,:,0], self.stokes_maxmin["I"])
-
-            self.stokes_maxmin["Q"] = [1e14, -1e14]
-            stokes[:,:,:,1] = norm_func(stokes[:,:,:,1], self.stokes_maxmin["Q"])
-
-
-            self.stokes_maxmin["U"] = [1e14, -1e14]
-            stokes[:,:,:,2] = norm_func(stokes[:,:,:,2], self.stokes_maxmin["U"])
-
-
-            self.stokes_maxmin["V"] = [1e14, -1e14]
-            stokes[:,:,:,3] = norm_func(stokes[:,:,:,3], self.stokes_maxmin["I"])
-        
         #Resampling to less spectral points using a gaussian kernel
 
 
