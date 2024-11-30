@@ -32,7 +32,7 @@ def train_model(
     Function to train the model.
     -----------------------------
     """
-    print(model)
+    print("the model is:", model)
     
     #Path to the data
     training_files = ["085000", 
