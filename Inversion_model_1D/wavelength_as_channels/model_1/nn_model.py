@@ -10,12 +10,14 @@ class InvModel1(nn.Module):
         super().__init__()
         padding = 1
         self.simple_conv = nn.Sequential(
-        nn.Conv1d(in_channels=in_shape, out_channels=hidden_units, kernel_size = 2, stride=1, padding=padding),
+        nn.Conv1d(in_channels=in_shape, out_channels=72, kernel_size = 2, stride=1, padding=padding),
         nn.ReLU(),
         nn.Flatten(),
         nn.Dropout(p=0.5, inplace=False),
-        nn.Linear(in_features = 360, out_features = hidden_units),
-        nn.Linear(in_features = hidden_units, out_features = out_shape))
+        nn.Linear(in_features = 360, out_features = hidden_units)
+        nn.Linear(in_features = hidden_units, out_features = hidden_units)
+        nn.Linear(in_features = hidden_units, out_features = out_shape)
+        )
     def forward(self, x):
         return self.simple_conv(x)
 
