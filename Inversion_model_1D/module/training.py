@@ -61,7 +61,7 @@ def train_model(
     #Data loaders
     train_dataloader, test_dataloader, nx, nz  = train_test_dl(ptm, training_files, vertical_comp, batch_size, opt_depth_stratif=opt_depth_stratif)
     
-    validation_dataloader, val_atm_quant = validation_dl(device, ptm, vertical_comp, batch_size, opt_depth_stratif=opt_depth_stratif)
+    #validation_dataloader, val_atm_quant = validation_dl(device, ptm, vertical_comp, batch_size, opt_depth_stratif=opt_depth_stratif)
     
     #############################################################################
     # TRAINING
@@ -85,10 +85,10 @@ def train_model(
         ## Print out what's happening
         print(f"\nTrain loss: {train_loss:.5f} | Test loss: {test_loss:.5f}, Test acc: {test_acc:.2f}%\n")
 
-        print("\nValidation plot...")
-        #validation plot
-        validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz, epoch, vertical_comp)
-        print("\nplotted...")
+        #print("\nValidation plot...")
+        ##validation plot
+        #validation_step(pth_out, model, validation_dataloader, val_atm_quant, nx, nz, epoch, vertical_comp)
+        #print("\nplotted...")
         
 
         # Calculate training time      
