@@ -400,6 +400,11 @@ class MuRAM():
             ax[1,i].plot(range(20), out_test[0,:,i])
         fig.savefig("atm_quant.png")
         
+        print("in_train shape:", in_train.shape)
+        print("out_train shape:", out_train.shape)
+        print("in_test shape:", in_test.shape)
+        print("out_test shape:", out_test.shape)
+        
         in_train = torch.from_numpy(in_train).to(device)
         in_test = torch.from_numpy(in_test).to(device)
         out_train = torch.from_numpy(out_train).to(device)
