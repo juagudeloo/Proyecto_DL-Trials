@@ -90,7 +90,7 @@ class MuRAM():
 
         print("Charging Stokes vectors...")
         stokes = np.load(self.ptm+filename+"_prof.npy")
-        verbose = 1
+        verbose = 0
         if verbose:
             print(f""" STOKES:
             I_max = {np.max(stokes[:,:,:,0])}
@@ -276,7 +276,6 @@ class MuRAM():
             new_stokes = np.load(new_stokes_out)
 
 
-        verbose = 0
         if verbose:
             print(f""" STOKES:
             I_max = {np.max(stokes[:,:,:,0])}
